@@ -1,0 +1,309 @@
+.landing {
+  display: grid;
+}
+
+/* ---------- первый экран: «космос» с картой края ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 60% 70% at 72% 40%, var(--color-dots-haze), transparent 70%),
+    var(--color-dots-ground);
+  color: var(--color-ink);
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  align-items: center;
+  gap: var(--space-10);
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-6) var(--space-10);
+  min-height: min(720px, calc(100vh - var(--header-h)));
+}
+
+.heroText {
+  display: grid;
+  gap: var(--space-5);
+  align-content: center;
+}
+
+.kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+}
+
+.value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: var(--weight-medium);
+  line-height: 1.12;
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+
+.sub {
+  margin: 0;
+  max-width: 54ch;
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+  color: var(--color-ink-2);
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.frames {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.frames li {
+  padding: 4px var(--space-3);
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+
+.heroMap {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  height: 100%;
+  max-height: 640px;
+  min-height: 0;
+}
+
+.heroMap > svg {
+  width: auto;
+  height: 100%;
+  max-height: 580px;
+  max-width: 100%;
+}
+
+.mapCaption {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-ink-3);
+  text-align: center;
+}
+
+/* ---------- как это работает ---------- */
+.how {
+  display: grid;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-6) var(--space-16);
+}
+
+.howHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.howTitle {
+  margin: 0;
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-semibold);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+}
+
+.stepNumber {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  color: var(--color-ink-3);
+}
+
+.step:nth-child(1) .stepNumber {
+  color: var(--color-vk);
+}
+
+.step:nth-child(2) .stepNumber {
+  color: var(--color-ok);
+}
+
+.step:nth-child(3) .stepNumber {
+  color: var(--color-max);
+}
+
+.stepTitle {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.stepText {
+  margin: 0;
+  color: var(--color-ink-2);
+}
+
+.note {
+  margin: 0;
+  max-width: var(--reading-max);
+  color: var(--color-ink-2);
+}
+
+/* ---------- окно установки ---------- */
+.install {
+  display: grid;
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.installStep {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+.installNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-surface-2);
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+}
+
+.installTitle {
+  margin: 4px 0 var(--space-1);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+}
+
+.installText {
+  margin: 0;
+  color: var(--color-ink-2);
+}
+
+.installAction {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.mockNote {
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-note-bg);
+  color: var(--color-note-ink);
+  font-size: var(--text-xs);
+}
+
+.installFoot {
+  margin: var(--space-5) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-2);
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+
+/* ---------- узкие экраны и боковая панель ---------- */
+@container screen (max-width: 900px) {
+  .heroInner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+    min-height: 0;
+    padding: var(--space-8) var(--space-5);
+  }
+
+  .heroMap {
+    max-height: 420px;
+  }
+
+  .heroMap > svg {
+    max-height: 380px;
+  }
+
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@container screen (max-width: 480px) {
+  .heroInner {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .value {
+    font-size: var(--text-3xl);
+  }
+
+  .sub {
+    font-size: var(--text-md);
+  }
+
+  .ctas > * {
+    width: 100%;
+  }
+
+  .heroMap {
+    max-height: 300px;
+  }
+
+  .heroMap > svg {
+    max-height: 260px;
+  }
+
+  .how {
+    padding: var(--space-8) var(--space-4) var(--space-10);
+  }
+
+  .howTitle {
+    font-size: var(--text-2xl);
+  }
+
+  .step {
+    padding: var(--space-4);
+  }
+}

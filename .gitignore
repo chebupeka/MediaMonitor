@@ -1,0 +1,21 @@
+# Материалы заказчика — не публикуем
+inbox/
+
+# Зависимости и сборки
+node_modules/
+dist/
+.vite/
+coverage/
+*.tsbuildinfo
+
+# Секреты и локальные настройки
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
+
+# Мусор систем и редакторов
+*.log
+.DS_Store
+Thumbs.db
+.idea/

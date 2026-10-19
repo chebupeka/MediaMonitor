@@ -1,0 +1,23 @@
+.content {
+  z-index: var(--z-tooltip);
+  max-width: 280px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-inverse);
+  color: var(--color-ink-inverse);
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  box-shadow: var(--shadow-2);
+  animation: appear var(--duration-fast) var(--ease-out);
+}
+
+.arrow {
+  fill: var(--color-surface-inverse);
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+}

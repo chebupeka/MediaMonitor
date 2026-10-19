@@ -1,0 +1,395 @@
+<title>Распространение релиза</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Unbounded:wght@500&display=swap">
+<style>
+/* Layout: one product panel on a quiet ground — summary first (numbers), then the spread over time, then every placement. */
+:root {
+  --bg: #f3f5f7;
+  --surface: #ffffff;
+  --surface-2: #eef1f4;
+  --ink: #151a20;
+  --ink-2: #48515c;
+  --ink-3: #6b7480;
+  --line: #dde2e8;
+  --control: #1c2430;
+  --control-ink: #ffffff;
+  --note-bg: #fff7e0;
+  --note-ink: #5c4300;
+  --vk: #2a78d6;
+  --ok: #eb6834;
+  --max: #1baf7a;
+  --font-ui: "Golos Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Unbounded", "Golos Text", "Segoe UI", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111418; --surface: #191d22; --surface-2: #22272d; --ink: #eef1f4; --ink-2: #b8c0c9;
+    --ink-3: #8b949e; --line: #2d333a; --control: #e9edf1; --control-ink: #111418;
+    --note-bg: #3a2f10; --note-ink: #f3dc9a; --vk: #3987e5; --ok: #d95926; --max: #199e70;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111418; --surface: #191d22; --surface-2: #22272d; --ink: #eef1f4; --ink-2: #b8c0c9;
+  --ink-3: #8b949e; --line: #2d333a; --control: #e9edf1; --control-ink: #111418;
+  --note-bg: #3a2f10; --note-ink: #f3dc9a; --vk: #3987e5; --ok: #d95926; --max: #199e70;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5;
+  padding-block: 24px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1080px; margin: 0 auto; display: grid; gap: 14px; }
+
+.mock-note {
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  background: var(--note-bg); color: var(--note-ink); border-radius: 8px; padding: 8px 14px; font-size: 13px;
+}
+.mock-note b { font-weight: 600; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  padding: 14px 20px; border-bottom: 1px solid var(--line); }
+.brand { font-family: var(--font-display); font-weight: 500; font-size: 15px; letter-spacing: 0.01em; }
+.crumb { color: var(--ink-3); font-size: 13px; }
+
+.conditions { padding: 16px 20px; display: grid; gap: 10px; border-bottom: 1px solid var(--line); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { background: var(--surface-2); border-radius: 999px; padding: 4px 12px; font-size: 13px; color: var(--ink-2); }
+.chip strong { color: var(--ink); font-weight: 500; }
+.statusline { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; font-size: 13px; color: var(--ink-2); }
+.ok-mark { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+.dot.vk { background: var(--vk); } .dot.ok { background: var(--ok); } .dot.max { background: var(--max); }
+
+.body { padding: 20px; display: grid; gap: 22px; }
+.release h1 { margin: 0 0 4px; font-size: 22px; line-height: 1.3; font-weight: 600; text-wrap: balance; }
+.release p { margin: 0; color: var(--ink-2); font-size: 14px; }
+.eyebrow { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
+
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.kpi { background: var(--surface-2); border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.kpi .label { font-size: 13px; color: var(--ink-2); }
+.kpi .value { font-family: var(--font-display); font-weight: 500; font-size: 26px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.kpi .sub { font-size: 12.5px; color: var(--ink-3); }
+.split { display: flex; gap: 2px; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 6px; }
+.split span { display: block; height: 100%; }
+.split-legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12.5px; color: var(--ink-2); }
+.split-legend span { display: inline-flex; align-items: center; gap: 5px; }
+
+.section-head { display: flex; justify-content: space-between; align-items: end; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+.section-head h2 { margin: 0; font-size: 16px; font-weight: 600; }
+.section-head .hint { font-size: 13px; color: var(--ink-3); }
+
+.chart-box { position: relative; overflow-x: auto; }
+.chart-box svg { display: block; width: 100%; min-width: 640px; height: auto; }
+.chart-box text { font-family: var(--font-ui); }
+.tip {
+  position: absolute; pointer-events: none; background: var(--control); color: var(--control-ink);
+  border-radius: 8px; padding: 8px 10px; font-size: 12.5px; line-height: 1.35; max-width: 240px;
+  transform: translate(-50%, calc(-100% - 12px)); white-space: normal; z-index: 2;
+}
+.tip b { font-weight: 600; display: block; }
+
+.toggle { display: inline-flex; background: var(--surface-2); border-radius: 999px; padding: 3px; gap: 2px; }
+.toggle button {
+  font: inherit; font-size: 13px; border: 0; background: transparent; color: var(--ink-2);
+  padding: 5px 12px; border-radius: 999px; cursor: pointer;
+}
+.toggle button[aria-pressed="true"] { background: var(--control); color: var(--control-ink); }
+.toggle button:focus-visible, .btn:focus-visible { outline: 2px solid var(--vk); outline-offset: 2px; }
+
+.table-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 720px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { font-weight: 500; color: var(--ink-3); font-size: 12.5px; background: var(--surface-2); }
+tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.time { white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.plat { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.tag { display: inline-block; border: 1px solid var(--line); border-radius: 6px; padding: 1px 8px; font-size: 12.5px; color: var(--ink-2); white-space: nowrap; }
+.tag.src { border-color: var(--ink-3); color: var(--ink); font-weight: 500; }
+.nodata { color: var(--ink-3); font-style: italic; }
+.open { color: var(--ink-2); white-space: nowrap; font-size: 13px; }
+
+.footer-note { display: grid; gap: 4px; font-size: 13px; color: var(--ink-2); border-top: 1px solid var(--line); padding: 14px 20px; }
+
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn {
+  font: inherit; font-size: 13.5px; border-radius: 8px; padding: 7px 14px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+}
+.btn.primary { background: var(--control); color: var(--control-ink); border-color: var(--control); }
+.toast { font-size: 13px; color: var(--ink-2); }
+
+@media (max-width: 760px) {
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .release h1 { font-size: 19px; }
+  .kpi .value { font-size: 22px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .toggle button { transition: background-color .15s ease, color .15s ease; }
+}
+</style>
+
+<div class="wrap">
+  <div class="mock-note" role="note">
+    <b>Набросок интерфейса для обсуждения.</b>
+    <span>Цифры и источники условные. В продукте все тексты, даты, цифры и ссылки берутся только из реальных постов.</span>
+  </div>
+
+  <main class="panel" aria-label="Панель Медиамонитора: распространение релиза">
+    <div class="topbar">
+      <div class="brand">Медиамонитор</div>
+      <div class="crumb">Поиск по исходной новости → Распространение</div>
+    </div>
+
+    <div class="conditions">
+      <div class="chips">
+        <span class="chip">Текст новости: <strong>«В Норильске открылась новая школа на 1 100 мест…»</strong></span>
+        <span class="chip">Период: <strong>14–16 октября</strong></span>
+        <span class="chip">Регион: <strong>Красноярский край</strong></span>
+        <span class="chip">Режим: <strong>везде, не только мои источники</strong></span>
+      </div>
+      <div class="statusline" aria-label="Статус поиска по площадкам">
+        <span>Найдено размещений: <strong>15</strong></span>
+        <span class="ok-mark"><span class="dot vk" aria-hidden="true"></span>ВКонтакте ✓ 9</span>
+        <span class="ok-mark"><span class="dot ok" aria-hidden="true"></span>Одноклассники ✓ 4</span>
+        <span class="ok-mark"><span class="dot max" aria-hidden="true"></span>MAX ✓ 2</span>
+      </div>
+    </div>
+
+    <div class="body">
+      <section class="release">
+        <div class="eyebrow">Распространение новости</div>
+        <h1>В Норильске открылась новая школа на 1 100 мест</h1>
+        <p>Первым опубликовал: <strong>Агентство (исходный релиз)</strong>, ВКонтакте, 14 октября в 10:02</p>
+      </section>
+
+      <section class="kpis" aria-label="Итоги распространения">
+        <div class="kpi">
+          <span class="label">Размещений</span>
+          <span class="value">15</span>
+          <span class="sub">включая исходный релиз</span>
+        </div>
+        <div class="kpi">
+          <span class="label">По площадкам</span>
+          <div class="split" role="img" aria-label="ВКонтакте 9, Одноклассники 4, MAX 2">
+            <span style="flex:9;background:var(--vk)"></span>
+            <span style="flex:4;background:var(--ok)"></span>
+            <span style="flex:2;background:var(--max)"></span>
+          </div>
+          <div class="split-legend">
+            <span><span class="dot vk" aria-hidden="true"></span>VK 9</span>
+            <span><span class="dot ok" aria-hidden="true"></span>OK 4</span>
+            <span><span class="dot max" aria-hidden="true"></span>MAX 2</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <span class="label">Аудитория источников</span>
+          <span class="value">1,04 млн</span>
+          <span class="sub">сумма подписчиков; одни и те же люди могут быть в разных группах</span>
+        </div>
+        <div class="kpi">
+          <span class="label">Просмотры</span>
+          <span class="value">84,3 тыс.</span>
+          <span class="sub">по 11 из 15 размещений: Одноклассники не отдают просмотры</span>
+        </div>
+      </section>
+
+      <section aria-labelledby="tl-title">
+        <div class="section-head">
+          <h2 id="tl-title">Как расходилась новость</h2>
+          <span class="hint">Каждая точка — размещение. Наведите, чтобы увидеть источник.</span>
+        </div>
+        <div class="chart-box" id="chart">
+          <svg id="timeline" viewBox="0 0 1000 176" role="img" aria-label="Хронология размещений по площадкам с 14 по 16 октября"></svg>
+          <div class="tip" id="tip" hidden></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="list-title">
+        <div class="section-head">
+          <h2 id="list-title">Все размещения</h2>
+          <div class="toggle" role="group" aria-label="Сортировка">
+            <button type="button" id="sort-time" aria-pressed="true">По времени</button>
+            <button type="button" id="sort-pop" aria-pressed="false">По популярности</button>
+          </div>
+        </div>
+        <div class="table-box">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Когда</th>
+                <th scope="col">Площадка</th>
+                <th scope="col">Источник</th>
+                <th scope="col" class="num">Подписчики</th>
+                <th scope="col" class="num">Просмотры</th>
+                <th scope="col">Как опубликовали</th>
+                <th scope="col">Пост</th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button type="button" class="btn primary" id="xlsx">Скачать XLSX</button>
+        <span class="toast" id="toast" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <span>«Копия» — текст совпадает с релизом. «Сокращённая» — часть текста релиза. «Пересказ» — та же новость своими словами: совпадают место, дата и участники.</span>
+      <span>Если площадка не отдаёт цифру, пишем «нет данных» и не подставляем оценку.</span>
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  var PLAT = {
+    vk: { name: "ВКонтакте", short: "VK", color: "var(--vk)", lane: 0 },
+    ok: { name: "Одноклассники", short: "OK", color: "var(--ok)", lane: 1 },
+    max: { name: "MAX", short: "MAX", color: "var(--max)", lane: 2 }
+  };
+  // h — часы от 14 окт 10:00; subs и views — тысячи; views null = площадка не отдаёт
+  var DATA = [
+    { h: 0.033, when: "14 окт, 10:02", p: "vk", src: "Агентство (исходный релиз)", subs: 48, views: 6.1, kind: "Исходный" },
+    { h: 0.667, when: "14 окт, 10:40", p: "vk", src: "Телеканал края", subs: 210, views: 18.4, kind: "Копия" },
+    { h: 1.083, when: "14 окт, 11:05", p: "max", src: "Канал Агентства", subs: 12, views: 2.3, kind: "Копия" },
+    { h: 2.25, when: "14 окт, 12:15", p: "vk", src: "Городской портал Красноярска", subs: 320, views: 21.7, kind: "Пересказ" },
+    { h: 2.833, when: "14 окт, 12:50", p: "ok", src: "Новости края", subs: 95, views: null, kind: "Копия" },
+    { h: 4.5, when: "14 окт, 14:30", p: "vk", src: "Администрация города", subs: 64, views: 9.8, kind: "Пересказ" },
+    { h: 6.167, when: "14 окт, 16:10", p: "vk", src: "Городской паблик Норильска", subs: 41, views: 7.2, kind: "Сокращённая" },
+    { h: 8.75, when: "14 окт, 18:45", p: "ok", src: "Районная газета Таймыра", subs: 18, views: null, kind: "Копия" },
+    { h: 23.333, when: "15 окт, 09:20", p: "vk", src: "Министерство образования края", subs: 37, views: 5.5, kind: "Пересказ" },
+    { h: 25, when: "15 окт, 11:00", p: "max", src: "Канал городского портала", subs: 56, views: 4.9, kind: "Пересказ" },
+    { h: 27.583, when: "15 окт, 13:35", p: "vk", src: "Паблик «Заполярье»", subs: 23, views: 3.1, kind: "Сокращённая" },
+    { h: 31.333, when: "15 окт, 17:20", p: "ok", src: "Районная газета", subs: 7, views: null, kind: "Копия" },
+    { h: 46.917, when: "16 окт, 08:55", p: "vk", src: "Городской паблик Канска", subs: 29, views: 2.4, kind: "Пересказ" },
+    { h: 48.25, when: "16 окт, 10:15", p: "vk", src: "Родительское сообщество края", subs: 52, views: 2.9, kind: "Пересказ" },
+    { h: 53.667, when: "16 окт, 15:40", p: "ok", src: "Новости Красноярья", subs: 31, views: null, kind: "Сокращённая" }
+  ];
+
+  function fmtK(v) {
+    return v.toLocaleString("ru-RU", { minimumFractionDigits: v % 1 ? 1 : 0, maximumFractionDigits: 1 }) + " тыс.";
+  }
+
+  // ---------- Timeline ----------
+  var svg = document.getElementById("timeline");
+  var NS = "http://www.w3.org/2000/svg";
+  var L = 132, R = 984, T = 26, LANE = 44, H0 = 0, H1 = 54;
+  function x(h) { return L + (h - H0) / (H1 - H0) * (R - L); }
+  function y(lane) { return T + 14 + lane * LANE; }
+  function el(name, attrs, text) {
+    var n = document.createElementNS(NS, name);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    if (text != null) n.textContent = text;
+    svg.appendChild(n);
+    return n;
+  }
+  var bottom = y(2) + 22;
+  // day boundaries and noon ticks
+  var ticks = [
+    { h: 0, label: "14 окт", day: true },
+    { h: 14, label: "15 окт", day: true },
+    { h: 26, label: "12:00" },
+    { h: 38, label: "16 окт", day: true },
+    { h: 50, label: "12:00" }
+  ];
+  ticks.forEach(function (t) {
+    el("line", { x1: x(t.h), x2: x(t.h), y1: T, y2: bottom, stroke: "var(--line)", "stroke-width": t.day ? 1.5 : 1, "stroke-dasharray": t.day ? "" : "3 4" });
+    el("text", { x: x(t.h) + 4, y: bottom + 16, fill: t.day ? "var(--ink-2)" : "var(--ink-3)", "font-size": 12, "font-weight": t.day ? 500 : 400 }, t.label);
+  });
+  // lanes
+  Object.keys(PLAT).forEach(function (k) {
+    var p = PLAT[k], yy = y(p.lane);
+    el("line", { x1: L, x2: R, y1: yy, y2: yy, stroke: "var(--line)", "stroke-width": 1 });
+    el("circle", { cx: 14, cy: yy, r: 4.5, fill: p.color });
+    el("text", { x: 26, y: yy + 4.5, fill: "var(--ink-2)", "font-size": 13 }, p.name);
+  });
+  // source marker label
+  var first = DATA[0];
+  el("text", { x: x(first.h) + 12, y: y(0) - 14, fill: "var(--ink)", "font-size": 12, "font-weight": 500 }, "Исходный релиз");
+
+  var tip = document.getElementById("tip");
+  var box = document.getElementById("chart");
+  function showTip(d, cx, cy) {
+    var vb = svg.viewBox.baseVal, r = svg.getBoundingClientRect();
+    var sx = r.width / vb.width, sy = r.height / vb.height;
+    tip.innerHTML = "<b></b><span></span>";
+    tip.firstChild.textContent = d.src;
+    tip.lastChild.textContent = PLAT[d.p].name + " · " + d.when + " · " +
+      (d.views == null ? "просмотры: нет данных" : "просмотров: " + fmtK(d.views));
+    tip.style.left = Math.min(Math.max(cx * sx, 125), r.width - 125) + "px";
+    tip.style.top = (cy * sy) + "px";
+    tip.hidden = false;
+  }
+  function hideTip() { tip.hidden = true; }
+
+  DATA.forEach(function (d, i) {
+    var cx = x(d.h), cy = y(PLAT[d.p].lane);
+    if (i === 0) el("circle", { cx: cx, cy: cy, r: 9, fill: "none", stroke: "var(--ink)", "stroke-width": 1.5 });
+    el("circle", { cx: cx, cy: cy, r: 5.5, fill: PLAT[d.p].color, stroke: "var(--surface)", "stroke-width": 2 });
+    var hit = el("circle", { cx: cx, cy: cy, r: 12, fill: "transparent", tabindex: 0, role: "img",
+      "aria-label": d.src + ", " + PLAT[d.p].name + ", " + d.when });
+    hit.style.cursor = "pointer";
+    hit.addEventListener("mouseenter", function () { showTip(d, cx, cy); });
+    hit.addEventListener("focus", function () { showTip(d, cx, cy); });
+    hit.addEventListener("mouseleave", hideTip);
+    hit.addEventListener("blur", hideTip);
+  });
+
+  // ---------- Table ----------
+  var tbody = document.getElementById("rows");
+  function render(list) {
+    tbody.textContent = "";
+    list.forEach(function (d) {
+      var tr = document.createElement("tr");
+      function td(cls, html) { var c = document.createElement("td"); if (cls) c.className = cls; c.innerHTML = html; tr.appendChild(c); return c; }
+      td("time", "");
+      tr.lastChild.textContent = d.when;
+      var plat = td("", '<span class="plat"><span class="dot ' + d.p + '" aria-hidden="true"></span><span></span></span>');
+      plat.querySelector("span span:last-child").textContent = PLAT[d.p].name;
+      td("", "").textContent = d.src;
+      td("num", "").textContent = fmtK(d.subs);
+      if (d.views == null) td("num", '<span class="nodata">нет данных</span>');
+      else td("num", "").textContent = fmtK(d.views);
+      var kind = td("", '<span class="tag"></span>');
+      kind.firstChild.textContent = d.kind;
+      if (d.kind === "Исходный") kind.firstChild.classList.add("src");
+      td("open", "Открыть ↗");
+      tbody.appendChild(tr);
+    });
+  }
+  var byTime = DATA.slice();
+  var byPop = DATA.slice().sort(function (a, b) {
+    if (a.views == null && b.views == null) return b.subs - a.subs;
+    if (a.views == null) return 1;
+    if (b.views == null) return -1;
+    return b.views - a.views;
+  });
+  var bt = document.getElementById("sort-time"), bp = document.getElementById("sort-pop");
+  function setSort(pop) {
+    bt.setAttribute("aria-pressed", String(!pop));
+    bp.setAttribute("aria-pressed", String(pop));
+    render(pop ? byPop : byTime);
+  }
+  bt.addEventListener("click", function () { setSort(false); });
+  bp.addEventListener("click", function () { setSort(true); });
+  render(byTime);
+
+  document.getElementById("xlsx").addEventListener("click", function () {
+    document.getElementById("toast").textContent = "В наброске выгрузка отключена. В продукте файл совпадает с этим экраном.";
+  });
+})();
+</script>

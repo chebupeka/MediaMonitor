@@ -1,0 +1,200 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: var(--header-h);
+  padding: var(--space-2) var(--space-6);
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-surface);
+}
+
+.compact {
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  min-height: 48px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--control-h-md);
+  padding: 0 var(--space-1);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-ink);
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.brand:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.logo {
+  flex: none;
+}
+
+.logoBg {
+  fill: var(--color-surface-inverse);
+}
+
+.brandName {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-md);
+  letter-spacing: 0.01em;
+}
+
+.compact .brandName {
+  font-size: var(--text-sm);
+}
+
+.nav {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.navList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navItem {
+  min-height: var(--control-h-md);
+  padding: 0 var(--space-3);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+}
+
+.navItem:hover {
+  background: var(--color-surface-2);
+  color: var(--color-ink);
+}
+
+.navItem[aria-current='page'] {
+  background: var(--color-selected-bg);
+  color: var(--color-ink);
+}
+
+.navItem:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+  flex: none;
+}
+
+/* На широком экране разделы видны в навигации — меню прячем */
+.menuButton {
+  display: none;
+}
+
+.compact .menuButton {
+  display: inline-flex;
+}
+
+@media (max-width: 1020px) {
+  .header:not(.compact) .nav {
+    display: none;
+  }
+
+  .header:not(.compact) .menuButton {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .header:not(.compact) .brandName {
+    font-size: var(--text-sm);
+  }
+}
+
+/* ---------- выпадающие меню ---------- */
+.menu {
+  z-index: var(--z-popover);
+  min-width: 220px;
+  padding: var(--space-1);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-3);
+}
+
+.menuLabel {
+  padding: var(--space-2) var(--space-3) var(--space-1);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 32px;
+  padding: 0 var(--space-3) 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+.menuItem[data-highlighted] {
+  background: var(--color-surface-2);
+}
+
+.menuItem:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+.menuItemCurrent {
+  font-weight: var(--weight-semibold);
+}
+
+.indicator {
+  display: inline-flex;
+  width: 16px;
+  justify-content: center;
+}
+
+.indicator svg {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}
+
+.separator {
+  height: 1px;
+  margin: var(--space-1) 0;
+  background: var(--color-line);
+}

@@ -1,0 +1,151 @@
+.root {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+}
+
+.changed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-warning-bg);
+  color: var(--color-warning-ink);
+  font-size: var(--text-sm);
+}
+
+.changed > span {
+  flex: 1 1 220px;
+}
+
+.changedIcon {
+  width: var(--icon-md);
+  height: var(--icon-md);
+  flex: none;
+}
+
+.conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.conditions > li {
+  max-width: 100%;
+}
+
+.statusRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-5);
+}
+
+.total {
+  margin: 0;
+  font-size: var(--text-md);
+  color: var(--color-ink-2);
+  white-space: nowrap;
+}
+
+.totalValue {
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xl);
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.platforms {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.platform {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.current {
+  color: var(--color-ink-3);
+  font-size: var(--text-xs);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+.notes {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+
+.note {
+  padding-left: var(--space-3);
+  border-left: 3px solid var(--color-line-strong);
+  color: var(--color-ink-2);
+}
+
+.noteCritical {
+  border-left-color: var(--color-critical-solid);
+}
+
+.noteWarning {
+  border-left-color: var(--color-warning-solid);
+}
+
+.noteInfo {
+  border-left-color: var(--color-info-solid);
+}
+
+.time {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-ink-3);
+}
+
+/* Узкая панель (~380 px) и увеличение 200 % */
+@container (max-width: 520px) {
+  .root {
+    padding: var(--space-3);
+  }
+
+  .statusRow {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .platforms {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .actions {
+    margin-left: 0;
+  }
+}

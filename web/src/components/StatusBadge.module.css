@@ -1,0 +1,90 @@
+.badge {
+  --badge-ink: var(--color-ink-2);
+  --badge-bg: var(--color-surface-2);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--badge-ink);
+  white-space: nowrap;
+}
+
+.soft {
+  padding: 2px var(--space-2) 2px 6px;
+  border-radius: var(--radius-pill);
+  background: var(--badge-bg);
+}
+
+.plain {
+  padding: 0;
+}
+
+.sm {
+  font-size: var(--text-xs);
+  gap: var(--space-1);
+}
+
+.text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+}
+
+.icon svg {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}
+
+.neutral {
+  --badge-ink: var(--color-ink-2);
+  --badge-bg: var(--color-surface-2);
+}
+
+.progress {
+  --badge-ink: var(--color-info-ink);
+  --badge-bg: var(--color-info-bg);
+}
+
+.good {
+  --badge-ink: var(--color-good-ink);
+  --badge-bg: var(--color-good-bg);
+}
+
+.info {
+  --badge-ink: var(--color-info-ink);
+  --badge-bg: var(--color-info-bg);
+}
+
+.warning {
+  --badge-ink: var(--color-warning-ink);
+  --badge-bg: var(--color-warning-bg);
+}
+
+.critical {
+  --badge-ink: var(--color-critical-ink);
+  --badge-bg: var(--color-critical-bg);
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation: none;
+  }
+}

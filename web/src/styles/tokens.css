@@ -1,0 +1,301 @@
+/*
+ * Дизайн-токены Медиамонитора. ЕДИНСТВЕННОЕ место, где заданы цвета, шрифты,
+ * размеры, отступы, радиусы, тени и длительности. В компонентах и экранах —
+ * только var(--…). Визуал предварительный: окончательную палитру и шрифты
+ * подставим сюда, ничего больше не меняя (09-mockup-brief.md, последний абзац).
+ *
+ * Темы:
+ *  - по умолчанию светлая;
+ *  - тёмная — по prefers-color-scheme, если на <html> нет data-theme="light";
+ *  - принудительно — data-theme="dark" / data-theme="light" на <html>.
+ * Стартовые значения взяты из docs/visuals/rasprostranenie.html.
+ */
+
+:root {
+  /* ---------- Поверхности (нейтрали с лёгким холодным уклоном) ---------- */
+  --color-bg: #f3f5f7; /* фон страницы */
+  --color-surface: #ffffff; /* карточки, панели */
+  --color-surface-2: #eef1f4; /* вторичные блоки, чипы, шапки таблиц */
+  --color-surface-3: #e3e7ec; /* наведение на вторичные блоки */
+  --color-surface-inverse: #1c2430; /* тёмные подсказки на светлом */
+  --color-overlay: rgb(17 22 28 / 0.48); /* затемнение под окнами */
+
+  /* ---------- Текст: 3 уровня ---------- */
+  --color-ink: #151a20; /* основной, 16.8:1 на surface */
+  --color-ink-2: #48515c; /* вторичный, 8.1:1 */
+  --color-ink-3: #5f6874; /* третичный, 5.7:1 на surface, 5.0:1 на surface-2 */
+  --color-ink-inverse: #ffffff;
+  --color-ink-disabled: #8a929c;
+
+  /* ---------- Линии ---------- */
+  --color-line: #dde2e8; /* разделители */
+  --color-line-strong: #c6cdd5; /* рамки блоков */
+  --color-line-control: #858e99; /* рамки полей ввода: 3.3:1, видимы (WCAG 1.4.11) */
+
+  /* ---------- Управляющий цвет (кнопки, выбранное) ---------- */
+  --color-control: #1c2430;
+  --color-control-hover: #2d3746;
+  --color-control-active: #0f141b;
+  --color-control-ink: #ffffff;
+  --color-selected-bg: #e2ebf7; /* выбранная строка, активная вкладка (фон) */
+  --color-link: #1b5fb4;
+  --color-focus: #1f6fd1; /* кольцо фокуса */
+
+  /* ---------- Семантика: ink — текст/значок, bg — подложка, solid — заливка ---------- */
+  --color-good-ink: #1b6a39;
+  --color-good-bg: #e3f3e8;
+  --color-good-solid: #2e9d57;
+  --color-warning-ink: #7a4800;
+  --color-warning-bg: #fff1d1;
+  --color-warning-solid: #d18a00;
+  --color-critical-ink: #a3261b;
+  --color-critical-bg: #fde7e4;
+  --color-critical-solid: #d63a2b;
+  --color-info-ink: #1d58a3;
+  --color-info-bg: #e5effb;
+  --color-info-solid: #2a78d6;
+
+  /* Пометки «Демо-данные», «только в мокапе» */
+  --color-note-bg: #fff7e0;
+  --color-note-ink: #5c4300;
+  --color-note-line: #ecd9a2;
+
+  /* Подсветка доказательства в выдержке (П3) */
+  --color-mark-bg: #fff0b3;
+  --color-mark-ink: #151a20;
+
+  /* ---------- Площадки (те же цвета на графиках и в точках) ---------- */
+  --color-vk: #2a78d6;
+  --color-ok: #eb6834;
+  --color-max: #1baf7a;
+  --color-vk-bg: #e6effa;
+  --color-ok-bg: #fdece4;
+  --color-max-bg: #e1f5ec;
+
+  /* ---------- Точки (декор и данные, 08-visual-concept.md) ---------- */
+  --color-dots-ground: #151b23; /* фон «космоса» на лендинге — тёмный в обеих темах */
+  --color-dots-base: #6f8197; /* точки силуэта края */
+  --color-dots-river: #8cc4ff; /* Енисей */
+  --color-dots-city: #ffd27a; /* города — тёплые точки */
+  --color-dots-star: #4a5868; /* фоновые звёзды */
+  --color-dots-haze: rgb(140 196 255 / 0.08); /* лёгкое свечение за картой */
+
+  /* ---------- Типографика ---------- */
+  --font-ui: 'Golos Text', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  /* Unbounded — только для крупных цифр и заголовков бренда */
+  --font-display: 'Unbounded', 'Golos Text', 'Segoe UI', Arial, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Mono', Consolas, 'Liberation Mono', monospace;
+
+  --text-2xs: 11px;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-md: 15px; /* базовый */
+  --text-lg: 17px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+  --text-4xl: 40px;
+  --text-display: clamp(28px, 3.3vw, 46px); /* фраза ценности на лендинге */
+
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --tracking-caps: 0.08em; /* подписи капсом */
+  --tracking-display: -0.01em;
+
+  /* ---------- Отступы (шаг 4 px) ---------- */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* ---------- Размеры ---------- */
+  --target-min: 24px; /* минимальная цель нажатия (WCAG 2.2 AA, НТ-16) */
+  --control-h-sm: 28px;
+  --control-h-md: 36px;
+  --control-h-lg: 44px;
+  --icon-sm: 14px;
+  --icon-md: 16px;
+  --icon-lg: 20px;
+  --dot-size: 9px; /* точка площадки в тексте */
+  --content-max: 1180px; /* ширина рабочей области сайта */
+  --reading-max: 68ch;
+  --header-h: 56px;
+  --panel-width: 380px; /* боковая панель расширения */
+
+  /* ---------- Радиусы ---------- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 20px;
+  --radius-pill: 999px;
+
+  /* ---------- Тени ---------- */
+  --shadow-1: 0 1px 2px rgb(21 26 32 / 0.06), 0 1px 1px rgb(21 26 32 / 0.04);
+  --shadow-2: 0 4px 12px rgb(21 26 32 / 0.08), 0 1px 3px rgb(21 26 32 / 0.06);
+  --shadow-3: 0 12px 32px rgb(21 26 32 / 0.16), 0 2px 6px rgb(21 26 32 / 0.08);
+  --focus-ring: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-focus);
+
+  /* ---------- Движение ---------- */
+  --duration-instant: 80ms;
+  --duration-fast: 140ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+  --duration-slower: 600ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+  /* ---------- Слои ---------- */
+  --z-sticky: 10;
+  --z-header: 20;
+  --z-demo-panel: 40;
+  --z-overlay: 50;
+  --z-dialog: 51;
+  --z-popover: 60;
+  --z-toast: 70;
+  --z-tooltip: 80;
+
+  color-scheme: light;
+}
+
+/* ---------- Тёмная тема: значения повторяются в двух блоках ниже ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: #111418;
+    --color-surface: #191d22;
+    --color-surface-2: #22272d;
+    --color-surface-3: #2b3139;
+    --color-surface-inverse: #e9edf1;
+    --color-overlay: rgb(0 0 0 / 0.6);
+    --color-ink: #eef1f4;
+    --color-ink-2: #b8c0c9;
+    --color-ink-3: #939ca6;
+    --color-ink-inverse: #111418;
+    --color-ink-disabled: #6b737c;
+    --color-line: #2d333a;
+    --color-line-strong: #3a414a;
+    --color-line-control: #6f7883;
+    --color-control: #e9edf1;
+    --color-control-hover: #ffffff;
+    --color-control-active: #cfd6dd;
+    --color-control-ink: #111418;
+    --color-selected-bg: #1f2f45;
+    --color-link: #7fb2f0;
+    --color-focus: #6aa7f0;
+    --color-good-ink: #84d6a0;
+    --color-good-bg: #16301f;
+    --color-good-solid: #3fb36b;
+    --color-warning-ink: #f2c66e;
+    --color-warning-bg: #3a2e10;
+    --color-warning-solid: #e0a020;
+    --color-critical-ink: #ff9d92;
+    --color-critical-bg: #3e1b18;
+    --color-critical-solid: #e5574a;
+    --color-info-ink: #93bff5;
+    --color-info-bg: #16273d;
+    --color-info-solid: #3987e5;
+    --color-note-bg: #3a2f10;
+    --color-note-ink: #f3dc9a;
+    --color-note-line: #5a4a1c;
+    --color-mark-bg: #5c4a12;
+    --color-mark-ink: #fff4cf;
+    --color-vk: #3987e5;
+    --color-ok: #d95926;
+    --color-max: #199e70;
+    --color-vk-bg: #172a40;
+    --color-ok-bg: #3a2016;
+    --color-max-bg: #123126;
+    --color-dots-ground: #0b0e12;
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-2: 0 4px 12px rgb(0 0 0 / 0.45), 0 1px 3px rgb(0 0 0 / 0.3);
+    --shadow-3: 0 12px 32px rgb(0 0 0 / 0.6), 0 2px 6px rgb(0 0 0 / 0.4);
+    color-scheme: dark;
+  }
+}
+
+/*
+ * Принудительно тёмная тема. [data-scope='dark'] — тёмный участок внутри светлой
+ * страницы (например, «космос» на лендинге): внутри работают те же токены.
+ */
+:root[data-theme='dark'],
+[data-scope='dark'] {
+  --color-bg: #111418;
+  --color-surface: #191d22;
+  --color-surface-2: #22272d;
+  --color-surface-3: #2b3139;
+  --color-surface-inverse: #e9edf1;
+  --color-overlay: rgb(0 0 0 / 0.6);
+  --color-ink: #eef1f4;
+  --color-ink-2: #b8c0c9;
+  --color-ink-3: #939ca6;
+  --color-ink-inverse: #111418;
+  --color-ink-disabled: #6b737c;
+  --color-line: #2d333a;
+  --color-line-strong: #3a414a;
+  --color-line-control: #6f7883;
+  --color-control: #e9edf1;
+  --color-control-hover: #ffffff;
+  --color-control-active: #cfd6dd;
+  --color-control-ink: #111418;
+  --color-selected-bg: #1f2f45;
+  --color-link: #7fb2f0;
+  --color-focus: #6aa7f0;
+  --color-good-ink: #84d6a0;
+  --color-good-bg: #16301f;
+  --color-good-solid: #3fb36b;
+  --color-warning-ink: #f2c66e;
+  --color-warning-bg: #3a2e10;
+  --color-warning-solid: #e0a020;
+  --color-critical-ink: #ff9d92;
+  --color-critical-bg: #3e1b18;
+  --color-critical-solid: #e5574a;
+  --color-info-ink: #93bff5;
+  --color-info-bg: #16273d;
+  --color-info-solid: #3987e5;
+  --color-note-bg: #3a2f10;
+  --color-note-ink: #f3dc9a;
+  --color-note-line: #5a4a1c;
+  --color-mark-bg: #5c4a12;
+  --color-mark-ink: #fff4cf;
+  --color-vk: #3987e5;
+  --color-ok: #d95926;
+  --color-max: #199e70;
+  --color-vk-bg: #172a40;
+  --color-ok-bg: #3a2016;
+  --color-max-bg: #123126;
+  --color-dots-ground: #0b0e12;
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-2: 0 4px 12px rgb(0 0 0 / 0.45), 0 1px 3px rgb(0 0 0 / 0.3);
+  --shadow-3: 0 12px 32px rgb(0 0 0 / 0.6), 0 2px 6px rgb(0 0 0 / 0.4);
+  color-scheme: dark;
+}
+
+/* ---------- Уменьшение движения: длительности обнуляются для всех ---------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant: 0ms;
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+    --duration-slower: 0ms;
+  }
+}

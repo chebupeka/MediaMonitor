@@ -1,0 +1,46 @@
+{
+  "name": "mediamonitor-mockup",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Медиамонитор — кликабельный мокап интерфейса на демо-данных (этап 1)",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:single": "vite build --mode single",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "lucide-react": "1.59.0",
+    "radix-ui": "1.8.1",
+    "react": "18.3.1",
+    "react-day-picker": "10.0.2",
+    "react-dom": "18.3.1",
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "@types/node": "24.19.2",
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
+    "@types/three": "0.186.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "eslint": "9.39.5",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.13.0",
+    "prettier": "3.9.10",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.71.2",
+    "vite": "8.3.4",
+    "vite-plugin-singlefile": "2.3.4"
+  }
+}

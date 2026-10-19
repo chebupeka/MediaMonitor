@@ -1,0 +1,51 @@
+.stub {
+  border: 1px dashed var(--color-line-strong);
+  padding: var(--space-4) var(--space-5);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+
+.head code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  background: var(--color-surface);
+}
+
+.icon {
+  flex: none;
+  width: var(--icon-md);
+  height: var(--icon-md);
+  margin-top: 2px;
+}
+
+.items {
+  margin: 0;
+  padding-left: var(--space-5);
+  display: grid;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+
+.refs {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-ink-3);
+}
+
+.demo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-line);
+}

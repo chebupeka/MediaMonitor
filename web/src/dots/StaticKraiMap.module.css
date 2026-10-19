@@ -1,0 +1,84 @@
+.map {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+
+.stars circle {
+  fill: var(--color-dots-star);
+}
+
+.land circle {
+  fill: var(--color-dots-base);
+  opacity: 0.75;
+}
+
+.river circle {
+  fill: var(--color-dots-river);
+}
+
+.glow {
+  fill: var(--color-dots-city);
+  opacity: 0.18;
+}
+
+.core {
+  fill: var(--color-dots-city);
+}
+
+.labels text {
+  fill: var(--color-dots-city);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.02em;
+}
+
+.data circle {
+  fill: var(--color-dots-city);
+}
+
+.source circle {
+  fill: none;
+  stroke: var(--color-dots-city);
+  stroke-width: 1.5;
+  opacity: 0.7;
+}
+
+.source circle + circle {
+  opacity: 0.35;
+}
+
+.failed circle {
+  fill: var(--color-ink-disabled);
+}
+
+.calm .stars {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .city {
+    animation: twinkle 3.6s ease-in-out infinite;
+  }
+
+  .failed {
+    animation: twinkle 1.6s ease-in-out infinite;
+  }
+
+  .calm .city {
+    animation: none;
+  }
+}
+
+@keyframes twinkle {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.tributaries circle {
+  fill: var(--color-dots-river);
+  opacity: 0.55;
+}
