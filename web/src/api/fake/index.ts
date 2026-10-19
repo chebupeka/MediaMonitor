@@ -7,6 +7,7 @@ import type {
   ApiError,
   CatalogSource,
   ExportCell,
+  ExportFile,
   ExportOptions,
   ExportPreview,
   ImportReport,
@@ -52,6 +53,8 @@ import {
   platformStatusView,
   regionReasonText,
 } from '@/lib/labels';
+import { getHost } from '@/lib/host';
+import { buildXlsx } from '@/lib/xlsx';
 import { validateItems } from './build';
 import { at, demoNowMs, nowIso, toKrskIso } from './clock';
 import {
@@ -65,6 +68,7 @@ import { buildEvent } from './datasets/event';
 import { buildLarge } from './datasets/large';
 import { RELEASE_SOURCE_TEXT, buildRelease } from './datasets/release';
 import {
+  adoptRecord,
   computeCounts,
   getRecord,
   retryFakePlatform,
@@ -419,6 +423,78 @@ function rememberSearch(record: SearchRecord): void {
     request: clone(record.request),
   };
   recent = [entry, ...recent.filter((r) => r.searchId !== record.searchId)].slice(0, 20);
+  persistRecord(record);
+}
+
+// ---------------------------------------------------------------- снимки между страницами
+
+/**
+ * Законченные поиски лежат в хранилище сеанса (lib/host.ts). Так подборку видит и заново
+ * открытая боковая панель, и вкладка «Открыть во вкладке»: у каждой страницы своя память,
+ * а настоящий сервер хранит поиски сам. Держим несколько последних.
+ */
+const SAVED_KEY = 'mm:fake:searches';
+const SAVED_LIMIT = 3;
+
+interface SavedRecord {
+  request: SearchRequest;
+  selection: Selection;
+  savedAt: number;
+}
+
+function isSavedRecord(value: unknown, searchId: string): value is SavedRecord {
+  if (typeof value !== 'object' || value === null) return false;
+  const v = value as { request?: { text?: unknown }; selection?: { searchId?: unknown } };
+  return typeof v.request?.text === 'string' && v.selection?.searchId === searchId;
+}
+
+async function readSaved(): Promise<Record<string, unknown>> {
+  const value = await getHost().session.get(SAVED_KEY);
+  return typeof value === 'object' && value !== null ? (value as Record<string, unknown>) : {};
+}
+
+/** Записи идут по очереди, чтобы два быстрых исключения не затёрли друг друга. */
+let saving: Promise<void> = Promise.resolve();
+
+function persistRecord(record: SearchRecord): void {
+  if (record.phase === 'running') return;
+  const entry: SavedRecord = {
+    request: clone(record.request),
+    selection: snapshot(record),
+    savedAt: Date.now(),
+  };
+  saving = saving
+    .then(async () => {
+      const saved = { ...(await readSaved()), [record.searchId]: entry };
+      const kept = Object.entries(saved)
+        .map(([id, value]) => [id, value, isSavedRecord(value, id) ? value.savedAt : 0] as const)
+        .sort((a, b) => b[2] - a[2])
+        .slice(0, SAVED_LIMIT)
+        .map(([id, value]) => [id, value]);
+      await getHost().session.set(SAVED_KEY, Object.fromEntries(kept));
+    })
+    .catch(() => undefined);
+}
+
+/** Поиска нет в памяти страницы — поднять его из снимка, если он есть. */
+async function ensureRecord(searchId: string): Promise<void> {
+  if (getRecord(searchId)) return;
+  const entry = (await readSaved())[searchId];
+  if (!isSavedRecord(entry, searchId)) return;
+  try {
+    adoptRecord(entry.request, entry.selection, context(null));
+  } catch {
+    // снимок от другой версии мокапа — считаем, что поиска нет
+  }
+}
+
+/** Вызов над записью поиска: сначала поднять её из снимка, если страницу открыли заново. */
+function withRecord<T>(
+  base: number,
+  searchId: string,
+  body: (record: SearchRecord) => T,
+): Promise<T> {
+  return ensureRecord(searchId).then(() => call(base, () => body(requireRecord(searchId))));
 }
 
 // ---------------------------------------------------------------- сценарии
@@ -591,12 +667,16 @@ function exportItems(record: SearchRecord, options?: ExportOptions): ResultItem[
     );
 }
 
-function buildExport(record: SearchRecord, options?: ExportOptions): ExportPreview {
+/** `full` — все строки (для файла); без него — первые 50 для предпросмотра. */
+function buildExport(record: SearchRecord, options?: ExportOptions, full = false): ExportPreview {
   const selection = snapshot(record);
   const rows = exportItems(record, options);
   const c = selection.conditions;
   const groupTitle = new Map(selection.groups.map((g) => [g.id, g.title]));
-  const fileDate = (c.finishedAt ?? c.startedAt).slice(0, 10);
+  // Тема, дата и время поиска по Красноярску: две выгрузки за день не совпадут по имени
+  const finishedAt = c.finishedAt ?? c.startedAt;
+  const fileDate = finishedAt.slice(0, 10);
+  const fileTime = finishedAt.slice(11, 16).replace(':', '-');
   const columns = [
     { id: 'n', title: '№' },
     { id: 'platform', title: 'Площадка' },
@@ -612,7 +692,7 @@ function buildExport(record: SearchRecord, options?: ExportOptions): ExportPrevi
     { id: 'group', title: 'Группа' },
     { id: 'fetched', title: 'Получено' },
   ];
-  const table: ExportCell[][] = rows.slice(0, 50).map((item, index) => {
+  const table: ExportCell[][] = (full ? rows : rows.slice(0, 50)).map((item, index) => {
     const p = item.publication;
     return [
       index + 1,
@@ -641,7 +721,7 @@ function buildExport(record: SearchRecord, options?: ExportOptions): ExportPrevi
 
   return {
     searchId: record.searchId,
-    fileName: `Медиамонитор_${safeLabel}_${fileDate}.xlsx`,
+    fileName: `Медиамонитор_${safeLabel}_${fileDate}_${fileTime}.xlsx`,
     rowCount: rows.length,
     excludedCount: selection.counts.excluded,
     rule: appliedFilter
@@ -687,6 +767,26 @@ function buildExport(record: SearchRecord, options?: ExportOptions): ExportPrevi
     publications: { name: 'Публикации', columns, rows: table, totalRows: rows.length },
     timeZoneNote: TIME_ZONE_LABEL_FULL,
   };
+}
+
+/** Ширина колонок «Публикаций» в знаках — чтобы файл читался без ручной подгонки */
+const EXPORT_WIDTHS = [5, 14, 26, 44, 22, 38, 64, 12, 22, 30, 16, 26, 18];
+
+function buildExportFile(record: SearchRecord, options?: ExportOptions): ExportFile {
+  const book = buildExport(record, options, true);
+  const { summary, publications } = book;
+  const linkColumn = publications.columns.findIndex((col) => col.id === 'url');
+  const file = buildXlsx([
+    { name: summary.name, widths: [24, 90], rows: summary.entries.map((e) => [e.label, e.value]) },
+    {
+      name: publications.name,
+      header: true,
+      widths: EXPORT_WIDTHS,
+      linkColumns: linkColumn >= 0 ? [linkColumn] : [],
+      rows: [publications.columns.map((col) => col.title), ...publications.rows],
+    },
+  ]);
+  return { fileName: book.fileName, rowCount: book.rowCount, file };
 }
 
 // ---------------------------------------------------------------- стенд
@@ -897,19 +997,18 @@ export function createFakeApi(): MonitorApi {
       retryFakePlatform(searchId, platform, context(null)),
 
     getSelection: (searchId: string) =>
-      call(150, (): Selection => snapshot(requireRecord(searchId))),
+      withRecord(150, searchId, (record): Selection => snapshot(record)),
 
     setExcluded: (searchId: string, itemIds: string[], excluded: boolean) =>
-      call(140, (): SelectionCounts => {
-        const record = requireRecord(searchId);
+      withRecord(140, searchId, (record): SelectionCounts => {
         const ids = new Set(itemIds);
         for (const item of record.items) if (ids.has(item.id)) item.excluded = excluded;
+        persistRecord(record);
         return computeCounts(record.items);
       }),
 
     excludeSource: (searchId: string, sourceId: string) =>
-      call(180, () => {
-        const record = requireRecord(searchId);
+      withRecord(180, searchId, (record) => {
         const itemIds: string[] = [];
         for (const item of record.items) {
           if (item.publication.source.id === sourceId && !item.excluded) {
@@ -917,12 +1016,12 @@ export function createFakeApi(): MonitorApi {
             itemIds.push(item.id);
           }
         }
+        persistRecord(record);
         return { itemIds, counts: computeCounts(record.items) };
       }),
 
     addByUrl: (searchId: string, url: string) =>
-      call(900, (): ResultItem => {
-        const record = requireRecord(searchId);
+      withRecord(900, searchId, (record): ResultItem => {
         const parsed = parseUrl(url);
         if (!parsed.platform)
           throw apiError('invalid', 'Это не ссылка на пост ВКонтакте, Одноклассников или MAX.');
@@ -945,6 +1044,7 @@ export function createFakeApi(): MonitorApi {
         if (existing) {
           if (!existing.excluded) throw apiError('invalid', 'Эта публикация уже есть в подборке.');
           existing.excluded = false;
+          persistRecord(record);
           return { ...existing };
         }
         const item: ResultItem = clone(found);
@@ -954,12 +1054,12 @@ export function createFakeApi(): MonitorApi {
         record.arrival += 1;
         item.arrival = record.arrival;
         record.items.push(item);
+        persistRecord(record);
         return { ...item };
       }),
 
     recheckLinks: (searchId: string) =>
-      call(1400, (): LinkRecheckReport => {
-        const record = requireRecord(searchId);
+      withRecord(1400, searchId, (record): LinkRecheckReport => {
         const checkedAt = nowIso();
         const active = record.items.filter((i) => !i.excluded);
         // В демо один пост «удалён после поиска» (НТ-19, SC-69)
@@ -970,6 +1070,7 @@ export function createFakeApi(): MonitorApi {
             checkedAt,
           };
         }
+        persistRecord(record);
         return {
           checked: active.length,
           ok: active.length - deleted.length,
@@ -979,10 +1080,13 @@ export function createFakeApi(): MonitorApi {
       }),
 
     getSpread: (searchId: string, groupId?: string) =>
-      call(600, (): SpreadReport => buildSpread(requireRecord(searchId), groupId)),
+      withRecord(600, searchId, (record): SpreadReport => buildSpread(record, groupId)),
 
     getExportPreview: (searchId: string, options?: ExportOptions) =>
-      call(500, (): ExportPreview => buildExport(requireRecord(searchId), options)),
+      withRecord(500, searchId, (record): ExportPreview => buildExport(record, options)),
+
+    getExportFile: (searchId: string, options?: ExportOptions) =>
+      withRecord(700, searchId, (record): ExportFile => buildExportFile(record, options)),
 
     listSources: () =>
       call(320, (): Source[] =>

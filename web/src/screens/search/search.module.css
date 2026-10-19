@@ -96,6 +96,12 @@
   gap: var(--space-3);
 }
 
+.resultsActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
 /* Крупная цифра узким гротеском — как «15 размещений» на сайте */
 .found {
   display: flex;
@@ -220,6 +226,19 @@
 
 .exportFile {
   font-size: var(--text-sm);
+}
+
+.exportDone,
+.exportFailed {
+  align-self: center;
+  margin-right: auto;
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+  overflow-wrap: anywhere;
+}
+
+.exportFailed {
+  color: var(--color-critical-ink);
 }
 
 .exportRule {

@@ -1,11 +1,15 @@
 /**
- * Предпросмотр XLSX (НТ-11, НТ-20): лист «Сводка» и первые строки «Публикаций».
- * Файл совпадает с тем, что на экране (ТЗ-Ф38). В мокапе сам файл не скачивается.
+ * Выгрузка XLSX (НТ-11, НТ-20): предпросмотр — лист «Сводка» и первые строки
+ * «Публикаций», — и сам файл. Файл совпадает с тем, что на экране (ТЗ-Ф38): исключённые
+ * записи в него не попадают, ссылки на посты кликабельные. Имя — тема, дата и время
+ * поиска, чтобы выгрузки в «Загрузках» не путались.
  */
-import { useCallback } from 'react';
-import { api, useAsync } from '@/api';
-import { Dialog, ErrorState, SkeletonText } from '@/components';
+import { Download } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { api, errorMessage, useAsync } from '@/api';
+import { Button, Dialog, ErrorState, SkeletonText, useAnnounce } from '@/components';
 import { DotsScene } from '@/dots';
+import { saveFile } from '@/lib/download';
 import styles from './search.module.css';
 
 interface ExportDialogProps {
@@ -15,13 +19,56 @@ interface ExportDialogProps {
 }
 
 export function ExportDialog({ searchId, open, onOpenChange }: ExportDialogProps) {
+  const announce = useAnnounce();
+  const [busy, setBusy] = useState(false);
+  const [result, setResult] = useState<{ ok: boolean; text: string } | null>(null);
+
+  useEffect(() => {
+    if (open) setResult(null);
+  }, [open]);
+
+  const download = async () => {
+    setBusy(true);
+    setResult(null);
+    try {
+      const { file, fileName } = await api.getExportFile(searchId);
+      saveFile(file, fileName);
+      setResult({ ok: true, text: `Скачан ${fileName}` });
+      announce(`Файл скачан: ${fileName}`);
+    } catch (error) {
+      setResult({ ok: false, text: errorMessage(error) });
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
     <Dialog
       open={open}
       onOpenChange={onOpenChange}
       title="Файл готов"
-      description="Так будет выглядеть выгрузка. В мокапе файл не скачивается."
+      description="Проверьте сводку и первые строки — в файле та же подборка, что на экране."
       size="lg"
+      footer={
+        <>
+          {result && (
+            <p
+              className={result.ok ? styles.exportDone : styles.exportFailed}
+              role={result.ok ? 'status' : 'alert'}
+            >
+              {result.text}
+            </p>
+          )}
+          <Button
+            variant="primary"
+            iconStart={<Download />}
+            loading={busy}
+            onClick={() => void download()}
+          >
+            Скачать файл
+          </Button>
+        </>
+      }
     >
       {open && <ExportPreviewBody searchId={searchId} />}
     </Dialog>

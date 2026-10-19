@@ -10,6 +10,7 @@ import type {
   ApiError,
   CatalogSource,
   ConnectionState,
+  ExportFile,
   ExportOptions,
   ExportPreview,
   ImportReport,
@@ -91,6 +92,9 @@ export interface MonitorApi {
   // ---------------------------------------------------------------- выгрузка
   /** Предпросмотр XLSX: лист «Сводка» и первые строки (НТ-11, НТ-20). */
   getExportPreview(searchId: string, options?: ExportOptions): Promise<ExportPreview>;
+
+  /** Сам файл XLSX: листы «Сводка» и «Публикации» целиком, ссылки кликабельные. */
+  getExportFile(searchId: string, options?: ExportOptions): Promise<ExportFile>;
 
   // ---------------------------------------------------------------- источники
   listSources(): Promise<Source[]>;

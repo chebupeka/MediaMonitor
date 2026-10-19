@@ -4,7 +4,9 @@
  * - Пункт контекстного меню «Найти, где это опубликовано» для выделенного текста:
  *   открывает боковую панель и передаёт ей текст (lib/handoff.ts).
  * - Клик по значку открывает боковую панель.
- * - Пункт «Открыть во вкладке» в меню значка: широкий экран для большой подборки.
+ * - Пункт «Открыть во вкладке» в меню значка и такая же кнопка в панели: широкий экран
+ *   для большой подборки. Вкладка показывает тот же поиск, что и панель
+ *   (src/screens/search/saved.ts).
  *
  * Боковая панель бывает двух видов: chrome.sidePanel (Chrome, Edge) и своя у Firefox —
  * sidebar_action, WXT собирает её из той же точки входа sidepanel. В Яндекс Браузере
@@ -14,6 +16,7 @@
 import { browser, type Browser } from 'wxt/browser';
 import { defineBackground } from 'wxt/utils/define-background';
 import { putPendingSelection } from '../lib/handoff';
+import { isOpenTabMessage } from '../lib/messages';
 
 const MENU_FIND = 'mm-find-published';
 const MENU_OPEN_TAB = 'mm-open-tab';
@@ -61,9 +64,14 @@ export default defineBackground(() => {
     browser.action.onClicked.addListener(() => void openTab());
   }
 
+  // Кнопка «Открыть во вкладке» в боковой панели (extension/lib/boot.tsx)
+  browser.runtime.onMessage.addListener((message) => {
+    if (isOpenTabMessage(message)) void openTab({ refresh: true });
+  });
+
   browser.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === MENU_OPEN_TAB) {
-      void openTab();
+      void openTab({ refresh: true });
       return;
     }
     if (info.menuItemId !== MENU_FIND) return;
@@ -93,12 +101,17 @@ export default defineBackground(() => {
  * Открыть интерфейс во вкладке. Если вкладка расширения уже открыта, переключаемся
  * на неё, а не плодим новые: в Яндекс Браузере и Safari (нет боковых панелей) так работает
  * каждое «Найти, где это опубликовано». Новый запрос вкладка подхватит сама (lib/handoff.ts).
+ *
+ * `refresh` — для «Открыть во вкладке»: уже открытую вкладку перезагружаем, и она
+ * показывает текущий поиск из хранилища сеанса, а не тот, что был в ней раньше. Для
+ * выделенного текста не перезагружаем: вкладка сама перезапустится, когда придёт текст.
  */
-async function openTab(): Promise<void> {
+async function openTab({ refresh = false }: { refresh?: boolean } = {}): Promise<void> {
   const existing = await findTabPage();
   if (existing) {
     await browser.tabs.update(existing.tabId, { active: true });
     await browser.windows.update(existing.windowId, { focused: true });
+    if (refresh) await browser.tabs.reload(existing.tabId);
     return;
   }
   // Путь без схемы браузер достраивает до адреса внутри расширения.

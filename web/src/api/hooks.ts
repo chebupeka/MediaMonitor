@@ -138,6 +138,7 @@ type Action =
   | { type: 'event'; event: SearchEvent }
   | { type: 'excluded'; ids: string[]; excluded: boolean; counts: SelectionCounts }
   | { type: 'added'; item: ResultItem }
+  | { type: 'restore'; selection: Selection }
   | { type: 'reset' };
 
 function mergeItems(current: ResultItem[], incoming: ResultItem[]): ResultItem[] {
@@ -197,6 +198,12 @@ function reducer(state: SearchRunState, action: Action): SearchRunState {
       return INITIAL;
     case 'start':
       return { ...INITIAL, phase: 'running', searchId: action.searchId };
+    case 'restore':
+      return fromSelection(
+        { ...INITIAL, searchId: action.selection.searchId },
+        action.selection,
+        action.selection.phase === 'stopped' ? 'stopped' : 'done',
+      );
     case 'retry':
       return { ...state, phase: 'running', error: null };
     case 'excluded': {
@@ -284,6 +291,13 @@ export interface SearchRunControls {
   setExcluded: (itemIds: string[], excluded: boolean) => Promise<void>;
   /** Добавить публикацию по ссылке (П8). */
   addByUrl: (url: string) => Promise<ResultItem>;
+  /**
+   * Показать уже выполненный поиск по id: панель закрыли и открыли, поиск перенесли во
+   * вкладку. Идущий поиск так не подхватить — подключиться к его потоку контракт пока
+   * не умеет. Если за это время запустили новый поиск, старый не показываем.
+   * Возвращает true, если подборка на экране.
+   */
+  restore: (searchId: string) => Promise<boolean>;
   reset: () => void;
 }
 
@@ -357,6 +371,21 @@ export function useSearchRun(): SearchRunControls {
     return item;
   }, []);
 
+  const restore = useCallback(async (searchId: string): Promise<boolean> => {
+    const busy = () => runRef.current !== null && !runRef.current.closed;
+    if (busy()) return false;
+    let selection: Selection;
+    try {
+      selection = await api.getSelection(searchId);
+    } catch {
+      return false;
+    }
+    if (selection.phase === 'running' || busy()) return false;
+    searchIdRef.current = searchId;
+    dispatch({ type: 'restore', selection });
+    return true;
+  }, []);
+
   const reset = useCallback(() => {
     runRef.current?.stop();
     unsubscribeRef.current?.();
@@ -374,5 +403,5 @@ export function useSearchRun(): SearchRunControls {
     [],
   );
 
-  return { state, start, stop, retryPlatform, setExcluded, addByUrl, reset };
+  return { state, start, stop, retryPlatform, setExcluded, addByUrl, restore, reset };
 }

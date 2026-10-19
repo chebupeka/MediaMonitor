@@ -810,7 +810,7 @@ export interface ExportSummarySheet {
   entries: { label: string; value: string }[];
 }
 
-/** Предпросмотр файла. Сам файл в мокапе не скачивается. */
+/** Предпросмотр файла: лист «Сводка» и первые строки «Публикаций». */
 export interface ExportPreview {
   searchId: string;
   fileName: string;
@@ -825,6 +825,15 @@ export interface ExportPreview {
   publications: ExportSheetTable;
   /** Подпись часового пояса для файла (НТ-12). */
   timeZoneNote: string;
+}
+
+/** Готовый файл выгрузки (ТЗ-Ф38): та же подборка, что на экране и в предпросмотре. */
+export interface ExportFile {
+  /** Имя для сохранения: тема, дата и время поиска — выгрузки в «Загрузках» не путаются. */
+  fileName: string;
+  rowCount: number;
+  /** Сам файл XLSX */
+  file: Blob;
 }
 
 // ============================================================================

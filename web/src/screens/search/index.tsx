@@ -7,7 +7,7 @@
  * площадки серое и мерцает. Ниже — поле запроса, период, режим, строка состояния
  * и подборка карточками. Факты на картинке продублированы текстом под ней.
  */
-import { FileSpreadsheet } from 'lucide-react';
+import { FileSpreadsheet, Maximize2 } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { demoQueries, useSearchRun, type SearchRunState } from '@/api';
 import type {
@@ -19,11 +19,13 @@ import type {
   SearchMode,
 } from '@/api/types';
 import { useNavigation, type ScreenProps } from '@/app/navigation';
+import { useShell } from '@/app/shell-state';
 import {
   Button,
   Chip,
   EmptyState,
   ErrorState,
+  IconButton,
   Screen,
   StatusLine,
   TextArea,
@@ -39,9 +41,11 @@ import {
   type DotsPlatformState,
 } from '@/dots';
 import { WORDS, formatCount, plural } from '@/lib/format';
+import { getHost } from '@/lib/host';
 import { REGION_PRINCIPLE, RELEVANCE_ORDER, RELEVANCE_SHORT } from '@/lib/labels';
 import { ExportDialog } from './ExportDialog';
 import { ResultCard } from './ResultCard';
+import { loadSavedSearch, saveSearch, type SavedSearch } from './saved';
 import styles from './search.module.css';
 
 const PERIODS: { value: PeriodPreset; label: string }[] = [
@@ -156,15 +160,21 @@ function dotsView(state: SearchRunState, listening: boolean): DotsView {
 
 export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) {
   const { navigate } = useNavigation();
-  const { state, start, stop, retryPlatform, setExcluded } = useSearchRun();
+  const { layout } = useShell();
+  const { state, start, stop, retryPlatform, setExcluded, restore } = useSearchRun();
   const toast = useToast();
   const announce = useAnnounce();
+  /** Поиск, итог которого уже озвучен скринридеру */
+  const announced = useRef<string | null>(null);
   const [text, setText] = useState(params.text ?? '');
   const [preset, setPreset] = useState<PeriodPreset>('30d');
   const [mode, setMode] = useState<SearchMode>('everywhere');
   const [focused, setFocused] = useState(false);
   const [filter, setFilter] = useState<Relevance | 'all'>('all');
   const [exportOpen, setExportOpen] = useState(false);
+  /** Прошлое состояние уже подставлено (или его не было) — можно запоминать новое. */
+  const [ready, setReady] = useState(false);
+  const firstVisit = useRef(true);
 
   const running = state.phase === 'running' || state.phase === 'queued';
   const finished = state.phase === 'done' || state.phase === 'stopped';
@@ -177,10 +187,15 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
 
   // Новый переход на экран с параметрами: подставить текст или сразу искать
   // (так приходит выделенный текст из контекстного меню расширения).
+  // Без параметров при первом показе возвращаем прошлый поиск: панель закрыли и открыли,
+  // поиск перенесли во вкладку, страницу перезагрузили.
   useEffect(() => {
+    const first = firstVisit.current;
+    firstVisit.current = false;
     if (params.request) {
       setText(params.request.text);
       if (params.autoRun) start(params.request, { replace: true });
+      setReady(true);
     } else if (params.text !== undefined) {
       setText(params.text);
       if (params.autoRun)
@@ -188,12 +203,47 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
           { text: params.text, period: periodFor('30d'), mode: 'everywhere' },
           { replace: true },
         );
+      setReady(true);
+    } else if (first) {
+      void loadSavedSearch()
+        .then(async (saved) => {
+          if (!saved) return;
+          setText(saved.text);
+          setPreset(saved.preset);
+          setMode(saved.mode);
+          setFilter(saved.filter);
+          if (saved.searchId && (await restore(saved.searchId))) {
+            announced.current = saved.searchId;
+            announce('Показан прошлый поиск: подборка сохранилась.');
+          }
+        })
+        .catch(() => undefined)
+        .finally(() => setReady(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- реагируем только на новый переход
   }, [navKey]);
 
+  // Запоминаем запрос, условия и законченный поиск — для следующего открытия.
+  const savedSearchId = finished ? state.searchId : null;
+  const current = useMemo<SavedSearch>(
+    () => ({ text, preset, mode, filter, searchId: savedSearchId }),
+    [text, preset, mode, filter, savedSearchId],
+  );
+  useEffect(() => {
+    if (!ready) return;
+    const timer = window.setTimeout(() => void saveSearch(current), 250);
+    return () => window.clearTimeout(timer);
+  }, [ready, current]);
+
+  // «Открыть во вкладке» есть только в боковой панели расширения
+  const openInTab = layout === 'panel' ? getHost().openInTab : null;
+  const moveToTab = async () => {
+    if (!openInTab) return;
+    await saveSearch(current);
+    await openInTab();
+  };
+
   // Итог поиска — вслух для скринридера
-  const announced = useRef<string | null>(null);
   useEffect(() => {
     if (!finished || !state.searchId || announced.current === state.searchId) return;
     announced.current = state.searchId;
@@ -365,15 +415,25 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
                 {running ? ' · поиск идёт' : ''}
               </span>
             </h2>
-            {finished && state.searchId && (
-              <Button
-                variant="secondary"
-                iconStart={<FileSpreadsheet />}
-                onClick={() => setExportOpen(true)}
-              >
-                Скачать XLSX · {total}
-              </Button>
-            )}
+            <div className={styles.resultsActions}>
+              {finished && state.searchId && (
+                <Button
+                  variant="secondary"
+                  iconStart={<FileSpreadsheet />}
+                  onClick={() => setExportOpen(true)}
+                >
+                  Скачать XLSX · {total}
+                </Button>
+              )}
+              {openInTab && (
+                <IconButton
+                  label="Открыть во вкладке — шире для большой подборки"
+                  icon={<Maximize2 />}
+                  variant="secondary"
+                  onClick={() => void moveToTab()}
+                />
+              )}
+            </div>
           </div>
           <div className={styles.filters} role="group" aria-label="Показать">
             <Chip size="sm" selected={filter === 'all'} onClick={() => setFilter('all')}>

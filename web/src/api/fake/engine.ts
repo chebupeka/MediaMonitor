@@ -762,6 +762,60 @@ export function retryFakePlatform(
   return run;
 }
 
+/**
+ * Поднять законченный поиск из снимка. Настоящий сервер хранит поиски сам, а имитация
+ * живёт в памяти страницы: боковую панель закрыли и открыли, поиск перенесли во вкладку —
+ * памяти уже нет. Поэтому имитация кладёт снимок в хранилище сеанса (index.ts) и здесь
+ * собирает из него запись заново. Очереди площадок строим тем же порядком, что при
+ * поиске, — «Повторить» по площадке после сбоя досыплет то, что не успело прийти.
+ */
+export function adoptRecord(
+  request: SearchRequest,
+  selection: Selection,
+  ctx: SearchContext,
+): SearchRecord {
+  const dataset = pickDataset(request.text, request.meaningId, ctx.demo.scenario);
+  const startedMs = Date.parse(selection.conditions.startedAt);
+  const prepared = prepareItems(dataset, request, ctx, startedMs).map((d) =>
+    decorate(d, ctx, !selection.aiAvailable),
+  );
+  const plans = makePlans(prepared, request, ctx);
+  for (const status of selection.statuses) {
+    const plan = plans[status.platform];
+    const arrived = new Set(
+      selection.items.filter((i) => i.publication.platform === status.platform).map((i) => i.id),
+    );
+    plan.queue = [
+      ...plan.queue.filter((i) => arrived.has(i.id)),
+      ...plan.queue.filter((i) => !arrived.has(i.id)),
+    ];
+    plan.released = plan.queue.filter((i) => arrived.has(i.id)).length;
+    plan.done = status.progress ? status.progress.done : plan.total;
+    plan.finalState =
+      status.state === 'searching' || status.state === 'waiting' ? 'stopped' : status.state;
+    plan.finalProblem = status.problem;
+    plan.updatedAt = status.updatedAt;
+  }
+  const record: SearchRecord = {
+    searchId: selection.searchId,
+    request: structuredClone(request),
+    conditions: { ...selection.conditions },
+    dataset,
+    plans,
+    items: selection.items.map((i) => structuredClone(i)),
+    pool: new Map(prepared.map((i) => [i.id, i])),
+    topic: selection.topic,
+    aiAvailable: selection.aiAvailable,
+    phase: selection.phase === 'running' ? 'stopped' : selection.phase,
+    notices: [...selection.notices],
+    arrival: selection.items.reduce((max, i) => Math.max(max, i.arrival), 0),
+    // обрыв связи по сценарию уже показали в исходном поиске
+    connectionDropped: true,
+  };
+  records.set(record.searchId, record);
+  return record;
+}
+
 /** Остановить поиск по id (если он ещё идёт). */
 export function stopById(searchId: string): void {
   const runner = activeRunners.get(searchId);
