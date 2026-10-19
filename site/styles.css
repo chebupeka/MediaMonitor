@@ -633,6 +633,9 @@ p { margin: 0 0 14px; color: var(--fg-2); max-width: 31em; }
 
 /* Установка */
 .install { flex-direction: column; justify-content: center; align-items: stretch; padding-bottom: 40px; min-height: 100vh; }
+/* Стрелки к кнопке — свой холст внутри раздела (arrows.js), под текстом */
+.install-arrows { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 0; }
+.install .wide { position: relative; z-index: 1; }
 .giant {
   font-family: var(--sans);
   font-weight: 200;
