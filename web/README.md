@@ -35,6 +35,8 @@ npm run build:single   # всё в один файл dist/index.html (его п�
 npm run ext:build      # → .output/chrome-mv3/: «Загрузить распакованное» в Chrome или Яндекс Браузере
 npm run ext:zip        # → .output/*.zip
 npm run ext:dev        # разработка с автообновлением
+npm run ext:build:firefox  # → .output/firefox-mv3/ (своя боковая панель Firefox)
+npm run ext:build:safari   # → .output/safari-mv3/ (дальше Xcode, см. extension/README.md)
 ```
 
 ## Структура

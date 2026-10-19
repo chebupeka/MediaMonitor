@@ -1,14 +1,15 @@
 /**
- * Фон расширения (service worker, Manifest V3).
+ * Фон расширения (Manifest V3: service worker в Chromium и Safari, фоновая страница в Firefox).
  *
  * - Пункт контекстного меню «Найти, где это опубликовано» для выделенного текста:
  *   открывает боковую панель и передаёт ей текст (lib/handoff.ts).
  * - Клик по значку открывает боковую панель.
  * - Пункт «Открыть во вкладке» в меню значка: широкий экран для большой подборки.
  *
- * Поддержка боковых панелей (chrome.sidePanel) в Яндекс Браузере не подтверждена
- * (research/extension-feasibility.md §3.3). Если API нет или панель не открылась,
- * тот же интерфейс открывается во вкладке расширения.
+ * Боковая панель бывает двух видов: chrome.sidePanel (Chrome, Edge) и своя у Firefox —
+ * sidebar_action, WXT собирает её из той же точки входа sidepanel. В Яндекс Браузере
+ * (research/extension-feasibility.md §3.3) и Safari боковых панелей нет: там и если панель
+ * не открылась, тот же интерфейс открывается во вкладке расширения.
  */
 import { browser, type Browser } from 'wxt/browser';
 import { defineBackground } from 'wxt/utils/define-background';
@@ -20,8 +21,16 @@ const MENU_OPEN_TAB = 'mm-open-tab';
 /** Страница расширения с интерфейсом во всю ширину вкладки */
 const TAB_PAGE = '/app.html';
 
+/** Боковая панель Firefox. В типах wxt/browser (они от Chrome) её нет. */
+interface FirefoxSidebarAction {
+  open(): Promise<void>;
+  toggle(): Promise<void>;
+}
+
 export default defineBackground(() => {
   const sidePanel = browser.sidePanel as typeof browser.sidePanel | undefined;
+  const sidebarAction = (browser as unknown as { sidebarAction?: FirefoxSidebarAction })
+    .sidebarAction;
 
   // Меню создаём при установке и обновлении: браузер хранит его между перезапусками.
   browser.runtime.onInstalled.addListener(() => {
@@ -43,6 +52,11 @@ export default defineBackground(() => {
     void sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch(() => {
       browser.action.onClicked.addListener(() => void openTab());
     });
+  } else if (sidebarAction) {
+    // Как в Chrome: значок открывает панель, повторный клик закрывает.
+    browser.action.onClicked.addListener(() => {
+      sidebarAction.toggle().catch(() => openTab());
+    });
   } else {
     browser.action.onClicked.addListener(() => void openTab());
   }
@@ -54,8 +68,8 @@ export default defineBackground(() => {
     }
     if (info.menuItemId !== MENU_FIND) return;
 
-    // Панель открываем сразу: sidePanel.open() работает только пока действует
-    // жест пользователя, поэтому до любых await.
+    // Панель открываем сразу: sidePanel.open() и sidebarAction.open() работают только
+    // пока действует жест пользователя, поэтому до любых await.
     void openPanel(tab);
     void readSelection(tab, info.selectionText).then((text) => {
       if (!text) return;
@@ -69,6 +83,7 @@ export default defineBackground(() => {
   });
 
   function openPanel(tab: Browser.tabs.Tab | undefined): Promise<void> {
+    if (!sidePanel && sidebarAction) return sidebarAction.open().catch(() => openTab());
     if (!sidePanel || tab?.windowId === undefined) return openTab();
     return sidePanel.open({ windowId: tab.windowId }).catch(() => openTab());
   }
@@ -76,7 +91,7 @@ export default defineBackground(() => {
 
 /**
  * Открыть интерфейс во вкладке. Если вкладка расширения уже открыта, переключаемся
- * на неё, а не плодим новые: в Яндекс Браузере (нет боковых панелей) так работает
+ * на неё, а не плодим новые: в Яндекс Браузере и Safari (нет боковых панелей) так работает
  * каждое «Найти, где это опубликовано». Новый запрос вкладка подхватит сама (lib/handoff.ts).
  */
 async function openTab(): Promise<void> {

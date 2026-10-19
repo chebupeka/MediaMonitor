@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
     <title>Медиамонитор</title>
+    <!-- В Safari боковых панелей для расширений нет: без этой точки входа в манифесте
+         не будет side_panel и разрешения sidePanel, которых Safari не знает. -->
+    <meta name="manifest.exclude" content="['safari']" />
     <!-- Как в мокапе: шрифты Google Fonts, без сети — системные запасные.
          TODO: перед сдачей положить шрифты в пакет расширения, чтобы панель не ходила в Google. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

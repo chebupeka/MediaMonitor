@@ -19,6 +19,10 @@
     "ext:dev": "wxt",
     "ext:build": "wxt build",
     "ext:zip": "wxt zip",
+    "ext:dev:firefox": "wxt -b firefox",
+    "ext:build:firefox": "wxt build -b firefox",
+    "ext:zip:firefox": "wxt zip -b firefox",
+    "ext:build:safari": "wxt build -b safari",
     "ext:icons": "node extension/scripts/make-icons.mjs"
   },
   "dependencies": {
