@@ -37,17 +37,20 @@
 .eyebrow {
   margin: 0;
   font-size: var(--text-xs);
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--color-ink-3);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.06em;
+  color: var(--color-ink-2);
 }
 
+/* Как заголовки сайта: узкий гротеск капсом */
 .title {
   margin: 0;
-  font-size: var(--text-3xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-display);
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4.4vw, 56px);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
 }
 
 .lead {
@@ -100,7 +103,7 @@
   }
 
   .title {
-    font-size: var(--text-2xl);
+    font-size: 38px;
   }
 
   .titles {

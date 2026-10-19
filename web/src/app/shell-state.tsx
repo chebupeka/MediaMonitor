@@ -43,13 +43,17 @@ interface Stored {
 }
 
 function loadStored(): Stored {
-  const fallback: Stored = { theme: 'system', layout: 'site', dotsEnabled: true };
+  // По умолчанию — тёмная тема, как на сайте «Стрежень»; светлую можно выбрать в меню «Вид».
+  const fallback: Stored = { theme: 'dark', layout: 'site', dotsEnabled: true };
   try {
     const raw = window.localStorage.getItem(KEY);
     if (!raw) return fallback;
     const parsed = JSON.parse(raw) as Partial<Stored>;
     return {
-      theme: parsed.theme === 'light' || parsed.theme === 'dark' ? parsed.theme : 'system',
+      theme:
+        parsed.theme === 'light' || parsed.theme === 'dark' || parsed.theme === 'system'
+          ? parsed.theme
+          : fallback.theme,
       layout: parsed.layout === 'panel' ? 'panel' : 'site',
       dotsEnabled: parsed.dotsEnabled !== false,
     };

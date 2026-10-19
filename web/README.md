@@ -63,7 +63,7 @@ web/
       highlight.ts         подсветка доказательства в выдержке (П3)
     components/            базовые компоненты (Radix UI + токены)
     app/                   оболочка: навигация, шапка, панель «Демо-сценарий», витрина
-    dots/                  слот «Точки»: DotsScene (сейчас статичная SVG-карта края)
+    dots/                  слот «Точки»: DotsScene — частицы на WebGL (словарь форм), запасной вариант — SVG-карта
     screens/
       landing/             Л. Лендинг (заготовка «Основы»)
       search/              П1–П3, П7        → Э-Поиск
@@ -230,12 +230,14 @@ state.conditions; // условия выполненного поиска
 три уровня (`--color-ink`, `-2`, `-3`), линии, управляющий цвет (`--color-control*`),
 семантика (`--color-{good|warning|critical|info}-{ink|bg|solid}`), площадки
 (`--color-vk|ok|max` и `-bg`), точки (`--color-dots-*`), пометка демо (`--color-note-*`),
-подсветка (`--color-mark-*`); шрифты (`--font-ui` Golos Text, `--font-display` Unbounded —
-только крупные цифры и заголовки бренда), шкала `--text-*`, `--leading-*`, `--weight-*`;
+подсветка (`--color-mark-*`), акценты сайта (`--color-accent` — синий, `--color-gold` —
+найденное); шрифты (`--font-ui` Montserrat, `--font-display` Fira Sans Extra Condensed —
+заголовки экранов капсом, крупные цифры, знак), шкала `--text-*`, `--leading-*`, `--weight-*`;
 отступы `--space-*` (шаг 4 px); `--radius-*`; `--shadow-*`; `--duration-*` и `--ease-*`
 (обнуляются при «уменьшить движение»); `--z-*`; размеры (`--target-min`, `--control-h-*`,
-`--panel-width`). Тёмная тема — по системной настройке и переключателем (`data-theme` на
-`<html>`); `data-scope="dark"` делает тёмным участок страницы.
+`--panel-width`). Визуал — как у сайта «Стрежень»: по умолчанию тёмная тема («космос» со
+звёздами, палитра сайта); светлая и «как в системе» — в меню «Вид» (`data-theme` на `<html>`);
+`data-scope="dark"` делает тёмным участок страницы.
 
 ## Компоненты (`src/components`)
 

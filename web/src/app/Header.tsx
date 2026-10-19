@@ -6,15 +6,13 @@ import { SCREENS, SCREEN_ORDER } from './screens';
 import { useShell, type ThemeChoice } from './shell-state';
 import styles from './Header.module.css';
 
-/** Знак: три точки цветов площадок. */
-export function Logo({ size = 28 }: { size?: number }) {
+/** Знак как на сайте: название узким гротеском капсом и золотая точка — «найденное». */
+export function Logo() {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true" className={styles.logo}>
-      <rect width="32" height="32" rx="8" className={styles.logoBg} />
-      <circle cx="11" cy="12" r="3.2" fill="var(--color-vk)" />
-      <circle cx="21" cy="12" r="3.2" fill="var(--color-ok)" />
-      <circle cx="16" cy="21" r="3.2" fill="var(--color-max)" />
-    </svg>
+    <span className={styles.wordmark}>
+      <span className={styles.brandName}>Медиамонитор</span>
+      <span className={styles.brandDot} aria-hidden="true" />
+    </span>
   );
 }
 
@@ -113,11 +111,11 @@ export function Header({ compact }: { compact: boolean }) {
       <button
         type="button"
         className={styles.brand}
-        onClick={() => navigate('landing')}
-        aria-label="Медиамонитор — на главную"
+        // Главный экран расширения — «Поиск»; витрина продукта — отдельный сайт
+        onClick={() => navigate('search')}
+        aria-label="Медиамонитор — к поиску"
       >
-        <Logo size={compact ? 24 : 28} />
-        <span className={styles.brandName}>Медиамонитор</span>
+        <Logo />
       </button>
 
       {!compact && (

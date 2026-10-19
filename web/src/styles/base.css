@@ -150,3 +150,82 @@ mark {
     scroll-behavior: auto !important;
   }
 }
+
+/* Звёзды на фоне тёмной темы — как на сайте «Стрежень». Статичные: не отвлекают от подборки. */
+:root[data-theme='dark'] body {
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgb(255 255 255 / 0.55), transparent),
+    radial-gradient(1px 1px at 37% 72%, rgb(255 255 255 / 0.4), transparent),
+    radial-gradient(1.5px 1.5px at 64% 9%, rgb(255 255 255 / 0.6), transparent),
+    radial-gradient(1px 1px at 82% 46%, rgb(255 255 255 / 0.35), transparent),
+    radial-gradient(1px 1px at 23% 88%, rgb(140 180 255 / 0.5), transparent),
+    radial-gradient(1.5px 1.5px at 51% 41%, rgb(255 255 255 / 0.45), transparent),
+    radial-gradient(1px 1px at 91% 83%, rgb(255 200 120 / 0.45), transparent),
+    radial-gradient(1px 1px at 6% 57%, rgb(255 255 255 / 0.3), transparent),
+    radial-gradient(1px 1px at 17% 31%, rgb(255 255 255 / 0.35), transparent),
+    radial-gradient(1px 1px at 44% 12%, rgb(140 180 255 / 0.4), transparent),
+    radial-gradient(1px 1px at 73% 64%, rgb(255 255 255 / 0.5), transparent),
+    radial-gradient(1.5px 1.5px at 88% 22%, rgb(255 255 255 / 0.4), transparent),
+    radial-gradient(1px 1px at 31% 93%, rgb(255 255 255 / 0.3), transparent),
+    radial-gradient(1px 1px at 58% 78%, rgb(255 200 120 / 0.35), transparent),
+    radial-gradient(1px 1px at 96% 51%, rgb(255 255 255 / 0.3), transparent),
+    radial-gradient(1.5px 1.5px at 9% 8%, rgb(255 255 255 / 0.45), transparent);
+  background-size:
+    260px 260px,
+    260px 260px,
+    260px 260px,
+    260px 260px,
+    260px 260px,
+    260px 260px,
+    260px 260px,
+    260px 260px,
+    370px 370px,
+    370px 370px,
+    370px 370px,
+    370px 370px,
+    370px 370px,
+    370px 370px,
+    370px 370px,
+    370px 370px;
+  background-attachment: fixed;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) body {
+    background-image:
+      radial-gradient(1px 1px at 12% 18%, rgb(255 255 255 / 0.55), transparent),
+      radial-gradient(1px 1px at 37% 72%, rgb(255 255 255 / 0.4), transparent),
+      radial-gradient(1.5px 1.5px at 64% 9%, rgb(255 255 255 / 0.6), transparent),
+      radial-gradient(1px 1px at 82% 46%, rgb(255 255 255 / 0.35), transparent),
+      radial-gradient(1px 1px at 23% 88%, rgb(140 180 255 / 0.5), transparent),
+      radial-gradient(1.5px 1.5px at 51% 41%, rgb(255 255 255 / 0.45), transparent),
+      radial-gradient(1px 1px at 91% 83%, rgb(255 200 120 / 0.45), transparent),
+      radial-gradient(1px 1px at 6% 57%, rgb(255 255 255 / 0.3), transparent),
+      radial-gradient(1px 1px at 17% 31%, rgb(255 255 255 / 0.35), transparent),
+      radial-gradient(1px 1px at 44% 12%, rgb(140 180 255 / 0.4), transparent),
+      radial-gradient(1px 1px at 73% 64%, rgb(255 255 255 / 0.5), transparent),
+      radial-gradient(1.5px 1.5px at 88% 22%, rgb(255 255 255 / 0.4), transparent),
+      radial-gradient(1px 1px at 31% 93%, rgb(255 255 255 / 0.3), transparent),
+      radial-gradient(1px 1px at 58% 78%, rgb(255 200 120 / 0.35), transparent),
+      radial-gradient(1px 1px at 96% 51%, rgb(255 255 255 / 0.3), transparent),
+      radial-gradient(1.5px 1.5px at 9% 8%, rgb(255 255 255 / 0.45), transparent);
+    background-size:
+      260px 260px,
+      260px 260px,
+      260px 260px,
+      260px 260px,
+      260px 260px,
+      260px 260px,
+      260px 260px,
+      260px 260px,
+      370px 370px,
+      370px 370px,
+      370px 370px,
+      370px 370px,
+      370px 370px,
+      370px 370px,
+      370px 370px,
+      370px 370px;
+    background-attachment: fixed;
+  }
+}

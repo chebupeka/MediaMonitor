@@ -1,18 +1,31 @@
 /**
  * СЛОТ «ТОЧКИ». Экраны используют только этот компонент.
  *
- * Сейчас — статичная SVG-карта (StaticKraiMap). Исполнитель «Точки» заменяет
- * реализацию на Three.js (лениво, `import('three')`), сохраняя интерфейс
- * DotsSceneProps и запасной вариант: без WebGL, при `prefers-reduced-motion`
- * и при выключенном переключателе точек — статичная форма.
- *
- * Настройки берите из оболочки: `const { dotsEnabled, reducedMotion, resolvedTheme } = useShell()`
- * (import { useShell } from '@/app/shell-state').
+ * Точки на WebGL в стиле сайта «Стрежень» (ParticleCanvas): формы словаря из
+ * 08-visual-concept.md — край с Енисеем, «система слушает», три облака площадок,
+ * загорающиеся города, распространение, пусто, сбой, таблица. Без библиотек:
+ * одна сцена `Points` со своим шейдером, Three.js не понадобился.
+ * Запасной вариант — статичная карта (StaticKraiMap): без WebGL и при выключенном
+ * переключателе «Анимация точек». При «уменьшить движение» формы статичны.
  */
+import { useCallback, useState } from 'react';
+import { useShell } from '@/app/shell-state';
+import { ParticleCanvas } from './ParticleCanvas';
 import { StaticKraiMap } from './StaticKraiMap';
 import type { DotsSceneProps } from './types';
 
 export function DotsScene(props: DotsSceneProps) {
-  // TODO(Э-Точки): при dotsEnabled && !reducedMotion && есть WebGL — 3D-сцена Three.js.
-  return <StaticKraiMap {...props} />;
+  const { dotsEnabled, reducedMotion, resolvedTheme } = useShell();
+  const [unsupported, setUnsupported] = useState(false);
+  const onUnsupported = useCallback(() => setUnsupported(true), []);
+
+  if (!dotsEnabled || unsupported) return <StaticKraiMap {...props} />;
+  return (
+    <ParticleCanvas
+      {...props}
+      still={reducedMotion}
+      light={resolvedTheme === 'light'}
+      onUnsupported={onUnsupported}
+    />
+  );
 }
