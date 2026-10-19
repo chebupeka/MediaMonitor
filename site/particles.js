@@ -3,7 +3,8 @@
 //   край с Енисеем — «это про наш край»; облако тянется к полю — «система слушает»;
 //   три облака VK, OK, MAX текут на карту — «идёт поиск»; города загораются — «найдено»;
 //   вспышка и волны — «распространение»; точки гаснут — «пусто»; облако MAX серое — «сбой»;
-//   сетка таблицы — «файл готов». Плюс местные образы: Коммунальный мост и часовня.
+//   сетка таблицы — «файл готов». Плюс местный образ — Коммунальный мост.
+// Две стрелки к кнопке установки — отдельно, в arrows.js: им нужно ехать вместе со страницей.
 //
 // Модель — N точек (x, y, z, код). Код = цвет палитры (0–7); +8 — точка «течёт»,
 // а дробная часть — её место на пути (0…1): по пути бегут светлые импульсы.
@@ -413,88 +414,6 @@
     ]);
   }
 
-  // Местный образ: часовня Параскевы Пятницы — восьмерик с окнами, шатёр, луковица, крест
-  function chapel() {
-    var Y = -0.1;
-    function octV(r, k) { var a = k * Math.PI / 4 + Math.PI / 8; return [r * Math.cos(a), r * Math.sin(a)]; }
-    function octPt(r, u) {
-      var k = Math.floor(u) % 8, f = u - Math.floor(u);
-      var A = octV(r, k), B = octV(r, k + 1);
-      return [A[0] + (B[0] - A[0]) * f, A[1] + (B[1] - A[1]) * f, k, f];
-    }
-    var FACE = 2 * 0.42 * Math.sin(Math.PI / 8);
-    var WW = 0.05, WTOP = -0.36, WBOT = -0.68;
-    function inWindow(k, f, y) {
-      if (k % 2 === 0) return false;
-      var dx = (f - 0.5) * FACE;
-      if (Math.abs(dx) > WW) return false;
-      if (y > WBOT && y < WTOP) return true;
-      var dy = y - WTOP;
-      return dy >= 0 && dx * dx + dy * dy < WW * WW;
-    }
-    return compose([
-      [0.07, function (put) { // цоколь
-        var p, y;
-        if (R() < 0.3) { p = octPt(0.42 + R() * 0.08, R() * 8); y = -0.88; }
-        else { p = octPt(0.5, R() * 8); y = -1.0 + R() * 0.12; }
-        put(p[0], y + Y, p[1], tone(0.35));
-      }],
-      [0.30, function (put) { // стены
-        for (var i = 0; i < 30; i++) {
-          var y = -0.88 + R() * 0.76, p = octPt(0.42, R() * 8);
-          if (!inWindow(p[2], p[3], y)) { put(p[0], y + Y, p[1], tone(0.55)); return; }
-        }
-        put(0, -0.5 + Y, 0, WHITE);
-      }],
-      [0.06, function (put) { // наличники
-        var k = 1 + 2 * Math.floor(R() * 4), s = R() * 4, dx, y;
-        if (s < 1) { dx = -WW; y = WBOT + (WTOP - WBOT) * s; }
-        else if (s < 2) { dx = WW; y = WBOT + (WTOP - WBOT) * (s - 1); }
-        else if (s < 2.6) { dx = -WW + 2 * WW * (s - 2) / 0.6; y = WBOT; }
-        else { var a = Math.PI * (s - 2.6) / 1.4; dx = WW * Math.cos(a); y = WTOP + WW * Math.sin(a); }
-        var p = octPt(0.425, k + 0.5 + dx / FACE);
-        put(p[0], y + Y, p[1], tone(0.95, 0.1));
-      }],
-      [0.04, function (put) { // рёбра стен
-        var v = octV(0.425, Math.floor(R() * 8));
-        put(v[0] + jit(0.01), -0.88 + R() * 0.76 + Y, v[1] + jit(0.01), tone(0.15));
-      }],
-      [0.04, function (put) { // карниз
-        var p = octPt(0.47 + R() * 0.02, R() * 8);
-        put(p[0], -0.12 + R() * 0.06 + Y, p[1], tone(0.75));
-      }],
-      [0.24, function (put) { // шатёр: равномерно по площади
-        var t;
-        do { t = R(); } while (R() > 1 - t * 0.79);
-        var p = octPt(0.48 * (1 - t) + 0.1 * t, R() * 8);
-        put(p[0], -0.06 + t * 0.58 + Y, p[1], tone(0.2 + t * 0.25));
-      }],
-      [0.04, function (put) { // рёбра шатра
-        var k = Math.floor(R() * 8), t = R(), a = octV(0.48, k), b = octV(0.1, k);
-        put(a[0] + (b[0] - a[0]) * t, -0.06 + t * 0.58 + Y, a[1] + (b[1] - a[1]) * t, tone(0.7));
-      }],
-      [0.03, function (put) { // барабан
-        var a = R() * Math.PI * 2;
-        put(0.1 * Math.cos(a), 0.52 + R() * 0.12 + Y, 0.1 * Math.sin(a), tone(0.5));
-      }],
-      [0.12, function (put) { // луковица
-        var t = R(), r = 0.19 * Math.sin(Math.PI * Math.pow(0.15 + 0.85 * t, 0.8)), a = R() * Math.PI * 2;
-        put(r * Math.cos(a), 0.64 + t * 0.36 + Y, r * Math.sin(a), tone(0.95, 0.1));
-      }],
-      [0.035, function (put) { // крест
-        var s = R(), x, y;
-        if (s < 0.55) { x = 0; y = 1.0 + R() * 0.34; }
-        else if (s < 0.85) { x = -0.08 + R() * 0.16; y = 1.25; }
-        else { x = -0.05 + R() * 0.1; y = 1.13 + x * 0.35; }
-        put(x + jit(0.008), y + Y, jit(0.008), GOLD);
-      }],
-      [0.035, function (put) { // площадка вокруг
-        var a = R() * Math.PI * 2, r = 0.6 + R() * 0.3;
-        put(r * Math.cos(a), -1.0 + Y, r * Math.sin(a), tone(0.1));
-      }]
-    ]);
-  }
-
   // Параметры форм: вращение (spin — по кругу, иначе покачивание), масштаб, сдвиги.
   // model: false — облако без формы; wide — во всю ширину (мост).
   // listening.tail — откуда течёт поток (центр облака) и где кончается хвост в модели:
@@ -509,9 +428,7 @@
     grid: { build: grid, model: true, base: -0.38, amp: 0.18, scale: 0.9 },
     empty: { build: empty, model: false, spin: true, base: 0, scale: 1.0 },
     failure: { build: function () { return clouds(MAX); }, model: true, base: 0.15, amp: 0.16, scale: 0.85 },
-    dust: { build: dust, model: false, spin: true, base: 0, scale: 1.0 },
-    // в финале — справа от огромной надписи, над колонками подвала
-    chapel: { build: chapel, model: true, spin: true, base: 0.5, scale: 0.74, lift: 0.42, shift: 0.06 }
+    dust: { build: dust, model: false, spin: true, base: 0, scale: 1.0 }
   };
 
   /* ---------- Шейдеры ---------- */

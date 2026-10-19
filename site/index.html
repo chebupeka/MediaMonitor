@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@600;700;800&amp;family=Montserrat:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=20261019-4">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -284,8 +284,9 @@
     </div>
   </section>
 
-  <!-- Установка: местный образ — часовня Параскевы Пятницы, и огромная надпись -->
-  <section id="install" class="sec install" data-shape="chapel" data-place="right" aria-labelledby="h-inst">
+  <!-- Установка: огромная надпись-кнопка, к ней две стрелки из точек (arrows.js — свой холст
+       в разделе, едет вместе со страницей); общий холст частиц здесь — спокойные приглушённые точки -->
+  <section id="install" class="sec install" data-shape="empty" data-place="center" aria-labelledby="h-inst">
     <div class="wide">
       <p class="label" data-scramble>Готовы попробовать?</p>
       <h2 id="h-inst" class="giant">
@@ -319,7 +320,8 @@
 
 </main>
 
-<script src="particles.js"></script>
-<script src="ui.js"></script>
+<script src="particles.js?v=20261019-4"></script>
+<script src="ui.js?v=20261019-4"></script>
+<script src="arrows.js?v=20261019-4"></script>
 </body>
 </html>
