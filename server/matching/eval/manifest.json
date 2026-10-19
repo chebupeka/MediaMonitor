@@ -1,0 +1,713 @@
+{
+ "version": 1,
+ "about": "Мини-эталон MediaMonitor: реальные новости Красноярского края и их перепечатки. Здесь только ссылки и разметка; тексты скачивает eval/fetch.py в eval/data/raw/ (в git не попадают). Метки: original — первоисточник; verbatim — перепечатка почти целиком; shortened — дословно взята часть; retold — пересказ того же события; other_event — похожая новость о другом событии; topic_bdd / topic_fire — публикации для поиска по теме. overlap — доля 5-словных шинглов первоисточника в перепечатке при разметке.",
+ "collected": "2026-10-19",
+ "stories": [
+  {
+   "id": "s1-dtp",
+   "title": "Автобус с 27 детьми опрокинулся на трассе «Саяны» под Минусинском",
+   "event": "Минусинский округ, 33 км трассы «Саяны», 1 июля 2026: автобус из лагеря ушёл от встречной Kia в кювет; СК возбудил дело",
+   "theme": "bdd",
+   "docs": [
+    {
+     "id": "s1-dtp-original",
+     "url": "https://krk.sledcom.ru/news/item/2104542/",
+     "site": "krk.sledcom.ru",
+     "label": "original",
+     "published": "2026-07-01",
+     "headline": "В Минусинском округе возбуждено уголовное дело по факту ДТП с участием автобуса",
+     "overlap": 1.0,
+     "note": "релиз ГСУ СК; первые сводки МВД вышли раньше в тот же день"
+    },
+    {
+     "id": "s1-dtp-verbatim-1",
+     "url": "https://shansonline.ru/index.php/istorii/item/41341-avtobus-s-27-detmi-oprokinulsya-v-kyuvet-pod-minusinskom",
+     "site": "shansonline.ru",
+     "label": "verbatim",
+     "published": "2026-07-01",
+     "headline": "Автобус с 27 детьми опрокинулся в кювет под Минусинском",
+     "overlap": 1.0,
+     "note": "релиз СК целиком, свой заголовок (Абакан)"
+    },
+    {
+     "id": "s1-dtp-shortened-1",
+     "url": "https://pulse19.ru/273397-v-minusinskom-okruge-vozbuzhdeno-ugolovnoe-delo-po-faktu-dtp-s-uchastiem-avtobusa/",
+     "site": "pulse19.ru",
+     "label": "shortened",
+     "published": "2026-07-01",
+     "headline": "В Минусинском округе возбуждено уголовное дело по факту ДТП с участием автобуса",
+     "overlap": 0.326,
+     "note": "лёгкий рерайт релиза: часть фраз дословно, заголовок совпадает"
+    },
+    {
+     "id": "s1-dtp-retold-1",
+     "url": "https://zapad24.ru/news/territory/121351-tolko-chudom-vse-ostalis-zhivy-v-minusinskom-okruge-posle-dtp-s-perevozivshim-dete.html",
+     "site": "zapad24.ru",
+     "label": "retold",
+     "published": "2026-07-01",
+     "headline": "Только чудом все остались живы: в Минусинском округе после ДТП с перевозившим детей автобусом возбуждено уголовное дело",
+     "overlap": 0.227,
+     "note": "смесь: фразы СК плюс детали МВД; доля 0.23, ближе к пересказу"
+    },
+    {
+     "id": "s1-dtp-retold-2",
+     "url": "https://gornovosti.ru/news/avtobus-s-detmi-v-minusinskom-okruge-oprokinulsya-v-kyuvet-posle-vyezda-vstrechnoy-mashiny/",
+     "site": "gornovosti.ru",
+     "label": "retold",
+     "published": "2026-07-01",
+     "headline": "Автобус с детьми в Минусинском округе опрокинулся в кювет после выезда встречной машины",
+     "overlap": 0.0,
+     "note": "то же ДТП своими словами"
+    },
+    {
+     "id": "s1-dtp-retold-3",
+     "url": "https://news.ru/regions/v-krasnoyarskom-krae-vozbudili-delo-posle-oprokidyvaniya-avtobusa-s-27-detmi",
+     "site": "news.ru",
+     "label": "retold",
+     "published": "2026-07-01",
+     "headline": "В Красноярском крае возбудили дело после опрокидывания автобуса с 27 детьми",
+     "overlap": 0.106,
+     "note": "пересказ сообщения СК"
+    },
+    {
+     "id": "s1-dtp-retold-4",
+     "url": "https://www.kommersant.ru/doc/8780749",
+     "site": "kommersant.ru",
+     "label": "retold",
+     "published": "2026-07-01",
+     "headline": "Автобус с 27 детьми-спортсменами перевернулся в Красноярском крае",
+     "overlap": 0.098,
+     "note": "по данным МВД, свой текст"
+    },
+    {
+     "id": "s1-dtp-retold-5",
+     "url": "https://www.vedomosti.ru/strana/siberian/news/2026/07/01/1210221-sk-vozbudil-delo-posle",
+     "site": "vedomosti.ru",
+     "label": "retold",
+     "published": "2026-07-01",
+     "headline": "СК возбудил дело после опрокидывания автобуса с детьми в Красноярском крае",
+     "overlap": 0.106,
+     "note": "федеральное СМИ, пересказ"
+    },
+    {
+     "id": "s1-dtp-other_event-1",
+     "url": "https://krk.sledcom.ru/news/item/2108684/",
+     "site": "krk.sledcom.ru",
+     "label": "other_event",
+     "published": "2026-07-19",
+     "headline": "В Красноярском крае возбуждено уголовное дело по факту ДТП с участием автобуса",
+     "overlap": 0.341,
+     "note": "другое ДТП: Сосновоборский округ, 18 июля; шаблон СК, высокая доля"
+    },
+    {
+     "id": "s1-dtp-other_event-2",
+     "url": "https://krk.sledcom.ru/news/item/2111251/",
+     "site": "krk.sledcom.ru",
+     "label": "other_event",
+     "published": "2026-07-27",
+     "headline": "В Лесосибирске организована проверка по факту ДТП с участием автобуса",
+     "overlap": 0.242,
+     "note": "другое ДТП: Лесосибирск, 27 июля; шаблонные фразы СК"
+    },
+    {
+     "id": "s1-dtp-other_event-3",
+     "url": "https://dela.ru/lenta/300231/",
+     "site": "dela.ru",
+     "label": "other_event",
+     "published": "2026-07-19",
+     "headline": "В Красноярском крае автобус с детьми съехал в кювет: возбуждено дело",
+     "overlap": 0.008,
+     "note": "другое ДТП с автобусом и детьми (Сосновоборский округ)"
+    }
+   ]
+  },
+  {
+   "id": "s2-fire",
+   "title": "Подростки спасли мать с двумя детьми на пожаре в Ужуре",
+   "event": "Ужур, ул. Мясокомбинатская, частный дом, 2 июня 2026: подростки 12 и 14 лет вытащили мать и двоих малышей; пресс-релиз МЧС 3 июня",
+   "theme": "fire",
+   "docs": [
+    {
+     "id": "s2-fire-original",
+     "url": "https://24.mchs.gov.ru/deyatelnost/press-centr/novosti/5768945",
+     "site": "24.mchs.gov.ru",
+     "label": "original",
+     "published": "2026-06-03",
+     "headline": "Двое подростков спасли маму и ее детей на пожаре",
+     "overlap": 1.0,
+     "note": "пресс-релиз ГУ МЧС по краю"
+    },
+    {
+     "id": "s2-fire-verbatim-1",
+     "url": "http://www.gazetahot.ru/krasnoyarsk/11466707-dvoe-podrostkov-spasli-mamu-i-ee-detey-na-pozhare.html",
+     "site": "gazetahot.ru",
+     "label": "verbatim",
+     "published": "2026-06-03",
+     "headline": "Двое подростков спасли маму и ее детей на пожаре",
+     "overlap": 1.0,
+     "note": "релиз МЧС целиком; ниже на странице блок похожих новостей"
+    },
+    {
+     "id": "s2-fire-shortened-1",
+     "url": "https://news.mail.ru/society/71122432/",
+     "site": "news.mail.ru",
+     "label": "shortened",
+     "published": "2026-06-03",
+     "headline": "В Красноярском крае подростки спасли из горящего дома женщину с детьми (видео)",
+     "overlap": 0.493,
+     "note": "текст Newslab: свой лид плюс длинная дословная цитата релиза"
+    },
+    {
+     "id": "s2-fire-shortened-2",
+     "url": "https://ria.ru/20260603/podrostki-2096371428.html",
+     "site": "ria.ru",
+     "label": "shortened",
+     "published": "2026-06-03",
+     "headline": "В Красноярском крае подростки спасли мать с детьми из горящего дома",
+     "overlap": 0.329,
+     "note": "пересказ с дословной цитатой ключевого абзаца; на границе с retold"
+    },
+    {
+     "id": "s2-fire-retold-1",
+     "url": "https://ngs24.ru/text/incidents/2026/06/03/76457187/",
+     "site": "ngs24.ru",
+     "label": "retold",
+     "published": "2026-06-03",
+     "headline": "«Я никак не могла вылезти»: в Ужуре двое подростков спасли из пожара мать с двумя детьми",
+     "overlap": 0.007,
+     "note": "своими словами плюс комментарий спасённой матери"
+    },
+    {
+     "id": "s2-fire-retold-2",
+     "url": "https://dela.ru/lenta/299540/",
+     "site": "dela.ru",
+     "label": "retold",
+     "published": "2026-06-03",
+     "headline": "В Красноярском крае подростки спасли на пожаре маму с двумя детьми",
+     "overlap": 0.121,
+     "note": "то же событие, свой текст"
+    },
+    {
+     "id": "s2-fire-retold-3",
+     "url": "https://sibirnews.ru/news/2026-06-03-dvoe-podrostkov-v-uzhure-krasnoyarskogo-kraya-spasli-mamu-s-dvumya-malenkimi-detmi-na-pozhare/",
+     "site": "sibirnews.ru",
+     "label": "retold",
+     "published": "2026-06-03",
+     "headline": "Двое подростков в Ужуре Красноярского края спасли маму с двумя маленькими детьми на пожаре",
+     "overlap": 0.129,
+     "note": "близкий пересказ релиза с заменой слов (рерайт)"
+    },
+    {
+     "id": "s2-fire-retold-4",
+     "url": "https://24rus.ru/news/society/244922.html",
+     "site": "24rus.ru",
+     "label": "retold",
+     "published": "2026-06-03",
+     "headline": "В Ужуре двое подростков спасли маму с детьми из горящего дома",
+     "overlap": 0.0,
+     "note": "то же событие, свой текст"
+    },
+    {
+     "id": "s2-fire-retold-5",
+     "url": "https://www.mk.ru/incident/2026/06/03/podrostki-vytashhili-iz-ognya-mamu-s-dvumya-detmi-v-krasnoyarskom-krae.html",
+     "site": "mk.ru",
+     "label": "retold",
+     "published": "2026-06-03",
+     "headline": "Подростки вытащили из огня маму с двумя детьми в Красноярском крае",
+     "overlap": 0.0,
+     "note": "федеральное СМИ, пересказ без дословных фраз"
+    },
+    {
+     "id": "s2-fire-other_event-1",
+     "url": "https://24.mchs.gov.ru/deyatelnost/press-centr/novosti/5772797",
+     "site": "24.mchs.gov.ru",
+     "label": "other_event",
+     "published": "2026-06-11",
+     "headline": "Красноярские пожарные спасли из огня двух человек: женщину и ребенка",
+     "overlap": 0.0,
+     "note": "другой пожар: Красноярск, многоэтажка, 5 июня; тот же источник"
+    },
+    {
+     "id": "s2-fire-other_event-2",
+     "url": "https://trk7.ru/news/180440.html",
+     "site": "trk7.ru",
+     "label": "other_event",
+     "published": "2025-10-29",
+     "headline": "Красноярские пожарные спасли 12 человек из горящей многоэтажки",
+     "overlap": 0.0,
+     "note": "другой пожар: Ярыгинская набережная, октябрь 2025"
+    },
+    {
+     "id": "s2-fire-other_event-3",
+     "url": "https://krk.sledcom.ru/news/item/2121561/",
+     "site": "krk.sledcom.ru",
+     "label": "other_event",
+     "published": "2026-09-04",
+     "headline": "В Козульском муниципальном округе возбуждено уголовное дело по факту гибели ребенка при пожаре",
+     "overlap": 0.0,
+     "note": "другой пожар в частном доме с ребёнком, сентябрь 2026"
+    }
+   ]
+  },
+  {
+   "id": "s3-object",
+   "title": "В Ачинске после реконструкции открылся детский сад №32 «Маяк»",
+   "event": "Ачинск, 5-й микрорайон, начало сентября 2026: детсад №32 «Маяк» на 140 детей открыт после реконструкции; релиз минобра края 10 сентября",
+   "theme": null,
+   "docs": [
+    {
+     "id": "s3-object-original",
+     "url": "http://www.krskstate.ru/press/news/0/news/121001",
+     "site": "krskstate.ru",
+     "label": "original",
+     "published": "2026-09-10",
+     "headline": "Театральная студия и изучение экологии: в Ачинске после реконструкции открылся детский сад",
+     "overlap": 1.0,
+     "note": "релиз министерства образования края на krskstate.ru"
+    },
+    {
+     "id": "s3-object-verbatim-1",
+     "url": "http://project.krskstate.ru/press/np_family/0/news/121001",
+     "site": "project.krskstate.ru",
+     "label": "verbatim",
+     "published": "2026-09-10",
+     "headline": "Театральная студия и изучение экологии: в Ачинске после реконструкции открылся детский сад",
+     "overlap": 1.0,
+     "note": "зеркало на портале нацпроектов края: тот же издатель, другой сайт"
+    },
+    {
+     "id": "s3-object-shortened-1",
+     "url": "https://news.mail.ru/society/72308671/",
+     "site": "news.mail.ru",
+     "label": "shortened",
+     "published": "2026-09-10",
+     "headline": "В Ачинске после реконструкции открылся детский сад",
+     "overlap": 0.864,
+     "note": "текст НИА-Красноярск: релиз почти целиком, без цитаты; 0.86"
+    },
+    {
+     "id": "s3-object-shortened-2",
+     "url": "https://24rus.ru/news/society/249030.html",
+     "site": "24rus.ru",
+     "label": "shortened",
+     "published": "2026-09-10",
+     "headline": "В Ачинске после реконструкции открылся детский сад",
+     "overlap": 0.807,
+     "note": "релиз с небольшими сокращениями и правками"
+    },
+    {
+     "id": "s3-object-retold-1",
+     "url": "https://sibnovosti.ru/news/457175/",
+     "site": "sibnovosti.ru",
+     "label": "retold",
+     "published": "2026-09-11",
+     "headline": "Детский сад с театральной студией и эко-комплексом открылся после реконструкции в Ачинске",
+     "overlap": 0.08,
+     "note": "пересказ релиза своими словами"
+    },
+    {
+     "id": "s3-object-retold-2",
+     "url": "https://www.krsk.kp.ru/online/news/7165656/",
+     "site": "krsk.kp.ru",
+     "label": "retold",
+     "published": "2026-09-10",
+     "headline": "Детсад в Ачинске открыли после капремонта",
+     "overlap": 0.006,
+     "note": "своими словами со ссылкой на портал края"
+    },
+    {
+     "id": "s3-object-retold-3",
+     "url": "https://news-krasnoyarsk.ru/society/2026/09/05/41497.html",
+     "site": "news-krasnoyarsk.ru",
+     "label": "retold",
+     "published": "2026-09-05",
+     "headline": "В Ачинске после масштабной реконструкции открылся детский сад «Маяк»",
+     "overlap": 0.028,
+     "note": "ранний отчёт об открытии, до релиза края; другой текст"
+    },
+    {
+     "id": "s3-object-retold-4",
+     "url": "https://www.crr-krsk.ru/news/mayak-snova-zazhigaet-ogni-v-achinske-posle-rekonstruktsii-otkrylsya-detskiy-sad/",
+     "site": "crr-krsk.ru",
+     "label": "retold",
+     "published": "2026-09-05",
+     "headline": "«Маяк» снова зажигает огни: в Ачинске после реконструкции открылся детский сад",
+     "overlap": 0.0,
+     "note": "отчёт с открытия, независимый текст"
+    },
+    {
+     "id": "s3-object-other_event-1",
+     "url": "http://www.admkrsk.ru/press/news/Pages/000/news.aspx?RecordID=28408",
+     "site": "admkrsk.ru",
+     "label": "other_event",
+     "published": "2026-06-30",
+     "headline": "Школа на Степана Разина готовится к открытию после капитального ремонта",
+     "overlap": 0.0,
+     "note": "другой объект: школа в Красноярске после капремонта"
+    },
+    {
+     "id": "s3-object-other_event-2",
+     "url": "https://24rus.ru/news/society/245625.html",
+     "site": "24rus.ru",
+     "label": "other_event",
+     "published": "2026-06-19",
+     "headline": "Гимназия №13 на Лесной готовится к открытию после капремонта",
+     "overlap": 0.0,
+     "note": "другой объект: гимназия №13 в Красноярске"
+    },
+    {
+     "id": "s3-object-other_event-3",
+     "url": "https://dela.ru/lenta/300802/",
+     "site": "dela.ru",
+     "label": "other_event",
+     "published": "2026-08-27",
+     "headline": "Школа №94 Красноярска открывает двери после капремонта",
+     "overlap": 0.0,
+     "note": "другой объект: школа №94, открытие после ремонта"
+    }
+   ]
+  },
+  {
+   "id": "s4-court",
+   "title": "Экс-начальник краевого УГИБДД получил 10 лет за взятки",
+   "event": "Красноярск, Железнодорожный райсуд, 16 октября 2026: приговор бывшему начальнику УГИБДД края (А. Сиротинин) за «красивые» номера",
+   "theme": null,
+   "docs": [
+    {
+     "id": "s4-court-original",
+     "url": "https://krk.sledcom.ru/news/item/2133522/",
+     "site": "krk.sledcom.ru",
+     "label": "original",
+     "published": "2026-10-16",
+     "headline": "Бывший начальник УГИБДД ГУ МВД России по Красноярскому краю признан виновным во взяточничестве и превышении должностных полномочий",
+     "overlap": 1.0,
+     "note": "пресс-релиз ГСУ СК по краю и Хакасии"
+    },
+    {
+     "id": "s4-court-verbatim-1",
+     "url": "https://shansonline.ru/index.php/novosti/item/42965-blatnye-nomera-byvshij-nachalnik-gibdd-krasnoyarskogo-kraya-priznan-vinovnym-vo-vzyatochnichestve-i-prevyshenii-dolzhnostnykh-polnomochij",
+     "site": "shansonline.ru",
+     "label": "verbatim",
+     "published": "2026-10-16",
+     "headline": "Блатные номера: бывший начальник ГИБДД Красноярского края признан виновным во взяточничестве и превышении должностных полномочий",
+     "overlap": 1.0,
+     "note": "релиз СК целиком, свой заголовок"
+    },
+    {
+     "id": "s4-court-verbatim-2",
+     "url": "https://news-krasnoyarsk.ru/incident/2026/10/16/52705.html",
+     "site": "news-krasnoyarsk.ru",
+     "label": "verbatim",
+     "published": "2026-10-16",
+     "headline": "Бывший начальник УГИБДД ГУ МВД России по Красноярскому краю признан виновным во взяточничестве и превышении должностных полномочий Доказательства, собранные вторым управлением по расследованию особо в",
+     "overlap": 1.0,
+     "note": "агрегатор: пост СК целиком, заголовок склеен с началом текста"
+    },
+    {
+     "id": "s4-court-shortened-1",
+     "url": "https://news.rambler.ru/incidents/57244455-eks-glavu-gai-krasnoyarskogo-kraya-osudili-za-torgovlyu-krasivymi-nomerami/",
+     "site": "news.rambler.ru",
+     "label": "shortened",
+     "published": "2026-10-16",
+     "headline": "Экс-главу ГАИ Красноярского края осудили за торговлю \"красивыми\" номерами",
+     "overlap": 0.247,
+     "note": "ТАСС: два абзаца СК дословно в кавычках плюс прокуратура; доля 0.25, на границе"
+    },
+    {
+     "id": "s4-court-shortened-2",
+     "url": "https://news-krasnoyarsk.ru/society/2026/10/16/52750.html",
+     "site": "news-krasnoyarsk.ru",
+     "label": "shortened",
+     "published": "2026-10-16",
+     "headline": "Экс-начальника ГАИ Красноярского края осудили на 10 лет колонии за взяточничество",
+     "overlap": 0.256,
+     "note": "сокращённая версия: около половины текста — фразы СК; доля 0.26"
+    },
+    {
+     "id": "s4-court-retold-1",
+     "url": "https://baikal24.ru/text/17-10-2026/001/",
+     "site": "baikal24.ru",
+     "label": "retold",
+     "published": "2026-10-16",
+     "headline": "Экс-начальника красноярского УГИБДД отправили в колонию за серию преступлений",
+     "overlap": 0.223,
+     "note": "рерайт всего релиза с заменой слов; дословных кусков мало"
+    },
+    {
+     "id": "s4-court-retold-2",
+     "url": "https://ria.ru/20261016/sud-2124861842.html",
+     "site": "ria.ru",
+     "label": "retold",
+     "published": "2026-10-16",
+     "headline": "В Красноярском крае экс-начальника ГИБДД осудили за торговлю номерами",
+     "overlap": 0.0,
+     "note": "то же событие, свой текст"
+    },
+    {
+     "id": "s4-court-retold-3",
+     "url": "https://rg.ru/2026/10/16/reg-sibfo/sud-dal-10-let-strogogo-rezhima-eks-nachalniku-gibdd-krasnoiarskogo-kraia.html",
+     "site": "rg.ru",
+     "label": "retold",
+     "published": "2026-10-16",
+     "headline": "Суд дал 10 лет строгого режима экс-начальнику ГИБДД Красноярского края",
+     "overlap": 0.0,
+     "note": "то же событие, свой текст"
+    },
+    {
+     "id": "s4-court-retold-4",
+     "url": "https://dela.ru/lenta/301563/",
+     "site": "dela.ru",
+     "label": "retold",
+     "published": "2026-10-16",
+     "headline": "Экс-начальника красноярской ГИБДД осудили на 10 лет за взятки",
+     "overlap": 0.018,
+     "note": "то же событие, свой текст"
+    },
+    {
+     "id": "s4-court-retold-5",
+     "url": "https://www.kommersant.ru/doc/9040279",
+     "site": "kommersant.ru",
+     "label": "retold",
+     "published": "2026-10-16",
+     "headline": "Картина преступления сложилась по номерам",
+     "overlap": 0.048,
+     "note": "развёрнутый материал о том же приговоре"
+    },
+    {
+     "id": "s4-court-retold-6",
+     "url": "https://news.sgnorilsk.ru/2026/10/16/eks%E2%80%91glava-gibdd-krasnoyarskogo-kraya-osuzhdyon-za-torgovlyu-krasivymi-nomerami/",
+     "site": "news.sgnorilsk.ru",
+     "label": "retold",
+     "published": "2026-10-16",
+     "headline": "Экс‑глава ГИБДД Красноярского края осуждён за торговлю красивыми номерами",
+     "overlap": 0.003,
+     "note": "городское СМИ Норильска, пересказ"
+    },
+    {
+     "id": "s4-court-other_event-1",
+     "url": "https://www.kommersant.ru/doc/9025944",
+     "site": "kommersant.ru",
+     "label": "other_event",
+     "published": "2026-10-14",
+     "headline": "По делу о взятках арестован директор «Красноярского городского парка»",
+     "overlap": 0.012,
+     "note": "другая взятка: директор Красгорпарка, арест"
+    },
+    {
+     "id": "s4-court-other_event-2",
+     "url": "https://news-krasnoyarsk.ru/incident/2026/05/21/14668.html",
+     "site": "news-krasnoyarsk.ru",
+     "label": "other_event",
+     "published": "2026-05-21",
+     "headline": "В Красноярске бывший начальник отдела УГИБДД признан виновным в получении взяток",
+     "overlap": 0.099,
+     "note": "то же дело, другой приговор: подчинённый, май 2026; много общих фраз"
+    },
+    {
+     "id": "s4-court-other_event-3",
+     "url": "https://krk.sledcom.ru/news/item/2134078/",
+     "site": "krk.sledcom.ru",
+     "label": "other_event",
+     "published": "2026-10-19",
+     "headline": "В Лесосибирске сотрудница банка и индивидуальный предприниматель подозреваются во взяточничестве",
+     "overlap": 0.03,
+     "note": "другое дело о взятке, тот же источник СК"
+    }
+   ]
+  }
+ ],
+ "topics": [
+  {
+   "id": "bdd",
+   "query": "безопасность дорожного движения",
+   "docs": [
+    {
+     "id": "bdd-01",
+     "url": "https://24.xn--b1aew.xn--p1ai/news/item/98782852/",
+     "site": "24.xn--b1aew.xn--p1ai",
+     "label": "topic_bdd",
+     "published": "2026-10-02",
+     "headline": "Сотрудники Госавтоинспекции Красноярска подвели итоги масштабного профилактического рейда «Пешеходный переход»",
+     "note": "рейд ГИБДД у пешеходных переходов"
+    },
+    {
+     "id": "bdd-02",
+     "url": "https://24.xn--b1aew.xn--p1ai/news/item/97463897/",
+     "site": "24.xn--b1aew.xn--p1ai",
+     "label": "topic_bdd",
+     "published": "2026-09-14",
+     "headline": "Безопасность детей в автомобиле: итоги рейда Госавтоинспекции в Красноярске",
+     "note": "дети-пассажиры, детские кресла"
+    },
+    {
+     "id": "bdd-03",
+     "url": "https://24.xn--b1aew.xn--p1ai/news/item/98066455/",
+     "site": "24.xn--b1aew.xn--p1ai",
+     "label": "topic_bdd",
+     "published": "2026-09-23",
+     "headline": "Сотрудники Госавтоинспекции Красноярска наглядно продемонстрировали школьникам эффективность световозвращающих элементов",
+     "note": "профилактика с детьми-пешеходами"
+    },
+    {
+     "id": "bdd-04",
+     "url": "https://24.xn--b1aew.xn--p1ai/news/item/99504543/",
+     "site": "24.xn--b1aew.xn--p1ai",
+     "label": "topic_bdd",
+     "published": "2026-10-12",
+     "headline": "Опасно, межсезонье: на трассе Р-257 «Енисей» из-за гололеда за одно утро произошло 4 ДТП",
+     "note": "предупреждение водителям, статистика ДТП"
+    },
+    {
+     "id": "bdd-05",
+     "url": "https://gornovosti.ru/news/bolshe-bditelnosti-v-krasnoyarske-poyavilis-obnovlyennye-peshekhodnye-perekhody-/",
+     "site": "gornovosti.ru",
+     "label": "topic_bdd",
+     "published": "2026-05-15",
+     "headline": "Больше бдительности: в Красноярске появились обновлённые пешеходные переходы",
+     "note": "разметка и надписи на переходах"
+    },
+    {
+     "id": "bdd-06",
+     "url": "https://gornovosti.ru/news/v-krasnoyarske-k-zime-gotovyat-peshekhodnye-perekhody/",
+     "site": "gornovosti.ru",
+     "label": "topic_bdd",
+     "published": "2026-10-14",
+     "headline": "В Красноярске к зиме готовят пешеходные переходы",
+     "note": "безопасность пешеходов зимой"
+    },
+    {
+     "id": "bdd-07",
+     "url": "http://www.krskstate.ru/press/news/0/news/120263",
+     "site": "krskstate.ru",
+     "label": "topic_bdd",
+     "published": "2026-07-07",
+     "headline": "Новые пешеходные переходы, весовой контроль и фотовидеофиксация: в крае усилят контроль на дорогах",
+     "note": "краевая комиссия по БДД, аварийность"
+    },
+    {
+     "id": "bdd-08",
+     "url": "https://kras.mk.ru/social/2026/07/13/za-vykhodnye-v-krasnoyarskom-krae-poymali-pochti-sotnyu-pyanykh-voditeley.html",
+     "site": "kras.mk.ru",
+     "label": "topic_bdd",
+     "published": "2026-07-13",
+     "headline": "За выходные в Красноярском крае поймали почти сотню пьяных водителей",
+     "note": "рейд «Нетрезвый водитель»"
+    },
+    {
+     "id": "bdd-09",
+     "url": "https://www.krsk.kp.ru/online/news/7102867/",
+     "site": "krsk.kp.ru",
+     "label": "topic_bdd",
+     "published": "2026-08-03",
+     "headline": "Более 30 нетрезвых водителей задержали в Красноярске за минувшие выходные",
+     "note": "рейд «Нетрезвый водитель», другой уикенд"
+    },
+    {
+     "id": "bdd-10",
+     "url": "https://24rus.ru/news/society/250628.html",
+     "site": "24rus.ru",
+     "label": "topic_bdd",
+     "published": "2026-10-19",
+     "headline": "Почти 150 пьяных водителей остановили на дорогах края за прошедшие выходные",
+     "note": "итоги рейдов ГИБДД по краю"
+    }
+   ]
+  },
+  {
+   "id": "fire",
+   "query": "пожарная безопасность",
+   "docs": [
+    {
+     "id": "fire-01",
+     "url": "https://24.mchs.gov.ru/deyatelnost/press-centr/novosti/5843398",
+     "site": "24.mchs.gov.ru",
+     "label": "topic_fire",
+     "published": "2026-10-18",
+     "headline": "В период похолодания увеличивается число пожаров в жилом секторе",
+     "note": "печи и электропроводка в отопительный сезон"
+    },
+    {
+     "id": "fire-02",
+     "url": "https://24.mchs.gov.ru/deyatelnost/press-centr/novosti/5806166",
+     "site": "24.mchs.gov.ru",
+     "label": "topic_fire",
+     "published": "2026-08-08",
+     "headline": "В период похолодания соблюдайте меры пожарной безопасности",
+     "note": "печное отопление, статистика пожаров"
+    },
+    {
+     "id": "fire-03",
+     "url": "https://24.mchs.gov.ru/deyatelnost/press-centr/novosti/5811736",
+     "site": "24.mchs.gov.ru",
+     "label": "topic_fire",
+     "published": "2026-08-18",
+     "headline": "Более 2,5 тысяч семей получили с начала года автономные дымовые пожарные извещатели",
+     "note": "извещатели для семей"
+    },
+    {
+     "id": "fire-04",
+     "url": "https://24.mchs.gov.ru/deyatelnost/press-centr/novosti/5812707",
+     "site": "24.mchs.gov.ru",
+     "label": "topic_fire",
+     "published": "2026-08-19",
+     "headline": "Особый противопожарный режим отменен!",
+     "note": "противопожарный режим"
+    },
+    {
+     "id": "fire-05",
+     "url": "https://24.mchs.gov.ru/deyatelnost/press-centr/novosti/5836870",
+     "site": "24.mchs.gov.ru",
+     "label": "topic_fire",
+     "published": "2026-10-06",
+     "headline": "Назаровские огнеборцы научили детей правилам пожарной безопасности",
+     "note": "профилактика с детьми"
+    },
+    {
+     "id": "fire-06",
+     "url": "https://24.mchs.gov.ru/deyatelnost/press-centr/novosti/5812373",
+     "site": "24.mchs.gov.ru",
+     "label": "topic_fire",
+     "published": "2026-08-19",
+     "headline": "Профилактические визиты сотрудников МЧС России в общеобразовательные учреждения",
+     "note": "проверки школ перед учебным годом"
+    },
+    {
+     "id": "fire-07",
+     "url": "https://www.mk.ru/incident/2026/06/19/osobyy-protivopozharnyy-rezhim-s-20-iyunya-okhvatit-ves-krasnoyarskiy-kray.html",
+     "site": "mk.ru",
+     "label": "topic_fire",
+     "published": "2026-06-19",
+     "headline": "Особый противопожарный режим с 20 июня охватит весь Красноярский край",
+     "note": "противопожарный режим, запреты"
+    },
+    {
+     "id": "fire-08",
+     "url": "https://news-krasnoyarsk.ru/incident/2026/07/08/26161.html",
+     "site": "news-krasnoyarsk.ru",
+     "label": "topic_fire",
+     "published": "2026-07-08",
+     "headline": "На всей территории края действует особый противопожарный режим",
+     "note": "напоминание о запретах"
+    },
+    {
+     "id": "fire-09",
+     "url": "https://achinsk-r04.gosweb.gosuslugi.ru/dlya-zhiteley/novosti-i-reportazhi/novosti_6254.html",
+     "site": "achinsk-r04.gosweb.gosuslugi.ru",
+     "label": "topic_fire",
+     "published": "2026-08-20",
+     "headline": "Отмена особого противопожарного режима на территории муниципальных образований Красноярского края",
+     "note": "сайт администрации Ачинска"
+    },
+    {
+     "id": "fire-10",
+     "url": "https://24.mchs.gov.ru/deyatelnost/press-centr/novosti/5842849",
+     "site": "24.mchs.gov.ru",
+     "label": "topic_fire",
+     "published": "2026-10-16",
+     "headline": "Как предотвратить пожар в автомобиле?",
+     "note": "трудный случай: тема автомобиля, но это пожарная безопасность"
+    }
+   ]
+  }
+ ]
+}

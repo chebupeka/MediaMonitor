@@ -1,0 +1,18 @@
+{
+  "method": "checkSource-sourceNotRegional",
+  "schema": "SourceCheck",
+  "value": {
+    "state": "not-regional",
+    "message": "«Новости Сибири» пишет не только о крае. Добавить можно: в подборку попадут посты, где упоминается край.",
+    "preview": {
+      "platform": "vk",
+      "name": "Новости Сибири",
+      "url": "https://vk.com/demo_news_sibir",
+      "subscribers": 410000,
+      "lastPostAt": "2026-10-19T09:40:00+07:00",
+      "suggestedType": "media",
+      "suggestedDistrict": null
+    },
+    "checkedAt": "2026-10-19T14:32:59+07:00"
+  }
+}

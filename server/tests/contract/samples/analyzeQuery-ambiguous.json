@@ -1,0 +1,29 @@
+{
+  "method": "analyzeQuery-ambiguous",
+  "schema": "QueryAnalysis",
+  "value": {
+    "text": "Енисей",
+    "kind": "event",
+    "hints": [],
+    "ambiguity": {
+      "question": "Уточните, что ищем: «Енисей» — это и река, и спортивный клуб.",
+      "options": [
+        {
+          "id": "river",
+          "label": "Река Енисей",
+          "description": "Навигация, северный завоз, ледостав, переправы"
+        },
+        {
+          "id": "club",
+          "label": "Спортивный клуб «Енисей»",
+          "description": "Новости клуба, матчи, детская школа"
+        },
+        {
+          "id": "all",
+          "label": "Всё со словом «Енисей»",
+          "description": "Без уточнения: и река, и клуб"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "mediamonitor-contract-tools",
+  "private": true,
+  "type": "module",
+  "description": "Выгрузка контракта из web/: JSON Schema из types.ts, образцы ответов имитации, фикстуры площадок. Только для разработки.",
+  "scripts": {
+    "schema": "node gen-schema.mjs",
+    "export": "node export-fake.mjs samples",
+    "export:fixtures": "node export-fake.mjs fixtures",
+    "all": "node gen-schema.mjs && node export-fake.mjs samples"
+  },
+  "devDependencies": {
+    "ts-json-schema-generator": "2.4.0"
+  }
+}

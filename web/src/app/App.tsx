@@ -17,7 +17,7 @@ export function App() {
             <NavigationProvider
               initial={initialScreen}
               initialParams={
-                initialScreen === 'search' && initialQuery
+                (initialScreen === 'search' || initialScreen === 'ai-check') && initialQuery
                   ? { text: initialQuery, autoRun: true }
                   : {}
               }

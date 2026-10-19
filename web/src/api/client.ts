@@ -1,17 +1,20 @@
 /**
  * Интерфейс сервера Медиамонитора — `MonitorApi`.
  *
- * Сейчас его реализует имитация (src/api/fake), позже — HTTP-клиент настоящего
- * сервера. Экраны получают реализацию через `import { api } from '@/api'` и не
+ * Его реализуют имитация (src/api/fake) и HTTP-клиент настоящего сервера (src/api/http.ts).
+ * Экраны получают реализацию через `import { api } from '@/api'` и не
  * знают, какая она. Все методы асинхронные; ошибки — `ApiError` (reject),
  * сбои площадок — внутри статусов, а не исключениями (ТЗ-Ф42).
  */
 import type {
+  AiCheck,
   ApiError,
   CatalogSource,
   ConnectionState,
+  ExportFile,
   ExportOptions,
   ExportPreview,
+  ImportPreview,
   ImportReport,
   LinkRecheckReport,
   PlatformId,
@@ -25,11 +28,14 @@ import type {
   Source,
   SourceCheck,
   SourceInput,
+  SourcesRecheckReport,
   SpreadReport,
   StandStatus,
   StartState,
   TopicCorrection,
   TopicUnderstanding,
+  Workspace,
+  WorkspaceLink,
 } from './types';
 
 export interface MonitorApi {
@@ -88,9 +94,21 @@ export interface MonitorApi {
    */
   getSpread(searchId: string, groupId?: string): Promise<SpreadReport>;
 
+  // ---------------------------------------------------------------- проверка на ИИ
+  /**
+   * Проверить текст на ИИ (правый клик «Проверить текст на ИИ», экран «Проверка на ИИ»).
+   * Тот же текст (после нормализации, src/lib/ai-normalize.ts) всегда даёт тот же результат,
+   * что и `ResultItem.aiCheck` в подборке. Меньше 40 слов — `too-short`; модель не ответила —
+   * `unavailable` (не ошибка). Ошибка — только у самого вызова: нет связи, лимит.
+   */
+  checkAiText(text: string): Promise<AiCheck>;
+
   // ---------------------------------------------------------------- выгрузка
   /** Предпросмотр XLSX: лист «Сводка» и первые строки (НТ-11, НТ-20). */
   getExportPreview(searchId: string, options?: ExportOptions): Promise<ExportPreview>;
+
+  /** Сам файл XLSX: листы «Сводка» и «Публикации» целиком, ссылки кликабельные. */
+  getExportFile(searchId: string, options?: ExportOptions): Promise<ExportFile>;
 
   // ---------------------------------------------------------------- источники
   listSources(): Promise<Source[]>;
@@ -101,11 +119,30 @@ export interface MonitorApi {
   /** Удалить источник. Удаление можно отменить через `restoreSource` (НТ-7). */
   removeSource(id: string): Promise<void>;
   restoreSource(id: string): Promise<Source>;
-  /** Импорт из Excel (ТЗ-Ф16). В мокапе файл не читается: имитация отдаёт готовый отчёт. */
-  importSources(file: File): Promise<ImportReport>;
+  /** Перепроверить весь список: доступность каждого источника (П9, НТ-17). */
+  recheckSources(): Promise<SourcesRecheckReport>;
+  /**
+   * Разобрать файл Excel или CSV и показать, что будет со строками, — ничего не
+   * добавляя (ТЗ-Ф16, SC-11). В мокапе файл не читается: отдаются строки демо-файла.
+   */
+  previewImport(file: File): Promise<ImportPreview>;
+  /**
+   * Импорт из Excel (ТЗ-Ф16). `previewId` из `previewImport` — добавить ровно строки
+   * «добавим» этого разбора (итог совпадает с предпросмотром). Файл — разобрать и сразу
+   * добавить, без предпросмотра.
+   */
+  importSources(source: File | string): Promise<ImportReport>;
   /** Готовый каталог краевых источников (НТ-14). */
   getCatalog(): Promise<CatalogSource[]>;
   addFromCatalog(ids: string[]): Promise<Source[]>;
+
+  // ---------------------------------------------------------------- рабочее место (Р8)
+  /** Текущее рабочее место; создаётся само при первом входе. */
+  getWorkspace(): Promise<Workspace>;
+  /** Ссылка-ключ «Открыть на другом компьютере или в расширении». */
+  getWorkspaceLink(): Promise<WorkspaceLink>;
+  /** Открыть рабочее место по ключу или ссылке целиком. Неизвестный ключ — `not-found`. */
+  openWorkspace(key: string): Promise<Workspace>;
 
   // ---------------------------------------------------------------- недавние
   listRecent(): Promise<RecentSearch[]>;

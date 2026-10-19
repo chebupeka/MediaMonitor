@@ -35,7 +35,7 @@ export const DEMO_SCENARIOS: readonly { id: DemoScenario; label: string; hint: s
   {
     id: 'ai-down',
     label: 'Нейросеть недоступна',
-    hint: 'Спорные получают «не проверено ИИ»',
+    hint: 'Спорные получают «не проверено ИИ»; проверка текста на ИИ недоступна',
   },
   { id: 'slow', label: 'Медленно', hint: 'Поиск идёт ~25 секунд: видно ход и «Остановить»' },
   { id: 'queue', label: 'Очередь', hint: 'Перед вами 2 поиска' },

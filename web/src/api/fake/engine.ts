@@ -18,6 +18,7 @@ import type {
   TopicUnderstanding,
 } from '../types';
 import { PLATFORM_ORDER } from '@/lib/labels';
+import { demoAiCheck } from './ai';
 import { dayEndMs, dayStartMs, demoNowMs, nowIso } from './clock';
 import type { DemoItem } from './build';
 import { setConnection } from './connection';
@@ -99,6 +100,8 @@ export function computeCounts(items: readonly ResultItem[]): SelectionCounts {
     byPlatform: emptyByPlatform(),
     byPlacementType: { verbatim: 0, shortened: 0, retold: 0, repost: 0 },
     new: 0,
+    aiLikely: 0,
+    aiSigns: 0,
   };
   for (const item of items) {
     if (item.excluded) {
@@ -110,6 +113,8 @@ export function computeCounts(items: readonly ResultItem[]): SelectionCounts {
     counts.byPlatform[item.publication.platform] += 1;
     if (item.placementType) counts.byPlacementType[item.placementType] += 1;
     if (item.isNew) counts.new += 1;
+    if (item.aiCheck?.level === 'likely-ai') counts.aiLikely += 1;
+    if (item.aiCheck?.level === 'signs') counts.aiSigns += 1;
   }
   return counts;
 }
@@ -234,9 +239,17 @@ function prepareItems(
   });
 }
 
-function decorate(d: DemoItem, ctx: SearchContext, aiDown: boolean): ResultItem {
+function decorate(
+  d: DemoItem,
+  request: SearchRequest,
+  ctx: SearchContext,
+  aiDown: boolean,
+): ResultItem {
   const item: ResultItem = structuredClone(d.item);
   item.publication.source.inMySources = ctx.mySourceIds.has(item.publication.source.id);
+  // Причина «в вашем списке» (Р4): в «Моих источниках» все записи — из выбранных
+  // источников списка (prepareItems), в режиме «Везде» её нет.
+  item.regionReason.inMySources = request.mode === 'my-sources';
   if (ctx.previous) {
     item.isNew = ctx.previous.itemIds
       ? !ctx.previous.itemIds.has(item.id)
@@ -250,6 +263,19 @@ function decorate(d: DemoItem, ctx: SearchContext, aiDown: boolean): ResultItem 
     if (item.evidence && item.evidence.basis === 'ai')
       item.evidence = { ...item.evidence, basis: 'semantic' };
   }
+  withAiCheck(item, aiDown);
+  return item;
+}
+
+/**
+ * Проверка текста поста на ИИ — тот же метод и кэш, что у отдельной проверки (fake/ai.ts).
+ * Пост без текста не проверяем. «Нейросеть недоступна» — детектор на той же машине с
+ * видеокартой, что и GigaChat, поэтому тоже недоступен.
+ */
+export function withAiCheck(item: ResultItem, modelDown: boolean): ResultItem {
+  const text = item.publication.text;
+  if (text === null) delete item.aiCheck;
+  else item.aiCheck = demoAiCheck(text, { modelDown });
   return item;
 }
 
@@ -613,7 +639,7 @@ export function startFakeSearch(request: SearchRequest, ctx: SearchContext): Fak
 
   const dataset = pickDataset(request.text, request.meaningId, scenario);
   const prepared = prepareItems(dataset, request, ctx, startedMs);
-  const items = prepared.map((d) => decorate(d, ctx, aiDown));
+  const items = prepared.map((d) => decorate(d, request, ctx, aiDown));
   const platforms =
     request.platforms && request.platforms.length > 0 ? request.platforms : [...PLATFORM_ORDER];
   const meaning = request.meaningId
@@ -760,6 +786,64 @@ export function retryFakePlatform(
     schedule(runner);
   }, 200);
   return run;
+}
+
+/**
+ * Поднять законченный поиск из снимка. Настоящий сервер хранит поиски сам, а имитация
+ * живёт в памяти страницы: боковую панель закрыли и открыли, поиск перенесли во вкладку —
+ * памяти уже нет. Поэтому имитация кладёт снимок в хранилище сеанса (index.ts) и здесь
+ * собирает из него запись заново. Очереди площадок строим тем же порядком, что при
+ * поиске, — «Повторить» по площадке после сбоя досыплет то, что не успело прийти.
+ */
+export function adoptRecord(
+  request: SearchRequest,
+  selection: Selection,
+  ctx: SearchContext,
+): SearchRecord {
+  const dataset = pickDataset(request.text, request.meaningId, ctx.demo.scenario);
+  const startedMs = Date.parse(selection.conditions.startedAt);
+  const prepared = prepareItems(dataset, request, ctx, startedMs).map((d) =>
+    decorate(d, request, ctx, !selection.aiAvailable),
+  );
+  const plans = makePlans(prepared, request, ctx);
+  for (const status of selection.statuses) {
+    const plan = plans[status.platform];
+    const arrived = new Set(
+      selection.items.filter((i) => i.publication.platform === status.platform).map((i) => i.id),
+    );
+    plan.queue = [
+      ...plan.queue.filter((i) => arrived.has(i.id)),
+      ...plan.queue.filter((i) => !arrived.has(i.id)),
+    ];
+    plan.released = plan.queue.filter((i) => arrived.has(i.id)).length;
+    plan.done = status.progress ? status.progress.done : plan.total;
+    plan.finalState =
+      status.state === 'searching' || status.state === 'waiting' ? 'stopped' : status.state;
+    plan.finalProblem = status.problem;
+    plan.updatedAt = status.updatedAt;
+  }
+  const record: SearchRecord = {
+    searchId: selection.searchId,
+    request: structuredClone(request),
+    conditions: { ...selection.conditions },
+    dataset,
+    plans,
+    // Снимок прежней версии мокапа мог прийти без проверки на ИИ — досчитываем тем же методом.
+    items: selection.items.map((i) => {
+      const item = structuredClone(i);
+      return item.aiCheck ? item : withAiCheck(item, !selection.aiAvailable);
+    }),
+    pool: new Map(prepared.map((i) => [i.id, i])),
+    topic: selection.topic,
+    aiAvailable: selection.aiAvailable,
+    phase: selection.phase === 'running' ? 'stopped' : selection.phase,
+    notices: [...selection.notices],
+    arrival: selection.items.reduce((max, i) => Math.max(max, i.arrival), 0),
+    // обрыв связи по сценарию уже показали в исходном поиске
+    connectionDropped: true,
+  };
+  records.set(record.searchId, record);
+  return record;
 }
 
 /** Остановить поиск по id (если он ещё идёт). */

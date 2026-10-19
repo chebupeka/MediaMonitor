@@ -1,0 +1,8 @@
+{
+  "method": "error-not-found",
+  "schema": "ApiError",
+  "value": {
+    "code": "not-found",
+    "message": "Поиск не найден. Запустите его заново."
+  }
+}

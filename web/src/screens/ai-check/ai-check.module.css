@@ -1,0 +1,157 @@
+/* Экран «Проверка на ИИ» — в стиле экрана «Поиск»: только токены, золото вместо тревоги. */
+
+.screen {
+  gap: var(--space-5);
+}
+
+.form {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.examplesLabel {
+  font-size: var(--text-xs);
+  color: var(--color-ink-3);
+}
+
+.submit {
+  display: flex;
+}
+
+.submit > * {
+  flex: 1 1 auto;
+}
+
+/* ---------- идёт проверка: точки бегут по строке ---------- */
+.checking {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+
+.runner {
+  display: inline-flex;
+  gap: var(--space-1);
+}
+
+.runner > span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  opacity: 0.35;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .runner > span {
+    animation: run calc(var(--duration-slower) * 2) var(--ease-standard) infinite;
+  }
+
+  .runner > span:nth-child(2) {
+    animation-delay: var(--duration-base);
+  }
+
+  .runner > span:nth-child(3) {
+    animation-delay: calc(var(--duration-base) * 2);
+  }
+}
+
+@keyframes run {
+  40% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+/* ---------- результат ---------- */
+.result {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-xl);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+}
+
+.verdict {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Крупное слово уровня узким гротеском — как «15 размещений» на сайте */
+.level {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.verdict[data-level='likely-ai'] .level,
+.verdict[data-level='signs'] .level {
+  color: var(--color-gold);
+}
+
+.verdict[data-level='too-short'] .level {
+  color: var(--color-ink-2);
+}
+
+.verdict[data-level='unavailable'] .level {
+  color: var(--color-warning-ink);
+}
+
+.words {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.line {
+  font-size: var(--text-sm);
+  color: var(--color-ink-3);
+}
+
+.unavailable {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-line);
+}
+
+/* Узкая боковая панель расширения и увеличение 200 % */
+@container screen (max-width: 560px) {
+  .result {
+    padding: var(--space-4);
+  }
+
+  .level {
+    font-size: var(--text-3xl);
+  }
+
+  .actions > * {
+    flex: 1 1 auto;
+  }
+}

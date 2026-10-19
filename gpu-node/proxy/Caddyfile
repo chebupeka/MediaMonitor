@@ -1,0 +1,30 @@
+# Необязательно. Прокси с токеном перед Ollama — если брандмауэром по адресу сервера закрыть нельзя
+# (например, сервер ходит через интернет или его адрес меняется).
+#
+# Схема: Ollama слушает только 127.0.0.1:11434 (OLLAMA_HOST=127.0.0.1:11434), наружу открыт порт
+# 11435 этого прокси. Без заголовка «Authorization: Bearer <OLLAMA_PROXY_TOKEN>» — 401.
+# На сервере: OLLAMA_URL=http://<адрес>:11435 и LLM_API_KEY=<тот же токен> — клиенты сервера
+# и воронки отправляют его в этом заголовке.
+#
+# Запуск: OLLAMA_PROXY_TOKEN=<токен> caddy run --config proxy/Caddyfile
+#   (Windows: $env:OLLAMA_PROXY_TOKEN='<токен>'; caddy run --config proxy\Caddyfile)
+# Если сервер ходит через интернет, нужен ещё и TLS: замените :11435 на доменное имя.
+{
+	admin off
+	auto_https off
+}
+
+:11435 {
+	@authorized header Authorization "Bearer {$OLLAMA_PROXY_TOKEN}"
+	handle @authorized {
+		reverse_proxy 127.0.0.1:11434 {
+			# Ollama, слушающая 127.0.0.1, принимает только «свой» Host.
+			header_up Host 127.0.0.1:11434
+			header_up -Authorization
+			flush_interval -1
+		}
+	}
+	handle {
+		respond "unauthorized" 401
+	}
+}

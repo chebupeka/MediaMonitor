@@ -291,6 +291,20 @@ export const SOURCE_SEEDS: SourceSeed[] = [
     description: 'новости Богучанского района (группа закрыта)',
   }),
   s({
+    id: 'vk-kodinsk',
+    platform: 'vk',
+    name: 'Кодинск: соседи',
+    slug: 'demo_kodinsk',
+    ownerId: '100125',
+    type: 'community',
+    district: 'Кежемский район',
+    subscribers: 4_300,
+    regional: true,
+    mine: false,
+    closed: true,
+    description: 'сообщество жителей Кодинска (группа закрыта)',
+  }),
+  s({
     id: 'vk-fire',
     platform: 'vk',
     name: 'Пожарная охрана края',
@@ -623,3 +637,31 @@ export function catalogSources(myIds: ReadonlySet<string>): CatalogSource[] {
 
 /** Пул «везде»: сколько источников площадки обходим при поиске без ограничения списком. */
 export const EVERYWHERE_POOL: Record<PlatformId, number> = { vk: 40, ok: 18, max: 12 };
+
+/**
+ * Ссылка на пост, а не на группу (SC-10): `vk.com/wall-100104_60210`, `?w=wall…`,
+ * `ok.ru/group/…/topic/…`, `max.ru/канал/номер`. Возвращает владельца поста
+ * (источник из демо-данных, если он известен) и признак «это пост».
+ */
+export function postOwner(raw: string): { isPost: boolean; seed: SourceSeed | null } {
+  const url = raw.trim().toLowerCase();
+  const vk = /wall-?(\d+)_\d+/u.exec(url);
+  if (vk)
+    return {
+      isPost: true,
+      seed: SOURCE_SEEDS.find((s) => s.platform === 'vk' && s.ownerId === vk[1]) ?? null,
+    };
+  const ok = /ok\.ru\/group\/(\d+)\/topic\/\d+/u.exec(url);
+  if (ok)
+    return {
+      isPost: true,
+      seed: SOURCE_SEEDS.find((s) => s.platform === 'ok' && s.ownerId === ok[1]) ?? null,
+    };
+  const max = /max\.ru\/([^/\s?#]+)\/\d+/u.exec(url);
+  if (max)
+    return {
+      isPost: true,
+      seed: SOURCE_SEEDS.find((s) => s.platform === 'max' && s.slug === max[1]) ?? null,
+    };
+  return { isPost: false, seed: null };
+}

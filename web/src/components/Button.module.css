@@ -12,7 +12,7 @@
   min-width: var(--target-min);
   padding: 0 var(--btn-px);
   border: 1px solid transparent;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-pill);
   font-family: var(--font-ui);
   font-size: var(--btn-font);
   font-weight: var(--weight-medium);
@@ -43,7 +43,7 @@
   --btn-h: var(--control-h-sm);
   --btn-px: var(--space-3);
   --btn-font: var(--text-sm);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
 }
 
 .md {
@@ -54,7 +54,7 @@
   --btn-h: var(--control-h-lg);
   --btn-px: var(--space-5);
   --btn-font: var(--text-md);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-pill);
 }
 
 .fullWidth {
@@ -77,15 +77,17 @@
   background: var(--color-control-active);
 }
 
+/* Как «пилюля» на сайте: контур, при наведении — заливка */
 .secondary {
-  background: var(--color-surface);
+  background: transparent;
   color: var(--color-ink);
-  border-color: var(--color-line-strong);
+  border-color: var(--color-line-control);
 }
 
 .secondary:hover:not(:disabled, [aria-disabled='true']) {
-  background: var(--color-surface-2);
-  border-color: var(--color-line-control);
+  background: var(--color-control);
+  border-color: var(--color-control);
+  color: var(--color-control-ink);
 }
 
 .ghost {

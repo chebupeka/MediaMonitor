@@ -1,0 +1,9 @@
+# Тексты чужих новостей для мини-эталона: репозиторий публичный, храним только локально
+eval/data/raw/
+
+.venv/
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/

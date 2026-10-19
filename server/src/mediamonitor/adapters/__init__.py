@@ -1,0 +1,35 @@
+"""Адаптеры площадок: общий интерфейс, записанные примеры и настоящие VK, OK, MAX."""
+
+from __future__ import annotations
+
+import httpx
+
+from mediamonitor.adapters.base import PlatformAdapter
+from mediamonitor.adapters.fixture import FixtureAdapter, FixtureStore, parse_failures
+from mediamonitor.adapters.live import MaxAdapter, OkAdapter, VkAdapter
+from mediamonitor.contract import PLATFORM_ORDER, PlatformId
+from mediamonitor.settings import Settings
+
+AdapterRegistry = dict[PlatformId, PlatformAdapter]
+
+
+def build_adapters(settings: Settings, client: httpx.AsyncClient) -> AdapterRegistry:
+    """Адаптеры по настройке DATA_SOURCE: fixtures — записанные примеры, live — площадки."""
+    if settings.data_source == "live":
+        return {
+            "vk": VkAdapter(settings, client),
+            "ok": OkAdapter(settings, client),
+            "max": MaxAdapter(settings, client),
+        }
+    store = FixtureStore.load(shift_to_now=settings.fixture_shift_to_now)
+    failures = parse_failures(settings.fixture_failures)
+    delay = settings.fixture_step_delay_ms / 1000
+    return {
+        platform: FixtureAdapter(
+            platform, store, failure=failures.get(platform), step_delay_sec=delay
+        )
+        for platform in PLATFORM_ORDER
+    }
+
+
+__all__ = ["AdapterRegistry", "FixtureAdapter", "FixtureStore", "PlatformAdapter", "build_adapters"]

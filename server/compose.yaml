@@ -1,0 +1,87 @@
+# Медиамонитор: база (PostgreSQL 16 + pgvector), миграции, сервер API; HTTPS — профиль https.
+#   cp .env.example .env   # задать POSTGRES_PASSWORD и остальное
+#   docker compose up -d --build
+#   docker compose --profile https up -d   # с Caddy и сертификатом для DOMAIN
+name: mediamonitor
+
+x-database-url: &database-url
+  DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-mediamonitor}:${POSTGRES_PASSWORD:?Задайте POSTGRES_PASSWORD в server/.env}@db:5432/${POSTGRES_DB:-mediamonitor}
+
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-mediamonitor}
+      POSTGRES_USER: ${POSTGRES_USER:-mediamonitor}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Задайте POSTGRES_PASSWORD в server/.env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      # Только с этого компьютера: для `uv run` и тестов на PostgreSQL.
+      - "127.0.0.1:${DB_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+
+  migrate:
+    build: .
+    command: ["alembic", "upgrade", "head"]
+    environment:
+      <<: *database-url
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    build: .
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      <<: *database-url
+      HOST: 0.0.0.0
+      PORT: "8000"
+      # Порт API открыт только локально, снаружи — через Caddy в той же сети.
+      FORWARDED_ALLOW_IPS: "*"
+    ports:
+      - "127.0.0.1:${API_PORT:-8000}:8000"
+    volumes:
+      # Модель смысла BERTA (~0,5 ГБ): скачивается один раз, переживает пересборку.
+      - models:/models
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2.8
+    profiles: ["https"]
+    environment:
+      # Домен стенда из server/.env; без него Caddy выдаст локальный сертификат для localhost.
+      DOMAIN: ${DOMAIN:-localhost}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  models:
+  pgdata:
+  caddy_data:
+  caddy_config:

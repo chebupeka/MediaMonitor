@@ -1,14 +1,27 @@
 /**
- * Единственное место, где выбирается реализация MonitorApi.
- * Сейчас — имитация. Для настоящего сервера меняется только этот файл.
+ * Единственное место, где выбирается реализация MonitorApi: имитация мокапа или
+ * HTTP-клиент настоящего сервера. Как выбирается — src/api/source.ts (панель
+ * «Демо-сценарий» → «Данные», переменная сборки `VITE_API_URL`, иначе имитация).
+ *
+ * Файл XLSX (`getExportFile`): на сервере — скачивается с сервера, в имитации —
+ * собирается в браузере (src/lib/xlsx.ts).
  */
 import type { MonitorApi } from './client';
-import { DEMO_LINKS, DEMO_QUERIES, createFakeApi } from './fake';
+import { DEMO_AI_TEXTS, DEMO_LINKS, DEMO_QUERIES, createFakeApi } from './fake';
+import { createHttpApi } from './http';
+import { resolveDataSource, type DataSource } from './source';
 
-export const api: MonitorApi = createFakeApi();
+/** Источник данных этой загрузки страницы. */
+export const dataSource: DataSource = resolveDataSource();
 
-/** Это мокап на демо-данных: показываем пометку «Демо-данные». */
-export const IS_MOCKUP = true;
+export const api: MonitorApi =
+  dataSource.kind === 'server' ? createHttpApi(dataSource.url) : createFakeApi();
+
+/**
+ * Работаем на имитации (демо-данные мокапа): показываем пометки мокапа, демо-файл
+ * импорта и демо-ссылки. На сервере их нет — данные и файлы настоящие.
+ */
+export const IS_MOCKUP = dataSource.kind === 'fake';
 
 /**
  * Примеры запросов и ссылок для демо (только мокап). Пригодятся экранам для
@@ -16,3 +29,5 @@ export const IS_MOCKUP = true;
  */
 export const demoQueries = DEMO_QUERIES;
 export const demoLinks = DEMO_LINKS;
+/** Примеры текстов для экрана «Проверка на ИИ» (только мокап). */
+export const demoAiTexts = DEMO_AI_TEXTS;

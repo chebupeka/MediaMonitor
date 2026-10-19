@@ -138,6 +138,7 @@ type Action =
   | { type: 'event'; event: SearchEvent }
   | { type: 'excluded'; ids: string[]; excluded: boolean; counts: SelectionCounts }
   | { type: 'added'; item: ResultItem }
+  | { type: 'restore'; selection: Selection }
   | { type: 'reset' };
 
 function mergeItems(current: ResultItem[], incoming: ResultItem[]): ResultItem[] {
@@ -196,7 +197,15 @@ function reducer(state: SearchRunState, action: Action): SearchRunState {
     case 'reset':
       return INITIAL;
     case 'start':
-      return { ...INITIAL, phase: 'running', searchId: action.searchId };
+      // На сервере id приходит ответом на запуск — до этого он пустой, потом его
+      // принесёт событие `started` (conditions.searchId).
+      return { ...INITIAL, phase: 'running', searchId: action.searchId || null };
+    case 'restore':
+      return fromSelection(
+        { ...INITIAL, searchId: action.selection.searchId },
+        action.selection,
+        action.selection.phase === 'stopped' ? 'stopped' : 'done',
+      );
     case 'retry':
       return { ...state, phase: 'running', error: null };
     case 'excluded': {
@@ -228,6 +237,7 @@ function reducer(state: SearchRunState, action: Action): SearchRunState {
           return {
             ...state,
             phase: 'running',
+            searchId: e.conditions.searchId || state.searchId,
             queue: null,
             conditions: e.conditions,
             statuses: e.statuses,
@@ -262,6 +272,14 @@ function reducer(state: SearchRunState, action: Action): SearchRunState {
         case 'stopped':
           return fromSelection(state, e.selection, 'stopped');
         case 'failed':
+          // Не удался повтор площадки — подборка остаётся, ошибка видна в `error`.
+          if (state.selection)
+            return {
+              ...state,
+              phase: state.selection.phase === 'stopped' ? 'stopped' : 'done',
+              error: e.error,
+              queue: null,
+            };
           return { ...state, phase: 'failed', error: e.error, queue: null };
       }
     }
@@ -284,6 +302,13 @@ export interface SearchRunControls {
   setExcluded: (itemIds: string[], excluded: boolean) => Promise<void>;
   /** Добавить публикацию по ссылке (П8). */
   addByUrl: (url: string) => Promise<ResultItem>;
+  /**
+   * Показать уже выполненный поиск по id: панель закрыли и открыли, поиск перенесли во
+   * вкладку. Идущий поиск так не подхватить — подключиться к его потоку контракт пока
+   * не умеет. Если за это время запустили новый поиск, старый не показываем.
+   * Возвращает true, если подборка на экране.
+   */
+  restore: (searchId: string) => Promise<boolean>;
   reset: () => void;
 }
 
@@ -297,16 +322,64 @@ export function useSearchRun(): SearchRunControls {
   const runRef = useRef<SearchRun | null>(null);
   const unsubscribeRef = useRef<(() => void) | null>(null);
   const searchIdRef = useRef<string | null>(null);
+  /** Сколько событий текущего потока уже учтено: при повторной подписке их пропускаем. */
+  const seenRef = useRef(0);
+  /** Поиск, запущенный в этом такте, и его запрос (см. `start`). */
+  const launchRef = useRef<{ key: string; run: SearchRun } | null>(null);
 
-  const attach = useCallback((run: SearchRun) => {
+  /**
+   * Подписаться на поток. Подписка сначала отдаёт историю — уже учтённые события
+   * пропускаем, поэтому переподписка ничего не задваивает.
+   */
+  const listen = useCallback((run: SearchRun) => {
     unsubscribeRef.current?.();
-    runRef.current = run;
-    searchIdRef.current = run.searchId;
-    unsubscribeRef.current = run.subscribe((event) => dispatch({ type: 'event', event }));
+    let skip = seenRef.current;
+    unsubscribeRef.current = run.subscribe((event) => {
+      if (event.type === 'started' && event.conditions.searchId) {
+        searchIdRef.current = event.conditions.searchId;
+      }
+      if (skip > 0) {
+        skip -= 1;
+        return;
+      }
+      seenRef.current += 1;
+      dispatch({ type: 'event', event });
+    });
   }, []);
+
+  const attach = useCallback(
+    (run: SearchRun) => {
+      unsubscribeRef.current?.();
+      unsubscribeRef.current = null;
+      runRef.current = run;
+      searchIdRef.current = run.searchId || null;
+      seenRef.current = 0;
+      listen(run);
+    },
+    [listen],
+  );
+
+  // Экран (пере)монтирован. StrictMode в разработке монтирует дважды и между этим
+  // отписывает: если поток уже есть, а подписки нет — подписываемся снова, без
+  // повторного запуска поиска и без задвоенных событий.
+  useEffect(() => {
+    const run = runRef.current;
+    if (run && !unsubscribeRef.current) listen(run);
+    return () => {
+      // Уход с экрана не останавливает поиск на сервере, только отписывает экран.
+      unsubscribeRef.current?.();
+      unsubscribeRef.current = null;
+    };
+  }, [listen]);
 
   const start = useCallback(
     (request: SearchRequest, options?: { replace?: boolean }): boolean => {
+      // Тот же запрос ещё раз в этом же такте — это повтор эффекта (StrictMode в разработке
+      // вызывает эффекты дважды), а не новый поиск: второй запуск дал бы лишнюю запись
+      // в «Недавних». Поиск уже идёт — возвращаем его.
+      const key = JSON.stringify(request);
+      const launched = launchRef.current;
+      if (launched && launched.key === key && launched.run === runRef.current) return true;
       const current = runRef.current;
       if (current && !current.closed) {
         if (!options?.replace) return false;
@@ -315,6 +388,10 @@ export function useSearchRun(): SearchRunControls {
       const run = api.startSearch(request);
       dispatch({ type: 'start', searchId: run.searchId });
       attach(run);
+      launchRef.current = { key, run };
+      queueMicrotask(() => {
+        if (launchRef.current?.run === run) launchRef.current = null;
+      });
       return true;
     },
     [attach],
@@ -357,22 +434,31 @@ export function useSearchRun(): SearchRunControls {
     return item;
   }, []);
 
+  const restore = useCallback(async (searchId: string): Promise<boolean> => {
+    const busy = () => runRef.current !== null && !runRef.current.closed;
+    if (busy()) return false;
+    let selection: Selection;
+    try {
+      selection = await api.getSelection(searchId);
+    } catch {
+      return false;
+    }
+    if (selection.phase === 'running' || busy()) return false;
+    searchIdRef.current = searchId;
+    dispatch({ type: 'restore', selection });
+    return true;
+  }, []);
+
   const reset = useCallback(() => {
     runRef.current?.stop();
     unsubscribeRef.current?.();
     unsubscribeRef.current = null;
     runRef.current = null;
     searchIdRef.current = null;
+    seenRef.current = 0;
+    launchRef.current = null;
     dispatch({ type: 'reset' });
   }, []);
 
-  // Уход с экрана не останавливает поиск на сервере, только отписывает экран.
-  useEffect(
-    () => () => {
-      unsubscribeRef.current?.();
-    },
-    [],
-  );
-
-  return { state, start, stop, retryPlatform, setExcluded, addByUrl, reset };
+  return { state, start, stop, retryPlatform, setExcluded, addByUrl, restore, reset };
 }

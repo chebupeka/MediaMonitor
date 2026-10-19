@@ -323,9 +323,14 @@ export interface SourceCheck {
     | 'closed' // закрытая группа: посты не видны
     | 'not-supported' // ссылка не на VK, OK или MAX
     | 'duplicate' // уже есть в списке
-    | 'not-regional'; // источник не про край — можно добавить, но предупреждаем
+    | 'not-regional' // источник не про край — можно добавить, но предупреждаем
+    | 'post-link'; // ссылка на пост, а не на группу: `preview` — группа, где он вышел
   message: string;
-  /** Что удалось узнать об источнике (для `ok`, `not-regional`, `duplicate`). */
+  /**
+   * Что удалось узнать об источнике (для `ok`, `not-regional`, `duplicate`).
+   * Для `post-link` — группа или канал, где опубликован пост (если удалось узнать):
+   * её адрес `preview.url` можно проверить и добавить.
+   */
   preview: {
     platform: PlatformId;
     name: string;
@@ -355,11 +360,74 @@ export interface SourceInput {
   district?: string | null;
 }
 
-/** Итог импорта списка из Excel (ТЗ-Ф16). */
+/** Как сервер понял колонку файла импорта (SC-11). */
+export interface ImportColumn {
+  /** Буква колонки: `A`, `B`… */
+  letter: string;
+  /** Заголовок колонки из первой строки. */
+  title: string;
+  /** `url` — ссылки (по ним добавляем), `name` — названия, `ignored` — не используем. */
+  role: 'url' | 'name' | 'ignored';
+  /** Пояснение простым языком: «ссылки — по ним добавляем». */
+  note: string;
+}
+
+/** Что будет со строкой файла. Тот же итог потом вернёт `importSources`. */
+export type ImportRowOutcome =
+  /** Добавим. `note` — что поправили в ссылке: «мобильная ссылка — привели к обычной». */
+  | { kind: 'add'; source: SourceRef; note: string | null }
+  /** Уже в списке — не трогаем. */
+  | { kind: 'duplicate'; source: SourceRef }
+  /** Пропустим с причиной. */
+  | { kind: 'skip'; reason: string }
+  | { kind: 'empty' };
+
+export interface ImportRow {
+  /** Номер строки в файле (первая — заголовок). */
+  row: number;
+  /** Значение колонки со ссылками как есть (с пробелами). */
+  value: string;
+  /** Значение колонки с названием. */
+  title: string;
+  outcome: ImportRowOutcome;
+}
+
+/**
+ * Предпросмотр импорта (ТЗ-Ф16, SC-11): сервер разобрал файл, но ещё ничего не
+ * добавил. Добавление — `importSources(previewId)`: ровно строки `add` этого разбора.
+ */
+export interface ImportPreview {
+  previewId: string;
+  fileName: string;
+  sheetName: string;
+  /** Строк в файле вместе с заголовком. */
+  totalRows: number;
+  /** Первая строка — заголовок (её не добавляем). */
+  headerRow: number | null;
+  columns: ImportColumn[];
+  rows: ImportRow[];
+  counts: { add: number; duplicate: number; skip: number; empty: number };
+}
+
+/** Итог импорта списка из Excel (ТЗ-Ф16). После предпросмотра совпадает с ним. */
 export interface ImportReport {
   added: Source[];
+  /** Строки, которые уже были в списке: их не трогали. */
+  duplicates: { row: number; value: string; name: string }[];
   /** Строки, которые не вошли, с причиной. */
   skipped: { row: number; value: string; reason: string }[];
+}
+
+/** Итог перепроверки всего списка источников (П9, НТ-17). */
+export interface SourcesRecheckReport {
+  checkedAt: IsoDateTime;
+  checked: number;
+  /** Доступны и читаются. */
+  ok: number;
+  /** Источники, по которым поиск сейчас невозможен или есть предупреждение. */
+  problems: { sourceId: string; name: string; state: SourceCheck['state']; message: string }[];
+  /** Список после проверки (у каждого обновлён `check`). */
+  sources: Source[];
 }
 
 /** Источник готового каталога краевых источников (НТ-14). */
@@ -380,6 +448,35 @@ export interface StartState {
   /** Период по умолчанию. */
   defaultPeriod: Period;
   region: Region;
+}
+
+// ============================================================================
+// Рабочее место без регистрации (Р8)
+// ============================================================================
+
+/**
+ * Личное рабочее место на сервере (Р8). Создаётся само при первом входе, ключ
+ * запоминается в браузере. В нём — список источников, недавние поиски, исключения
+ * и подборки; другие рабочие места их не видят (НТ-7). Каталог края общий.
+ */
+export interface Workspace {
+  id: string;
+  createdAt: IsoDateTime;
+  sourcesCount: number;
+  recentCount: number;
+}
+
+/**
+ * Ссылка-ключ «Открыть на другом компьютере или в расширении» (Р8). Кто знает
+ * ссылку, тот видит и меняет это рабочее место — поэтому ключ неугадываемый.
+ */
+export interface WorkspaceLink {
+  workspaceId: string;
+  /** Ключ из ссылки: его передают в `openWorkspace`. */
+  key: string;
+  /** Готовая ссылка для копирования. */
+  url: string;
+  createdAt: IsoDateTime;
 }
 
 // ============================================================================
@@ -464,6 +561,46 @@ export interface Publication {
 }
 
 // ============================================================================
+// Проверка текста на ИИ (04-decisions.md, «Проверка текста на ИИ» и уточнение)
+// ============================================================================
+
+/**
+ * Уровень проверки текста на ИИ. Проценты не показываем — только уровень
+ * (research/ai-text-detection.md §3). Подписи — src/lib/ai-check.ts.
+ * - `likely-ai` — «похоже на ИИ»: score ≥ 0,85;
+ * - `signs` — «есть признаки ИИ»: score ≥ 0,60;
+ * - `unlikely` — «не похоже на ИИ»: ниже 0,60;
+ * - `too-short` — меньше 40 слов: «мало текста для оценки», модель не вызывали;
+ * - `unavailable` — модель не ответила. Это НЕ «не похоже»: «проверка недоступна».
+ * Пороги — `AI_THRESHOLDS` в src/lib/ai-check.ts (потом откалибруем на своём эталоне).
+ */
+export type AiLevel = 'likely-ai' | 'signs' | 'unlikely' | 'too-short' | 'unavailable';
+
+/**
+ * Результат проверки текста на ИИ. Один и тот же текст всегда даёт один и тот же результат —
+ * в отдельной проверке, в подборке и в «Распространении»: текст нормализуется одной функцией
+ * (src/lib/ai-normalize.ts), ключ — `textHash` + `model`, первый результат кэшируется.
+ * Это оценка модели, а не доказательство: метка ни на что не влияет (не исключает пост,
+ * не меняет метку связи, в XLSX не идёт).
+ */
+export interface AiCheck {
+  level: AiLevel;
+  /**
+   * Оценка модели 0..1 («вероятность ИИ» по мнению модели, не калиброванная).
+   * `null` для `too-short` и `unavailable`. В интерфейсе по умолчанию не показываем.
+   */
+  score: number | null;
+  /** Модель и её версия: `gigacheck-classifier-multi@…`; в имитации — `demo`. */
+  model: string;
+  /** SHA-256 (hex, нижний регистр) нормализованного текста в UTF-8. */
+  textHash: string;
+  /** Слов в нормализованном тексте (части между пробелами). */
+  words: number;
+  /** Когда текст проверили впервые (результат из кэша сохраняет это время). */
+  checkedAt: IsoDateTime;
+}
+
+// ============================================================================
 // Запись подборки: публикация + почему она здесь
 // ============================================================================
 
@@ -484,11 +621,17 @@ export type SelectionMethod = 'copy' | 'semantic' | 'ai-confirmed' | 'ai-uncheck
 export type PlacementType = 'verbatim' | 'shortened' | 'retold' | 'repost';
 
 /**
- * Почему пост краевой (Р4). Хотя бы одно из двух: источник краевой
- * или в тексте упоминается место края. Подпись: «краевой источник» / «упоминается: Норильск».
+ * Почему пост краевой (Р4). Хотя бы одно: источник краевой, источник в списке
+ * пользователя (режим «Мои источники») или в тексте упоминается место края.
+ * Подпись: «краевой источник · в вашем списке · упоминается: Норильск».
  */
 export interface RegionReason {
   regionalSource: boolean;
+  /**
+   * Пост прошёл, потому что источник в списке пользователя: в режиме «Мои источники»
+   * регион не проверяем — человек выбрал источники сам. В режиме «Везде» всегда `false`.
+   */
+  inMySources: boolean;
   /** Места края, упомянутые в тексте, в именительном падеже: «Норильск», «Канский район». */
   places: string[];
 }
@@ -558,6 +701,11 @@ export interface ResultItem {
   isNew: boolean;
   /** Порядковый номер прихода в ходе поиска: для «+5 новых — показать» (НТ-2). */
   arrival: number;
+  /**
+   * Проверка текста поста на ИИ. Нет — пост без текста или проверка ещё не дошла.
+   * Метку в карточке показываем только для `likely-ai` и `signs`.
+   */
+  aiCheck?: AiCheck;
 }
 
 /**
@@ -587,6 +735,10 @@ export interface SelectionCounts {
   byPlacementType: Record<PlacementType, number>;
   /** Сколько записей новые (П12). */
   new: number;
+  /** Сколько записей с проверкой на ИИ «похоже на ИИ» (`likely-ai`) — фильтр «Похоже на ИИ». */
+  aiLikely: number;
+  /** Сколько записей с уровнем «есть признаки ИИ» (`signs`). */
+  aiSigns: number;
 }
 
 /** Пометка к подборке: ограничения и объяснения (ТЗ-Ф41, НТ-13, НТ-26, SC-16). */
@@ -718,6 +870,11 @@ export interface SpreadPlacement {
   isOriginal: boolean;
   citationShare: number;
   url: string;
+  /**
+   * Проверка текста размещения на ИИ — та же, что у записи подборки (`ResultItem.aiCheck`).
+   * Метку показываем только у пересказов: копия релиза получает оценку самого релиза.
+   */
+  aiCheck?: AiCheck;
 }
 
 /** Точка волны распространения (П6). */
@@ -770,6 +927,12 @@ export interface SpreadReport {
   wave: { hourly: WavePoint[]; daily: WavePoint[] };
   /** Хронология и таблица (сортирует интерфейс). */
   placements: SpreadPlacement[];
+  /**
+   * Сводка проверки на ИИ — только по пересказам (не исходный, `placementType: 'retold'`):
+   * «похожи на ИИ: `likelyAi` из `retold` пересказов». `likelyAi` — уровень `likely-ai`.
+   * Нет поля — проверка на ИИ ещё не подключена: строку не показываем.
+   */
+  aiRetold?: { likelyAi: number; retold: number };
   /** Данные на момент. */
   computedAt: IsoDateTime;
 }
@@ -810,7 +973,7 @@ export interface ExportSummarySheet {
   entries: { label: string; value: string }[];
 }
 
-/** Предпросмотр файла. Сам файл в мокапе не скачивается. */
+/** Предпросмотр файла: лист «Сводка» и первые строки «Публикаций». */
 export interface ExportPreview {
   searchId: string;
   fileName: string;
@@ -825,6 +988,15 @@ export interface ExportPreview {
   publications: ExportSheetTable;
   /** Подпись часового пояса для файла (НТ-12). */
   timeZoneNote: string;
+}
+
+/** Готовый файл выгрузки (ТЗ-Ф38): та же подборка, что на экране и в предпросмотре. */
+export interface ExportFile {
+  /** Имя для сохранения: тема, дата и время поиска — выгрузки в «Загрузках» не путаются. */
+  fileName: string;
+  rowCount: number;
+  /** Сам файл XLSX */
+  file: Blob;
 }
 
 // ============================================================================
@@ -874,6 +1046,8 @@ export interface StandStatus {
     message: string;
     /** Как ищем на площадке: «VK API», «веб-поиск OK», «индекс MaxStat». */
     via: string;
+    /** Задержка данных площадки (НТ-4): MAX ищется через индекс с отставанием ~24 ч. */
+    freshness: DataFreshness | null;
     quota: Quota | null;
     lastSuccessAt: IsoDateTime | null;
   }[];

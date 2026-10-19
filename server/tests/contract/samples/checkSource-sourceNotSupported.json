@@ -1,0 +1,10 @@
+{
+  "method": "checkSource-sourceNotSupported",
+  "schema": "SourceCheck",
+  "value": {
+    "state": "not-supported",
+    "message": "Это не ссылка на группу или канал ВКонтакте, Одноклассников или MAX.",
+    "preview": null,
+    "checkedAt": "2026-10-19T14:33:00+07:00"
+  }
+}

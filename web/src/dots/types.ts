@@ -36,6 +36,16 @@ export interface DotsSceneProps {
   platforms?: Partial<Record<PlatformId, DotsPlatformState>>;
   /** Для `spread`: город первоисточника */
   sourceCity?: string;
+  /**
+   * Для `spread`: площадки размещений в порядке публикации — по опоре на размещение
+   * (правило честности 1). Чем раньше опубликовано, тем ближе к источнику.
+   */
+  placements?: readonly PlatformId[];
+  /**
+   * Для `listening`: CSS-селектор поля ввода, к которому течёт поток («система слушает»).
+   * Не задан — первое текстовое поле после блока точек.
+   */
+  flowTarget?: string;
   /** Высота области; ширина — по контейнеру */
   height?: number | string;
   className?: string;

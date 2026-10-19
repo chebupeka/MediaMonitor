@@ -1,0 +1,1338 @@
+{
+  "method": "event-retry",
+  "schema": "SearchEvent[]",
+  "value": [
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 5,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:27+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 5,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:27+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "max:dorogi_1842",
+          "publication": {
+            "id": "max:dorogi_1842",
+            "key": {
+              "platform": "max",
+              "ownerId": "dorogi",
+              "postId": "1842"
+            },
+            "platform": "max",
+            "source": {
+              "id": "max-dorogi",
+              "platform": "max",
+              "name": "Дороги края",
+              "url": "https://max.ru/demo_dorogi",
+              "type": "community",
+              "district": "весь край",
+              "subscribers": 17000,
+              "inMySources": false,
+              "regional": true
+            },
+            "url": "https://max.ru/demo_dorogi/1842",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "С 20 по 31 октября в Красноярском крае пройдёт профилактическое мероприятие «Внимание, пешеход!».",
+            "headlineFrom": "text",
+            "text": "С 20 по 31 октября в Красноярском крае пройдёт профилактическое мероприятие «Внимание, пешеход!». За непредоставление преимущества пешеходу грозит штраф до 2 500 рублей.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 97
+              },
+              {
+                "index": 1,
+                "start": 98,
+                "end": 169
+              }
+            ],
+            "publishedAt": "2026-10-18T13:20:00+07:00",
+            "timeReliability": "approximate",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 3900,
+            "reactions": 68,
+            "fetchedAt": "2026-10-19T14:32:30+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": []
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 169,
+            "text": "С 20 по 31 октября в Красноярском крае пройдёт профилактическое мероприятие «Внимание, пешеход!». За непредоставление преимущества пешеходу грозит штраф до 2 500 рублей.",
+            "cutStart": false,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 97
+              }
+            ],
+            "basis": "semantic",
+            "note": null
+          },
+          "placementType": "shortened",
+          "isOriginal": false,
+          "citation": null,
+          "groupId": "g-peshehod",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 37
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-peshehod",
+          "title": "«Внимание, пешеход!» — копии сообщения Госавтоинспекции",
+          "kind": "copies",
+          "itemIds": [
+            "vk:-100106_58211",
+            "vk:-100102_77340",
+            "ok:5600101_30418",
+            "max:dorogi_1842"
+          ],
+          "originalItemId": "vk:-100106_58211",
+          "countsByPlatform": {
+            "vk": 2,
+            "ok": 1,
+            "max": 1
+          },
+          "countsByType": {
+            "verbatim": 2,
+            "shortened": 2,
+            "retold": 0,
+            "repost": 0
+          }
+        }
+      ],
+      "counts": {
+        "total": 37,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 22,
+          "indirect": 9,
+          "disputed": 6
+        },
+        "byPlatform": {
+          "vk": 27,
+          "ok": 7,
+          "max": 3
+        },
+        "byPlacementType": {
+          "verbatim": 2,
+          "shortened": 2,
+          "retold": 0,
+          "repost": 0
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 6,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:27+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 6,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:27+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 4,
+        "progress": {
+          "done": 7,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:27+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "max:press_3390",
+          "publication": {
+            "id": "max:press_3390",
+            "key": {
+              "platform": "max",
+              "ownerId": "press",
+              "postId": "3390"
+            },
+            "platform": "max",
+            "source": {
+              "id": "max-press",
+              "platform": "max",
+              "name": "Канал Пресс-центра края",
+              "url": "https://max.ru/demo_press_kanal",
+              "type": "authority",
+              "district": "весь край",
+              "subscribers": 12000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://max.ru/demo_press_kanal/3390",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В крае подвели итоги месячника безопасности детей на дорогах.",
+            "headlineFrom": "text",
+            "text": "В крае подвели итоги месячника безопасности детей на дорогах. В сентябре в ДТП пострадали 23 ребёнка — на треть меньше, чем год назад. Больше всего нарушений выявлено при перевозке детей без кресел.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 61
+              },
+              {
+                "index": 1,
+                "start": 62,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 135,
+                "end": 198
+              }
+            ],
+            "publishedAt": "2026-10-17T11:00:00+07:00",
+            "timeReliability": "approximate",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 4100,
+            "reactions": 48,
+            "fetchedAt": "2026-10-19T14:32:31+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "ai-confirmed",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": []
+          },
+          "excerpt": {
+            "start": 62,
+            "end": 198,
+            "text": "В сентябре в ДТП пострадали 23 ребёнка — на треть меньше, чем год назад. Больше всего нарушений выявлено при перевозке детей без кресел.",
+            "cutStart": true,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 1,
+            "ranges": [
+              {
+                "start": 62,
+                "end": 134
+              }
+            ],
+            "basis": "ai",
+            "note": null
+          },
+          "placementType": null,
+          "isOriginal": false,
+          "citation": null,
+          "groupId": null,
+          "excluded": false,
+          "isNew": false,
+          "arrival": 38
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-peshehod",
+          "title": "«Внимание, пешеход!» — копии сообщения Госавтоинспекции",
+          "kind": "copies",
+          "itemIds": [
+            "vk:-100106_58211",
+            "vk:-100102_77340",
+            "ok:5600101_30418",
+            "max:dorogi_1842"
+          ],
+          "originalItemId": "vk:-100106_58211",
+          "countsByPlatform": {
+            "vk": 2,
+            "ok": 1,
+            "max": 1
+          },
+          "countsByType": {
+            "verbatim": 2,
+            "shortened": 2,
+            "retold": 0,
+            "repost": 0
+          }
+        }
+      ],
+      "counts": {
+        "total": 38,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 23,
+          "indirect": 9,
+          "disputed": 6
+        },
+        "byPlatform": {
+          "vk": 27,
+          "ok": 7,
+          "max": 4
+        },
+        "byPlacementType": {
+          "verbatim": 2,
+          "shortened": 2,
+          "retold": 0,
+          "repost": 0
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 4,
+        "progress": {
+          "done": 8,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:27+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 5,
+        "progress": {
+          "done": 8,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:27+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "max:tv_4471",
+          "publication": {
+            "id": "max:tv_4471",
+            "key": {
+              "platform": "max",
+              "ownerId": "tv",
+              "postId": "4471"
+            },
+            "platform": "max",
+            "source": {
+              "id": "max-tv",
+              "platform": "max",
+              "name": "Телеканал края в MAX",
+              "url": "https://max.ru/demo_tv_max",
+              "type": "media",
+              "district": "Красноярск",
+              "subscribers": 34000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://max.ru/demo_tv_max/4471",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "Вечером на трассе Р-255 под Ачинском столкнулись грузовик и легковой автомобиль.",
+            "headlineFrom": "text",
+            "text": "Вечером на трассе Р-255 под Ачинском столкнулись грузовик и легковой автомобиль. По предварительным данным, водитель легковушки пошёл на обгон в зоне действия сплошной разметки. Трассу частично перекрывали на полтора часа.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 80
+              },
+              {
+                "index": 1,
+                "start": 81,
+                "end": 177
+              },
+              {
+                "index": 2,
+                "start": 178,
+                "end": 222
+              }
+            ],
+            "publishedAt": "2026-10-16T18:02:00+07:00",
+            "timeReliability": "approximate",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 9700,
+            "reactions": 136,
+            "fetchedAt": "2026-10-19T14:32:31+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Ачинск"
+            ]
+          },
+          "excerpt": {
+            "start": 81,
+            "end": 222,
+            "text": "По предварительным данным, водитель легковушки пошёл на обгон в зоне действия сплошной разметки. Трассу частично перекрывали на полтора часа.",
+            "cutStart": true,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 1,
+            "ranges": [
+              {
+                "start": 81,
+                "end": 177
+              }
+            ],
+            "basis": "semantic",
+            "note": null
+          },
+          "placementType": null,
+          "isOriginal": false,
+          "citation": null,
+          "groupId": null,
+          "excluded": false,
+          "isNew": false,
+          "arrival": 39
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-peshehod",
+          "title": "«Внимание, пешеход!» — копии сообщения Госавтоинспекции",
+          "kind": "copies",
+          "itemIds": [
+            "vk:-100106_58211",
+            "vk:-100102_77340",
+            "ok:5600101_30418",
+            "max:dorogi_1842"
+          ],
+          "originalItemId": "vk:-100106_58211",
+          "countsByPlatform": {
+            "vk": 2,
+            "ok": 1,
+            "max": 1
+          },
+          "countsByType": {
+            "verbatim": 2,
+            "shortened": 2,
+            "retold": 0,
+            "repost": 0
+          }
+        }
+      ],
+      "counts": {
+        "total": 39,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 24,
+          "indirect": 9,
+          "disputed": 6
+        },
+        "byPlatform": {
+          "vk": 27,
+          "ok": 7,
+          "max": 5
+        },
+        "byPlacementType": {
+          "verbatim": 2,
+          "shortened": 2,
+          "retold": 0,
+          "repost": 0
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 5,
+        "progress": {
+          "done": 9,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:27+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 5,
+        "progress": {
+          "done": 9,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:27+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 6,
+        "progress": {
+          "done": 10,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:27+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "max:norilsk_5108",
+          "publication": {
+            "id": "max:norilsk_5108",
+            "key": {
+              "platform": "max",
+              "ownerId": "norilsk",
+              "postId": "5108"
+            },
+            "platform": "max",
+            "source": {
+              "id": "max-norilsk",
+              "platform": "max",
+              "name": "Норильск. Коротко",
+              "url": "https://max.ru/demo_norilsk_korotko",
+              "type": "media",
+              "district": "Норильск",
+              "subscribers": 21000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://max.ru/demo_norilsk_korotko/5108",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске из-за метели закрыли дорогу на Талнах.",
+            "headlineFrom": "text",
+            "text": "В Норильске из-за метели закрыли дорогу на Талнах. Движение откроют, когда видимость улучшится. Водителям рекомендуют не выезжать без необходимости.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 50
+              },
+              {
+                "index": 1,
+                "start": 51,
+                "end": 95
+              },
+              {
+                "index": 2,
+                "start": 96,
+                "end": 148
+              }
+            ],
+            "publishedAt": "2026-10-15T07:50:00+07:00",
+            "timeReliability": "approximate",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 11200,
+            "reactions": 84,
+            "fetchedAt": "2026-10-19T14:32:32+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "indirect",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск",
+              "Талнах"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 148,
+            "text": "В Норильске из-за метели закрыли дорогу на Талнах. Движение откроют, когда видимость улучшится. Водителям рекомендуют не выезжать без необходимости.",
+            "cutStart": false,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 50
+              }
+            ],
+            "basis": "semantic",
+            "note": null
+          },
+          "placementType": null,
+          "isOriginal": false,
+          "citation": null,
+          "groupId": null,
+          "excluded": false,
+          "isNew": false,
+          "arrival": 40
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-peshehod",
+          "title": "«Внимание, пешеход!» — копии сообщения Госавтоинспекции",
+          "kind": "copies",
+          "itemIds": [
+            "vk:-100106_58211",
+            "vk:-100102_77340",
+            "ok:5600101_30418",
+            "max:dorogi_1842"
+          ],
+          "originalItemId": "vk:-100106_58211",
+          "countsByPlatform": {
+            "vk": 2,
+            "ok": 1,
+            "max": 1
+          },
+          "countsByType": {
+            "verbatim": 2,
+            "shortened": 2,
+            "retold": 0,
+            "repost": 0
+          }
+        }
+      ],
+      "counts": {
+        "total": 40,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 24,
+          "indirect": 10,
+          "disputed": 6
+        },
+        "byPlatform": {
+          "vk": 27,
+          "ok": 7,
+          "max": 6
+        },
+        "byPlacementType": {
+          "verbatim": 2,
+          "shortened": 2,
+          "retold": 0,
+          "repost": 0
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 6,
+        "progress": {
+          "done": 11,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:27+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 6,
+        "progress": {
+          "done": 11,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:27+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "found",
+        "found": 6,
+        "progress": null,
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:33+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "finished",
+      "selection": {
+        "searchId": "s-mvfj6dbi-4",
+        "conditions": {
+          "searchId": "s-mvfj6dbi-4",
+          "text": "ДТП",
+          "label": "Безопасность дорожного движения",
+          "kind": "topic",
+          "period": {
+            "preset": "30d",
+            "from": "2026-09-20",
+            "to": "2026-10-19"
+          },
+          "region": {
+            "id": "krasnoyarsk-krai",
+            "name": "Красноярский край",
+            "timeZone": "Asia/Krasnoyarsk"
+          },
+          "mode": "everywhere",
+          "sourceCount": null,
+          "platforms": [
+            "vk",
+            "ok",
+            "max"
+          ],
+          "meaningLabel": null,
+          "startedAt": "2026-10-19T14:32:23+07:00",
+          "finishedAt": "2026-10-19T14:32:33+07:00",
+          "repeatOf": null
+        },
+        "statuses": [
+          {
+            "platform": "vk",
+            "state": "partial",
+            "found": 27,
+            "progress": {
+              "done": 39,
+              "total": 40,
+              "unit": "sources"
+            },
+            "problem": {
+              "code": "sources-closed",
+              "message": "Одна группа из списка закрыта: «Новости Богучан». Её посты не видны, остальные проверены.",
+              "retryable": false
+            },
+            "freshness": null,
+            "cap": null,
+            "updatedAt": "2026-10-19T14:32:29+07:00"
+          },
+          {
+            "platform": "ok",
+            "state": "found",
+            "found": 7,
+            "progress": null,
+            "problem": null,
+            "freshness": null,
+            "cap": null,
+            "updatedAt": "2026-10-19T14:32:28+07:00"
+          },
+          {
+            "platform": "max",
+            "state": "found",
+            "found": 6,
+            "progress": null,
+            "problem": null,
+            "freshness": {
+              "delayHours": 24,
+              "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+            },
+            "cap": null,
+            "updatedAt": "2026-10-19T14:32:33+07:00"
+          }
+        ],
+        "items": [
+          {
+            "id": "vk:-100102_77501",
+            "publication": {
+              "id": "vk:-100102_77501",
+              "key": {
+                "platform": "vk",
+                "ownerId": "-100102",
+                "postId": "77501"
+              },
+              "platform": "vk",
+              "source": {
+                "id": "vk-portal-krsk",
+                "platform": "vk",
+                "name": "Городской портал Красноярска",
+                "url": "https://vk.com/demo_portal_krsk",
+                "type": "media",
+                "district": "Красноярск",
+                "subscribers": 318000,
+                "inMySources": true,
+                "regional": true
+              },
+              "url": "https://vk.com/wall-100102_77501",
+              "mergedUrls": [],
+              "title": null,
+              "headline": "Из-за снегопада в Красноярске затруднено движение на Октябрьском мосту и улице Партизана Железняка.",
+              "headlineFrom": "text",
+              "text": "Из-за снегопада в Красноярске затруднено движение на Октябрьском мосту и улице Партизана Железняка. Дорожные службы вывели на улицы 120 единиц техники. Пешеходам советуют выбирать обувь с нескользящей подошвой.",
+              "sentences": [
+                {
+                  "index": 0,
+                  "start": 0,
+                  "end": 99
+                },
+                {
+                  "index": 1,
+                  "start": 100,
+                  "end": 151
+                },
+                {
+                  "index": 2,
+                  "start": 152,
+                  "end": 210
+                }
+              ],
+              "publishedAt": "2026-10-19T11:30:00+07:00",
+              "timeReliability": "exact",
+              "edited": false,
+              "repostOf": null,
+              "hasMedia": false,
+              "views": 29300,
+              "reactions": 1272,
+              "fetchedAt": "2026-10-19T14:32:24+07:00",
+              "linkCheck": {
+                "state": "not-checked",
+                "checkedAt": null
+              }
+            },
+            "relevance": "indirect",
+            "method": "semantic",
+            "methodNote": null,
+            "regionReason": {
+              "regionalSource": true,
+              "inMySources": false,
+              "places": [
+                "Красноярск"
+              ]
+            },
+            "excerpt": {
+              "start": 0,
+              "end": 210,
+              "text": "Из-за снегопада в Красноярске затруднено движение на Октябрьском мосту и улице Партизана Железняка. Дорожные службы вывели на улицы 120 единиц техники. Пешеходам советуют выбирать обувь с нескользящей подошвой.",
+              "cutStart": false,
+              "cutEnd": false
+            },
+            "evidence": {
+              "sentenceIndex": 0,
+              "ranges": [
+                {
+                  "start": 0,
+                  "end": 99
+                }
+              ],
+              "basis": "semantic",
+              "note": null
+            },
+            "placementType": null,
+            "isOriginal": false,
+            "citation": null,
+            "groupId": null,
+            "excluded": false,
+            "isNew": false,
+            "arrival": 1
+          },
+          {
+            "id": "vk:-100107_88140",
+            "publication": {
+              "id": "vk:-100107_88140",
+              "key": {
+                "platform": "vk",
+                "ownerId": "-100107",
+                "postId": "88140"
+              },
+              "platform": "vk",
+              "source": {
+                "id": "vk-dorpatrul",
+                "platform": "vk",
+                "name": "Дорожный патруль Красноярска",
+                "url": "https://vk.com/demo_dorpatrul",
+                "type": "community",
+                "district": "Красноярск",
+                "subscribers": 96000,
+                "inMySources": true,
+                "regional": true
+              },
+              "url": "https://vk.com/wall-100107_88140",
+              "mergedUrls": [],
+              "title": null,
+              "headline": "Утром в Красноярске выпал первый снег — на дорогах гололёд.",
+              "headlineFrom": "text",
+              "text": "Утром в Красноярске выпал первый снег — на дорогах гололёд. С начала суток в городе зарегистрировано 37 ДТП, в основном мелкие столкновения. Водителей просят не торопиться и держать дистанцию.",
+              "sentences": [
+                {
+                  "index": 0,
+                  "start": 0,
+                  "end": 59
+                },
+                {
+                  "index": 1,
+                  "start": 60,
+                  "end": 140
+                },
+                {
+                  "index": 2,
+                  "start": 141,
+                  "end": 192
+                }
+              ],
+              "publishedAt": "2026-10-19T09:10:00+07:00",
+              "timeReliability": "exact",
+              "edited": false,
+              "repostOf": {
+                "sourceName": "Телеканал края",
+                "url": "https://vk.com/wall-100101_88102"
+              },
+              "hasMedia": false,
+              "views": 12300,
+              "reactions": 140,
+              "fetchedAt": "2026-10-19T14:32:24+07:00",
+              "linkCheck": {
+                "state": "not-checked",
+                "checkedAt": null
+              }
+            },
+            "relevance": "direct",
+            "method": "copy",
+            "methodNote": null,
+            "regionReason": {
+              "regionalSource": true,
+              "inMySources": false,
+              "places": [
+                "Красноярск"
+              ]
+            },
+            "excerpt": {
+              "start": 60,
+              "end": 192,
+              "text": "С начала суток в городе зарегистрировано 37 ДТП, в основном мелкие столкновения. Водителей просят не торопиться и держать дистанцию.",
+              "cutStart": true,
+              "cutEnd": false
+            },
+            "evidence": {
+              "sentenceIndex": 1,
+              "ranges": [
+                {
+                  "start": 60,
+                  "end": 140
+                }
+              ],
+              "basis": "semantic",
+              "note": null
+            },
+            "placementType": null,
+            "isOriginal": false,
+            "citation": null,
+            "groupId": null,
+            "excluded": false,
+            "isNew": false,
+            "arrival": 2
+          },
+          {
+            "id": "vk:-100101_88102",
+            "publication": {
+              "id": "vk:-100101_88102",
+              "key": {
+                "platform": "vk",
+                "ownerId": "-100101",
+                "postId": "88102"
+              },
+              "platform": "vk",
+              "source": {
+                "id": "vk-tv-kraya",
+                "platform": "vk",
+                "name": "Телеканал края",
+                "url": "https://vk.com/demo_tv_kraya",
+                "type": "media",
+                "district": "Красноярск",
+                "subscribers": 212000,
+                "inMySources": true,
+                "regional": true
+              },
+              "url": "https://vk.com/wall-100101_88102",
+              "mergedUrls": [],
+              "title": null,
+              "headline": "Утром в Красноярске выпал первый снег — на дорогах гололёд.",
+              "headlineFrom": "text",
+              "text": "Утром в Красноярске выпал первый снег — на дорогах гололёд. С начала суток в городе зарегистрировано 37 ДТП, в основном мелкие столкновения. Водителей просят не торопиться и держать дистанцию.",
+              "sentences": [
+                {
+                  "index": 0,
+                  "start": 0,
+                  "end": 59
+                },
+                {
+                  "index": 1,
+                  "start": 60,
+                  "end": 140
+                },
+                {
+                  "index": 2,
+                  "start": 141,
+                  "end": 192
+                }
+              ],
+              "publishedAt": "2026-10-19T08:45:00+07:00",
+              "timeReliability": "exact",
+              "edited": false,
+              "repostOf": null,
+              "hasMedia": false,
+              "views": 41200,
+              "reactions": 655,
+              "fetchedAt": "2026-10-19T14:32:24+07:00",
+              "linkCheck": {
+                "state": "not-checked",
+                "checkedAt": null
+              }
+            },
+            "relevance": "direct",
+            "method": "semantic",
+            "methodNote": null,
+            "regionReason": {
+              "regionalSource": true,
+              "inMySources": false,
+              "places": [
+                "Красноярск"
+              ]
+            },
+            "excerpt": {
+              "start": 60,
+              "end": 192,
+              "text": "С начала суток в городе зарегистрировано 37 ДТП, в основном мелкие столкновения. Водителей просят не торопиться и держать дистанцию.",
+              "cutStart": true,
+              "cutEnd": false
+            },
+            "evidence": {
+              "sentenceIndex": 1,
+              "ranges": [
+                {
+                  "start": 60,
+                  "end": 140
+                }
+              ],
+              "basis": "semantic",
+              "note": null
+            },
+            "placementType": null,
+            "isOriginal": false,
+            "citation": null,
+            "groupId": null,
+            "excluded": false,
+            "isNew": false,
+            "arrival": 3
+          }
+        ],
+        "groups": [
+          {
+            "id": "g-peshehod",
+            "title": "«Внимание, пешеход!» — копии сообщения Госавтоинспекции",
+            "kind": "copies",
+            "itemIds": [
+              "vk:-100106_58211",
+              "vk:-100102_77340",
+              "ok:5600101_30418",
+              "max:dorogi_1842"
+            ],
+            "originalItemId": "vk:-100106_58211",
+            "countsByPlatform": {
+              "vk": 2,
+              "ok": 1,
+              "max": 1
+            },
+            "countsByType": {
+              "verbatim": 2,
+              "shortened": 2,
+              "retold": 0,
+              "repost": 0
+            }
+          }
+        ],
+        "counts": {
+          "total": 40,
+          "excluded": 0,
+          "byRelevance": {
+            "direct": 24,
+            "indirect": 10,
+            "disputed": 6
+          },
+          "byPlatform": {
+            "vk": 27,
+            "ok": 7,
+            "max": 6
+          },
+          "byPlacementType": {
+            "verbatim": 2,
+            "shortened": 2,
+            "retold": 0,
+            "repost": 0
+          },
+          "new": 0
+        },
+        "topic": {
+          "summary": "Публикации о безопасности на дорогах края: ДТП, пешеходы и переходы, дети на дорогах, проверки водителей, состояние дорог зимой.",
+          "includes": [
+            {
+              "id": "dtp",
+              "label": "ДТП и их последствия",
+              "example": "«столкнулись два автомобиля»",
+              "origin": "system"
+            },
+            {
+              "id": "pedestrians",
+              "label": "Пешеходы и переходы",
+              "example": "«сбил пешехода на переходе»",
+              "origin": "system"
+            },
+            {
+              "id": "children",
+              "label": "Дети на дорогах",
+              "example": "«перевозка детей без кресел»",
+              "origin": "system"
+            },
+            {
+              "id": "raids",
+              "label": "Рейды и проверки водителей",
+              "example": "«рейд „Нетрезвый водитель“»",
+              "origin": "system"
+            },
+            {
+              "id": "roads",
+              "label": "Дороги зимой и освещение — если речь о безопасности",
+              "example": "«гололёд на дорогах»",
+              "origin": "system"
+            }
+          ],
+          "excludes": [
+            {
+              "id": "fire",
+              "label": "Пожарная безопасность",
+              "example": "«безопасность при топке печей»",
+              "cutCount": 6,
+              "origin": "system"
+            },
+            {
+              "id": "internet",
+              "label": "Безопасность в интернете",
+              "example": "«мошенники в мессенджерах»",
+              "cutCount": 2,
+              "origin": "system"
+            },
+            {
+              "id": "ice",
+              "label": "Безопасность на льду и воде",
+              "example": "«выход на лёд запрещён»",
+              "cutCount": 3,
+              "origin": "system"
+            }
+          ],
+          "signs": null,
+          "madeBy": "ai",
+          "note": null,
+          "cutExamples": [
+            {
+              "headline": "Пожарные напоминают о безопасности при топке печей.",
+              "reason": "Другая «безопасность»: пожарная, не дорожная"
+            },
+            {
+              "headline": "Безопасность в доме: проверьте электропроводку перед зимой.",
+              "reason": "Пожарная безопасность в быту"
+            },
+            {
+              "headline": "Как не попасться мошенникам: памятка для пенсионеров",
+              "reason": "Безопасность в интернете"
+            }
+          ]
+        },
+        "notices": [
+          {
+            "code": "undated-included",
+            "tone": "info",
+            "message": "Публикации без даты показаны с пометкой «дата неизвестна»: проверить, что они попадают в период, нельзя."
+          },
+          {
+            "code": "images-not-analyzed",
+            "tone": "info",
+            "message": "Текст на картинках и в видео не анализируется."
+          }
+        ],
+        "aiAvailable": true,
+        "phase": "done"
+      }
+    }
+  ]
+}

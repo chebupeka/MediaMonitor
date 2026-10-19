@@ -1,0 +1,12 @@
+{
+  "method": "recheckLinks",
+  "schema": "LinkRecheckReport",
+  "value": {
+    "checked": 38,
+    "ok": 37,
+    "deletedItemIds": [
+      "vk:-100108_33102"
+    ],
+    "checkedAt": "2026-10-19T14:32:14+07:00"
+  }
+}

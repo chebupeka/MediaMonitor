@@ -1,0 +1,314 @@
+{
+  "method": "event-stop",
+  "schema": "SearchEvent[]",
+  "value": [
+    {
+      "type": "started",
+      "conditions": {
+        "searchId": "s-mvfj6cm9-3",
+        "text": "Енисей",
+        "label": "Енисей (река)",
+        "kind": "event",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-20",
+          "to": "2026-10-19"
+        },
+        "region": {
+          "id": "krasnoyarsk-krai",
+          "name": "Красноярский край",
+          "timeZone": "Asia/Krasnoyarsk"
+        },
+        "mode": "everywhere",
+        "sourceCount": null,
+        "platforms": [
+          "vk",
+          "ok",
+          "max"
+        ],
+        "meaningLabel": "Река Енисей",
+        "startedAt": "2026-10-19T14:32:22+07:00",
+        "finishedAt": null,
+        "repeatOf": null
+      },
+      "statuses": [
+        {
+          "platform": "vk",
+          "state": "waiting",
+          "found": 0,
+          "progress": null,
+          "problem": null,
+          "freshness": null,
+          "cap": null,
+          "updatedAt": null
+        },
+        {
+          "platform": "ok",
+          "state": "waiting",
+          "found": 0,
+          "progress": null,
+          "problem": null,
+          "freshness": null,
+          "cap": null,
+          "updatedAt": null
+        },
+        {
+          "platform": "max",
+          "state": "waiting",
+          "found": 0,
+          "progress": null,
+          "problem": null,
+          "freshness": {
+            "delayHours": 24,
+            "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+          },
+          "cap": null,
+          "updatedAt": null
+        }
+      ]
+    },
+    {
+      "type": "topic",
+      "topic": {
+        "summary": "Река Енисей: завершение навигации, северный завоз, ледостав и переправы.",
+        "includes": [
+          {
+            "id": "navigation",
+            "label": "Навигация и теплоходы",
+            "origin": "system"
+          },
+          {
+            "id": "delivery",
+            "label": "Северный завоз",
+            "origin": "system"
+          },
+          {
+            "id": "ice",
+            "label": "Ледостав и безопасность на льду",
+            "origin": "system"
+          },
+          {
+            "id": "crossings",
+            "label": "Переправы и авиарейсы вместо них",
+            "origin": "system"
+          }
+        ],
+        "excludes": [
+          {
+            "id": "club",
+            "label": "Спортивный клуб «Енисей»",
+            "cutCount": 3,
+            "origin": "system"
+          },
+          {
+            "id": "names",
+            "label": "Улицы, магазины и компании со словом «Енисей»",
+            "cutCount": 9,
+            "origin": "system"
+          }
+        ],
+        "signs": {
+          "who": [
+            "речники",
+            "спасатели",
+            "синоптики"
+          ],
+          "where": [
+            "Енисей",
+            "Красноярск — Дудинка",
+            "Лесосибирск",
+            "Туруханский район"
+          ],
+          "when": [
+            "октябрь 2026"
+          ],
+          "numbers": [
+            "последний рейс 12 октября",
+            "лёд тоньше 5 см"
+          ]
+        },
+        "madeBy": "ai",
+        "note": null,
+        "cutExamples": [
+          {
+            "headline": "Спортивный клуб «Енисей» открыл набор в детскую школу",
+            "reason": "Другое значение: спортивный клуб"
+          }
+        ]
+      }
+    },
+    {
+      "type": "stopped",
+      "selection": {
+        "searchId": "s-mvfj6cm9-3",
+        "conditions": {
+          "searchId": "s-mvfj6cm9-3",
+          "text": "Енисей",
+          "label": "Енисей (река)",
+          "kind": "event",
+          "period": {
+            "preset": "30d",
+            "from": "2026-09-20",
+            "to": "2026-10-19"
+          },
+          "region": {
+            "id": "krasnoyarsk-krai",
+            "name": "Красноярский край",
+            "timeZone": "Asia/Krasnoyarsk"
+          },
+          "mode": "everywhere",
+          "sourceCount": null,
+          "platforms": [
+            "vk",
+            "ok",
+            "max"
+          ],
+          "meaningLabel": "Река Енисей",
+          "startedAt": "2026-10-19T14:32:22+07:00",
+          "finishedAt": "2026-10-19T14:32:23+07:00",
+          "repeatOf": null
+        },
+        "statuses": [
+          {
+            "platform": "vk",
+            "state": "stopped",
+            "found": 0,
+            "progress": {
+              "done": 0,
+              "total": 40,
+              "unit": "sources"
+            },
+            "problem": null,
+            "freshness": null,
+            "cap": null,
+            "updatedAt": null
+          },
+          {
+            "platform": "ok",
+            "state": "stopped",
+            "found": 0,
+            "progress": {
+              "done": 0,
+              "total": 18,
+              "unit": "sources"
+            },
+            "problem": null,
+            "freshness": null,
+            "cap": null,
+            "updatedAt": null
+          },
+          {
+            "platform": "max",
+            "state": "stopped",
+            "found": 0,
+            "progress": {
+              "done": 0,
+              "total": 12,
+              "unit": "sources"
+            },
+            "problem": null,
+            "freshness": {
+              "delayHours": 24,
+              "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+            },
+            "cap": null,
+            "updatedAt": null
+          }
+        ],
+        "items": [],
+        "groups": [],
+        "counts": {
+          "total": 0,
+          "excluded": 0,
+          "byRelevance": {
+            "direct": 0,
+            "indirect": 0,
+            "disputed": 0
+          },
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          },
+          "byPlacementType": {
+            "verbatim": 0,
+            "shortened": 0,
+            "retold": 0,
+            "repost": 0
+          },
+          "new": 0
+        },
+        "topic": {
+          "summary": "Река Енисей: завершение навигации, северный завоз, ледостав и переправы.",
+          "includes": [
+            {
+              "id": "navigation",
+              "label": "Навигация и теплоходы",
+              "origin": "system"
+            },
+            {
+              "id": "delivery",
+              "label": "Северный завоз",
+              "origin": "system"
+            },
+            {
+              "id": "ice",
+              "label": "Ледостав и безопасность на льду",
+              "origin": "system"
+            },
+            {
+              "id": "crossings",
+              "label": "Переправы и авиарейсы вместо них",
+              "origin": "system"
+            }
+          ],
+          "excludes": [
+            {
+              "id": "club",
+              "label": "Спортивный клуб «Енисей»",
+              "cutCount": 3,
+              "origin": "system"
+            },
+            {
+              "id": "names",
+              "label": "Улицы, магазины и компании со словом «Енисей»",
+              "cutCount": 9,
+              "origin": "system"
+            }
+          ],
+          "signs": {
+            "who": [
+              "речники",
+              "спасатели",
+              "синоптики"
+            ],
+            "where": [
+              "Енисей",
+              "Красноярск — Дудинка",
+              "Лесосибирск",
+              "Туруханский район"
+            ],
+            "when": [
+              "октябрь 2026"
+            ],
+            "numbers": [
+              "последний рейс 12 октября",
+              "лёд тоньше 5 см"
+            ]
+          },
+          "madeBy": "ai",
+          "note": null,
+          "cutExamples": [
+            {
+              "headline": "Спортивный клуб «Енисей» открыл набор в детскую школу",
+              "reason": "Другое значение: спортивный клуб"
+            }
+          ]
+        },
+        "notices": [],
+        "aiAvailable": true,
+        "phase": "stopped"
+      }
+    }
+  ]
+}

@@ -54,6 +54,11 @@ export interface PostSpec {
   original?: boolean;
   citation?: Citation;
   group?: string;
+  /**
+   * Заданная оценка проверки на ИИ (0..1) — только имитация: чтобы в демо были все уровни.
+   * Привязана к ТЕКСТУ поста (fake/ai.ts): тот же текст где угодно даёт ту же оценку.
+   */
+  ai?: number;
 }
 
 /** Запись подборки + служебные сведения имитации. */
@@ -69,7 +74,7 @@ interface BuiltText {
   sentences: Sentence[];
 }
 
-function buildText(spec: PostSpec['text']): BuiltText | null {
+export function buildText(spec: PostSpec['text']): BuiltText | null {
   if (!spec || spec.length === 0) return null;
   const paragraphs: string[][] = Array.isArray(spec[0]) ? (spec as string[][]) : [spec as string[]];
   let text = '';
@@ -117,6 +122,15 @@ function buildExcerpt(built: BuiltText, from: Sentence): Excerpt {
     cutStart: start > 0,
     cutEnd: end < built.text.length,
   };
+}
+
+/** Заданные оценки проверки на ИИ из описаний постов: пары «полный текст поста — оценка». */
+export function aiScoresOf(specs: readonly PostSpec[]): [string, number][] {
+  return specs.flatMap((spec): [string, number][] => {
+    if (spec.ai === undefined) return [];
+    const built = buildText(spec.text);
+    return built ? [[built.text, spec.ai]] : [];
+  });
 }
 
 let arrivalSeed = 0;
@@ -211,7 +225,7 @@ export function buildItem(spec: PostSpec): DemoItem {
     relevance: spec.rel,
     method: spec.m,
     methodNote: spec.methodNote ?? null,
-    regionReason: { regionalSource: seed.regional, places: spec.places ?? [] },
+    regionReason: { regionalSource: seed.regional, inMySources: false, places: spec.places ?? [] },
     excerpt,
     evidence,
     placementType: spec.placement ?? null,
@@ -241,7 +255,11 @@ export function validateItems(items: readonly ResultItem[]): string[] {
     const { publication: p } = item;
     if (ids.has(item.id)) problems.push(`${item.id}: повтор id (одна запись на пост, ТЗ-Ф30)`);
     ids.add(item.id);
-    if (!item.regionReason.regionalSource && item.regionReason.places.length === 0) {
+    if (
+      !item.regionReason.regionalSource &&
+      !item.regionReason.inMySources &&
+      item.regionReason.places.length === 0
+    ) {
       problems.push(`${item.id}: нет причины региона (Р4)`);
     }
     if (p.text === null) {

@@ -1,0 +1,18 @@
+{
+  "method": "checkSource-sourceOk",
+  "schema": "SourceCheck",
+  "value": {
+    "state": "ok",
+    "message": "«Минусинск — наш город» доступен: открытая группа, посты читаются.",
+    "preview": {
+      "platform": "vk",
+      "name": "Минусинск — наш город",
+      "url": "https://vk.com/demo_minusinsk",
+      "subscribers": 33000,
+      "lastPostAt": "2026-10-19T09:40:00+07:00",
+      "suggestedType": "community",
+      "suggestedDistrict": "Минусинск"
+    },
+    "checkedAt": "2026-10-19T14:32:55+07:00"
+  }
+}

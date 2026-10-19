@@ -1,0 +1,18 @@
+{
+  "method": "checkSource-sourcePostLink",
+  "schema": "SourceCheck",
+  "value": {
+    "state": "post-link",
+    "message": "Это ссылка на пост. Он опубликован в «Пресс-центр края» — можно проверить и добавить эту группу.",
+    "preview": {
+      "platform": "vk",
+      "name": "Пресс-центр края",
+      "url": "https://vk.com/demo_press_centre",
+      "subscribers": 48000,
+      "lastPostAt": "2026-10-19T09:40:00+07:00",
+      "suggestedType": "authority",
+      "suggestedDistrict": "весь край"
+    },
+    "checkedAt": "2026-10-19T14:32:58+07:00"
+  }
+}

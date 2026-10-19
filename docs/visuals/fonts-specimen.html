@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Шрифты: три пары</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@700;800&family=Sofia+Sans:wght@400;600&family=Alumni+Sans:wght@700;800&family=Golos+Text:wght@400;600&family=Oswald:wght@600;700&family=Onest:wght@400;600&display=swap">
+<style>
+/* «Край ночью с орбиты»: ночная синева, янтарь — свет найденного, ледяной голубой — Енисей и ссылки */
+:root {
+  --night: #080d18; --plate: #0f1626; --plate-2: #141d31; --line: #22304a;
+  --ink: #e8edf6; --ink-2: #aab6c9; --ink-3: #7d8aa0;
+  --amber: #f6b755; --ice: #8ec9f3;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--night); color: var(--ink); padding: 40px 48px; }
+.sky { position: relative; }
+.sky::before {
+  content: ""; position: absolute; inset: -40px -48px auto; height: 260px; pointer-events: none;
+  background-image: radial-gradient(1.2px 1.2px at 12% 30%, #ffffff55 50%, transparent 51%),
+    radial-gradient(1px 1px at 33% 12%, #ffffff40 50%, transparent 51%),
+    radial-gradient(1.4px 1.4px at 58% 44%, #f6b75599 50%, transparent 51%),
+    radial-gradient(1px 1px at 72% 18%, #ffffff40 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 88% 36%, #8ec9f388 50%, transparent 51%),
+    radial-gradient(1px 1px at 47% 70%, #ffffff30 50%, transparent 51%);
+}
+h1.title { font: 600 15px/1.4 "Sofia Sans", system-ui, sans-serif; color: var(--ink-3); letter-spacing: .06em; text-transform: uppercase; margin: 0 0 24px; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.pair { background: var(--plate); border: 1px solid var(--line); border-radius: 14px; padding: 26px 26px 22px; display: grid; gap: 16px; align-content: start; }
+.tag { font: 600 13px/1.3 "Sofia Sans", system-ui, sans-serif; color: var(--ink-3); }
+.tag b { color: var(--amber); font-weight: 600; }
+.display { margin: 0; text-transform: uppercase; line-height: .92; letter-spacing: .005em; font-size: 64px; }
+.display .outline { color: transparent; -webkit-text-stroke: 1.4px var(--ink); paint-order: stroke fill; }
+.lead { margin: 0; font-size: 16px; line-height: 1.5; color: var(--ink-2); }
+.lead strong { color: var(--ink); font-weight: 600; }
+.card { background: var(--plate-2); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 6px; }
+.meta { font-size: 13px; color: var(--ink-3); display: flex; gap: 8px; align-items: center; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 0 3px #f6b75522; }
+.post { font-size: 15px; line-height: 1.45; color: var(--ink); }
+.post mark { background: #f6b7552e; color: var(--ink); border-radius: 3px; padding: 0 2px; }
+.link { color: var(--ice); font-size: 14px; }
+.nums { display: flex; gap: 22px; }
+.num { display: grid; gap: 2px; }
+.num .v { font-size: 40px; line-height: 1; color: var(--amber); }
+.num .l { font-size: 12.5px; color: var(--ink-3); }
+.btn { justify-self: start; background: var(--amber); color: #1b1203; font-weight: 600; font-size: 15px; border-radius: 8px; padding: 9px 16px; }
+
+.p1 .display, .p1 .num .v { font-family: "Sofia Sans Extra Condensed", "Bahnschrift", sans-serif; font-weight: 800; }
+.p1, .p1 .lead, .p1 .card, .p1 .btn { font-family: "Sofia Sans", system-ui, sans-serif; }
+.p2 .display, .p2 .num .v { font-family: "Alumni Sans", "Bahnschrift", sans-serif; font-weight: 800; font-size: 70px; }
+.p2 .num .v { font-size: 44px; }
+.p2, .p2 .lead, .p2 .card, .p2 .btn { font-family: "Golos Text", system-ui, sans-serif; }
+.p3 .display, .p3 .num .v { font-family: "Oswald", "Bahnschrift", sans-serif; font-weight: 700; font-size: 56px; }
+.p3 .num .v { font-size: 36px; }
+.p3, .p3 .lead, .p3 .card, .p3 .btn { font-family: "Onest", system-ui, sans-serif; }
+
+.palette { margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; font: 400 13px/1.3 "Sofia Sans", system-ui, sans-serif; color: var(--ink-2); }
+.sw { display: flex; align-items: center; gap: 8px; background: var(--plate); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; }
+.sw i { width: 22px; height: 22px; border-radius: 5px; display: inline-block; border: 1px solid #ffffff22; }
+</style>
+</head>
+<body>
+<div class="sky">
+  <h1 class="title">Три пары шрифтов на палитре «Край ночью с орбиты» · данные условные</h1>
+  <div class="grid">
+    <section class="pair p1">
+      <div class="tag"><b>Пара 1 · рекомендую</b> · Sofia Sans Extra Condensed + Sofia Sans</div>
+      <h2 class="display"><span class="outline">Найдём,</span><br>где о вас<br>написали</h2>
+      <p class="lead">Публикации во <strong>ВКонтакте</strong>, <strong>Одноклассниках</strong> и <strong>MAX</strong> по Красноярскому краю — с прямой ссылкой и выдержкой из оригинала.</p>
+      <div class="nums"><div class="num"><span class="v">15</span><span class="l">размещений</span></div><div class="num"><span class="v">72%</span><span class="l">текста перепечатано</span></div><div class="num"><span class="v">1,04 млн</span><span class="l">подписчиков источников</span></div></div>
+      <div class="card"><div class="meta"><span class="dot"></span>ВКонтакте · Городской портал · 14 окт, 12:15 (Красноярск)</div><div class="post">В Норильске <mark>открылась новая школа на 1 100 мест</mark>. Здание построили за два года…</div><span class="link">Открыть пост ↗</span></div>
+      <span class="btn">Начать поиск</span>
+    </section>
+    <section class="pair p2">
+      <div class="tag"><b>Пара 2</b> · Alumni Sans + Golos Text</div>
+      <h2 class="display"><span class="outline">Найдём,</span><br>где о вас<br>написали</h2>
+      <p class="lead">Публикации во <strong>ВКонтакте</strong>, <strong>Одноклассниках</strong> и <strong>MAX</strong> по Красноярскому краю — с прямой ссылкой и выдержкой из оригинала.</p>
+      <div class="nums"><div class="num"><span class="v">15</span><span class="l">размещений</span></div><div class="num"><span class="v">72%</span><span class="l">текста перепечатано</span></div><div class="num"><span class="v">1,04 млн</span><span class="l">подписчиков источников</span></div></div>
+      <div class="card"><div class="meta"><span class="dot"></span>ВКонтакте · Городской портал · 14 окт, 12:15 (Красноярск)</div><div class="post">В Норильске <mark>открылась новая школа на 1 100 мест</mark>. Здание построили за два года…</div><span class="link">Открыть пост ↗</span></div>
+      <span class="btn">Начать поиск</span>
+    </section>
+    <section class="pair p3">
+      <div class="tag"><b>Пара 3</b> · Oswald + Onest</div>
+      <h2 class="display"><span class="outline">Найдём,</span><br>где о вас<br>написали</h2>
+      <p class="lead">Публикации во <strong>ВКонтакте</strong>, <strong>Одноклассниках</strong> и <strong>MAX</strong> по Красноярскому краю — с прямой ссылкой и выдержкой из оригинала.</p>
+      <div class="nums"><div class="num"><span class="v">15</span><span class="l">размещений</span></div><div class="num"><span class="v">72%</span><span class="l">текста перепечатано</span></div><div class="num"><span class="v">1,04 млн</span><span class="l">подписчиков источников</span></div></div>
+      <div class="card"><div class="meta"><span class="dot"></span>ВКонтакте · Городской портал · 14 окт, 12:15 (Красноярск)</div><div class="post">В Норильске <mark>открылась новая школа на 1 100 мест</mark>. Здание построили за два года…</div><span class="link">Открыть пост ↗</span></div>
+      <span class="btn">Начать поиск</span>
+    </section>
+  </div>
+  <div class="palette">
+    <span class="sw"><i style="background:#080d18"></i>Ночная синева — фон</span>
+    <span class="sw"><i style="background:#0f1626"></i>Плита — карточки и панели</span>
+    <span class="sw"><i style="background:#f6b755"></i>Янтарь — найденное, города, главная кнопка</span>
+    <span class="sw"><i style="background:#8ec9f3"></i>Лёд — Енисей, ссылки, фокус</span>
+    <span class="sw"><i style="background:#e8edf6"></i>Текст</span>
+  </div>
+</div>
+</body>
+</html>

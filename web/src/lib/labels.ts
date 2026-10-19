@@ -139,10 +139,11 @@ export const SOURCE_TYPE_LABEL: Record<SourceType, string> = {
 
 // ---------------------------------------------------------------- регион, время
 
-/** «краевой источник · упоминается: Норильск, Талнах» */
+/** «краевой источник · в вашем списке · упоминается: Норильск, Талнах» (как в XLSX сервера) */
 export function regionReasonText(reason: RegionReason): string {
   const parts: string[] = [];
   if (reason.regionalSource) parts.push('краевой источник');
+  if (reason.inMySources) parts.push('в вашем списке');
   if (reason.places.length > 0) parts.push(`упоминается: ${reason.places.join(', ')}`);
   return parts.join(' · ');
 }

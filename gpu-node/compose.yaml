@@ -1,0 +1,50 @@
+# Linux + NVIDIA Container Toolkit. Запуск из папки gpu-node:
+#   docker compose up -d --build                      # только сервис эмбеддингов
+#   docker compose --profile ollama up -d --build     # и Ollama в контейнере (если она не стоит в системе)
+#
+# network_mode: host — чтобы порты закрывал брандмауэр системы (ufw/firewalld). Порты, опубликованные
+# через `ports:`, Docker открывает в обход ufw, и правило «только сервер» не сработало бы.
+name: mediamonitor-gpu
+
+x-gpu: &gpu
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+
+services:
+  embeddings:
+    <<: *gpu
+    build:
+      context: .
+      args:
+        TORCH_EXTRA: ${TORCH_EXTRA:-cu128}
+    image: mediamonitor-embeddings:local
+    env_file: .env
+    environment:
+      HF_HOME: /models
+      EMBEDDINGS_DEVICE: cuda   # без видеокарты не стартовать, а не тихо считать на CPU
+    network_mode: host
+    volumes:
+      - models:/models
+    restart: unless-stopped
+
+  ollama:
+    <<: *gpu
+    profiles: ["ollama"]
+    image: ollama/ollama:0.40.6
+    environment:
+      OLLAMA_HOST: 0.0.0.0:11434
+      OLLAMA_CONTEXT_LENGTH: "8192"
+      OLLAMA_KEEP_ALIVE: "-1"
+    network_mode: host
+    volumes:
+      - ollama:/root/.ollama
+    restart: unless-stopped
+
+volumes:
+  models:
+  ollama:

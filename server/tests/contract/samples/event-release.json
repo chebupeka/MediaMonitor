@@ -1,0 +1,4353 @@
+{
+  "method": "event-release",
+  "schema": "SearchEvent[]",
+  "value": [
+    {
+      "type": "started",
+      "conditions": {
+        "searchId": "s-mvfj66u6-2",
+        "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+        "label": "Новая школа в Норильске",
+        "kind": "news-text",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-20",
+          "to": "2026-10-19"
+        },
+        "region": {
+          "id": "krasnoyarsk-krai",
+          "name": "Красноярский край",
+          "timeZone": "Asia/Krasnoyarsk"
+        },
+        "mode": "everywhere",
+        "sourceCount": null,
+        "platforms": [
+          "vk",
+          "ok",
+          "max"
+        ],
+        "meaningLabel": null,
+        "startedAt": "2026-10-19T14:32:15+07:00",
+        "finishedAt": null,
+        "repeatOf": null
+      },
+      "statuses": [
+        {
+          "platform": "vk",
+          "state": "waiting",
+          "found": 0,
+          "progress": null,
+          "problem": null,
+          "freshness": null,
+          "cap": null,
+          "updatedAt": null
+        },
+        {
+          "platform": "ok",
+          "state": "waiting",
+          "found": 0,
+          "progress": null,
+          "problem": null,
+          "freshness": null,
+          "cap": null,
+          "updatedAt": null
+        },
+        {
+          "platform": "max",
+          "state": "waiting",
+          "found": 0,
+          "progress": null,
+          "problem": null,
+          "freshness": {
+            "delayHours": 24,
+            "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+          },
+          "cap": null,
+          "updatedAt": null
+        }
+      ]
+    },
+    {
+      "type": "topic",
+      "topic": {
+        "summary": "Новость: в Норильске открылась новая школа на 1 100 мест в районе Оганер; первые уроки — 20 октября. Ищем перепечатки, сокращения и пересказы.",
+        "includes": [
+          {
+            "id": "same-event",
+            "label": "Перепечатки, сокращения и пересказы этой новости",
+            "origin": "system"
+          },
+          {
+            "id": "reactions",
+            "label": "Отклики и вопросы о новой школе",
+            "origin": "system"
+          }
+        ],
+        "excludes": [
+          {
+            "id": "other-schools",
+            "label": "Другие школы края: открытия и ремонты",
+            "example": "«В Ачинске после ремонта открылась школа № 3»",
+            "cutCount": 4,
+            "origin": "system"
+          },
+          {
+            "id": "norilsk-other",
+            "label": "Другие новости Норильска",
+            "example": "«стартовал набор в кружки робототехники»",
+            "cutCount": 7,
+            "origin": "system"
+          }
+        ],
+        "signs": {
+          "who": [
+            "Министерство образования края",
+            "Пресс-центр края"
+          ],
+          "where": [
+            "Норильск",
+            "район Оганер",
+            "Талнах"
+          ],
+          "when": [
+            "14 октября 2026",
+            "первые уроки 20 октября"
+          ],
+          "numbers": [
+            "1 100 мест",
+            "48 классов",
+            "за два года"
+          ]
+        },
+        "madeBy": "ai",
+        "note": null,
+        "cutExamples": [
+          {
+            "headline": "В Ачинске после ремонта открылась школа № 3",
+            "reason": "Похожая новость о другом событии: другая школа и другой город"
+          },
+          {
+            "headline": "В Норильске стартовал набор в кружки робототехники",
+            "reason": "Другая новость Норильска"
+          }
+        ]
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 2,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 1,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 0,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 4,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 2,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 1,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100103_64502",
+          "publication": {
+            "id": "vk:-100103_64502",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100103",
+              "postId": "64502"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-portal-norilsk",
+              "platform": "vk",
+              "name": "Городской портал Норильска",
+              "url": "https://vk.com/demo_portal_norilsk",
+              "type": "media",
+              "district": "Норильск",
+              "subscribers": 64000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100103_64502",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске выбрали подрядчика для строительства ещё одной школы — в Талнахе.",
+            "headlineFrom": "text",
+            "text": "В Норильске выбрали подрядчика для строительства ещё одной школы — в Талнахе. Её планируют открыть в 2028 году. Новая школа в районе Оганер, открытая на этой неделе, уже заполнена на 80%.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 77
+              },
+              {
+                "index": 1,
+                "start": 78,
+                "end": 111
+              },
+              {
+                "index": 2,
+                "start": 112,
+                "end": 187
+              }
+            ],
+            "publishedAt": "2026-10-17T12:00:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 4480,
+            "reactions": 256,
+            "fetchedAt": "2026-10-19T14:32:16+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "indirect",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск",
+              "Талнах"
+            ]
+          },
+          "excerpt": {
+            "start": 112,
+            "end": 187,
+            "text": "Новая школа в районе Оганер, открытая на этой неделе, уже заполнена на 80%.",
+            "cutStart": true,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 2,
+            "ranges": [
+              {
+                "start": 112,
+                "end": 187
+              }
+            ],
+            "basis": "semantic",
+            "note": "Упоминает новую школу, но главная новость — другая"
+          },
+          "placementType": null,
+          "isOriginal": false,
+          "citation": null,
+          "groupId": null,
+          "excluded": false,
+          "isNew": false,
+          "arrival": 1
+        }
+      ],
+      "groups": [],
+      "counts": {
+        "total": 1,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 0,
+          "indirect": 1,
+          "disputed": 0
+        },
+        "byPlatform": {
+          "vk": 1,
+          "ok": 0,
+          "max": 0
+        },
+        "byPlacementType": {
+          "verbatim": 0,
+          "shortened": 0,
+          "retold": 0,
+          "repost": 0
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 6,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 3,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 1,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 8,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 4,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 2,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100113_71533",
+          "publication": {
+            "id": "vk:-100113_71533",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100113",
+              "postId": "71533"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-parents",
+              "platform": "vk",
+              "name": "Родительское сообщество края",
+              "url": "https://vk.com/demo_parents",
+              "type": "community",
+              "district": "весь край",
+              "subscribers": 52000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100113_71533",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "Родители Норильска, новая школа в Оганере открыта!",
+            "headlineFrom": "text",
+            "text": "Родители Норильска, новая школа в Оганере открыта! Запись продолжается: родители могут подать заявление через портал госуслуг. Кто уже записал детей — поделитесь, как всё прошло?",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 50
+              },
+              {
+                "index": 1,
+                "start": 51,
+                "end": 126
+              },
+              {
+                "index": 2,
+                "start": 127,
+                "end": 178
+              }
+            ],
+            "publishedAt": "2026-10-16T10:15:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 2900,
+            "reactions": 208,
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 51,
+            "end": 178,
+            "text": "Запись продолжается: родители могут подать заявление через портал госуслуг. Кто уже записал детей — поделитесь, как всё прошло?",
+            "cutStart": true,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 1,
+            "ranges": [
+              {
+                "start": 51,
+                "end": 126
+              }
+            ],
+            "basis": "release-match",
+            "note": "Пересказ: совпадают место, дата и участники; подсвечены дословные фразы релиза"
+          },
+          "placementType": "retold",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.15,
+            "fragmentIds": []
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 2
+        },
+        {
+          "id": "ok:5600108_40790",
+          "publication": {
+            "id": "ok:5600108_40790",
+            "key": {
+              "platform": "ok",
+              "ownerId": "5600108",
+              "postId": "40790"
+            },
+            "platform": "ok",
+            "source": {
+              "id": "ok-kansk",
+              "platform": "ok",
+              "name": "Канск и Канский район",
+              "url": "https://ok.ru/group/5600108",
+              "type": "community",
+              "district": "Канск",
+              "subscribers": 16000,
+              "inMySources": false,
+              "regional": true
+            },
+            "url": "https://ok.ru/group/5600108/topic/40790",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске открылась новая школа на 1 100 мест.",
+            "headlineFrom": "text",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              }
+            ],
+            "publishedAt": "2026-10-16T15:40:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": null,
+            "reactions": 64,
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "shortened",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.52,
+            "fragmentIds": [
+              "p1",
+              "p2"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 3
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 1,
+            "ok": 1,
+            "max": 0
+          },
+          "countsByType": {
+            "verbatim": 0,
+            "shortened": 1,
+            "retold": 1,
+            "repost": 0
+          }
+        }
+      ],
+      "counts": {
+        "total": 3,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 2,
+          "indirect": 1,
+          "disputed": 0
+        },
+        "byPlatform": {
+          "vk": 2,
+          "ok": 1,
+          "max": 0
+        },
+        "byPlacementType": {
+          "verbatim": 0,
+          "shortened": 1,
+          "retold": 1,
+          "repost": 0
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 11,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 6,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 3,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100109_22140",
+          "publication": {
+            "id": "vk:-100109_22140",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100109",
+              "postId": "22140"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-kansk",
+              "platform": "vk",
+              "name": "Канск сегодня",
+              "url": "https://vk.com/demo_kansk",
+              "type": "media",
+              "district": "Канск",
+              "subscribers": 29000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100109_22140",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "Хорошие новости из Заполярья.",
+            "headlineFrom": "text",
+            "text": "Хорошие новости из Заполярья.\n\nВ Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 29
+              },
+              {
+                "index": 1,
+                "start": 31,
+                "end": 79
+              },
+              {
+                "index": 2,
+                "start": 80,
+                "end": 165
+              },
+              {
+                "index": 3,
+                "start": 167,
+                "end": 244
+              },
+              {
+                "index": 4,
+                "start": 245,
+                "end": 298
+              },
+              {
+                "index": 5,
+                "start": 300,
+                "end": 423
+              },
+              {
+                "index": 6,
+                "start": 425,
+                "end": 472
+              },
+              {
+                "index": 7,
+                "start": 473,
+                "end": 548
+              }
+            ],
+            "publishedAt": "2026-10-16T08:55:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": {
+              "sourceName": "Телеканал края",
+              "url": "https://vk.com/wall-100101_88015"
+            },
+            "hasMedia": false,
+            "views": 2400,
+            "reactions": 116,
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 31,
+            "end": 244,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": true,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 1,
+            "ranges": [
+              {
+                "start": 31,
+                "end": 165
+              },
+              {
+                "start": 167,
+                "end": 298
+              },
+              {
+                "start": 300,
+                "end": 423
+              },
+              {
+                "start": 425,
+                "end": 548
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "repost",
+          "isOriginal": false,
+          "citation": {
+            "share": 1,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p3",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 4
+        },
+        {
+          "id": "max:portal_2236",
+          "publication": {
+            "id": "max:portal_2236",
+            "key": {
+              "platform": "max",
+              "ownerId": "portal",
+              "postId": "2236"
+            },
+            "platform": "max",
+            "source": {
+              "id": "max-portal",
+              "platform": "max",
+              "name": "Канал городского портала",
+              "url": "https://max.ru/demo_portal_kanal",
+              "type": "media",
+              "district": "Красноярск",
+              "subscribers": 56000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://max.ru/demo_portal_kanal/2236",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "Северяне дождались: в Норильске открылась школа на 1 100 мест.",
+            "headlineFrom": "text",
+            "text": "Северяне дождались: в Норильске открылась школа на 1 100 мест. Уроки начнутся 20 октября, запись ещё идёт через госуслуги.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 62
+              },
+              {
+                "index": 1,
+                "start": 63,
+                "end": 122
+              }
+            ],
+            "publishedAt": "2026-10-15T11:00:00+07:00",
+            "timeReliability": "approximate",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 4900,
+            "reactions": 224,
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 122,
+            "text": "Северяне дождались: в Норильске открылась школа на 1 100 мест. Уроки начнутся 20 октября, запись ещё идёт через госуслуги.",
+            "cutStart": false,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 42,
+                "end": 61
+              }
+            ],
+            "basis": "release-match",
+            "note": "Пересказ: совпадают место, дата и участники; подсвечены дословные фразы релиза"
+          },
+          "placementType": "retold",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.04,
+            "fragmentIds": []
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 5
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "max:portal_2236",
+            "vk:-100109_22140",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 2,
+            "ok": 1,
+            "max": 1
+          },
+          "countsByType": {
+            "verbatim": 0,
+            "shortened": 1,
+            "retold": 2,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 5,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 4,
+          "indirect": 1,
+          "disputed": 0
+        },
+        "byPlatform": {
+          "vk": 3,
+          "ok": 1,
+          "max": 1
+        },
+        "byPlacementType": {
+          "verbatim": 0,
+          "shortened": 1,
+          "retold": 2,
+          "repost": 1
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 13,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 7,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 3,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "ok:5600104_17802",
+          "publication": {
+            "id": "ok:5600104_17802",
+            "key": {
+              "platform": "ok",
+              "ownerId": "5600104",
+              "postId": "17802"
+            },
+            "platform": "ok",
+            "source": {
+              "id": "ok-krasnoyarye",
+              "platform": "ok",
+              "name": "Новости Красноярья",
+              "url": "https://ok.ru/group/5600104",
+              "type": "media",
+              "district": "весь край",
+              "subscribers": 31000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://ok.ru/group/5600104/topic/17802",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске открылась новая школа на 1 100 мест.",
+            "headlineFrom": "text",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              },
+              {
+                "index": 4,
+                "start": 269,
+                "end": 392
+              },
+              {
+                "index": 5,
+                "start": 394,
+                "end": 441
+              },
+              {
+                "index": 6,
+                "start": 442,
+                "end": 517
+              }
+            ],
+            "publishedAt": "2026-10-15T17:20:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": null,
+            "reactions": 124,
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              },
+              {
+                "start": 269,
+                "end": 392
+              },
+              {
+                "start": 394,
+                "end": 517
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "verbatim",
+          "isOriginal": false,
+          "citation": {
+            "share": 1,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p3",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 6
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "max:portal_2236",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 2,
+            "ok": 2,
+            "max": 1
+          },
+          "countsByType": {
+            "verbatim": 1,
+            "shortened": 1,
+            "retold": 2,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 6,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 5,
+          "indirect": 1,
+          "disputed": 0
+        },
+        "byPlatform": {
+          "vk": 3,
+          "ok": 2,
+          "max": 1
+        },
+        "byPlacementType": {
+          "verbatim": 1,
+          "shortened": 1,
+          "retold": 2,
+          "repost": 1
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 4,
+        "progress": {
+          "done": 15,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 8,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 4,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100112_26710",
+          "publication": {
+            "id": "vk:-100112_26710",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100112",
+              "postId": "26710"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-zapolyarye",
+              "platform": "vk",
+              "name": "Заполярье: новости Таймыра",
+              "url": "https://vk.com/demo_zapolyarye",
+              "type": "community",
+              "district": "Таймырский район",
+              "subscribers": 23000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100112_26710",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске открылась новая школа на 1 100 мест.",
+            "headlineFrom": "text",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 183
+              },
+              {
+                "index": 3,
+                "start": 184,
+                "end": 259
+              }
+            ],
+            "publishedAt": "2026-10-15T13:35:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 3100,
+            "reactions": 92,
+            "fetchedAt": "2026-10-19T14:32:18+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 183,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nПервые уроки в новом здании пройдут 20 октября.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 259
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "shortened",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.5,
+            "fragmentIds": [
+              "p1",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 7
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "max:portal_2236",
+            "vk:-100112_26710",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 3,
+            "ok": 2,
+            "max": 1
+          },
+          "countsByType": {
+            "verbatim": 1,
+            "shortened": 2,
+            "retold": 2,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 7,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 6,
+          "indirect": 1,
+          "disputed": 0
+        },
+        "byPlatform": {
+          "vk": 4,
+          "ok": 2,
+          "max": 1
+        },
+        "byPlacementType": {
+          "verbatim": 1,
+          "shortened": 2,
+          "retold": 2,
+          "repost": 1
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 4,
+        "progress": {
+          "done": 17,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 9,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 4,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 5,
+        "progress": {
+          "done": 20,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 10,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 5,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100105_45601",
+          "publication": {
+            "id": "vk:-100105_45601",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100105",
+              "postId": "45601"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-minobr",
+              "platform": "vk",
+              "name": "Министерство образования края",
+              "url": "https://vk.com/demo_minobr",
+              "type": "authority",
+              "district": "весь край",
+              "subscribers": 37000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100105_45601",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске начала работу новая школа — самая большая в Заполярье за тридцать лет.",
+            "headlineFrom": "text",
+            "text": "В Норильске начала работу новая школа — самая большая в Заполярье за тридцать лет. Её построили за два года по краевой программе строительства школ. В здании 48 классов, бассейн и лаборатория робототехники.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 82
+              },
+              {
+                "index": 1,
+                "start": 83,
+                "end": 148
+              },
+              {
+                "index": 2,
+                "start": 149,
+                "end": 206
+              }
+            ],
+            "publishedAt": "2026-10-15T09:20:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 5500,
+            "reactions": 148,
+            "fetchedAt": "2026-10-19T14:32:18+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 83,
+            "end": 206,
+            "text": "Её построили за два года по краевой программе строительства школ. В здании 48 классов, бассейн и лаборатория робототехники.",
+            "cutStart": true,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 1,
+            "ranges": [
+              {
+                "start": 108,
+                "end": 147
+              },
+              {
+                "start": 158,
+                "end": 168
+              },
+              {
+                "start": 170,
+                "end": 205
+              }
+            ],
+            "basis": "release-match",
+            "note": "Пересказ: совпадают место, дата и участники; подсвечены дословные фразы релиза"
+          },
+          "placementType": "retold",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.16,
+            "fragmentIds": []
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 8
+        },
+        {
+          "id": "ok:5600102_9011",
+          "publication": {
+            "id": "ok:5600102_9011",
+            "key": {
+              "platform": "ok",
+              "ownerId": "5600102",
+              "postId": "9011"
+            },
+            "platform": "ok",
+            "source": {
+              "id": "ok-gazeta-taimyr",
+              "platform": "ok",
+              "name": "Районная газета Таймыра",
+              "url": "https://ok.ru/group/5600102",
+              "type": "media",
+              "district": "Таймырский район",
+              "subscribers": 18000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://ok.ru/group/5600102/topic/9011",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске открылась новая школа на 1 100 мест.",
+            "headlineFrom": "text",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              },
+              {
+                "index": 4,
+                "start": 269,
+                "end": 392
+              },
+              {
+                "index": 5,
+                "start": 394,
+                "end": 441
+              },
+              {
+                "index": 6,
+                "start": 442,
+                "end": 517
+              }
+            ],
+            "publishedAt": "2026-10-14T18:45:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": null,
+            "reactions": 72,
+            "fetchedAt": "2026-10-19T14:32:18+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              },
+              {
+                "start": 269,
+                "end": 392
+              },
+              {
+                "start": 394,
+                "end": 517
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "verbatim",
+          "isOriginal": false,
+          "citation": {
+            "share": 1,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p3",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 9
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "max:portal_2236",
+            "vk:-100112_26710",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 4,
+            "ok": 3,
+            "max": 1
+          },
+          "countsByType": {
+            "verbatim": 2,
+            "shortened": 2,
+            "retold": 3,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 9,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 8,
+          "indirect": 1,
+          "disputed": 0
+        },
+        "byPlatform": {
+          "vk": 5,
+          "ok": 3,
+          "max": 1
+        },
+        "byPlacementType": {
+          "verbatim": 2,
+          "shortened": 2,
+          "retold": 3,
+          "repost": 1
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 6,
+        "progress": {
+          "done": 22,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 12,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 6,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100103_64388",
+          "publication": {
+            "id": "vk:-100103_64388",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100103",
+              "postId": "64388"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-portal-norilsk",
+              "platform": "vk",
+              "name": "Городской портал Норильска",
+              "url": "https://vk.com/demo_portal_norilsk",
+              "type": "media",
+              "district": "Норильск",
+              "subscribers": 64000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100103_64388",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске открылась новая школа на 1 100 мест.",
+            "headlineFrom": "text",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              },
+              {
+                "index": 4,
+                "start": 269,
+                "end": 316
+              },
+              {
+                "index": 5,
+                "start": 317,
+                "end": 392
+              }
+            ],
+            "publishedAt": "2026-10-14T16:10:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 7200,
+            "reactions": 256,
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              },
+              {
+                "start": 269,
+                "end": 392
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "shortened",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.76,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 10
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "max:portal_2236",
+            "vk:-100112_26710",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 5,
+            "ok": 3,
+            "max": 1
+          },
+          "countsByType": {
+            "verbatim": 2,
+            "shortened": 3,
+            "retold": 3,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 10,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 9,
+          "indirect": 1,
+          "disputed": 0
+        },
+        "byPlatform": {
+          "vk": 6,
+          "ok": 3,
+          "max": 1
+        },
+        "byPlacementType": {
+          "verbatim": 2,
+          "shortened": 3,
+          "retold": 3,
+          "repost": 1
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 6,
+        "progress": {
+          "done": 24,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 13,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 6,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "max:norilsk_5160",
+          "publication": {
+            "id": "max:norilsk_5160",
+            "key": {
+              "platform": "max",
+              "ownerId": "norilsk",
+              "postId": "5160"
+            },
+            "platform": "max",
+            "source": {
+              "id": "max-norilsk",
+              "platform": "max",
+              "name": "Норильск. Коротко",
+              "url": "https://max.ru/demo_norilsk_korotko",
+              "type": "media",
+              "district": "Норильск",
+              "subscribers": 21000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://max.ru/demo_norilsk_korotko/5160",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "Читатели спрашивают, как будет ходить школьный автобус из Талнаха в новую школу.",
+            "headlineFrom": "text",
+            "text": "Читатели спрашивают, как будет ходить школьный автобус из Талнаха в новую школу. Расписание обещают опубликовать до 20 октября.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 80
+              },
+              {
+                "index": 1,
+                "start": 81,
+                "end": 127
+              }
+            ],
+            "publishedAt": "2026-10-14T21:00:00+07:00",
+            "timeReliability": "approximate",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 1470,
+            "reactions": 84,
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "disputed",
+          "method": "ai-confirmed",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Талнах"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 127,
+            "text": "Читатели спрашивают, как будет ходить школьный автобус из Талнаха в новую школу. Расписание обещают опубликовать до 20 октября.",
+            "cutStart": false,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 80
+              }
+            ],
+            "basis": "ai",
+            "note": "Вопрос читателей о новой школе: отклик, а не перепечатка"
+          },
+          "placementType": null,
+          "isOriginal": false,
+          "citation": null,
+          "groupId": null,
+          "excluded": false,
+          "isNew": false,
+          "arrival": 11
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "max:portal_2236",
+            "vk:-100112_26710",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 5,
+            "ok": 3,
+            "max": 1
+          },
+          "countsByType": {
+            "verbatim": 2,
+            "shortened": 3,
+            "retold": 3,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 11,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 9,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 6,
+          "ok": 3,
+          "max": 2
+        },
+        "byPlacementType": {
+          "verbatim": 2,
+          "shortened": 3,
+          "retold": 3,
+          "repost": 1
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 7,
+        "progress": {
+          "done": 26,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 14,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 7,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100114_70120",
+          "publication": {
+            "id": "vk:-100114_70120",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100114",
+              "postId": "70120"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-adm-norilsk",
+              "platform": "vk",
+              "name": "Администрация Норильска",
+              "url": "https://vk.com/demo_adm_norilsk",
+              "type": "municipal",
+              "district": "Норильск",
+              "subscribers": 41000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100114_70120",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "Сегодня в Норильске открыли новую школу в районе Оганер.",
+            "headlineFrom": "text",
+            "text": "Сегодня в Норильске открыли новую школу в районе Оганер. В ней смогут учиться 1 100 ребят: для них подготовили 48 классов, бассейн и два спортзала. Ученики из Талнаха будут добираться на школьном автобусе. Ждём всех на первых уроках 20 октября!",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 56
+              },
+              {
+                "index": 1,
+                "start": 57,
+                "end": 147
+              },
+              {
+                "index": 2,
+                "start": 148,
+                "end": 205
+              },
+              {
+                "index": 3,
+                "start": 206,
+                "end": 244
+              }
+            ],
+            "publishedAt": "2026-10-14T14:30:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 9800,
+            "reactions": 164,
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск",
+              "Талнах"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 205,
+            "text": "Сегодня в Норильске открыли новую школу в районе Оганер. В ней смогут учиться 1 100 ребят: для них подготовили 48 классов, бассейн и два спортзала. Ученики из Талнаха будут добираться на школьном автобусе.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 40,
+                "end": 55
+              },
+              {
+                "start": 111,
+                "end": 121
+              }
+            ],
+            "basis": "release-match",
+            "note": "Пересказ: совпадают место, дата и участники; подсвечены дословные фразы релиза"
+          },
+          "placementType": "retold",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.05,
+            "fragmentIds": []
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 12
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100114_70120",
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "max:portal_2236",
+            "vk:-100112_26710",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 6,
+            "ok": 3,
+            "max": 1
+          },
+          "countsByType": {
+            "verbatim": 2,
+            "shortened": 3,
+            "retold": 4,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 12,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 10,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 7,
+          "ok": 3,
+          "max": 2
+        },
+        "byPlacementType": {
+          "verbatim": 2,
+          "shortened": 3,
+          "retold": 4,
+          "repost": 1
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 7,
+        "progress": {
+          "done": 28,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 4,
+        "progress": {
+          "done": 15,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 7,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "ok:5600101_30377",
+          "publication": {
+            "id": "ok:5600101_30377",
+            "key": {
+              "platform": "ok",
+              "ownerId": "5600101",
+              "postId": "30377"
+            },
+            "platform": "ok",
+            "source": {
+              "id": "ok-novosti-kraya",
+              "platform": "ok",
+              "name": "Новости края",
+              "url": "https://ok.ru/group/5600101",
+              "type": "media",
+              "district": "весь край",
+              "subscribers": 95000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://ok.ru/group/5600101/topic/30377",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске открылась новая школа на 1 100 мест.",
+            "headlineFrom": "text",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              },
+              {
+                "index": 4,
+                "start": 269,
+                "end": 392
+              },
+              {
+                "index": 5,
+                "start": 394,
+                "end": 441
+              },
+              {
+                "index": 6,
+                "start": 442,
+                "end": 517
+              }
+            ],
+            "publishedAt": "2026-10-14T12:50:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": null,
+            "reactions": 380,
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              },
+              {
+                "start": 269,
+                "end": 392
+              },
+              {
+                "start": 394,
+                "end": 517
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "verbatim",
+          "isOriginal": false,
+          "citation": {
+            "share": 1,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p3",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 13
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "ok:5600101_30377",
+            "vk:-100114_70120",
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "max:portal_2236",
+            "vk:-100112_26710",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 6,
+            "ok": 4,
+            "max": 1
+          },
+          "countsByType": {
+            "verbatim": 3,
+            "shortened": 3,
+            "retold": 4,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 13,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 11,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 7,
+          "ok": 4,
+          "max": 2
+        },
+        "byPlacementType": {
+          "verbatim": 3,
+          "shortened": 3,
+          "retold": 4,
+          "repost": 1
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 8,
+        "progress": {
+          "done": 31,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 4,
+        "progress": {
+          "done": 16,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 8,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100102_77122",
+          "publication": {
+            "id": "vk:-100102_77122",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100102",
+              "postId": "77122"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-portal-krsk",
+              "platform": "vk",
+              "name": "Городской портал Красноярска",
+              "url": "https://vk.com/demo_portal_krsk",
+              "type": "media",
+              "district": "Красноярск",
+              "subscribers": 318000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100102_77122",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "Новая школа на 1 100 учеников заработала в Норильске.",
+            "headlineFrom": "text",
+            "text": "Новая школа на 1 100 учеников заработала в Норильске. В здании есть бассейн, два спортзала и лаборатория робототехники. В министерстве образования края подчеркнули, что это самая большая школа, построенная в Заполярье за последние тридцать лет. Первые уроки в новом здании пройдут 20 октября.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 53
+              },
+              {
+                "index": 1,
+                "start": 54,
+                "end": 119
+              },
+              {
+                "index": 2,
+                "start": 120,
+                "end": 244
+              },
+              {
+                "index": 3,
+                "start": 245,
+                "end": 292
+              }
+            ],
+            "publishedAt": "2026-10-14T12:15:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 21700,
+            "reactions": 1272,
+            "fetchedAt": "2026-10-19T14:32:20+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 120,
+            "end": 292,
+            "text": "В министерстве образования края подчеркнули, что это самая большая школа, построенная в Заполярье за последние тридцать лет. Первые уроки в новом здании пройдут 20 октября.",
+            "cutStart": true,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 2,
+            "ranges": [
+              {
+                "start": 173,
+                "end": 243
+              },
+              {
+                "start": 245,
+                "end": 291
+              }
+            ],
+            "basis": "release-match",
+            "note": "Пересказ: совпадают место, дата и участники; подсвечены дословные фразы релиза"
+          },
+          "placementType": "retold",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.23,
+            "fragmentIds": []
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 14
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100102_77122",
+            "ok:5600101_30377",
+            "vk:-100114_70120",
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "max:portal_2236",
+            "vk:-100112_26710",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 7,
+            "ok": 4,
+            "max": 1
+          },
+          "countsByType": {
+            "verbatim": 3,
+            "shortened": 3,
+            "retold": 5,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 14,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 12,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 8,
+          "ok": 4,
+          "max": 2
+        },
+        "byPlacementType": {
+          "verbatim": 3,
+          "shortened": 3,
+          "retold": 5,
+          "repost": 1
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 9,
+        "progress": {
+          "done": 33,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "found",
+        "found": 4,
+        "progress": null,
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:20+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 9,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100101_88015",
+          "publication": {
+            "id": "vk:-100101_88015",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100101",
+              "postId": "88015"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-tv-kraya",
+              "platform": "vk",
+              "name": "Телеканал края",
+              "url": "https://vk.com/demo_tv_kraya",
+              "type": "media",
+              "district": "Красноярск",
+              "subscribers": 212000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100101_88015",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "Хорошие новости из Заполярья.",
+            "headlineFrom": "text",
+            "text": "Хорошие новости из Заполярья.\n\nВ Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 29
+              },
+              {
+                "index": 1,
+                "start": 31,
+                "end": 79
+              },
+              {
+                "index": 2,
+                "start": 80,
+                "end": 165
+              },
+              {
+                "index": 3,
+                "start": 167,
+                "end": 244
+              },
+              {
+                "index": 4,
+                "start": 245,
+                "end": 298
+              },
+              {
+                "index": 5,
+                "start": 300,
+                "end": 423
+              },
+              {
+                "index": 6,
+                "start": 425,
+                "end": 472
+              },
+              {
+                "index": 7,
+                "start": 473,
+                "end": 548
+              }
+            ],
+            "publishedAt": "2026-10-14T10:40:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 18400,
+            "reactions": 848,
+            "fetchedAt": "2026-10-19T14:32:20+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 31,
+            "end": 244,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": true,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 1,
+            "ranges": [
+              {
+                "start": 31,
+                "end": 165
+              },
+              {
+                "start": 167,
+                "end": 298
+              },
+              {
+                "start": 300,
+                "end": 423
+              },
+              {
+                "start": 425,
+                "end": 548
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "verbatim",
+          "isOriginal": false,
+          "citation": {
+            "share": 1,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p3",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 15
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100101_88015",
+            "vk:-100102_77122",
+            "ok:5600101_30377",
+            "vk:-100114_70120",
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "max:portal_2236",
+            "vk:-100112_26710",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 8,
+            "ok": 4,
+            "max": 1
+          },
+          "countsByType": {
+            "verbatim": 4,
+            "shortened": 3,
+            "retold": 5,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 15,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 13,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 9,
+          "ok": 4,
+          "max": 2
+        },
+        "byPlacementType": {
+          "verbatim": 4,
+          "shortened": 3,
+          "retold": 5,
+          "repost": 1
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 9,
+        "progress": {
+          "done": 35,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 9,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "max:press_3301",
+          "publication": {
+            "id": "max:press_3301",
+            "key": {
+              "platform": "max",
+              "ownerId": "press",
+              "postId": "3301"
+            },
+            "platform": "max",
+            "source": {
+              "id": "max-press",
+              "platform": "max",
+              "name": "Канал Пресс-центра края",
+              "url": "https://max.ru/demo_press_kanal",
+              "type": "authority",
+              "district": "весь край",
+              "subscribers": 12000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://max.ru/demo_press_kanal/3301",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске открылась новая школа на 1 100 мест.",
+            "headlineFrom": "text",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              },
+              {
+                "index": 4,
+                "start": 269,
+                "end": 392
+              },
+              {
+                "index": 5,
+                "start": 394,
+                "end": 441
+              },
+              {
+                "index": 6,
+                "start": 442,
+                "end": 517
+              }
+            ],
+            "publishedAt": "2026-10-14T11:05:00+07:00",
+            "timeReliability": "approximate",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 2300,
+            "reactions": 48,
+            "fetchedAt": "2026-10-19T14:32:20+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              },
+              {
+                "start": 269,
+                "end": 392
+              },
+              {
+                "start": 394,
+                "end": 517
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "verbatim",
+          "isOriginal": false,
+          "citation": {
+            "share": 1,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p3",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 16
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100101_88015",
+            "max:press_3301",
+            "vk:-100102_77122",
+            "ok:5600101_30377",
+            "vk:-100114_70120",
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "max:portal_2236",
+            "vk:-100112_26710",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 8,
+            "ok": 4,
+            "max": 2
+          },
+          "countsByType": {
+            "verbatim": 5,
+            "shortened": 3,
+            "retold": 5,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 16,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 14,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 9,
+          "ok": 4,
+          "max": 3
+        },
+        "byPlacementType": {
+          "verbatim": 5,
+          "shortened": 3,
+          "retold": 5,
+          "repost": 1
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 10,
+        "progress": {
+          "done": 37,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 10,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100104_60210",
+          "publication": {
+            "id": "vk:-100104_60210",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100104",
+              "postId": "60210"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-press-centre",
+              "platform": "vk",
+              "name": "Пресс-центр края",
+              "url": "https://vk.com/demo_press_centre",
+              "type": "authority",
+              "district": "весь край",
+              "subscribers": 48000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100104_60210",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске открылась новая школа на 1 100 мест.",
+            "headlineFrom": "text",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              },
+              {
+                "index": 4,
+                "start": 269,
+                "end": 392
+              },
+              {
+                "index": 5,
+                "start": 394,
+                "end": 441
+              },
+              {
+                "index": 6,
+                "start": 442,
+                "end": 517
+              }
+            ],
+            "publishedAt": "2026-10-14T10:02:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 6100,
+            "reactions": 192,
+            "fetchedAt": "2026-10-19T14:32:21+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              },
+              {
+                "start": 269,
+                "end": 392
+              },
+              {
+                "start": 394,
+                "end": 517
+              }
+            ],
+            "basis": "release-match",
+            "note": "Первоисточник: самая ранняя публикация этого текста среди найденного"
+          },
+          "placementType": "verbatim",
+          "isOriginal": true,
+          "citation": {
+            "share": 1,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p3",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 17
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100104_60210",
+            "vk:-100101_88015",
+            "max:press_3301",
+            "vk:-100102_77122",
+            "ok:5600101_30377",
+            "vk:-100114_70120",
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "max:portal_2236",
+            "vk:-100112_26710",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": "vk:-100104_60210",
+          "countsByPlatform": {
+            "vk": 9,
+            "ok": 4,
+            "max": 2
+          },
+          "countsByType": {
+            "verbatim": 6,
+            "shortened": 3,
+            "retold": 5,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 17,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 15,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 10,
+          "ok": 4,
+          "max": 3
+        },
+        "byPlacementType": {
+          "verbatim": 6,
+          "shortened": 3,
+          "retold": 5,
+          "repost": 1
+        },
+        "new": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "found",
+        "found": 10,
+        "progress": null,
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:21+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 10,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 11,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "found",
+        "found": 3,
+        "progress": null,
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:22+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "finished",
+      "selection": {
+        "searchId": "s-mvfj66u6-2",
+        "conditions": {
+          "searchId": "s-mvfj66u6-2",
+          "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+          "label": "Новая школа в Норильске",
+          "kind": "news-text",
+          "period": {
+            "preset": "30d",
+            "from": "2026-09-20",
+            "to": "2026-10-19"
+          },
+          "region": {
+            "id": "krasnoyarsk-krai",
+            "name": "Красноярский край",
+            "timeZone": "Asia/Krasnoyarsk"
+          },
+          "mode": "everywhere",
+          "sourceCount": null,
+          "platforms": [
+            "vk",
+            "ok",
+            "max"
+          ],
+          "meaningLabel": null,
+          "startedAt": "2026-10-19T14:32:15+07:00",
+          "finishedAt": "2026-10-19T14:32:22+07:00",
+          "repeatOf": null
+        },
+        "statuses": [
+          {
+            "platform": "vk",
+            "state": "found",
+            "found": 10,
+            "progress": null,
+            "problem": null,
+            "freshness": null,
+            "cap": null,
+            "updatedAt": "2026-10-19T14:32:21+07:00"
+          },
+          {
+            "platform": "ok",
+            "state": "found",
+            "found": 4,
+            "progress": null,
+            "problem": null,
+            "freshness": null,
+            "cap": null,
+            "updatedAt": "2026-10-19T14:32:20+07:00"
+          },
+          {
+            "platform": "max",
+            "state": "found",
+            "found": 3,
+            "progress": null,
+            "problem": null,
+            "freshness": {
+              "delayHours": 24,
+              "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+            },
+            "cap": null,
+            "updatedAt": "2026-10-19T14:32:22+07:00"
+          }
+        ],
+        "items": [
+          {
+            "id": "vk:-100103_64502",
+            "publication": {
+              "id": "vk:-100103_64502",
+              "key": {
+                "platform": "vk",
+                "ownerId": "-100103",
+                "postId": "64502"
+              },
+              "platform": "vk",
+              "source": {
+                "id": "vk-portal-norilsk",
+                "platform": "vk",
+                "name": "Городской портал Норильска",
+                "url": "https://vk.com/demo_portal_norilsk",
+                "type": "media",
+                "district": "Норильск",
+                "subscribers": 64000,
+                "inMySources": true,
+                "regional": true
+              },
+              "url": "https://vk.com/wall-100103_64502",
+              "mergedUrls": [],
+              "title": null,
+              "headline": "В Норильске выбрали подрядчика для строительства ещё одной школы — в Талнахе.",
+              "headlineFrom": "text",
+              "text": "В Норильске выбрали подрядчика для строительства ещё одной школы — в Талнахе. Её планируют открыть в 2028 году. Новая школа в районе Оганер, открытая на этой неделе, уже заполнена на 80%.",
+              "sentences": [
+                {
+                  "index": 0,
+                  "start": 0,
+                  "end": 77
+                },
+                {
+                  "index": 1,
+                  "start": 78,
+                  "end": 111
+                },
+                {
+                  "index": 2,
+                  "start": 112,
+                  "end": 187
+                }
+              ],
+              "publishedAt": "2026-10-17T12:00:00+07:00",
+              "timeReliability": "exact",
+              "edited": false,
+              "repostOf": null,
+              "hasMedia": false,
+              "views": 4480,
+              "reactions": 256,
+              "fetchedAt": "2026-10-19T14:32:16+07:00",
+              "linkCheck": {
+                "state": "not-checked",
+                "checkedAt": null
+              }
+            },
+            "relevance": "indirect",
+            "method": "semantic",
+            "methodNote": null,
+            "regionReason": {
+              "regionalSource": true,
+              "inMySources": false,
+              "places": [
+                "Норильск",
+                "Талнах"
+              ]
+            },
+            "excerpt": {
+              "start": 112,
+              "end": 187,
+              "text": "Новая школа в районе Оганер, открытая на этой неделе, уже заполнена на 80%.",
+              "cutStart": true,
+              "cutEnd": false
+            },
+            "evidence": {
+              "sentenceIndex": 2,
+              "ranges": [
+                {
+                  "start": 112,
+                  "end": 187
+                }
+              ],
+              "basis": "semantic",
+              "note": "Упоминает новую школу, но главная новость — другая"
+            },
+            "placementType": null,
+            "isOriginal": false,
+            "citation": null,
+            "groupId": null,
+            "excluded": false,
+            "isNew": false,
+            "arrival": 1
+          },
+          {
+            "id": "vk:-100113_71533",
+            "publication": {
+              "id": "vk:-100113_71533",
+              "key": {
+                "platform": "vk",
+                "ownerId": "-100113",
+                "postId": "71533"
+              },
+              "platform": "vk",
+              "source": {
+                "id": "vk-parents",
+                "platform": "vk",
+                "name": "Родительское сообщество края",
+                "url": "https://vk.com/demo_parents",
+                "type": "community",
+                "district": "весь край",
+                "subscribers": 52000,
+                "inMySources": true,
+                "regional": true
+              },
+              "url": "https://vk.com/wall-100113_71533",
+              "mergedUrls": [],
+              "title": null,
+              "headline": "Родители Норильска, новая школа в Оганере открыта!",
+              "headlineFrom": "text",
+              "text": "Родители Норильска, новая школа в Оганере открыта! Запись продолжается: родители могут подать заявление через портал госуслуг. Кто уже записал детей — поделитесь, как всё прошло?",
+              "sentences": [
+                {
+                  "index": 0,
+                  "start": 0,
+                  "end": 50
+                },
+                {
+                  "index": 1,
+                  "start": 51,
+                  "end": 126
+                },
+                {
+                  "index": 2,
+                  "start": 127,
+                  "end": 178
+                }
+              ],
+              "publishedAt": "2026-10-16T10:15:00+07:00",
+              "timeReliability": "exact",
+              "edited": false,
+              "repostOf": null,
+              "hasMedia": false,
+              "views": 2900,
+              "reactions": 208,
+              "fetchedAt": "2026-10-19T14:32:17+07:00",
+              "linkCheck": {
+                "state": "not-checked",
+                "checkedAt": null
+              }
+            },
+            "relevance": "direct",
+            "method": "semantic",
+            "methodNote": null,
+            "regionReason": {
+              "regionalSource": true,
+              "inMySources": false,
+              "places": [
+                "Норильск"
+              ]
+            },
+            "excerpt": {
+              "start": 51,
+              "end": 178,
+              "text": "Запись продолжается: родители могут подать заявление через портал госуслуг. Кто уже записал детей — поделитесь, как всё прошло?",
+              "cutStart": true,
+              "cutEnd": false
+            },
+            "evidence": {
+              "sentenceIndex": 1,
+              "ranges": [
+                {
+                  "start": 51,
+                  "end": 126
+                }
+              ],
+              "basis": "release-match",
+              "note": "Пересказ: совпадают место, дата и участники; подсвечены дословные фразы релиза"
+            },
+            "placementType": "retold",
+            "isOriginal": false,
+            "citation": {
+              "share": 0.15,
+              "fragmentIds": []
+            },
+            "groupId": "g-release-school",
+            "excluded": false,
+            "isNew": false,
+            "arrival": 2
+          },
+          {
+            "id": "ok:5600108_40790",
+            "publication": {
+              "id": "ok:5600108_40790",
+              "key": {
+                "platform": "ok",
+                "ownerId": "5600108",
+                "postId": "40790"
+              },
+              "platform": "ok",
+              "source": {
+                "id": "ok-kansk",
+                "platform": "ok",
+                "name": "Канск и Канский район",
+                "url": "https://ok.ru/group/5600108",
+                "type": "community",
+                "district": "Канск",
+                "subscribers": 16000,
+                "inMySources": false,
+                "regional": true
+              },
+              "url": "https://ok.ru/group/5600108/topic/40790",
+              "mergedUrls": [],
+              "title": null,
+              "headline": "В Норильске открылась новая школа на 1 100 мест.",
+              "headlineFrom": "text",
+              "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.",
+              "sentences": [
+                {
+                  "index": 0,
+                  "start": 0,
+                  "end": 48
+                },
+                {
+                  "index": 1,
+                  "start": 49,
+                  "end": 134
+                },
+                {
+                  "index": 2,
+                  "start": 136,
+                  "end": 213
+                },
+                {
+                  "index": 3,
+                  "start": 214,
+                  "end": 267
+                }
+              ],
+              "publishedAt": "2026-10-16T15:40:00+07:00",
+              "timeReliability": "exact",
+              "edited": false,
+              "repostOf": null,
+              "hasMedia": false,
+              "views": null,
+              "reactions": 64,
+              "fetchedAt": "2026-10-19T14:32:17+07:00",
+              "linkCheck": {
+                "state": "not-checked",
+                "checkedAt": null
+              }
+            },
+            "relevance": "direct",
+            "method": "copy",
+            "methodNote": null,
+            "regionReason": {
+              "regionalSource": true,
+              "inMySources": false,
+              "places": [
+                "Норильск"
+              ]
+            },
+            "excerpt": {
+              "start": 0,
+              "end": 213,
+              "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+              "cutStart": false,
+              "cutEnd": true
+            },
+            "evidence": {
+              "sentenceIndex": 0,
+              "ranges": [
+                {
+                  "start": 0,
+                  "end": 134
+                },
+                {
+                  "start": 136,
+                  "end": 267
+                }
+              ],
+              "basis": "release-match",
+              "note": "Подсвечен текст, совпавший с релизом"
+            },
+            "placementType": "shortened",
+            "isOriginal": false,
+            "citation": {
+              "share": 0.52,
+              "fragmentIds": [
+                "p1",
+                "p2"
+              ]
+            },
+            "groupId": "g-release-school",
+            "excluded": false,
+            "isNew": false,
+            "arrival": 3
+          }
+        ],
+        "groups": [
+          {
+            "id": "g-release-school",
+            "title": "Релиз «Новая школа в Норильске»",
+            "kind": "release",
+            "itemIds": [
+              "vk:-100104_60210",
+              "vk:-100101_88015",
+              "max:press_3301",
+              "vk:-100102_77122",
+              "ok:5600101_30377",
+              "vk:-100114_70120",
+              "vk:-100103_64388",
+              "ok:5600102_9011",
+              "vk:-100105_45601",
+              "max:portal_2236",
+              "vk:-100112_26710",
+              "ok:5600104_17802",
+              "vk:-100109_22140",
+              "vk:-100113_71533",
+              "ok:5600108_40790"
+            ],
+            "originalItemId": "vk:-100104_60210",
+            "countsByPlatform": {
+              "vk": 9,
+              "ok": 4,
+              "max": 2
+            },
+            "countsByType": {
+              "verbatim": 6,
+              "shortened": 3,
+              "retold": 5,
+              "repost": 1
+            }
+          }
+        ],
+        "counts": {
+          "total": 17,
+          "excluded": 0,
+          "byRelevance": {
+            "direct": 15,
+            "indirect": 1,
+            "disputed": 1
+          },
+          "byPlatform": {
+            "vk": 10,
+            "ok": 4,
+            "max": 3
+          },
+          "byPlacementType": {
+            "verbatim": 6,
+            "shortened": 3,
+            "retold": 5,
+            "repost": 1
+          },
+          "new": 0
+        },
+        "topic": {
+          "summary": "Новость: в Норильске открылась новая школа на 1 100 мест в районе Оганер; первые уроки — 20 октября. Ищем перепечатки, сокращения и пересказы.",
+          "includes": [
+            {
+              "id": "same-event",
+              "label": "Перепечатки, сокращения и пересказы этой новости",
+              "origin": "system"
+            },
+            {
+              "id": "reactions",
+              "label": "Отклики и вопросы о новой школе",
+              "origin": "system"
+            }
+          ],
+          "excludes": [
+            {
+              "id": "other-schools",
+              "label": "Другие школы края: открытия и ремонты",
+              "example": "«В Ачинске после ремонта открылась школа № 3»",
+              "cutCount": 4,
+              "origin": "system"
+            },
+            {
+              "id": "norilsk-other",
+              "label": "Другие новости Норильска",
+              "example": "«стартовал набор в кружки робототехники»",
+              "cutCount": 7,
+              "origin": "system"
+            }
+          ],
+          "signs": {
+            "who": [
+              "Министерство образования края",
+              "Пресс-центр края"
+            ],
+            "where": [
+              "Норильск",
+              "район Оганер",
+              "Талнах"
+            ],
+            "when": [
+              "14 октября 2026",
+              "первые уроки 20 октября"
+            ],
+            "numbers": [
+              "1 100 мест",
+              "48 классов",
+              "за два года"
+            ]
+          },
+          "madeBy": "ai",
+          "note": null,
+          "cutExamples": [
+            {
+              "headline": "В Ачинске после ремонта открылась школа № 3",
+              "reason": "Похожая новость о другом событии: другая школа и другой город"
+            },
+            {
+              "headline": "В Норильске стартовал набор в кружки робототехники",
+              "reason": "Другая новость Норильска"
+            }
+          ]
+        },
+        "notices": [],
+        "aiAvailable": true,
+        "phase": "done"
+      }
+    }
+  ]
+}

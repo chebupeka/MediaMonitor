@@ -1,0 +1,20 @@
+{
+  "method": "getStartState",
+  "schema": "StartState",
+  "value": {
+    "firstRun": false,
+    "sourcesCount": 22,
+    "defaultMode": "everywhere",
+    "exampleQuery": "Например: безопасность дорожного движения",
+    "defaultPeriod": {
+      "preset": "30d",
+      "from": "2026-09-20",
+      "to": "2026-10-19"
+    },
+    "region": {
+      "id": "krasnoyarsk-krai",
+      "name": "Красноярский край",
+      "timeZone": "Asia/Krasnoyarsk"
+    }
+  }
+}

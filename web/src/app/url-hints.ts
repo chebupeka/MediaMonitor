@@ -9,6 +9,7 @@ const SCREEN_IDS: readonly ScreenId[] = [
   'landing',
   'search',
   'spread',
+  'ai-check',
   'sources',
   'recent',
   'how',
@@ -40,7 +41,10 @@ export function urlLayout(): 'site' | 'panel' | null {
   return value === 'site' || value === 'panel' ? value : null;
 }
 
-/** Запрос для экрана «Поиск», который сразу запускается: `?screen=search&q=…` */
+/**
+ * Текст, с которым экран сразу запускается: «Поиск» — `?screen=search&q=…`,
+ * «Проверка на ИИ» — `?screen=ai-check&q=…` (так приходит выделение из расширения).
+ */
 export function urlQuery(): string | null {
   return params().get('q');
 }

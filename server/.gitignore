@@ -1,0 +1,9 @@
+.venv/
+.env
+*.db
+*.db-*
+__pycache__/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+scripts/contract/node_modules/

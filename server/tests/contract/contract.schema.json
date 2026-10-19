@@ -1,0 +1,3239 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$comment": "Сгенерировано из web/src/api/types.ts (server/scripts/contract/gen-schema.mjs). Не править руками.",
+  "definitions": {
+    "AiCheck": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "$ref": "#/definitions/AiLevel"
+        },
+        "score": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "model": {
+          "type": "string"
+        },
+        "textHash": {
+          "type": "string"
+        },
+        "words": {
+          "type": "number"
+        },
+        "checkedAt": {
+          "$ref": "#/definitions/IsoDateTime"
+        }
+      },
+      "required": [
+        "level",
+        "score",
+        "model",
+        "textHash",
+        "words",
+        "checkedAt"
+      ],
+      "additionalProperties": false
+    },
+    "AiLevel": {
+      "type": "string",
+      "enum": [
+        "likely-ai",
+        "signs",
+        "unlikely",
+        "too-short",
+        "unavailable"
+      ]
+    },
+    "ApiError": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "offline",
+            "too-many-requests",
+            "too-long",
+            "not-found",
+            "invalid",
+            "server"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "retryAfterSec": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "CatalogSource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "platform": {
+          "$ref": "#/definitions/PlatformId"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/SourceType"
+        },
+        "district": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "subscribers": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "inMySources": {
+          "type": "boolean"
+        },
+        "regional": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "district",
+        "id",
+        "inMySources",
+        "name",
+        "platform",
+        "regional",
+        "subscribers",
+        "type",
+        "url"
+      ],
+      "additionalProperties": false
+    },
+    "Citation": {
+      "type": "object",
+      "properties": {
+        "share": {
+          "type": "number"
+        },
+        "fragmentIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "share",
+        "fragmentIds"
+      ],
+      "additionalProperties": false
+    },
+    "ConnectionState": {
+      "type": "string",
+      "enum": [
+        "online",
+        "offline"
+      ]
+    },
+    "DataFreshness": {
+      "type": "object",
+      "properties": {
+        "delayHours": {
+          "type": "number"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "delayHours",
+        "note"
+      ],
+      "additionalProperties": false
+    },
+    "EventSigns": {
+      "type": "object",
+      "properties": {
+        "who": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "where": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "when": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "numbers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "who",
+        "where",
+        "when",
+        "numbers"
+      ],
+      "additionalProperties": false
+    },
+    "Evidence": {
+      "type": "object",
+      "properties": {
+        "sentenceIndex": {
+          "type": "number"
+        },
+        "ranges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TextRange"
+          }
+        },
+        "basis": {
+          "type": "string",
+          "enum": [
+            "ai",
+            "release-match",
+            "semantic"
+          ]
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "sentenceIndex",
+        "ranges",
+        "basis",
+        "note"
+      ],
+      "additionalProperties": false
+    },
+    "Excerpt": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "number"
+        },
+        "end": {
+          "type": "number"
+        },
+        "text": {
+          "type": "string"
+        },
+        "cutStart": {
+          "type": "boolean"
+        },
+        "cutEnd": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "text",
+        "cutStart",
+        "cutEnd"
+      ],
+      "additionalProperties": false
+    },
+    "ExportCell": {
+      "type": [
+        "string",
+        "number",
+        "null"
+      ]
+    },
+    "ExportColumn": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title"
+      ],
+      "additionalProperties": false
+    },
+    "ExportOptions": {
+      "type": "object",
+      "properties": {
+        "onlyRelevance": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Relevance"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ExportPreview": {
+      "type": "object",
+      "properties": {
+        "searchId": {
+          "type": "string"
+        },
+        "fileName": {
+          "type": "string"
+        },
+        "rowCount": {
+          "type": "number"
+        },
+        "excludedCount": {
+          "type": "number"
+        },
+        "rule": {
+          "type": "string"
+        },
+        "appliedFilter": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Relevance"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "summary": {
+          "$ref": "#/definitions/ExportSummarySheet"
+        },
+        "publications": {
+          "$ref": "#/definitions/ExportSheetTable"
+        },
+        "timeZoneNote": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "searchId",
+        "fileName",
+        "rowCount",
+        "excludedCount",
+        "rule",
+        "appliedFilter",
+        "summary",
+        "publications",
+        "timeZoneNote"
+      ],
+      "additionalProperties": false
+    },
+    "ExportSheetTable": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExportColumn"
+          }
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/ExportCell"
+            }
+          }
+        },
+        "totalRows": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "columns",
+        "rows",
+        "totalRows"
+      ],
+      "additionalProperties": false
+    },
+    "ExportSummarySheet": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "label",
+              "value"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "name",
+        "entries"
+      ],
+      "additionalProperties": false
+    },
+    "HealthState": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "degraded",
+        "down"
+      ]
+    },
+    "ImportColumn": {
+      "type": "object",
+      "properties": {
+        "letter": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "url",
+            "name",
+            "ignored"
+          ]
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "letter",
+        "title",
+        "role",
+        "note"
+      ],
+      "additionalProperties": false
+    },
+    "ImportPreview": {
+      "type": "object",
+      "properties": {
+        "previewId": {
+          "type": "string"
+        },
+        "fileName": {
+          "type": "string"
+        },
+        "sheetName": {
+          "type": "string"
+        },
+        "totalRows": {
+          "type": "number"
+        },
+        "headerRow": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ImportColumn"
+          }
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ImportRow"
+          }
+        },
+        "counts": {
+          "type": "object",
+          "properties": {
+            "add": {
+              "type": "number"
+            },
+            "duplicate": {
+              "type": "number"
+            },
+            "skip": {
+              "type": "number"
+            },
+            "empty": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "add",
+            "duplicate",
+            "skip",
+            "empty"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "previewId",
+        "fileName",
+        "sheetName",
+        "totalRows",
+        "headerRow",
+        "columns",
+        "rows",
+        "counts"
+      ],
+      "additionalProperties": false
+    },
+    "ImportReport": {
+      "type": "object",
+      "properties": {
+        "added": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Source"
+          }
+        },
+        "duplicates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "row": {
+                "type": "number"
+              },
+              "value": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "row",
+              "value",
+              "name"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "skipped": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "row": {
+                "type": "number"
+              },
+              "value": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "row",
+              "value",
+              "reason"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "added",
+        "duplicates",
+        "skipped"
+      ],
+      "additionalProperties": false
+    },
+    "ImportRow": {
+      "type": "object",
+      "properties": {
+        "row": {
+          "type": "number"
+        },
+        "value": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "outcome": {
+          "$ref": "#/definitions/ImportRowOutcome"
+        }
+      },
+      "required": [
+        "row",
+        "value",
+        "title",
+        "outcome"
+      ],
+      "additionalProperties": false
+    },
+    "ImportRowOutcome": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "add"
+            },
+            "source": {
+              "$ref": "#/definitions/SourceRef"
+            },
+            "note": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "source",
+            "note"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "duplicate"
+            },
+            "source": {
+              "$ref": "#/definitions/SourceRef"
+            }
+          },
+          "required": [
+            "kind",
+            "source"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "skip"
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "empty"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "IsoDate": {
+      "type": "string"
+    },
+    "IsoDateTime": {
+      "type": "string"
+    },
+    "LinkCheck": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "ok",
+            "deleted",
+            "not-checked"
+          ]
+        },
+        "checkedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IsoDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "state",
+        "checkedAt"
+      ],
+      "additionalProperties": false
+    },
+    "LinkRecheckReport": {
+      "type": "object",
+      "properties": {
+        "checked": {
+          "type": "number"
+        },
+        "ok": {
+          "type": "number"
+        },
+        "deletedItemIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "checkedAt": {
+          "$ref": "#/definitions/IsoDateTime"
+        }
+      },
+      "required": [
+        "checked",
+        "ok",
+        "deletedItemIds",
+        "checkedAt"
+      ],
+      "additionalProperties": false
+    },
+    "OriginNote": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "approximate-time",
+            "edited",
+            "first-among-found"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "Period": {
+      "type": "object",
+      "properties": {
+        "preset": {
+          "$ref": "#/definitions/PeriodPreset"
+        },
+        "from": {
+          "$ref": "#/definitions/IsoDate"
+        },
+        "to": {
+          "$ref": "#/definitions/IsoDate"
+        }
+      },
+      "required": [
+        "preset",
+        "from",
+        "to"
+      ],
+      "additionalProperties": false
+    },
+    "PeriodPreset": {
+      "type": "string",
+      "enum": [
+        "today",
+        "24h",
+        "7d",
+        "30d",
+        "custom"
+      ]
+    },
+    "PlacementType": {
+      "type": "string",
+      "enum": [
+        "verbatim",
+        "shortened",
+        "retold",
+        "repost"
+      ]
+    },
+    "PlatformCap": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "number"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "limit",
+        "note"
+      ],
+      "additionalProperties": false
+    },
+    "PlatformId": {
+      "type": "string",
+      "enum": [
+        "vk",
+        "ok",
+        "max"
+      ]
+    },
+    "PlatformProblem": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "unavailable",
+            "timeout",
+            "bad-response",
+            "rate-limited",
+            "key-invalid",
+            "quota-exhausted",
+            "sources-closed"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "retryable"
+      ],
+      "additionalProperties": false
+    },
+    "PlatformState": {
+      "type": "string",
+      "enum": [
+        "waiting",
+        "searching",
+        "found",
+        "nothing",
+        "partial",
+        "error",
+        "no-access",
+        "stopped"
+      ]
+    },
+    "PlatformStatus": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "$ref": "#/definitions/PlatformId"
+        },
+        "state": {
+          "$ref": "#/definitions/PlatformState"
+        },
+        "found": {
+          "type": "number"
+        },
+        "progress": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ProgressCounter"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "problem": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PlatformProblem"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "freshness": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/DataFreshness"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cap": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PlatformCap"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "updatedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IsoDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "platform",
+        "state",
+        "found",
+        "progress",
+        "problem",
+        "freshness",
+        "cap",
+        "updatedAt"
+      ],
+      "additionalProperties": false
+    },
+    "PostKey": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "$ref": "#/definitions/PlatformId"
+        },
+        "ownerId": {
+          "type": "string"
+        },
+        "postId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "platform",
+        "ownerId",
+        "postId"
+      ],
+      "additionalProperties": false
+    },
+    "ProgressCounter": {
+      "type": "object",
+      "properties": {
+        "done": {
+          "type": "number"
+        },
+        "total": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "sources",
+            "pages"
+          ]
+        }
+      },
+      "required": [
+        "done",
+        "total",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "Publication": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "$ref": "#/definitions/PostKey"
+        },
+        "platform": {
+          "$ref": "#/definitions/PlatformId"
+        },
+        "source": {
+          "$ref": "#/definitions/SourceRef"
+        },
+        "url": {
+          "type": "string"
+        },
+        "mergedUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "headline": {
+          "type": "string"
+        },
+        "headlineFrom": {
+          "type": "string",
+          "enum": [
+            "title",
+            "text"
+          ]
+        },
+        "text": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sentences": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Sentence"
+          }
+        },
+        "publishedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IsoDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "timeReliability": {
+          "$ref": "#/definitions/TimeReliability"
+        },
+        "edited": {
+          "type": "boolean"
+        },
+        "repostOf": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "sourceName": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "sourceName",
+                "url"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "hasMedia": {
+          "type": "boolean"
+        },
+        "views": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "reactions": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "fetchedAt": {
+          "$ref": "#/definitions/IsoDateTime"
+        },
+        "linkCheck": {
+          "$ref": "#/definitions/LinkCheck"
+        }
+      },
+      "required": [
+        "id",
+        "key",
+        "platform",
+        "source",
+        "url",
+        "mergedUrls",
+        "title",
+        "headline",
+        "headlineFrom",
+        "text",
+        "sentences",
+        "publishedAt",
+        "timeReliability",
+        "edited",
+        "repostOf",
+        "hasMedia",
+        "views",
+        "reactions",
+        "fetchedAt",
+        "linkCheck"
+      ],
+      "additionalProperties": false
+    },
+    "QueryAnalysis": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/definitions/QueryKind"
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/QueryHint"
+          }
+        },
+        "ambiguity": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "question": {
+                  "type": "string"
+                },
+                "options": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/QueryMeaning"
+                  }
+                }
+              },
+              "required": [
+                "question",
+                "options"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "text",
+        "kind",
+        "hints",
+        "ambiguity"
+      ],
+      "additionalProperties": false
+    },
+    "QueryHint": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "looks-like-link",
+            "too-short",
+            "too-long",
+            "region-in-text",
+            "conversational",
+            "time-words",
+            "other-region"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "fix": {
+          "$ref": "#/definitions/QueryHintFix"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "QueryHintFix": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "replace-text"
+            },
+            "label": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "label",
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "set-period"
+            },
+            "label": {
+              "type": "string"
+            },
+            "period": {
+              "$ref": "#/definitions/Period"
+            }
+          },
+          "required": [
+            "type",
+            "label",
+            "period"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "QueryKind": {
+      "type": "string",
+      "enum": [
+        "topic",
+        "event",
+        "news-text"
+      ]
+    },
+    "QueryMeaning": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "description"
+      ],
+      "additionalProperties": false
+    },
+    "Quota": {
+      "type": "object",
+      "properties": {
+        "used": {
+          "type": "number"
+        },
+        "limit": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "resetsAt": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IsoDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "used",
+        "limit",
+        "unit",
+        "resetsAt"
+      ],
+      "additionalProperties": false
+    },
+    "ReachMetric": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "withData": {
+          "type": "number"
+        },
+        "of": {
+          "type": "number"
+        },
+        "howCounted": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "withData",
+        "of",
+        "howCounted"
+      ],
+      "additionalProperties": false
+    },
+    "RecentSearch": {
+      "type": "object",
+      "properties": {
+        "searchId": {
+          "type": "string"
+        },
+        "conditions": {
+          "$ref": "#/definitions/SearchConditions"
+        },
+        "total": {
+          "type": "number"
+        },
+        "statusSummary": {
+          "type": "string"
+        },
+        "request": {
+          "$ref": "#/definitions/SearchRequest"
+        }
+      },
+      "required": [
+        "searchId",
+        "conditions",
+        "total",
+        "statusSummary",
+        "request"
+      ],
+      "additionalProperties": false
+    },
+    "Region": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "const": "krasnoyarsk-krai"
+        },
+        "name": {
+          "type": "string"
+        },
+        "timeZone": {
+          "type": "string",
+          "const": "Asia/Krasnoyarsk"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "timeZone"
+      ],
+      "additionalProperties": false
+    },
+    "RegionReason": {
+      "type": "object",
+      "properties": {
+        "regionalSource": {
+          "type": "boolean"
+        },
+        "inMySources": {
+          "type": "boolean"
+        },
+        "places": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "regionalSource",
+        "inMySources",
+        "places"
+      ],
+      "additionalProperties": false
+    },
+    "ReleaseFragment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "index": {
+          "type": "number"
+        },
+        "text": {
+          "type": "string"
+        },
+        "takenBy": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "index",
+        "text",
+        "takenBy"
+      ],
+      "additionalProperties": false
+    },
+    "Relevance": {
+      "type": "string",
+      "enum": [
+        "direct",
+        "indirect",
+        "disputed"
+      ]
+    },
+    "ResultGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "release",
+            "copies"
+          ]
+        },
+        "itemIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "originalItemId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "countsByPlatform": {
+          "type": "object",
+          "properties": {
+            "vk": {
+              "type": "number"
+            },
+            "ok": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "vk",
+            "ok",
+            "max"
+          ],
+          "additionalProperties": false
+        },
+        "countsByType": {
+          "type": "object",
+          "properties": {
+            "verbatim": {
+              "type": "number"
+            },
+            "shortened": {
+              "type": "number"
+            },
+            "retold": {
+              "type": "number"
+            },
+            "repost": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "verbatim",
+            "shortened",
+            "retold",
+            "repost"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "kind",
+        "itemIds",
+        "originalItemId",
+        "countsByPlatform",
+        "countsByType"
+      ],
+      "additionalProperties": false
+    },
+    "ResultItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "publication": {
+          "$ref": "#/definitions/Publication"
+        },
+        "relevance": {
+          "$ref": "#/definitions/Relevance"
+        },
+        "method": {
+          "$ref": "#/definitions/SelectionMethod"
+        },
+        "methodNote": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "regionReason": {
+          "$ref": "#/definitions/RegionReason"
+        },
+        "excerpt": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Excerpt"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Evidence"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "placementType": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PlacementType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "isOriginal": {
+          "type": "boolean"
+        },
+        "citation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Citation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "groupId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "excluded": {
+          "type": "boolean"
+        },
+        "isNew": {
+          "type": "boolean"
+        },
+        "arrival": {
+          "type": "number"
+        },
+        "aiCheck": {
+          "$ref": "#/definitions/AiCheck"
+        }
+      },
+      "required": [
+        "id",
+        "publication",
+        "relevance",
+        "method",
+        "methodNote",
+        "regionReason",
+        "excerpt",
+        "evidence",
+        "placementType",
+        "isOriginal",
+        "citation",
+        "groupId",
+        "excluded",
+        "isNew",
+        "arrival"
+      ],
+      "additionalProperties": false
+    },
+    "SearchConditions": {
+      "type": "object",
+      "properties": {
+        "searchId": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/definitions/QueryKind"
+        },
+        "period": {
+          "$ref": "#/definitions/Period"
+        },
+        "region": {
+          "$ref": "#/definitions/Region"
+        },
+        "mode": {
+          "$ref": "#/definitions/SearchMode"
+        },
+        "sourceCount": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "platforms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PlatformId"
+          }
+        },
+        "meaningLabel": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "startedAt": {
+          "$ref": "#/definitions/IsoDateTime"
+        },
+        "finishedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IsoDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "repeatOf": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "searchId",
+        "text",
+        "label",
+        "kind",
+        "period",
+        "region",
+        "mode",
+        "sourceCount",
+        "platforms",
+        "meaningLabel",
+        "startedAt",
+        "finishedAt",
+        "repeatOf"
+      ],
+      "additionalProperties": false
+    },
+    "SearchEvent": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "queued"
+            },
+            "ahead": {
+              "type": "number"
+            },
+            "etaSec": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "type",
+            "ahead",
+            "etaSec"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "started"
+            },
+            "conditions": {
+              "$ref": "#/definitions/SearchConditions"
+            },
+            "statuses": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlatformStatus"
+              }
+            }
+          },
+          "required": [
+            "type",
+            "conditions",
+            "statuses"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "topic"
+            },
+            "topic": {
+              "$ref": "#/definitions/TopicUnderstanding"
+            }
+          },
+          "required": [
+            "type",
+            "topic"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "platform"
+            },
+            "status": {
+              "$ref": "#/definitions/PlatformStatus"
+            },
+            "currentSource": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "type",
+            "status",
+            "currentSource"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "items"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ResultItem"
+              }
+            },
+            "groups": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ResultGroup"
+              }
+            },
+            "counts": {
+              "$ref": "#/definitions/SelectionCounts"
+            }
+          },
+          "required": [
+            "type",
+            "items",
+            "groups",
+            "counts"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "ai-unavailable"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "message"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "connection-lost"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "message"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "connection-restored"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "message"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "finished"
+            },
+            "selection": {
+              "$ref": "#/definitions/Selection"
+            }
+          },
+          "required": [
+            "type",
+            "selection"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "stopped"
+            },
+            "selection": {
+              "$ref": "#/definitions/Selection"
+            }
+          },
+          "required": [
+            "type",
+            "selection"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "failed"
+            },
+            "error": {
+              "$ref": "#/definitions/ApiError"
+            }
+          },
+          "required": [
+            "type",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "SearchMode": {
+      "type": "string",
+      "enum": [
+        "my-sources",
+        "everywhere"
+      ]
+    },
+    "SearchRequest": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/definitions/Period"
+        },
+        "mode": {
+          "$ref": "#/definitions/SearchMode"
+        },
+        "sourceIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "platforms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PlatformId"
+          }
+        },
+        "meaningId": {
+          "type": "string"
+        },
+        "topic": {
+          "$ref": "#/definitions/TopicCorrection"
+        },
+        "repeatOf": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text",
+        "period",
+        "mode"
+      ],
+      "additionalProperties": false
+    },
+    "Selection": {
+      "type": "object",
+      "properties": {
+        "searchId": {
+          "type": "string"
+        },
+        "conditions": {
+          "$ref": "#/definitions/SearchConditions"
+        },
+        "statuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PlatformStatus"
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResultItem"
+          }
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResultGroup"
+          }
+        },
+        "counts": {
+          "$ref": "#/definitions/SelectionCounts"
+        },
+        "topic": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/TopicUnderstanding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "notices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SelectionNotice"
+          }
+        },
+        "aiAvailable": {
+          "type": "boolean"
+        },
+        "phase": {
+          "type": "string",
+          "enum": [
+            "running",
+            "done",
+            "stopped"
+          ]
+        }
+      },
+      "required": [
+        "searchId",
+        "conditions",
+        "statuses",
+        "items",
+        "groups",
+        "counts",
+        "topic",
+        "notices",
+        "aiAvailable",
+        "phase"
+      ],
+      "additionalProperties": false
+    },
+    "SelectionCounts": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "number"
+        },
+        "excluded": {
+          "type": "number"
+        },
+        "byRelevance": {
+          "type": "object",
+          "properties": {
+            "direct": {
+              "type": "number"
+            },
+            "indirect": {
+              "type": "number"
+            },
+            "disputed": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "direct",
+            "indirect",
+            "disputed"
+          ],
+          "additionalProperties": false
+        },
+        "byPlatform": {
+          "type": "object",
+          "properties": {
+            "vk": {
+              "type": "number"
+            },
+            "ok": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "vk",
+            "ok",
+            "max"
+          ],
+          "additionalProperties": false
+        },
+        "byPlacementType": {
+          "type": "object",
+          "properties": {
+            "verbatim": {
+              "type": "number"
+            },
+            "shortened": {
+              "type": "number"
+            },
+            "retold": {
+              "type": "number"
+            },
+            "repost": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "verbatim",
+            "shortened",
+            "retold",
+            "repost"
+          ],
+          "additionalProperties": false
+        },
+        "new": {
+          "type": "number"
+        },
+        "aiLikely": {
+          "type": "number"
+        },
+        "aiSigns": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "total",
+        "excluded",
+        "byRelevance",
+        "byPlatform",
+        "byPlacementType",
+        "new",
+        "aiLikely",
+        "aiSigns"
+      ],
+      "additionalProperties": false
+    },
+    "SelectionMethod": {
+      "type": "string",
+      "enum": [
+        "copy",
+        "semantic",
+        "ai-confirmed",
+        "ai-unchecked",
+        "manual"
+      ]
+    },
+    "SelectionNotice": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "other-region",
+            "platform-cap",
+            "ai-unavailable",
+            "images-not-analyzed",
+            "undated-included"
+          ]
+        },
+        "tone": {
+          "type": "string",
+          "enum": [
+            "info",
+            "warning"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "tone",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "Sentence": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "number"
+        },
+        "start": {
+          "type": "number"
+        },
+        "end": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "index",
+        "start",
+        "end"
+      ],
+      "additionalProperties": false
+    },
+    "Source": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "platform": {
+          "$ref": "#/definitions/PlatformId"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/SourceType"
+        },
+        "district": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "subscribers": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "inMySources": {
+          "type": "boolean"
+        },
+        "regional": {
+          "type": "boolean"
+        },
+        "origin": {
+          "type": "string",
+          "enum": [
+            "manual",
+            "catalog",
+            "import"
+          ]
+        },
+        "addedAt": {
+          "$ref": "#/definitions/IsoDateTime"
+        },
+        "check": {
+          "$ref": "#/definitions/SourceCheck"
+        }
+      },
+      "required": [
+        "addedAt",
+        "check",
+        "district",
+        "id",
+        "inMySources",
+        "name",
+        "origin",
+        "platform",
+        "regional",
+        "subscribers",
+        "type",
+        "url"
+      ],
+      "additionalProperties": false
+    },
+    "SourceCheck": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "ok",
+            "not-found",
+            "closed",
+            "not-supported",
+            "duplicate",
+            "not-regional",
+            "post-link"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "preview": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "platform": {
+                  "$ref": "#/definitions/PlatformId"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "subscribers": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "lastPostAt": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/IsoDateTime"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "suggestedType": {
+                  "$ref": "#/definitions/SourceType"
+                },
+                "suggestedDistrict": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "platform",
+                "name",
+                "url",
+                "subscribers",
+                "lastPostAt",
+                "suggestedType",
+                "suggestedDistrict"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "checkedAt": {
+          "$ref": "#/definitions/IsoDateTime"
+        }
+      },
+      "required": [
+        "state",
+        "message",
+        "preview",
+        "checkedAt"
+      ],
+      "additionalProperties": false
+    },
+    "SourceInput": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/SourceType"
+        },
+        "district": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "additionalProperties": false
+    },
+    "SourceRef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "platform": {
+          "$ref": "#/definitions/PlatformId"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/SourceType"
+        },
+        "district": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "subscribers": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "inMySources": {
+          "type": "boolean"
+        },
+        "regional": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "platform",
+        "name",
+        "url",
+        "type",
+        "district",
+        "subscribers",
+        "inMySources",
+        "regional"
+      ],
+      "additionalProperties": false
+    },
+    "SourceType": {
+      "type": "string",
+      "enum": [
+        "media",
+        "authority",
+        "municipal",
+        "institution",
+        "community",
+        "blogger"
+      ]
+    },
+    "SourcesRecheckReport": {
+      "type": "object",
+      "properties": {
+        "checkedAt": {
+          "$ref": "#/definitions/IsoDateTime"
+        },
+        "checked": {
+          "type": "number"
+        },
+        "ok": {
+          "type": "number"
+        },
+        "problems": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sourceId": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string",
+                "enum": [
+                  "ok",
+                  "not-found",
+                  "closed",
+                  "not-supported",
+                  "duplicate",
+                  "not-regional",
+                  "post-link"
+                ]
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "sourceId",
+              "name",
+              "state",
+              "message"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Source"
+          }
+        }
+      },
+      "required": [
+        "checkedAt",
+        "checked",
+        "ok",
+        "problems",
+        "sources"
+      ],
+      "additionalProperties": false
+    },
+    "SpreadPlacement": {
+      "type": "object",
+      "properties": {
+        "itemId": {
+          "type": "string"
+        },
+        "platform": {
+          "$ref": "#/definitions/PlatformId"
+        },
+        "sourceName": {
+          "type": "string"
+        },
+        "publishedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IsoDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "timeReliability": {
+          "$ref": "#/definitions/TimeReliability"
+        },
+        "subscribers": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "views": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "placementType": {
+          "$ref": "#/definitions/PlacementType"
+        },
+        "isOriginal": {
+          "type": "boolean"
+        },
+        "citationShare": {
+          "type": "number"
+        },
+        "url": {
+          "type": "string"
+        },
+        "aiCheck": {
+          "$ref": "#/definitions/AiCheck"
+        }
+      },
+      "required": [
+        "itemId",
+        "platform",
+        "sourceName",
+        "publishedAt",
+        "timeReliability",
+        "subscribers",
+        "views",
+        "placementType",
+        "isOriginal",
+        "citationShare",
+        "url"
+      ],
+      "additionalProperties": false
+    },
+    "SpreadReport": {
+      "type": "object",
+      "properties": {
+        "searchId": {
+          "type": "string"
+        },
+        "groupId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "release": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "fragments": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ReleaseFragment"
+              }
+            }
+          },
+          "required": [
+            "text",
+            "fragments"
+          ],
+          "additionalProperties": false
+        },
+        "original": {
+          "type": "object",
+          "properties": {
+            "itemId": {
+              "type": "string"
+            },
+            "sourceName": {
+              "type": "string"
+            },
+            "platform": {
+              "$ref": "#/definitions/PlatformId"
+            },
+            "publishedAt": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/IsoDateTime"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "timeReliability": {
+              "$ref": "#/definitions/TimeReliability"
+            },
+            "notes": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OriginNote"
+              }
+            }
+          },
+          "required": [
+            "itemId",
+            "sourceName",
+            "platform",
+            "publishedAt",
+            "timeReliability",
+            "notes"
+          ],
+          "additionalProperties": false
+        },
+        "totals": {
+          "type": "object",
+          "properties": {
+            "placements": {
+              "type": "number"
+            },
+            "byPlatform": {
+              "type": "object",
+              "properties": {
+                "vk": {
+                  "type": "number"
+                },
+                "ok": {
+                  "type": "number"
+                },
+                "max": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "vk",
+                "ok",
+                "max"
+              ],
+              "additionalProperties": false
+            },
+            "byType": {
+              "type": "object",
+              "properties": {
+                "verbatim": {
+                  "type": "number"
+                },
+                "shortened": {
+                  "type": "number"
+                },
+                "retold": {
+                  "type": "number"
+                },
+                "repost": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "verbatim",
+                "shortened",
+                "retold",
+                "repost"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "placements",
+            "byPlatform",
+            "byType"
+          ],
+          "additionalProperties": false
+        },
+        "audience": {
+          "$ref": "#/definitions/ReachMetric"
+        },
+        "views": {
+          "$ref": "#/definitions/ReachMetric"
+        },
+        "wave": {
+          "type": "object",
+          "properties": {
+            "hourly": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/WavePoint"
+              }
+            },
+            "daily": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/WavePoint"
+              }
+            }
+          },
+          "required": [
+            "hourly",
+            "daily"
+          ],
+          "additionalProperties": false
+        },
+        "placements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SpreadPlacement"
+          }
+        },
+        "aiRetold": {
+          "type": "object",
+          "properties": {
+            "likelyAi": {
+              "type": "number"
+            },
+            "retold": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "likelyAi",
+            "retold"
+          ],
+          "additionalProperties": false
+        },
+        "computedAt": {
+          "$ref": "#/definitions/IsoDateTime"
+        }
+      },
+      "required": [
+        "searchId",
+        "groupId",
+        "title",
+        "release",
+        "original",
+        "totals",
+        "audience",
+        "views",
+        "wave",
+        "placements",
+        "computedAt"
+      ],
+      "additionalProperties": false
+    },
+    "StandStatus": {
+      "type": "object",
+      "properties": {
+        "checkedAt": {
+          "$ref": "#/definitions/IsoDateTime"
+        },
+        "overall": {
+          "$ref": "#/definitions/HealthState"
+        },
+        "platforms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "platform": {
+                "$ref": "#/definitions/PlatformId"
+              },
+              "state": {
+                "$ref": "#/definitions/HealthState"
+              },
+              "message": {
+                "type": "string"
+              },
+              "via": {
+                "type": "string"
+              },
+              "freshness": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/DataFreshness"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "quota": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Quota"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "lastSuccessAt": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/IsoDateTime"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "platform",
+              "state",
+              "message",
+              "via",
+              "freshness",
+              "quota",
+              "lastSuccessAt"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "ai": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "$ref": "#/definitions/HealthState"
+            },
+            "model": {
+              "type": "string"
+            },
+            "warm": {
+              "type": "boolean"
+            },
+            "queueLength": {
+              "type": "number"
+            },
+            "avgSecondsPerPost": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "state",
+            "model",
+            "warm",
+            "queueLength",
+            "avgSecondsPerPost"
+          ],
+          "additionalProperties": false
+        },
+        "queue": {
+          "type": "object",
+          "properties": {
+            "running": {
+              "type": "number"
+            },
+            "waiting": {
+              "type": "number"
+            },
+            "perClientLimit": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "running",
+            "waiting",
+            "perClientLimit"
+          ],
+          "additionalProperties": false
+        },
+        "memory": {
+          "type": "object",
+          "properties": {
+            "usedMb": {
+              "type": "number"
+            },
+            "totalMb": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "usedMb",
+            "totalMb"
+          ],
+          "additionalProperties": false
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "at": {
+                "$ref": "#/definitions/IsoDateTime"
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "info",
+                  "warning",
+                  "error"
+                ]
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "at",
+              "level",
+              "message"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "checkedAt",
+        "overall",
+        "platforms",
+        "ai",
+        "queue",
+        "memory",
+        "events",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "StartState": {
+      "type": "object",
+      "properties": {
+        "firstRun": {
+          "type": "boolean"
+        },
+        "sourcesCount": {
+          "type": "number"
+        },
+        "defaultMode": {
+          "$ref": "#/definitions/SearchMode"
+        },
+        "exampleQuery": {
+          "type": "string"
+        },
+        "defaultPeriod": {
+          "$ref": "#/definitions/Period"
+        },
+        "region": {
+          "$ref": "#/definitions/Region"
+        }
+      },
+      "required": [
+        "firstRun",
+        "sourcesCount",
+        "defaultMode",
+        "exampleQuery",
+        "defaultPeriod",
+        "region"
+      ],
+      "additionalProperties": false
+    },
+    "TextRange": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "number"
+        },
+        "end": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "additionalProperties": false
+    },
+    "TimeReliability": {
+      "type": "string",
+      "enum": [
+        "exact",
+        "approximate",
+        "unknown"
+      ]
+    },
+    "TopicCorrection": {
+      "type": "object",
+      "properties": {
+        "include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "include",
+        "exclude"
+      ],
+      "additionalProperties": false
+    },
+    "TopicFacet": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "example": {
+          "type": "string"
+        },
+        "cutCount": {
+          "type": "number"
+        },
+        "origin": {
+          "type": "string",
+          "enum": [
+            "system",
+            "user"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "origin"
+      ],
+      "additionalProperties": false
+    },
+    "TopicUnderstanding": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "includes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TopicFacet"
+          }
+        },
+        "excludes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TopicFacet"
+          }
+        },
+        "signs": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/EventSigns"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "madeBy": {
+          "type": "string",
+          "enum": [
+            "ai",
+            "rules"
+          ]
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cutExamples": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "headline": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "headline",
+              "reason"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "summary",
+        "includes",
+        "excludes",
+        "signs",
+        "madeBy",
+        "note",
+        "cutExamples"
+      ],
+      "additionalProperties": false
+    },
+    "WavePoint": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "$ref": "#/definitions/IsoDateTime"
+        },
+        "count": {
+          "type": "number"
+        },
+        "byPlatform": {
+          "type": "object",
+          "properties": {
+            "vk": {
+              "type": "number"
+            },
+            "ok": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "vk",
+            "ok",
+            "max"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "start",
+        "count",
+        "byPlatform"
+      ],
+      "additionalProperties": false
+    },
+    "Workspace": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "createdAt": {
+          "$ref": "#/definitions/IsoDateTime"
+        },
+        "sourcesCount": {
+          "type": "number"
+        },
+        "recentCount": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "createdAt",
+        "sourcesCount",
+        "recentCount"
+      ],
+      "additionalProperties": false
+    },
+    "WorkspaceLink": {
+      "type": "object",
+      "properties": {
+        "workspaceId": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "createdAt": {
+          "$ref": "#/definitions/IsoDateTime"
+        }
+      },
+      "required": [
+        "workspaceId",
+        "key",
+        "url",
+        "createdAt"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

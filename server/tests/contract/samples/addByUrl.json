@@ -1,0 +1,90 @@
+{
+  "method": "addByUrl",
+  "schema": "ResultItem",
+  "value": {
+    "id": "vk:-100106_57990",
+    "publication": {
+      "id": "vk:-100106_57990",
+      "key": {
+        "platform": "vk",
+        "ownerId": "-100106",
+        "postId": "57990"
+      },
+      "platform": "vk",
+      "source": {
+        "id": "vk-gai-krai",
+        "platform": "vk",
+        "name": "Госавтоинспекция края",
+        "url": "https://vk.com/demo_gai_krai",
+        "type": "authority",
+        "district": "весь край",
+        "subscribers": 58000,
+        "inMySources": true,
+        "regional": true
+      },
+      "url": "https://vk.com/wall-100106_57990",
+      "mergedUrls": [],
+      "title": null,
+      "headline": "Госавтоинспекция края подвела итоги рейда «Детское кресло».",
+      "headlineFrom": "text",
+      "text": "Госавтоинспекция края подвела итоги рейда «Детское кресло». За неделю выявлено 214 нарушений правил перевозки детей.",
+      "sentences": [
+        {
+          "index": 0,
+          "start": 0,
+          "end": 59
+        },
+        {
+          "index": 1,
+          "start": 60,
+          "end": 116
+        }
+      ],
+      "publishedAt": "2026-09-15T10:00:00+07:00",
+      "timeReliability": "exact",
+      "edited": false,
+      "repostOf": null,
+      "hasMedia": false,
+      "views": 4060,
+      "reactions": 232,
+      "fetchedAt": "2026-10-19T14:32:12+07:00",
+      "linkCheck": {
+        "state": "ok",
+        "checkedAt": "2026-10-19T14:32:14+07:00"
+      }
+    },
+    "relevance": "direct",
+    "method": "manual",
+    "methodNote": "Вы добавили публикацию по ссылке",
+    "regionReason": {
+      "regionalSource": true,
+      "inMySources": false,
+      "places": []
+    },
+    "excerpt": {
+      "start": 0,
+      "end": 116,
+      "text": "Госавтоинспекция края подвела итоги рейда «Детское кресло». За неделю выявлено 214 нарушений правил перевозки детей.",
+      "cutStart": false,
+      "cutEnd": false
+    },
+    "evidence": {
+      "sentenceIndex": 0,
+      "ranges": [
+        {
+          "start": 0,
+          "end": 59
+        }
+      ],
+      "basis": "semantic",
+      "note": null
+    },
+    "placementType": null,
+    "isOriginal": false,
+    "citation": null,
+    "groupId": null,
+    "excluded": false,
+    "isNew": false,
+    "arrival": 41
+  }
+}

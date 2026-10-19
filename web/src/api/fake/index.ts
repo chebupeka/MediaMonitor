@@ -4,12 +4,16 @@
  */
 import { MonitorApiError, type MonitorApi } from '../client';
 import type {
+  AiCheck,
   ApiError,
   CatalogSource,
   ExportCell,
+  ExportFile,
   ExportOptions,
   ExportPreview,
+  ImportPreview,
   ImportReport,
+  ImportRow,
   LinkRecheckReport,
   OriginNote,
   PlatformId,
@@ -25,6 +29,7 @@ import type {
   SourceCheck,
   SourceInput,
   SourceType,
+  SourcesRecheckReport,
   SpreadPlacement,
   SpreadReport,
   StandStatus,
@@ -32,6 +37,8 @@ import type {
   TopicCorrection,
   TopicUnderstanding,
   WavePoint,
+  Workspace,
+  WorkspaceLink,
 } from '../types';
 import {
   TIME_ZONE_LABEL_FULL,
@@ -52,6 +59,9 @@ import {
   platformStatusView,
   regionReasonText,
 } from '@/lib/labels';
+import { getHost } from '@/lib/host';
+import { buildXlsx } from '@/lib/xlsx';
+import { demoAiCheck } from './ai';
 import { validateItems } from './build';
 import { at, demoNowMs, nowIso, toKrskIso } from './clock';
 import {
@@ -63,20 +73,30 @@ import {
 import { buildBdd } from './datasets/bdd';
 import { buildEvent } from './datasets/event';
 import { buildLarge } from './datasets/large';
-import { RELEASE_SOURCE_TEXT, buildRelease } from './datasets/release';
+import { RELEASE_AI_SAMPLES, RELEASE_SOURCE_TEXT, buildRelease } from './datasets/release';
 import {
+  adoptRecord,
   computeCounts,
   getRecord,
   retryFakePlatform,
   snapshot,
   startFakeSearch,
   stopById,
+  withAiCheck,
   type SearchContext,
   type SearchRecord,
 } from './engine';
 import { analyze, presetPeriod, topicFor } from './query';
 import { getDemoState, subscribeDemo } from './scenario';
-import { SOURCE_SEEDS, catalogSources, sourceUrl, toSourceRef, type SourceSeed } from './sources';
+import {
+  SOURCE_SEEDS,
+  catalogSources,
+  postOwner,
+  seedById,
+  sourceUrl,
+  toSourceRef,
+  type SourceSeed,
+} from './sources';
 
 // ---------------------------------------------------------------- служебное
 
@@ -198,6 +218,18 @@ function guessType(slug: string): SourceType {
   return 'community';
 }
 
+function previewOf(seed: SourceSeed): NonNullable<SourceCheck['preview']> {
+  return {
+    platform: seed.platform,
+    name: seed.name,
+    url: sourceUrl(seed),
+    subscribers: seed.subscribers,
+    lastPostAt: at('2026-10-19 09:40'),
+    suggestedType: seed.type,
+    suggestedDistrict: seed.district,
+  };
+}
+
 function checkUrl(url: string): SourceCheck {
   const checkedAt = nowIso();
   const parsed = parseUrl(url);
@@ -209,21 +241,28 @@ function checkUrl(url: string): SourceCheck {
       checkedAt,
     };
   }
+  // Ссылка на пост, а не на группу (SC-10): подсказываем группу, где он вышел.
+  const post = postOwner(url);
+  if (post.isPost) {
+    const owner = post.seed;
+    return {
+      state: 'post-link',
+      message: owner
+        ? `Это ссылка на пост. Он опубликован в «${owner.name}» — можно проверить и добавить ${owner.platform === 'max' ? 'этот канал' : 'эту группу'}.`
+        : 'Это ссылка на пост, а не на группу. Откройте группу или канал, где он вышел, и скопируйте их адрес.',
+      preview: owner && !owner.closed ? previewOf(owner) : null,
+      checkedAt,
+    };
+  }
   const seed = seedByUrl(parsed);
   if (seed) {
-    const preview = {
-      platform: seed.platform,
-      name: seed.name,
-      url: sourceUrl(seed),
-      subscribers: seed.subscribers,
-      lastPostAt: at('2026-10-19 09:40'),
-      suggestedType: seed.type,
-      suggestedDistrict: seed.district,
-    };
+    const preview = previewOf(seed);
     if (mySources.has(seed.id)) {
       return {
         state: 'duplicate',
-        message: `«${seed.name}» уже есть в вашем списке.`,
+        message: seed.closed
+          ? `«${seed.name}» уже есть в вашем списке, но группа закрыта: по ней не ищем.`
+          : `«${seed.name}» уже есть в вашем списке.`,
         preview,
         checkedAt,
       };
@@ -419,6 +458,78 @@ function rememberSearch(record: SearchRecord): void {
     request: clone(record.request),
   };
   recent = [entry, ...recent.filter((r) => r.searchId !== record.searchId)].slice(0, 20);
+  persistRecord(record);
+}
+
+// ---------------------------------------------------------------- снимки между страницами
+
+/**
+ * Законченные поиски лежат в хранилище сеанса (lib/host.ts). Так подборку видит и заново
+ * открытая боковая панель, и вкладка «Открыть во вкладке»: у каждой страницы своя память,
+ * а настоящий сервер хранит поиски сам. Держим несколько последних.
+ */
+const SAVED_KEY = 'mm:fake:searches';
+const SAVED_LIMIT = 3;
+
+interface SavedRecord {
+  request: SearchRequest;
+  selection: Selection;
+  savedAt: number;
+}
+
+function isSavedRecord(value: unknown, searchId: string): value is SavedRecord {
+  if (typeof value !== 'object' || value === null) return false;
+  const v = value as { request?: { text?: unknown }; selection?: { searchId?: unknown } };
+  return typeof v.request?.text === 'string' && v.selection?.searchId === searchId;
+}
+
+async function readSaved(): Promise<Record<string, unknown>> {
+  const value = await getHost().session.get(SAVED_KEY);
+  return typeof value === 'object' && value !== null ? (value as Record<string, unknown>) : {};
+}
+
+/** Записи идут по очереди, чтобы два быстрых исключения не затёрли друг друга. */
+let saving: Promise<void> = Promise.resolve();
+
+function persistRecord(record: SearchRecord): void {
+  if (record.phase === 'running') return;
+  const entry: SavedRecord = {
+    request: clone(record.request),
+    selection: snapshot(record),
+    savedAt: Date.now(),
+  };
+  saving = saving
+    .then(async () => {
+      const saved = { ...(await readSaved()), [record.searchId]: entry };
+      const kept = Object.entries(saved)
+        .map(([id, value]) => [id, value, isSavedRecord(value, id) ? value.savedAt : 0] as const)
+        .sort((a, b) => b[2] - a[2])
+        .slice(0, SAVED_LIMIT)
+        .map(([id, value]) => [id, value]);
+      await getHost().session.set(SAVED_KEY, Object.fromEntries(kept));
+    })
+    .catch(() => undefined);
+}
+
+/** Поиска нет в памяти страницы — поднять его из снимка, если он есть. */
+async function ensureRecord(searchId: string): Promise<void> {
+  if (getRecord(searchId)) return;
+  const entry = (await readSaved())[searchId];
+  if (!isSavedRecord(entry, searchId)) return;
+  try {
+    adoptRecord(entry.request, entry.selection, context(null));
+  } catch {
+    // снимок от другой версии мокапа — считаем, что поиска нет
+  }
+}
+
+/** Вызов над записью поиска: сначала поднять её из снимка, если страницу открыли заново. */
+function withRecord<T>(
+  base: number,
+  searchId: string,
+  body: (record: SearchRecord) => T,
+): Promise<T> {
+  return ensureRecord(searchId).then(() => call(base, () => body(requireRecord(searchId))));
 }
 
 // ---------------------------------------------------------------- сценарии
@@ -529,7 +640,10 @@ function buildSpread(record: SearchRecord, groupId?: string): SpreadReport {
     isOriginal: m.isOriginal,
     citationShare: m.citation?.share ?? 0,
     url: m.publication.url,
+    ...(m.aiCheck ? { aiCheck: m.aiCheck } : {}),
   }));
+  // Проверка на ИИ — только пересказы: копия релиза получает оценку самого релиза.
+  const retold = placements.filter((p) => !p.isOriginal && p.placementType === 'retold');
 
   return {
     searchId: record.searchId,
@@ -568,6 +682,10 @@ function buildSpread(record: SearchRecord, groupId?: string): SpreadReport {
     },
     wave: { hourly: waveOf(members, 3600_000), daily: waveOf(members, 86400_000) },
     placements,
+    aiRetold: {
+      likelyAi: retold.filter((p) => p.aiCheck?.level === 'likely-ai').length,
+      retold: retold.length,
+    },
     computedAt: nowIso(),
   };
 }
@@ -591,12 +709,16 @@ function exportItems(record: SearchRecord, options?: ExportOptions): ResultItem[
     );
 }
 
-function buildExport(record: SearchRecord, options?: ExportOptions): ExportPreview {
+/** `full` — все строки (для файла); без него — первые 50 для предпросмотра. */
+function buildExport(record: SearchRecord, options?: ExportOptions, full = false): ExportPreview {
   const selection = snapshot(record);
   const rows = exportItems(record, options);
   const c = selection.conditions;
   const groupTitle = new Map(selection.groups.map((g) => [g.id, g.title]));
-  const fileDate = (c.finishedAt ?? c.startedAt).slice(0, 10);
+  // Тема, дата и время поиска по Красноярску: две выгрузки за день не совпадут по имени
+  const finishedAt = c.finishedAt ?? c.startedAt;
+  const fileDate = finishedAt.slice(0, 10);
+  const fileTime = finishedAt.slice(11, 16).replace(':', '-');
   const columns = [
     { id: 'n', title: '№' },
     { id: 'platform', title: 'Площадка' },
@@ -612,7 +734,7 @@ function buildExport(record: SearchRecord, options?: ExportOptions): ExportPrevi
     { id: 'group', title: 'Группа' },
     { id: 'fetched', title: 'Получено' },
   ];
-  const table: ExportCell[][] = rows.slice(0, 50).map((item, index) => {
+  const table: ExportCell[][] = (full ? rows : rows.slice(0, 50)).map((item, index) => {
     const p = item.publication;
     return [
       index + 1,
@@ -641,7 +763,7 @@ function buildExport(record: SearchRecord, options?: ExportOptions): ExportPrevi
 
   return {
     searchId: record.searchId,
-    fileName: `Медиамонитор_${safeLabel}_${fileDate}.xlsx`,
+    fileName: `Медиамонитор_${safeLabel}_${fileDate}_${fileTime}.xlsx`,
     rowCount: rows.length,
     excludedCount: selection.counts.excluded,
     rule: appliedFilter
@@ -689,6 +811,26 @@ function buildExport(record: SearchRecord, options?: ExportOptions): ExportPrevi
   };
 }
 
+/** Ширина колонок «Публикаций» в знаках — чтобы файл читался без ручной подгонки */
+const EXPORT_WIDTHS = [5, 14, 26, 44, 22, 38, 64, 12, 22, 30, 16, 26, 18];
+
+function buildExportFile(record: SearchRecord, options?: ExportOptions): ExportFile {
+  const book = buildExport(record, options, true);
+  const { summary, publications } = book;
+  const linkColumn = publications.columns.findIndex((col) => col.id === 'url');
+  const file = buildXlsx([
+    { name: summary.name, widths: [24, 90], rows: summary.entries.map((e) => [e.label, e.value]) },
+    {
+      name: publications.name,
+      header: true,
+      widths: EXPORT_WIDTHS,
+      linkColumns: linkColumn >= 0 ? [linkColumn] : [],
+      rows: [publications.columns.map((col) => col.title), ...publications.rows],
+    },
+  ]);
+  return { fileName: book.fileName, rowCount: book.rowCount, file };
+}
+
 // ---------------------------------------------------------------- стенд
 
 function standStatus(): StandStatus {
@@ -707,7 +849,12 @@ function standStatus(): StandStatus {
         'key-invalid': 'Ключ доступа недействителен — замените ключ в настройках сервера.',
         'quota-exhausted': 'Квота на сегодня исчерпана. Сброс в 00:00.',
       }[maxFailure]
-    : 'Работает. Индекс отстаёт примерно на 24 часа.';
+    : 'Работает.';
+  // MAX ищется через сторонний индекс с отставанием (НТ-4).
+  const maxFreshness = {
+    delayHours: 24,
+    note: 'MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись.',
+  };
   return {
     checkedAt: nowIso(),
     overall: maxDown || aiDown || offline ? 'degraded' : 'ok',
@@ -717,6 +864,7 @@ function standStatus(): StandStatus {
         state: maxDown ? 'degraded' : 'ok',
         message: maxDown ? 'Работает. 1 группа из демо-списка закрыта.' : 'Работает.',
         via: 'VK API (сервисный ключ)',
+        freshness: null,
         quota: {
           used: 3_412,
           limit: 10_000,
@@ -730,6 +878,7 @@ function standStatus(): StandStatus {
         state: 'ok',
         message: 'Работает.',
         via: 'Веб-поиск Одноклассников',
+        freshness: null,
         quota: null,
         lastSuccessAt: ago(2),
       },
@@ -738,6 +887,7 @@ function standStatus(): StandStatus {
         state: maxDown ? (maxFailure === 'rate-limited' ? 'degraded' : 'down') : 'ok',
         message: maxMessage,
         via: 'Сторонний индекс MaxStat + проверка ссылок на max.ru',
+        freshness: maxFreshness,
         quota: {
           used: maxDown && maxFailure === 'quota-exhausted' ? 1_000 : 388,
           limit: 1_000,
@@ -780,6 +930,280 @@ function standStatus(): StandStatus {
       { at: ago(36), level: 'info', message: 'Сервер перезапущен, версия 0.1.0-mockup.' },
     ],
     version: '0.1.0-mockup',
+  };
+}
+
+// ---------------------------------------------------------------- импорт из Excel (ТЗ-Ф16)
+
+const importPreviews = new Map<string, ImportPreview>();
+let importCounter = 0;
+
+/** Демо-файл: в мокапе файл не читается, строки собираются из каталога и списка. */
+const DEMO_IMPORT_COLUMNS: ImportPreview['columns'] = [
+  {
+    letter: 'A',
+    title: 'Название',
+    role: 'name',
+    note: 'название — подставим, если площадка не отдаст своё',
+  },
+  { letter: 'B', title: 'Ссылка на группу', role: 'url', note: 'ссылки — по ним добавляем' },
+  { letter: 'C', title: 'Комментарий', role: 'ignored', note: 'не используем' },
+];
+
+function addRow(row: number, seed: SourceSeed, variant: number): ImportRow {
+  const plain = sourceUrl(seed);
+  const source = toSourceRef(seed, false);
+  if (variant === 1) {
+    return {
+      row,
+      value: `  ${plain.replace(/^https:\/\//u, '')}  `,
+      title: seed.name,
+      outcome: { kind: 'add', source, note: 'убрали лишние пробелы' },
+    };
+  }
+  if (variant === 2 && plain.startsWith('https://vk.com/')) {
+    return {
+      row,
+      value: plain.replace('https://vk.com/', 'https://m.vk.com/'),
+      title: seed.name,
+      outcome: { kind: 'add', source, note: 'мобильная ссылка — привели к обычной' },
+    };
+  }
+  return { row, value: plain, title: seed.name, outcome: { kind: 'add', source, note: null } };
+}
+
+const emptyRow = (row: number): ImportRow => ({
+  row,
+  value: '',
+  title: '',
+  outcome: { kind: 'empty' },
+});
+
+function buildImportPreview(fileName: string): ImportPreview {
+  // Источник демо-ссылки «доступна» в файл не кладём: иначе после импорта её проверка
+  // ответит «уже в списке».
+  const reserved = new Set(['vk-minusinsk']);
+  const fresh = SOURCE_SEEDS.filter(
+    (s) => s.regional && !s.closed && !mySources.has(s.id) && !reserved.has(s.id),
+  ).slice(0, 6);
+  const dups = SOURCE_SEEDS.filter((s) => mySources.has(s.id) && !s.closed).slice(0, 2);
+  const closed = SOURCE_SEEDS.find((s) => s.closed && !mySources.has(s.id));
+  const rows: ImportRow[] = [];
+  // строки 2–6: новые источники
+  for (let i = 0; i < 5; i += 1) {
+    const seed = fresh[i];
+    rows.push(seed ? addRow(i + 2, seed, i) : emptyRow(i + 2));
+  }
+  rows.push({
+    row: 7,
+    value: 'https://example.ru/news',
+    title: 'Сайт новостей',
+    outcome: { kind: 'skip', reason: 'Ссылка на сайт, а не на группу' },
+  });
+  const sixth = fresh[5];
+  rows.push(sixth ? addRow(8, sixth, 0) : emptyRow(8));
+  const [dup0, dup1] = dups;
+  rows.push(
+    dup0
+      ? {
+          row: 9,
+          value: sourceUrl(dup0),
+          title: dup0.name,
+          outcome: { kind: 'duplicate', source: toSourceRef(dup0, true) },
+        }
+      : emptyRow(9),
+  );
+  rows.push(emptyRow(10));
+  rows.push(
+    dup1
+      ? {
+          row: 11,
+          value: sourceUrl(dup1),
+          title: dup1.name,
+          outcome: { kind: 'duplicate', source: toSourceRef(dup1, true) },
+        }
+      : emptyRow(11),
+  );
+  rows.push(
+    closed
+      ? {
+          row: 12,
+          value: sourceUrl(closed),
+          title: closed.name,
+          outcome: { kind: 'skip', reason: 'Группа закрыта: посты не видны' },
+        }
+      : emptyRow(12),
+  );
+  rows.push({
+    row: 13,
+    value: 'https://vk.com/wall-100104_60210',
+    title: 'Пост про школу',
+    outcome: {
+      kind: 'skip',
+      reason: 'Ссылка на пост, а не на группу: добавьте группу, где он вышел',
+    },
+  });
+
+  const count = (kind: ImportRow['outcome']['kind']): number =>
+    rows.filter((r) => r.outcome.kind === kind).length;
+  importCounter += 1;
+  return {
+    previewId: `import-${importCounter}`,
+    fileName,
+    sheetName: 'Лист1',
+    totalRows: rows.length + 1,
+    headerRow: 1,
+    columns: DEMO_IMPORT_COLUMNS,
+    rows,
+    counts: {
+      add: count('add'),
+      duplicate: count('duplicate'),
+      skip: count('skip'),
+      empty: count('empty'),
+    },
+  };
+}
+
+function checkSpreadsheet(file: File): void {
+  if (!/\.(xlsx|xls|csv)$/iu.test(file.name)) {
+    throw apiError(
+      'invalid',
+      `«${file.name}» — не таблица. Нужен файл Excel (.xlsx, .xls) или CSV.`,
+    );
+  }
+}
+
+/** Добавить строки «добавим» разбора `previewId`: итог совпадает с предпросмотром. */
+function runImport(previewId: string): ImportReport {
+  const preview = importPreviews.get(previewId);
+  if (!preview) throw apiError('not-found', 'Разбор файла устарел. Выберите файл ещё раз.');
+  const report: ImportReport = { added: [], duplicates: [], skipped: [] };
+  for (const row of preview.rows) {
+    const { outcome } = row;
+    if (outcome.kind === 'add') {
+      if (mySources.has(outcome.source.id)) {
+        report.duplicates.push({ row: row.row, value: row.value, name: outcome.source.name });
+        continue;
+      }
+      const source = sourceFromSeed(seedById(outcome.source.id), 'import', nowIso());
+      mySources.set(source.id, source);
+      report.added.push(clone(source));
+    } else if (outcome.kind === 'duplicate') {
+      report.duplicates.push({ row: row.row, value: row.value, name: outcome.source.name });
+    } else if (outcome.kind === 'skip') {
+      report.skipped.push({ row: row.row, value: row.value, reason: outcome.reason });
+    }
+  }
+  importPreviews.delete(previewId);
+  return report;
+}
+
+// ---------------------------------------------------------------- рабочее место (Р8)
+
+const WORKSPACE_KEY = 'mm-mockup-workspace';
+
+function randomKey(length: number): string {
+  const alphabet = 'abcdefghijkmnpqrstuvwxyz23456789';
+  const bytes = new Uint8Array(length);
+  crypto.getRandomValues(bytes);
+  return [...bytes].map((b) => alphabet[b % alphabet.length] ?? 'a').join('');
+}
+
+interface StoredWorkspace {
+  id: string;
+  key: string;
+  createdAt: string;
+}
+
+function loadWorkspace(): StoredWorkspace {
+  try {
+    const raw = window.localStorage.getItem(WORKSPACE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<StoredWorkspace>;
+      if (parsed.id && parsed.key && parsed.createdAt) {
+        return { id: parsed.id, key: parsed.key, createdAt: parsed.createdAt };
+      }
+    }
+  } catch {
+    // хранилище недоступно — рабочее место живёт до перезагрузки
+  }
+  const created: StoredWorkspace = {
+    id: `ws-${randomKey(8)}`,
+    key: randomKey(24),
+    createdAt: nowIso(),
+  };
+  try {
+    window.localStorage.setItem(WORKSPACE_KEY, JSON.stringify(created));
+  } catch {
+    // без запоминания
+  }
+  return created;
+}
+
+let workspace: StoredWorkspace | null = null;
+
+function currentWorkspace(): Workspace {
+  workspace ??= loadWorkspace();
+  return {
+    id: workspace.id,
+    createdAt: workspace.createdAt,
+    sourcesCount: mySources.size,
+    recentCount: recent.length,
+  };
+}
+
+function workspaceLink(): WorkspaceLink {
+  const ws = currentWorkspace();
+  const key = workspace?.key ?? '';
+  const base =
+    typeof window !== 'undefined'
+      ? `${window.location.origin}${window.location.pathname}`
+      : 'https://mediamonitor.demo/';
+  // Ключ — во фрагменте адреса (#…): браузер не отправляет его на сервер в запросе страницы.
+  return { workspaceId: ws.id, key, url: `${base}#workspace=${key}`, createdAt: nowIso() };
+}
+
+// ---------------------------------------------------------------- перепроверка списка (П9)
+
+function recheckAll(): SourcesRecheckReport {
+  const checkedAt = nowIso();
+  const problems: SourcesRecheckReport['problems'] = [];
+  for (const [id, source] of mySources) {
+    const seed = SOURCE_SEEDS.find((s) => s.id === id);
+    const check: SourceCheck = seed?.closed
+      ? {
+          state: 'closed',
+          message: 'Группа закрыта: её посты не видны, поиск по ней невозможен.',
+          preview: null,
+          checkedAt,
+        }
+      : seed && !seed.regional
+        ? {
+            state: 'not-regional',
+            message: 'Пишет не только о крае: в подборку попадут посты, где упоминается край.',
+            preview: null,
+            checkedAt,
+          }
+        : { ...CHECK_OK, checkedAt };
+    mySources.set(id, { ...source, check });
+    if (check.state !== 'ok') {
+      problems.push({
+        sourceId: id,
+        name: source.name,
+        state: check.state,
+        message: check.message,
+      });
+    }
+  }
+  const sources = [...mySources.values()]
+    .sort((a, b) => a.name.localeCompare(b.name, 'ru'))
+    .map(clone);
+  return {
+    checkedAt,
+    checked: sources.length,
+    ok: sources.filter((s) => s.check.state === 'ok').length,
+    problems,
+    sources,
   };
 }
 
@@ -897,19 +1321,18 @@ export function createFakeApi(): MonitorApi {
       retryFakePlatform(searchId, platform, context(null)),
 
     getSelection: (searchId: string) =>
-      call(150, (): Selection => snapshot(requireRecord(searchId))),
+      withRecord(150, searchId, (record): Selection => snapshot(record)),
 
     setExcluded: (searchId: string, itemIds: string[], excluded: boolean) =>
-      call(140, (): SelectionCounts => {
-        const record = requireRecord(searchId);
+      withRecord(140, searchId, (record): SelectionCounts => {
         const ids = new Set(itemIds);
         for (const item of record.items) if (ids.has(item.id)) item.excluded = excluded;
+        persistRecord(record);
         return computeCounts(record.items);
       }),
 
     excludeSource: (searchId: string, sourceId: string) =>
-      call(180, () => {
-        const record = requireRecord(searchId);
+      withRecord(180, searchId, (record) => {
         const itemIds: string[] = [];
         for (const item of record.items) {
           if (item.publication.source.id === sourceId && !item.excluded) {
@@ -917,12 +1340,12 @@ export function createFakeApi(): MonitorApi {
             itemIds.push(item.id);
           }
         }
+        persistRecord(record);
         return { itemIds, counts: computeCounts(record.items) };
       }),
 
     addByUrl: (searchId: string, url: string) =>
-      call(900, (): ResultItem => {
-        const record = requireRecord(searchId);
+      withRecord(900, searchId, (record): ResultItem => {
         const parsed = parseUrl(url);
         if (!parsed.platform)
           throw apiError('invalid', 'Это не ссылка на пост ВКонтакте, Одноклассников или MAX.');
@@ -945,21 +1368,22 @@ export function createFakeApi(): MonitorApi {
         if (existing) {
           if (!existing.excluded) throw apiError('invalid', 'Эта публикация уже есть в подборке.');
           existing.excluded = false;
+          persistRecord(record);
           return { ...existing };
         }
-        const item: ResultItem = clone(found);
+        const item: ResultItem = withAiCheck(clone(found), !record.aiAvailable);
         item.method = 'manual';
         item.methodNote = 'Вы добавили публикацию по ссылке';
         item.publication.fetchedAt = nowIso();
         record.arrival += 1;
         item.arrival = record.arrival;
         record.items.push(item);
+        persistRecord(record);
         return { ...item };
       }),
 
     recheckLinks: (searchId: string) =>
-      call(1400, (): LinkRecheckReport => {
-        const record = requireRecord(searchId);
+      withRecord(1400, searchId, (record): LinkRecheckReport => {
         const checkedAt = nowIso();
         const active = record.items.filter((i) => !i.excluded);
         // В демо один пост «удалён после поиска» (НТ-19, SC-69)
@@ -970,6 +1394,7 @@ export function createFakeApi(): MonitorApi {
             checkedAt,
           };
         }
+        persistRecord(record);
         return {
           checked: active.length,
           ok: active.length - deleted.length,
@@ -978,11 +1403,20 @@ export function createFakeApi(): MonitorApi {
         };
       }),
 
+    checkAiText: (text: string) =>
+      call(
+        1100,
+        (): AiCheck => demoAiCheck(text, { modelDown: getDemoState().scenario === 'ai-down' }),
+      ),
+
     getSpread: (searchId: string, groupId?: string) =>
-      call(600, (): SpreadReport => buildSpread(requireRecord(searchId), groupId)),
+      withRecord(600, searchId, (record): SpreadReport => buildSpread(record, groupId)),
 
     getExportPreview: (searchId: string, options?: ExportOptions) =>
-      call(500, (): ExportPreview => buildExport(requireRecord(searchId), options)),
+      withRecord(500, searchId, (record): ExportPreview => buildExport(record, options)),
+
+    getExportFile: (searchId: string, options?: ExportOptions) =>
+      withRecord(700, searchId, (record): ExportFile => buildExportFile(record, options)),
 
     listSources: () =>
       call(320, (): Source[] =>
@@ -1049,28 +1483,24 @@ export function createFakeApi(): MonitorApi {
         return clone(source);
       }),
 
-    importSources: (file: File) =>
+    recheckSources: () => call(1600, (): SourcesRecheckReport => recheckAll()),
+
+    previewImport: (file: File) =>
+      call(1200, (): ImportPreview => {
+        checkSpreadsheet(file);
+        const preview = buildImportPreview(file.name);
+        importPreviews.set(preview.previewId, preview);
+        return clone(preview);
+      }),
+
+    importSources: (source: File | string) =>
       call(1500, (): ImportReport => {
-        const candidates = SOURCE_SEEDS.filter(
-          (s) => s.regional && !s.closed && !mySources.has(s.id),
-        ).slice(0, 6);
-        const added = candidates.map((seed) => sourceFromSeed(seed, 'import', nowIso()));
-        for (const s of added) mySources.set(s.id, s);
-        return {
-          added: added.map(clone),
-          skipped: [
-            {
-              row: 7,
-              value: 'https://example.ru/news',
-              reason: `Ссылка на сайт, а не на группу (файл «${file.name}»)`,
-            },
-            {
-              row: 12,
-              value: 'https://vk.com/demo_boguchany',
-              reason: 'Группа закрыта: посты не видны',
-            },
-          ],
-        };
+        if (typeof source === 'string') return runImport(source);
+        // Файл без предпросмотра: разобрать и сразу добавить.
+        checkSpreadsheet(source);
+        const preview = buildImportPreview(source.name);
+        importPreviews.set(preview.previewId, preview);
+        return runImport(preview.previewId);
       }),
 
     getCatalog: () => call(400, (): CatalogSource[] => catalogSources(myIds())),
@@ -1086,6 +1516,23 @@ export function createFakeApi(): MonitorApi {
           added.push(clone(source));
         }
         return added;
+      }),
+
+    getWorkspace: () => call(150, (): Workspace => currentWorkspace()),
+
+    getWorkspaceLink: () => call(250, (): WorkspaceLink => workspaceLink()),
+
+    openWorkspace: (key: string) =>
+      call(400, (): Workspace => {
+        const ws = currentWorkspace();
+        const clean = key.trim().replace(/^.*#workspace=/u, '');
+        if (clean !== workspace?.key) {
+          throw apiError(
+            'not-found',
+            'Рабочее место по этой ссылке не найдено. Проверьте, что ссылка скопирована целиком.',
+          );
+        }
+        return ws;
       }),
 
     listRecent: () => call(300, (): RecentSearch[] => recent.map(clone)),
@@ -1116,13 +1563,19 @@ export const DEMO_QUERIES: readonly { id: string; label: string; text: string }[
   { id: 'link', label: 'Ссылка вместо текста', text: 'https://vk.com/wall-100104_60210' },
 ];
 
+/** Примеры текстов для экрана «Проверка на ИИ» — пересказы релиза из демо-набора. */
+export const DEMO_AI_TEXTS: readonly { id: string; label: string; text: string }[] =
+  RELEASE_AI_SAMPLES;
+
 export const DEMO_LINKS = {
   /** Пост вне периода — можно добавить в подборку БДД по ссылке (П8) */
   addByUrl: 'https://vk.com/wall-100106_57990',
   /** Источник, которого нет в списке: проверка «ок» */
   sourceOk: 'https://vk.com/demo_minusinsk',
-  /** Закрытая группа */
-  sourceClosed: 'https://vk.com/demo_boguchany',
+  /** Закрытая группа, которой нет в списке */
+  sourceClosed: 'https://vk.com/demo_kodinsk',
+  /** Ссылка на пост вместо группы: проверка подскажет группу, где он вышел */
+  sourcePostLink: 'https://vk.com/wall-100104_60210',
   /** Не краевой источник */
   sourceNotRegional: 'https://vk.com/demo_news_sibir',
   /** Не та площадка */

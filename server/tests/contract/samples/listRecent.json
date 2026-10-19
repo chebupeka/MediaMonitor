@@ -1,0 +1,418 @@
+{
+  "method": "listRecent",
+  "schema": "RecentSearch[]",
+  "value": [
+    {
+      "searchId": "s-mvfj6q6b-6",
+      "conditions": {
+        "searchId": "s-mvfj6q6b-6",
+        "text": "ДТП",
+        "label": "Безопасность дорожного движения",
+        "kind": "topic",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-20",
+          "to": "2026-10-19"
+        },
+        "region": {
+          "id": "krasnoyarsk-krai",
+          "name": "Красноярский край",
+          "timeZone": "Asia/Krasnoyarsk"
+        },
+        "mode": "everywhere",
+        "sourceCount": null,
+        "platforms": [
+          "vk",
+          "ok",
+          "max"
+        ],
+        "meaningLabel": null,
+        "startedAt": "2026-10-19T14:32:40+07:00",
+        "finishedAt": "2026-10-19T14:32:53+07:00",
+        "repeatOf": null
+      },
+      "total": 40,
+      "statusSummary": "VK ✓ 27 · OK ✓ 7 · MAX ✓ 6",
+      "request": {
+        "text": "ДТП",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-20",
+          "to": "2026-10-19"
+        },
+        "mode": "everywhere"
+      }
+    },
+    {
+      "searchId": "s-mvfj6kzg-5",
+      "conditions": {
+        "searchId": "s-mvfj6kzg-5",
+        "text": "ДТП",
+        "label": "Безопасность дорожного движения",
+        "kind": "topic",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-20",
+          "to": "2026-10-19"
+        },
+        "region": {
+          "id": "krasnoyarsk-krai",
+          "name": "Красноярский край",
+          "timeZone": "Asia/Krasnoyarsk"
+        },
+        "mode": "everywhere",
+        "sourceCount": null,
+        "platforms": [
+          "vk",
+          "ok",
+          "max"
+        ],
+        "meaningLabel": null,
+        "startedAt": "2026-10-19T14:32:33+07:00",
+        "finishedAt": "2026-10-19T14:32:40+07:00",
+        "repeatOf": null
+      },
+      "total": 40,
+      "statusSummary": "VK ✓ 27 · OK ✓ 7 · MAX ✓ 6",
+      "request": {
+        "text": "ДТП",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-20",
+          "to": "2026-10-19"
+        },
+        "mode": "everywhere"
+      }
+    },
+    {
+      "searchId": "s-mvfj6dbi-4",
+      "conditions": {
+        "searchId": "s-mvfj6dbi-4",
+        "text": "ДТП",
+        "label": "Безопасность дорожного движения",
+        "kind": "topic",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-20",
+          "to": "2026-10-19"
+        },
+        "region": {
+          "id": "krasnoyarsk-krai",
+          "name": "Красноярский край",
+          "timeZone": "Asia/Krasnoyarsk"
+        },
+        "mode": "everywhere",
+        "sourceCount": null,
+        "platforms": [
+          "vk",
+          "ok",
+          "max"
+        ],
+        "meaningLabel": null,
+        "startedAt": "2026-10-19T14:32:23+07:00",
+        "finishedAt": "2026-10-19T14:32:33+07:00",
+        "repeatOf": null
+      },
+      "total": 40,
+      "statusSummary": "VK частично: 39 из 40 · OK ✓ 7 · MAX ✓ 6",
+      "request": {
+        "text": "ДТП",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-20",
+          "to": "2026-10-19"
+        },
+        "mode": "everywhere"
+      }
+    },
+    {
+      "searchId": "s-mvfj6cm9-3",
+      "conditions": {
+        "searchId": "s-mvfj6cm9-3",
+        "text": "Енисей",
+        "label": "Енисей (река)",
+        "kind": "event",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-20",
+          "to": "2026-10-19"
+        },
+        "region": {
+          "id": "krasnoyarsk-krai",
+          "name": "Красноярский край",
+          "timeZone": "Asia/Krasnoyarsk"
+        },
+        "mode": "everywhere",
+        "sourceCount": null,
+        "platforms": [
+          "vk",
+          "ok",
+          "max"
+        ],
+        "meaningLabel": "Река Енисей",
+        "startedAt": "2026-10-19T14:32:22+07:00",
+        "finishedAt": "2026-10-19T14:32:23+07:00",
+        "repeatOf": null
+      },
+      "total": 0,
+      "statusSummary": "VK остановлено: 0 из 40 · OK остановлено: 0 из 18 · MAX остановлено: 0 из 12",
+      "request": {
+        "text": "Енисей",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-20",
+          "to": "2026-10-19"
+        },
+        "mode": "everywhere",
+        "meaningId": "river"
+      }
+    },
+    {
+      "searchId": "s-mvfj66u6-2",
+      "conditions": {
+        "searchId": "s-mvfj66u6-2",
+        "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+        "label": "Новая школа в Норильске",
+        "kind": "news-text",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-20",
+          "to": "2026-10-19"
+        },
+        "region": {
+          "id": "krasnoyarsk-krai",
+          "name": "Красноярский край",
+          "timeZone": "Asia/Krasnoyarsk"
+        },
+        "mode": "everywhere",
+        "sourceCount": null,
+        "platforms": [
+          "vk",
+          "ok",
+          "max"
+        ],
+        "meaningLabel": null,
+        "startedAt": "2026-10-19T14:32:15+07:00",
+        "finishedAt": "2026-10-19T14:32:22+07:00",
+        "repeatOf": null
+      },
+      "total": 17,
+      "statusSummary": "VK ✓ 10 · OK ✓ 4 · MAX ✓ 3",
+      "request": {
+        "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-20",
+          "to": "2026-10-19"
+        },
+        "mode": "everywhere"
+      }
+    },
+    {
+      "searchId": "s-mvfj5xlc-1",
+      "conditions": {
+        "searchId": "s-mvfj5xlc-1",
+        "text": "Безопасность дорожного движения",
+        "label": "Безопасность дорожного движения",
+        "kind": "topic",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-20",
+          "to": "2026-10-19"
+        },
+        "region": {
+          "id": "krasnoyarsk-krai",
+          "name": "Красноярский край",
+          "timeZone": "Asia/Krasnoyarsk"
+        },
+        "mode": "everywhere",
+        "sourceCount": null,
+        "platforms": [
+          "vk",
+          "ok",
+          "max"
+        ],
+        "meaningLabel": null,
+        "startedAt": "2026-10-19T14:32:03+07:00",
+        "finishedAt": "2026-10-19T14:32:10+07:00",
+        "repeatOf": null
+      },
+      "total": 40,
+      "statusSummary": "VK ✓ 27 · OK ✓ 7 · MAX ✓ 6",
+      "request": {
+        "text": "Безопасность дорожного движения",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-20",
+          "to": "2026-10-19"
+        },
+        "mode": "everywhere"
+      }
+    },
+    {
+      "searchId": "recent-bdd",
+      "conditions": {
+        "searchId": "recent-bdd",
+        "text": "Безопасность дорожного движения",
+        "label": "Безопасность дорожного движения",
+        "kind": "topic",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-19",
+          "to": "2026-10-18"
+        },
+        "region": {
+          "id": "krasnoyarsk-krai",
+          "name": "Красноярский край",
+          "timeZone": "Asia/Krasnoyarsk"
+        },
+        "mode": "everywhere",
+        "sourceCount": null,
+        "platforms": [
+          "vk",
+          "ok",
+          "max"
+        ],
+        "meaningLabel": null,
+        "startedAt": "2026-10-18T16:20:00+07:00",
+        "finishedAt": "2026-10-18T16:21:00+07:00",
+        "repeatOf": null
+      },
+      "total": 33,
+      "statusSummary": "VK ✓ 21 · OK ✓ 7 · MAX ✓ 5",
+      "request": {
+        "text": "Безопасность дорожного движения",
+        "period": {
+          "preset": "30d",
+          "from": "2026-09-19",
+          "to": "2026-10-18"
+        },
+        "mode": "everywhere"
+      }
+    },
+    {
+      "searchId": "recent-school",
+      "conditions": {
+        "searchId": "recent-school",
+        "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+        "label": "Новая школа в Норильске",
+        "kind": "news-text",
+        "period": {
+          "preset": "7d",
+          "from": "2026-10-10",
+          "to": "2026-10-16"
+        },
+        "region": {
+          "id": "krasnoyarsk-krai",
+          "name": "Красноярский край",
+          "timeZone": "Asia/Krasnoyarsk"
+        },
+        "mode": "everywhere",
+        "sourceCount": null,
+        "platforms": [
+          "vk",
+          "ok",
+          "max"
+        ],
+        "meaningLabel": null,
+        "startedAt": "2026-10-16T18:05:00+07:00",
+        "finishedAt": "2026-10-16T18:06:00+07:00",
+        "repeatOf": null
+      },
+      "total": 15,
+      "statusSummary": "VK ✓ 9 · OK ✓ 4 · MAX ✓ 2",
+      "request": {
+        "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+        "period": {
+          "preset": "7d",
+          "from": "2026-10-10",
+          "to": "2026-10-16"
+        },
+        "mode": "everywhere"
+      }
+    },
+    {
+      "searchId": "recent-river",
+      "conditions": {
+        "searchId": "recent-river",
+        "text": "Енисей",
+        "label": "Енисей (река)",
+        "kind": "event",
+        "period": {
+          "preset": "7d",
+          "from": "2026-10-09",
+          "to": "2026-10-15"
+        },
+        "region": {
+          "id": "krasnoyarsk-krai",
+          "name": "Красноярский край",
+          "timeZone": "Asia/Krasnoyarsk"
+        },
+        "mode": "my-sources",
+        "sourceCount": 20,
+        "platforms": [
+          "vk",
+          "ok",
+          "max"
+        ],
+        "meaningLabel": "Река Енисей",
+        "startedAt": "2026-10-15T11:40:00+07:00",
+        "finishedAt": "2026-10-15T11:41:00+07:00",
+        "repeatOf": null
+      },
+      "total": 4,
+      "statusSummary": "VK ✓ 2 · OK ✓ 1 · MAX ✓ 1",
+      "request": {
+        "text": "Енисей",
+        "period": {
+          "preset": "7d",
+          "from": "2026-10-09",
+          "to": "2026-10-15"
+        },
+        "mode": "my-sources",
+        "meaningId": "river"
+      }
+    },
+    {
+      "searchId": "recent-tariffs",
+      "conditions": {
+        "searchId": "recent-tariffs",
+        "text": "Тарифы ЖКХ в Минусинске",
+        "label": "Тарифы ЖКХ в Минусинске",
+        "kind": "topic",
+        "period": {
+          "preset": "7d",
+          "from": "2026-10-08",
+          "to": "2026-10-14"
+        },
+        "region": {
+          "id": "krasnoyarsk-krai",
+          "name": "Красноярский край",
+          "timeZone": "Asia/Krasnoyarsk"
+        },
+        "mode": "my-sources",
+        "sourceCount": 20,
+        "platforms": [
+          "vk",
+          "ok",
+          "max"
+        ],
+        "meaningLabel": null,
+        "startedAt": "2026-10-14T09:10:00+07:00",
+        "finishedAt": "2026-10-14T09:11:00+07:00",
+        "repeatOf": null
+      },
+      "total": 0,
+      "statusSummary": "ничего не найдено на всех площадках",
+      "request": {
+        "text": "Тарифы ЖКХ в Минусинске",
+        "period": {
+          "preset": "7d",
+          "from": "2026-10-08",
+          "to": "2026-10-14"
+        },
+        "mode": "my-sources"
+      }
+    }
+  ]
+}

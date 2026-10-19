@@ -1,0 +1,794 @@
+{
+  "method": "getSpread",
+  "schema": "SpreadReport",
+  "value": {
+    "searchId": "s-mvfj66u6-2",
+    "groupId": "g-release-school",
+    "title": "Новая школа в Норильске",
+    "release": {
+      "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+      "fragments": [
+        {
+          "id": "p1",
+          "index": 0,
+          "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.",
+          "takenBy": 9
+        },
+        {
+          "id": "p2",
+          "index": 1,
+          "text": "В школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.",
+          "takenBy": 8
+        },
+        {
+          "id": "p3",
+          "index": 2,
+          "text": "«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.",
+          "takenBy": 6
+        },
+        {
+          "id": "p4",
+          "index": 3,
+          "text": "Первые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+          "takenBy": 8
+        }
+      ]
+    },
+    "original": {
+      "itemId": "vk:-100104_60210",
+      "sourceName": "Пресс-центр края",
+      "platform": "vk",
+      "publishedAt": "2026-10-14T10:02:00+07:00",
+      "timeReliability": "exact",
+      "notes": [
+        {
+          "code": "first-among-found",
+          "message": "Первым среди найденного. Более ранние публикации могли не попасть в поиск."
+        }
+      ]
+    },
+    "totals": {
+      "placements": 15,
+      "byPlatform": {
+        "vk": 9,
+        "ok": 4,
+        "max": 2
+      },
+      "byType": {
+        "verbatim": 6,
+        "shortened": 3,
+        "retold": 5,
+        "repost": 1
+      }
+    },
+    "audience": {
+      "value": 1052000,
+      "withData": 15,
+      "of": 15,
+      "howCounted": "Сумма подписчиков источников по данным площадок. Одни и те же люди могут быть подписаны на несколько групп, поэтому это не число людей."
+    },
+    "views": {
+      "value": 84300,
+      "withData": 11,
+      "of": 15,
+      "howCounted": "Сумма просмотров по данным площадок. Одноклассники не отдают просмотры: по ним «нет данных», а не ноль."
+    },
+    "wave": {
+      "hourly": [
+        {
+          "start": "2026-10-14T10:00:00+07:00",
+          "count": 2,
+          "byPlatform": {
+            "vk": 2,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-14T11:00:00+07:00",
+          "count": 1,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 1
+          }
+        },
+        {
+          "start": "2026-10-14T12:00:00+07:00",
+          "count": 2,
+          "byPlatform": {
+            "vk": 1,
+            "ok": 1,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-14T13:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-14T14:00:00+07:00",
+          "count": 1,
+          "byPlatform": {
+            "vk": 1,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-14T15:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-14T16:00:00+07:00",
+          "count": 1,
+          "byPlatform": {
+            "vk": 1,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-14T17:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-14T18:00:00+07:00",
+          "count": 1,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 1,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-14T19:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-14T20:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-14T21:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-14T22:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-14T23:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T00:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T01:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T02:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T03:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T04:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T05:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T06:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T07:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T08:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T09:00:00+07:00",
+          "count": 1,
+          "byPlatform": {
+            "vk": 1,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T10:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T11:00:00+07:00",
+          "count": 1,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 1
+          }
+        },
+        {
+          "start": "2026-10-15T12:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T13:00:00+07:00",
+          "count": 1,
+          "byPlatform": {
+            "vk": 1,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T14:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T15:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T16:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T17:00:00+07:00",
+          "count": 1,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 1,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T18:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T19:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T20:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T21:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T22:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-15T23:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T00:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T01:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T02:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T03:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T04:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T05:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T06:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T07:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T08:00:00+07:00",
+          "count": 1,
+          "byPlatform": {
+            "vk": 1,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T09:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T10:00:00+07:00",
+          "count": 1,
+          "byPlatform": {
+            "vk": 1,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T11:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T12:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T13:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T14:00:00+07:00",
+          "count": 0,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 0,
+            "max": 0
+          }
+        },
+        {
+          "start": "2026-10-16T15:00:00+07:00",
+          "count": 1,
+          "byPlatform": {
+            "vk": 0,
+            "ok": 1,
+            "max": 0
+          }
+        }
+      ],
+      "daily": [
+        {
+          "start": "2026-10-14T00:00:00+07:00",
+          "count": 8,
+          "byPlatform": {
+            "vk": 5,
+            "ok": 2,
+            "max": 1
+          }
+        },
+        {
+          "start": "2026-10-15T00:00:00+07:00",
+          "count": 4,
+          "byPlatform": {
+            "vk": 2,
+            "ok": 1,
+            "max": 1
+          }
+        },
+        {
+          "start": "2026-10-16T00:00:00+07:00",
+          "count": 3,
+          "byPlatform": {
+            "vk": 2,
+            "ok": 1,
+            "max": 0
+          }
+        }
+      ]
+    },
+    "placements": [
+      {
+        "itemId": "vk:-100104_60210",
+        "platform": "vk",
+        "sourceName": "Пресс-центр края",
+        "publishedAt": "2026-10-14T10:02:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 48000,
+        "views": 6100,
+        "placementType": "verbatim",
+        "isOriginal": true,
+        "citationShare": 1,
+        "url": "https://vk.com/wall-100104_60210"
+      },
+      {
+        "itemId": "vk:-100101_88015",
+        "platform": "vk",
+        "sourceName": "Телеканал края",
+        "publishedAt": "2026-10-14T10:40:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 212000,
+        "views": 18400,
+        "placementType": "verbatim",
+        "isOriginal": false,
+        "citationShare": 1,
+        "url": "https://vk.com/wall-100101_88015"
+      },
+      {
+        "itemId": "max:press_3301",
+        "platform": "max",
+        "sourceName": "Канал Пресс-центра края",
+        "publishedAt": "2026-10-14T11:05:00+07:00",
+        "timeReliability": "approximate",
+        "subscribers": 12000,
+        "views": 2300,
+        "placementType": "verbatim",
+        "isOriginal": false,
+        "citationShare": 1,
+        "url": "https://max.ru/demo_press_kanal/3301"
+      },
+      {
+        "itemId": "vk:-100102_77122",
+        "platform": "vk",
+        "sourceName": "Городской портал Красноярска",
+        "publishedAt": "2026-10-14T12:15:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 318000,
+        "views": 21700,
+        "placementType": "retold",
+        "isOriginal": false,
+        "citationShare": 0.23,
+        "url": "https://vk.com/wall-100102_77122"
+      },
+      {
+        "itemId": "ok:5600101_30377",
+        "platform": "ok",
+        "sourceName": "Новости края",
+        "publishedAt": "2026-10-14T12:50:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 95000,
+        "views": null,
+        "placementType": "verbatim",
+        "isOriginal": false,
+        "citationShare": 1,
+        "url": "https://ok.ru/group/5600101/topic/30377"
+      },
+      {
+        "itemId": "vk:-100114_70120",
+        "platform": "vk",
+        "sourceName": "Администрация Норильска",
+        "publishedAt": "2026-10-14T14:30:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 41000,
+        "views": 9800,
+        "placementType": "retold",
+        "isOriginal": false,
+        "citationShare": 0.05,
+        "url": "https://vk.com/wall-100114_70120"
+      },
+      {
+        "itemId": "vk:-100103_64388",
+        "platform": "vk",
+        "sourceName": "Городской портал Норильска",
+        "publishedAt": "2026-10-14T16:10:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 64000,
+        "views": 7200,
+        "placementType": "shortened",
+        "isOriginal": false,
+        "citationShare": 0.76,
+        "url": "https://vk.com/wall-100103_64388"
+      },
+      {
+        "itemId": "ok:5600102_9011",
+        "platform": "ok",
+        "sourceName": "Районная газета Таймыра",
+        "publishedAt": "2026-10-14T18:45:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 18000,
+        "views": null,
+        "placementType": "verbatim",
+        "isOriginal": false,
+        "citationShare": 1,
+        "url": "https://ok.ru/group/5600102/topic/9011"
+      },
+      {
+        "itemId": "vk:-100105_45601",
+        "platform": "vk",
+        "sourceName": "Министерство образования края",
+        "publishedAt": "2026-10-15T09:20:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 37000,
+        "views": 5500,
+        "placementType": "retold",
+        "isOriginal": false,
+        "citationShare": 0.16,
+        "url": "https://vk.com/wall-100105_45601"
+      },
+      {
+        "itemId": "max:portal_2236",
+        "platform": "max",
+        "sourceName": "Канал городского портала",
+        "publishedAt": "2026-10-15T11:00:00+07:00",
+        "timeReliability": "approximate",
+        "subscribers": 56000,
+        "views": 4900,
+        "placementType": "retold",
+        "isOriginal": false,
+        "citationShare": 0.04,
+        "url": "https://max.ru/demo_portal_kanal/2236"
+      },
+      {
+        "itemId": "vk:-100112_26710",
+        "platform": "vk",
+        "sourceName": "Заполярье: новости Таймыра",
+        "publishedAt": "2026-10-15T13:35:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 23000,
+        "views": 3100,
+        "placementType": "shortened",
+        "isOriginal": false,
+        "citationShare": 0.5,
+        "url": "https://vk.com/wall-100112_26710"
+      },
+      {
+        "itemId": "ok:5600104_17802",
+        "platform": "ok",
+        "sourceName": "Новости Красноярья",
+        "publishedAt": "2026-10-15T17:20:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 31000,
+        "views": null,
+        "placementType": "verbatim",
+        "isOriginal": false,
+        "citationShare": 1,
+        "url": "https://ok.ru/group/5600104/topic/17802"
+      },
+      {
+        "itemId": "vk:-100109_22140",
+        "platform": "vk",
+        "sourceName": "Канск сегодня",
+        "publishedAt": "2026-10-16T08:55:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 29000,
+        "views": 2400,
+        "placementType": "repost",
+        "isOriginal": false,
+        "citationShare": 1,
+        "url": "https://vk.com/wall-100109_22140"
+      },
+      {
+        "itemId": "vk:-100113_71533",
+        "platform": "vk",
+        "sourceName": "Родительское сообщество края",
+        "publishedAt": "2026-10-16T10:15:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 52000,
+        "views": 2900,
+        "placementType": "retold",
+        "isOriginal": false,
+        "citationShare": 0.15,
+        "url": "https://vk.com/wall-100113_71533"
+      },
+      {
+        "itemId": "ok:5600108_40790",
+        "platform": "ok",
+        "sourceName": "Канск и Канский район",
+        "publishedAt": "2026-10-16T15:40:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 16000,
+        "views": null,
+        "placementType": "shortened",
+        "isOriginal": false,
+        "citationShare": 0.52,
+        "url": "https://ok.ru/group/5600108/topic/40790"
+      }
+    ],
+    "computedAt": "2026-10-19T14:32:22+07:00"
+  }
+}

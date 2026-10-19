@@ -1,0 +1,10 @@
+{
+  "method": "checkSource-sourceClosed",
+  "schema": "SourceCheck",
+  "value": {
+    "state": "closed",
+    "message": "«Кодинск: соседи» — закрытая группа: её посты не видны, искать в ней нельзя.",
+    "preview": null,
+    "checkedAt": "2026-10-19T14:32:56+07:00"
+  }
+}

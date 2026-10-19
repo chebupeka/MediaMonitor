@@ -1,0 +1,151 @@
+{
+  "method": "importSources",
+  "schema": "ImportReport",
+  "value": {
+    "added": [
+      {
+        "id": "vk-lesosib",
+        "platform": "vk",
+        "name": "Лесосибирск. Новости",
+        "url": "https://vk.com/demo_lesosib",
+        "type": "media",
+        "district": "Лесосибирск",
+        "subscribers": 18000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "import",
+        "addedAt": "2026-10-19T14:33:09+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T08:00:00+07:00"
+        }
+      },
+      {
+        "id": "vk-zhel",
+        "platform": "vk",
+        "name": "Железногорск онлайн",
+        "url": "https://vk.com/demo_zhel",
+        "type": "community",
+        "district": "Железногорск",
+        "subscribers": 27000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "import",
+        "addedAt": "2026-10-19T14:33:09+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T08:00:00+07:00"
+        }
+      },
+      {
+        "id": "vk-sharypovo",
+        "platform": "vk",
+        "name": "Шарыпово: город и район",
+        "url": "https://vk.com/demo_sharypovo",
+        "type": "community",
+        "district": "Шарыпово",
+        "subscribers": 12000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "import",
+        "addedAt": "2026-10-19T14:33:09+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T08:00:00+07:00"
+        }
+      },
+      {
+        "id": "vk-eniseysk",
+        "platform": "vk",
+        "name": "Енисейск и район",
+        "url": "https://vk.com/demo_eniseysk",
+        "type": "community",
+        "district": "Енисейский район",
+        "subscribers": 9800,
+        "inMySources": true,
+        "regional": true,
+        "origin": "import",
+        "addedAt": "2026-10-19T14:33:09+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T08:00:00+07:00"
+        }
+      },
+      {
+        "id": "vk-rech-port",
+        "platform": "vk",
+        "name": "Речной вокзал: навигация",
+        "url": "https://vk.com/demo_rech_port",
+        "type": "institution",
+        "district": "Красноярск",
+        "subscribers": 7400,
+        "inMySources": true,
+        "regional": true,
+        "origin": "import",
+        "addedAt": "2026-10-19T14:33:09+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T08:00:00+07:00"
+        }
+      },
+      {
+        "id": "vk-auto-krsk",
+        "platform": "vk",
+        "name": "Автомобилисты Красноярска",
+        "url": "https://vk.com/demo_auto_krsk",
+        "type": "community",
+        "district": "Красноярск",
+        "subscribers": 143000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "import",
+        "addedAt": "2026-10-19T14:33:09+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T08:00:00+07:00"
+        }
+      }
+    ],
+    "duplicates": [
+      {
+        "row": 9,
+        "value": "https://vk.com/demo_tv_kraya",
+        "name": "Телеканал края"
+      },
+      {
+        "row": 11,
+        "value": "https://vk.com/demo_portal_krsk",
+        "name": "Городской портал Красноярска"
+      }
+    ],
+    "skipped": [
+      {
+        "row": 7,
+        "value": "https://example.ru/news",
+        "reason": "Ссылка на сайт, а не на группу"
+      },
+      {
+        "row": 12,
+        "value": "https://vk.com/demo_kodinsk",
+        "reason": "Группа закрыта: посты не видны"
+      },
+      {
+        "row": 13,
+        "value": "https://vk.com/wall-100104_60210",
+        "reason": "Ссылка на пост, а не на группу: добавьте группу, где он вышел"
+      }
+    ]
+  }
+}

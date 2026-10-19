@@ -1,0 +1,79 @@
+{
+  "method": "getStandStatus",
+  "schema": "StandStatus",
+  "value": {
+    "checkedAt": "2026-10-19T14:33:12+07:00",
+    "overall": "ok",
+    "platforms": [
+      {
+        "platform": "vk",
+        "state": "ok",
+        "message": "Работает.",
+        "via": "VK API (сервисный ключ)",
+        "freshness": null,
+        "quota": {
+          "used": 3412,
+          "limit": 10000,
+          "unit": "вызовов в месяц",
+          "resetsAt": "2026-11-01T00:00:00+07:00"
+        },
+        "lastSuccessAt": "2026-10-19T14:32:12+07:00"
+      },
+      {
+        "platform": "ok",
+        "state": "ok",
+        "message": "Работает.",
+        "via": "Веб-поиск Одноклассников",
+        "freshness": null,
+        "quota": null,
+        "lastSuccessAt": "2026-10-19T14:31:12+07:00"
+      },
+      {
+        "platform": "max",
+        "state": "ok",
+        "message": "Работает.",
+        "via": "Сторонний индекс MaxStat + проверка ссылок на max.ru",
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "quota": {
+          "used": 388,
+          "limit": 1000,
+          "unit": "кредитов",
+          "resetsAt": null
+        },
+        "lastSuccessAt": "2026-10-19T14:30:12+07:00"
+      }
+    ],
+    "ai": {
+      "state": "ok",
+      "model": "GigaChat 3.1 Lightning, локально (Ollama)",
+      "warm": true,
+      "queueLength": 0,
+      "avgSecondsPerPost": 0.8
+    },
+    "queue": {
+      "running": 1,
+      "waiting": 0,
+      "perClientLimit": 2
+    },
+    "memory": {
+      "usedMb": 9850,
+      "totalMb": 16384
+    },
+    "events": [
+      {
+        "at": "2026-10-19T13:58:12+07:00",
+        "level": "info",
+        "message": "Нейросеть прогрета после перезапуска сервера."
+      },
+      {
+        "at": "2026-10-19T13:57:12+07:00",
+        "level": "info",
+        "message": "Сервер перезапущен, версия 0.1.0-mockup."
+      }
+    ],
+    "version": "0.1.0-mockup"
+  }
+}

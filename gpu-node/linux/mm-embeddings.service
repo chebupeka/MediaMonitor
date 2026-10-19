@@ -1,0 +1,31 @@
+# Сервис эмбеддингов MediaMonitor без Docker (вариант к compose.yaml).
+# Предполагается: папка gpu-node скопирована в /opt/mediamonitor/gpu-node, владелец — пользователь
+# mediamonitor, uv установлен в /usr/local/bin, зависимости поставлены:
+#   sudo -u mediamonitor /usr/local/bin/uv sync --frozen --no-dev --extra cu128
+# Установка:
+#   sudo cp linux/mm-embeddings.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now mm-embeddings
+#   journalctl -u mm-embeddings -f
+[Unit]
+Description=MediaMonitor embeddings (BERTA)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mediamonitor
+WorkingDirectory=/opt/mediamonitor/gpu-node
+# .env читает и сам сервис; здесь — чтобы systemd показывал ошибку, если файла нет.
+EnvironmentFile=/opt/mediamonitor/gpu-node/.env
+# EMBEDDINGS_DEVICE=cuda — в ExecStart: строка в EnvironmentFile перебила бы Environment=.
+# Без видеокарты сервис не стартует, а не считает тихо на CPU.
+ExecStart=/usr/bin/env EMBEDDINGS_DEVICE=cuda /usr/local/bin/uv run --frozen --no-dev --extra cu128 mm-embeddings
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/mediamonitor/gpu-node /home/mediamonitor
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

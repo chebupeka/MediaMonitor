@@ -1,0 +1,15 @@
+{
+  "method": "analyzeQuery-link",
+  "schema": "QueryAnalysis",
+  "value": {
+    "text": "https://vk.com/wall-100104_60210",
+    "kind": "topic",
+    "hints": [
+      {
+        "code": "looks-like-link",
+        "message": "Похоже, это ссылка. Вставьте текст новости или опишите тему словами."
+      }
+    ],
+    "ambiguity": null
+  }
+}

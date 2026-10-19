@@ -4,6 +4,7 @@
  * Новый экран добавляет только «Основа» или лид.
  */
 import type { ComponentType } from 'react';
+import AiCheckScreen from '@/screens/ai-check';
 import DemoPageScreen, { HostPage } from '@/screens/demo-page';
 import HowScreen from '@/screens/how';
 import LandingScreen from '@/screens/landing';
@@ -42,6 +43,13 @@ export const SCREENS: Record<ScreenId, ScreenMeta> = {
     navLabel: 'Распространение',
     group: 'main',
     owner: 'Э-Распространение',
+  },
+  'ai-check': {
+    id: 'ai-check',
+    title: 'Проверка на ИИ',
+    navLabel: 'Проверка на ИИ',
+    group: 'main',
+    owner: 'Э-ИИ-интерфейс',
   },
   sources: {
     id: 'sources',
@@ -91,6 +99,7 @@ export const SCREEN_ORDER: readonly ScreenId[] = [
   'landing',
   'search',
   'spread',
+  'ai-check',
   'sources',
   'recent',
   'how',
@@ -103,6 +112,7 @@ export const SCREEN_COMPONENTS: { [K in ScreenId]: ComponentType<ScreenProps<K>>
   landing: LandingScreen,
   search: SearchScreen,
   spread: SpreadScreen,
+  'ai-check': AiCheckScreen,
   sources: SourcesScreen,
   recent: RecentScreen,
   how: HowScreen,

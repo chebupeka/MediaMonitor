@@ -1,0 +1,15 @@
+# HTTPS для стенда: сертификат Let's Encrypt для DOMAIN, прокси на API.
+{$DOMAIN} {
+	encode gzip
+
+	# Поток хода поиска (SSE) — без буферизации, иначе события приходят пачкой.
+	reverse_proxy /api/* api:8000 {
+		flush_interval -1
+	}
+	reverse_proxy /health api:8000
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		-Server
+	}
+}

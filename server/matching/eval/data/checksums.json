@@ -1,0 +1,274 @@
+{
+ "bdd-01": {
+  "chars": 2240,
+  "sha256_16": "75fdd762d22e1945"
+ },
+ "bdd-02": {
+  "chars": 1645,
+  "sha256_16": "464a360fd6dbf3e8"
+ },
+ "bdd-03": {
+  "chars": 1683,
+  "sha256_16": "a7251e3051d7d8b5"
+ },
+ "bdd-04": {
+  "chars": 1464,
+  "sha256_16": "d9cf0dcee3315fe9"
+ },
+ "bdd-05": {
+  "chars": 655,
+  "sha256_16": "0ce2e5ce84d7fa38"
+ },
+ "bdd-06": {
+  "chars": 492,
+  "sha256_16": "80df763f0e09f151"
+ },
+ "bdd-07": {
+  "chars": 3417,
+  "sha256_16": "d58ca0277f56da1c"
+ },
+ "bdd-08": {
+  "chars": 1662,
+  "sha256_16": "9ad8d1b306487e0f"
+ },
+ "bdd-09": {
+  "chars": 737,
+  "sha256_16": "854b64b7772e0e2c"
+ },
+ "bdd-10": {
+  "chars": 1644,
+  "sha256_16": "4e73ece6cd775ec4"
+ },
+ "fire-01": {
+  "chars": 2102,
+  "sha256_16": "aa8217c6f4b9ed0b"
+ },
+ "fire-02": {
+  "chars": 1361,
+  "sha256_16": "21fa31cd27456bf0"
+ },
+ "fire-03": {
+  "chars": 2366,
+  "sha256_16": "099740da7deb8e47"
+ },
+ "fire-04": {
+  "chars": 2223,
+  "sha256_16": "33cf9b7b0837e53b"
+ },
+ "fire-05": {
+  "chars": 1339,
+  "sha256_16": "e9b5b6a714820708"
+ },
+ "fire-06": {
+  "chars": 1573,
+  "sha256_16": "6167d68694d40c0b"
+ },
+ "fire-07": {
+  "chars": 1209,
+  "sha256_16": "73f26c49e0c1c021"
+ },
+ "fire-08": {
+  "chars": 1094,
+  "sha256_16": "81c388ecec01f78e"
+ },
+ "fire-09": {
+  "chars": 1715,
+  "sha256_16": "a14a547b85f13625"
+ },
+ "fire-10": {
+  "chars": 1748,
+  "sha256_16": "fd1fae3381bf8255"
+ },
+ "s1-dtp-original": {
+  "chars": 1149,
+  "sha256_16": "7dab2296e6c177ef"
+ },
+ "s1-dtp-other_event-1": {
+  "chars": 1149,
+  "sha256_16": "2447e8c58d2bad7d"
+ },
+ "s1-dtp-other_event-2": {
+  "chars": 1060,
+  "sha256_16": "d61edbfacfb4660e"
+ },
+ "s1-dtp-other_event-3": {
+  "chars": 634,
+  "sha256_16": "fe6fc6921d516116"
+ },
+ "s1-dtp-retold-1": {
+  "chars": 1813,
+  "sha256_16": "ae2c52d8f31613bd"
+ },
+ "s1-dtp-retold-2": {
+  "chars": 888,
+  "sha256_16": "35dc4be38539900c"
+ },
+ "s1-dtp-retold-3": {
+  "chars": 1080,
+  "sha256_16": "9a72d83993119753"
+ },
+ "s1-dtp-retold-4": {
+  "chars": 1143,
+  "sha256_16": "152f0987b105d516"
+ },
+ "s1-dtp-retold-5": {
+  "chars": 848,
+  "sha256_16": "032d4557910244b8"
+ },
+ "s1-dtp-shortened-1": {
+  "chars": 895,
+  "sha256_16": "d93e779f3322c328"
+ },
+ "s1-dtp-verbatim-1": {
+  "chars": 1135,
+  "sha256_16": "b8b450207f724387"
+ },
+ "s2-fire-original": {
+  "chars": 945,
+  "sha256_16": "4dd762981d1629a6"
+ },
+ "s2-fire-other_event-1": {
+  "chars": 1466,
+  "sha256_16": "dc80532774c79fbc"
+ },
+ "s2-fire-other_event-2": {
+  "chars": 707,
+  "sha256_16": "7979b05646eb10ba"
+ },
+ "s2-fire-other_event-3": {
+  "chars": 1322,
+  "sha256_16": "60ed3979ccf3feb5"
+ },
+ "s2-fire-retold-1": {
+  "chars": 2031,
+  "sha256_16": "d475578df9785377"
+ },
+ "s2-fire-retold-2": {
+  "chars": 752,
+  "sha256_16": "b0c7eeb1c3c79fde"
+ },
+ "s2-fire-retold-3": {
+  "chars": 1130,
+  "sha256_16": "3d3e05e5ada353cb"
+ },
+ "s2-fire-retold-4": {
+  "chars": 968,
+  "sha256_16": "c3e76fc602779b11"
+ },
+ "s2-fire-retold-5": {
+  "chars": 875,
+  "sha256_16": "160efc925ed2ed2b"
+ },
+ "s2-fire-shortened-1": {
+  "chars": 1115,
+  "sha256_16": "5ffec92cb2751dc3"
+ },
+ "s2-fire-shortened-2": {
+  "chars": 1501,
+  "sha256_16": "4ef6347a19c9b085"
+ },
+ "s2-fire-verbatim-1": {
+  "chars": 5023,
+  "sha256_16": "46aa381928f51a99"
+ },
+ "s3-object-original": {
+  "chars": 1673,
+  "sha256_16": "3f6908763ccadf19"
+ },
+ "s3-object-other_event-1": {
+  "chars": 2131,
+  "sha256_16": "2677ad9a1b2bd634"
+ },
+ "s3-object-other_event-2": {
+  "chars": 1044,
+  "sha256_16": "0f9cc838e7d2d597"
+ },
+ "s3-object-other_event-3": {
+  "chars": 662,
+  "sha256_16": "1dd4eb7d12feea1f"
+ },
+ "s3-object-retold-1": {
+  "chars": 1348,
+  "sha256_16": "47c5ff89a708cf09"
+ },
+ "s3-object-retold-2": {
+  "chars": 819,
+  "sha256_16": "837e1ac67aed58c8"
+ },
+ "s3-object-retold-3": {
+  "chars": 1222,
+  "sha256_16": "3543c13223a92aa2"
+ },
+ "s3-object-retold-4": {
+  "chars": 783,
+  "sha256_16": "0e6e4cd6595c4379"
+ },
+ "s3-object-shortened-1": {
+  "chars": 1437,
+  "sha256_16": "c76bde73af70530c"
+ },
+ "s3-object-shortened-2": {
+  "chars": 1326,
+  "sha256_16": "9155cd552502fdf7"
+ },
+ "s3-object-verbatim-1": {
+  "chars": 1753,
+  "sha256_16": "c7f7857a575a070e"
+ },
+ "s4-court-original": {
+  "chars": 2500,
+  "sha256_16": "f43189d0e65ff3c2"
+ },
+ "s4-court-other_event-1": {
+  "chars": 983,
+  "sha256_16": "829f902ed48265a8"
+ },
+ "s4-court-other_event-2": {
+  "chars": 1690,
+  "sha256_16": "9b35fef31969e3a7"
+ },
+ "s4-court-other_event-3": {
+  "chars": 1374,
+  "sha256_16": "693d8d27b002a5e4"
+ },
+ "s4-court-retold-1": {
+  "chars": 1914,
+  "sha256_16": "5808e557b5fac320"
+ },
+ "s4-court-retold-2": {
+  "chars": 2849,
+  "sha256_16": "c1618bb172f53683"
+ },
+ "s4-court-retold-3": {
+  "chars": 1268,
+  "sha256_16": "92a2010a7712a1eb"
+ },
+ "s4-court-retold-4": {
+  "chars": 1810,
+  "sha256_16": "bb353b064c5135ba"
+ },
+ "s4-court-retold-5": {
+  "chars": 3162,
+  "sha256_16": "dc1a1923e56ce675"
+ },
+ "s4-court-retold-6": {
+  "chars": 2789,
+  "sha256_16": "e97660de0bbf991f"
+ },
+ "s4-court-shortened-1": {
+  "chars": 1805,
+  "sha256_16": "a32b3a50996cb77b"
+ },
+ "s4-court-shortened-2": {
+  "chars": 1377,
+  "sha256_16": "c470204a09bcd8e2"
+ },
+ "s4-court-verbatim-1": {
+  "chars": 2352,
+  "sha256_16": "df6df6265c7fe30d"
+ },
+ "s4-court-verbatim-2": {
+  "chars": 2483,
+  "sha256_16": "1c7617725b93e2fc"
+ }
+}

@@ -6,7 +6,7 @@
  * они попадут в подборку.
  */
 import type { ResultGroup, TopicUnderstanding } from '../../types';
-import { buildItem, type DemoItem, type PostSpec } from '../build';
+import { aiScoresOf, buildItem, type DemoItem, type PostSpec } from '../build';
 import type { Dataset } from './types';
 
 const G_PESHEHOD = 'g-peshehod';
@@ -40,6 +40,8 @@ const POSTS: PostSpec[] = [
     original: true,
     views: 21_400,
     reactions: 388,
+    // Казённый стиль — частая причина ложных срабатываний; в демо «не похоже»
+    ai: 0.31,
   },
   {
     n: '77340',
@@ -141,12 +143,16 @@ const POSTS: PostSpec[] = [
       'В Лесосибирске с начала года произошло 46 ДТП, в которых пострадали 58 человек.',
       'Чаще всего аварии случаются из-за превышения скорости и выезда на встречную полосу.',
       'Госавтоинспекция усилит контроль на улицах Победы и Белинского.',
+      'Безопасность на дорогах — это общая ответственность водителей, пешеходов и служб города.',
+      'Соблюдение скоростного режима и внимательность за рулём помогают сохранить жизни и здоровье горожан.',
     ],
     ev: 0,
     rel: 'direct',
     m: 'ai-confirmed',
     places: ['Лесосибирск'],
     facets: ['dtp', 'raids'],
+    // В демо «похоже на ИИ»
+    ai: 0.9,
   },
   {
     n: '88102',
@@ -228,6 +234,8 @@ const POSTS: PostSpec[] = [
       'В Сибири растёт число ДТП с участием электросамокатов.',
       'Только в Красноярске за сезон их произошло больше 60.',
       'Эксперты предлагают ограничить скорость прокатных самокатов в центре городов.',
+      'По их мнению, это позволит снизить число травм среди пешеходов и самих пользователей.',
+      'Окончательное решение остаётся за муниципалитетами и операторами проката.',
     ],
     ev: 1,
     rel: 'direct',
@@ -236,6 +244,8 @@ const POSTS: PostSpec[] = [
     facets: ['dtp'],
     views: 52_000,
     reactions: 870,
+    // В демо «есть признаки ИИ»
+    ai: 0.66,
   },
 
   // --- пешеходы, дети, рейды
@@ -818,6 +828,13 @@ const TOPIC: TopicUnderstanding = {
     },
   ],
 };
+
+/** Заданные оценки проверки на ИИ (имитация, PostSpec.ai): чтобы в подборке были метки. */
+export const BDD_AI_SCORES: readonly [string, number][] = aiScoresOf([
+  ...POSTS,
+  ...FIRE_TRAP,
+  ...SPARE,
+]);
 
 function emptyGroup(id: string, title: string): ResultGroup {
   return {

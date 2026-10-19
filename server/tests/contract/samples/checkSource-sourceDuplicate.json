@@ -1,0 +1,18 @@
+{
+  "method": "checkSource-sourceDuplicate",
+  "schema": "SourceCheck",
+  "value": {
+    "state": "duplicate",
+    "message": "«Телеканал края» уже есть в вашем списке.",
+    "preview": {
+      "platform": "vk",
+      "name": "Телеканал края",
+      "url": "https://vk.com/demo_tv_kraya",
+      "subscribers": 212000,
+      "lastPostAt": "2026-10-19T09:40:00+07:00",
+      "suggestedType": "media",
+      "suggestedDistrict": "Красноярск"
+    },
+    "checkedAt": "2026-10-19T14:33:02+07:00"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "method": "setExcluded",
+  "schema": "SelectionCounts",
+  "value": {
+    "total": 39,
+    "excluded": 1,
+    "byRelevance": {
+      "direct": 24,
+      "indirect": 9,
+      "disputed": 6
+    },
+    "byPlatform": {
+      "vk": 26,
+      "ok": 7,
+      "max": 6
+    },
+    "byPlacementType": {
+      "verbatim": 2,
+      "shortened": 2,
+      "retold": 0,
+      "repost": 0
+    },
+    "new": 0
+  }
+}

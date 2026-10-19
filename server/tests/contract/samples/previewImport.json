@@ -1,0 +1,232 @@
+{
+  "method": "previewImport",
+  "schema": "ImportPreview",
+  "value": {
+    "previewId": "import-1",
+    "fileName": "источники.xlsx",
+    "sheetName": "Лист1",
+    "totalRows": 13,
+    "headerRow": 1,
+    "columns": [
+      {
+        "letter": "A",
+        "title": "Название",
+        "role": "name",
+        "note": "название — подставим, если площадка не отдаст своё"
+      },
+      {
+        "letter": "B",
+        "title": "Ссылка на группу",
+        "role": "url",
+        "note": "ссылки — по ним добавляем"
+      },
+      {
+        "letter": "C",
+        "title": "Комментарий",
+        "role": "ignored",
+        "note": "не используем"
+      }
+    ],
+    "rows": [
+      {
+        "row": 2,
+        "value": "https://vk.com/demo_lesosib",
+        "title": "Лесосибирск. Новости",
+        "outcome": {
+          "kind": "add",
+          "source": {
+            "id": "vk-lesosib",
+            "platform": "vk",
+            "name": "Лесосибирск. Новости",
+            "url": "https://vk.com/demo_lesosib",
+            "type": "media",
+            "district": "Лесосибирск",
+            "subscribers": 18000,
+            "inMySources": false,
+            "regional": true
+          },
+          "note": null
+        }
+      },
+      {
+        "row": 3,
+        "value": "  vk.com/demo_zhel  ",
+        "title": "Железногорск онлайн",
+        "outcome": {
+          "kind": "add",
+          "source": {
+            "id": "vk-zhel",
+            "platform": "vk",
+            "name": "Железногорск онлайн",
+            "url": "https://vk.com/demo_zhel",
+            "type": "community",
+            "district": "Железногорск",
+            "subscribers": 27000,
+            "inMySources": false,
+            "regional": true
+          },
+          "note": "убрали лишние пробелы"
+        }
+      },
+      {
+        "row": 4,
+        "value": "https://m.vk.com/demo_sharypovo",
+        "title": "Шарыпово: город и район",
+        "outcome": {
+          "kind": "add",
+          "source": {
+            "id": "vk-sharypovo",
+            "platform": "vk",
+            "name": "Шарыпово: город и район",
+            "url": "https://vk.com/demo_sharypovo",
+            "type": "community",
+            "district": "Шарыпово",
+            "subscribers": 12000,
+            "inMySources": false,
+            "regional": true
+          },
+          "note": "мобильная ссылка — привели к обычной"
+        }
+      },
+      {
+        "row": 5,
+        "value": "https://vk.com/demo_eniseysk",
+        "title": "Енисейск и район",
+        "outcome": {
+          "kind": "add",
+          "source": {
+            "id": "vk-eniseysk",
+            "platform": "vk",
+            "name": "Енисейск и район",
+            "url": "https://vk.com/demo_eniseysk",
+            "type": "community",
+            "district": "Енисейский район",
+            "subscribers": 9800,
+            "inMySources": false,
+            "regional": true
+          },
+          "note": null
+        }
+      },
+      {
+        "row": 6,
+        "value": "https://vk.com/demo_rech_port",
+        "title": "Речной вокзал: навигация",
+        "outcome": {
+          "kind": "add",
+          "source": {
+            "id": "vk-rech-port",
+            "platform": "vk",
+            "name": "Речной вокзал: навигация",
+            "url": "https://vk.com/demo_rech_port",
+            "type": "institution",
+            "district": "Красноярск",
+            "subscribers": 7400,
+            "inMySources": false,
+            "regional": true
+          },
+          "note": null
+        }
+      },
+      {
+        "row": 7,
+        "value": "https://example.ru/news",
+        "title": "Сайт новостей",
+        "outcome": {
+          "kind": "skip",
+          "reason": "Ссылка на сайт, а не на группу"
+        }
+      },
+      {
+        "row": 8,
+        "value": "https://vk.com/demo_auto_krsk",
+        "title": "Автомобилисты Красноярска",
+        "outcome": {
+          "kind": "add",
+          "source": {
+            "id": "vk-auto-krsk",
+            "platform": "vk",
+            "name": "Автомобилисты Красноярска",
+            "url": "https://vk.com/demo_auto_krsk",
+            "type": "community",
+            "district": "Красноярск",
+            "subscribers": 143000,
+            "inMySources": false,
+            "regional": true
+          },
+          "note": null
+        }
+      },
+      {
+        "row": 9,
+        "value": "https://vk.com/demo_tv_kraya",
+        "title": "Телеканал края",
+        "outcome": {
+          "kind": "duplicate",
+          "source": {
+            "id": "vk-tv-kraya",
+            "platform": "vk",
+            "name": "Телеканал края",
+            "url": "https://vk.com/demo_tv_kraya",
+            "type": "media",
+            "district": "Красноярск",
+            "subscribers": 212000,
+            "inMySources": true,
+            "regional": true
+          }
+        }
+      },
+      {
+        "row": 10,
+        "value": "",
+        "title": "",
+        "outcome": {
+          "kind": "empty"
+        }
+      },
+      {
+        "row": 11,
+        "value": "https://vk.com/demo_portal_krsk",
+        "title": "Городской портал Красноярска",
+        "outcome": {
+          "kind": "duplicate",
+          "source": {
+            "id": "vk-portal-krsk",
+            "platform": "vk",
+            "name": "Городской портал Красноярска",
+            "url": "https://vk.com/demo_portal_krsk",
+            "type": "media",
+            "district": "Красноярск",
+            "subscribers": 318000,
+            "inMySources": true,
+            "regional": true
+          }
+        }
+      },
+      {
+        "row": 12,
+        "value": "https://vk.com/demo_kodinsk",
+        "title": "Кодинск: соседи",
+        "outcome": {
+          "kind": "skip",
+          "reason": "Группа закрыта: посты не видны"
+        }
+      },
+      {
+        "row": 13,
+        "value": "https://vk.com/wall-100104_60210",
+        "title": "Пост про школу",
+        "outcome": {
+          "kind": "skip",
+          "reason": "Ссылка на пост, а не на группу: добавьте группу, где он вышел"
+        }
+      }
+    ],
+    "counts": {
+      "add": 6,
+      "duplicate": 2,
+      "skip": 3,
+      "empty": 1
+    }
+  }
+}

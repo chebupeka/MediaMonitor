@@ -1,0 +1,104 @@
+[project]
+name = "mm-gpu-node"
+version = "0.1.0"
+description = "MediaMonitor: сервис эмбеддингов (BERTA) для компьютера с видеокартой"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = "MIT"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "sentence-transformers>=6.1",
+    "numpy>=2.0",
+    "orjson>=3.10",
+    "httpx>=0.27",
+    "python-dotenv>=1.0",
+]
+
+# Сборка PyTorch выбирается одной из групп (ровно одной):
+#   uv sync --extra cu128   — видеокарта NVIDIA, в том числе RTX 50xx (Blackwell, sm_120); драйвер >= 570
+#   uv sync --extra cu130   — то же на CUDA 13.0 и свежем torch; драйвер >= 580
+#   uv sync --extra cpu     — без видеокарты (проверка на обычном компьютере)
+# 2.11.0 — последняя версия torch, собранная под CUDA 12.8 (проверено по download.pytorch.org 19.10.2026);
+# 2.14.1 — последняя версия torch вообще (сборки cu130 и cu132).
+[project.optional-dependencies]
+cu128 = ["torch==2.11.0"]
+cu130 = ["torch==2.14.1"]
+cpu = ["torch==2.11.0"]
+
+[project.scripts]
+mm-embeddings = "mm_embeddings.__main__:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "mypy>=1.11",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mm_embeddings"]
+
+[tool.uv]
+conflicts = [[{ extra = "cu128" }, { extra = "cu130" }, { extra = "cpu" }]]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cu128", extra = "cu128" },
+    { index = "pytorch-cu130", extra = "cu130" },
+    { index = "pytorch-cpu", extra = "cpu" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "N", "PL", "C4", "PT", "S"]
+ignore = [
+    "RUF001", "RUF002", "RUF003",  # кириллица в строках и комментариях — это нормально
+    "PLR0913", "PLR2004",
+    "PLC0415",                     # ленивый импорт torch и sentence-transformers — намеренно
+    "S104",                        # слушать 0.0.0.0 — задача сервиса; доступ закрыт токеном и брандмауэром
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "S105", "S106"]
+"scripts/*" = ["S101"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+mypy_path = "src"
+files = ["src", "tests", "scripts"]
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+# Пакет воронки ставится в своё окружение (server/matching); скрипт сравнения запускается оттуда.
+module = ["mm_matching.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore:Using `httpx` with `starlette.testclient`"]

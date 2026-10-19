@@ -1,0 +1,22 @@
+{
+  "$comment": "Записанные примеры для FixtureAdapter (режим разработки и тестов). Источники вымышлены, ссылки построены по формату площадок и ведут на несуществующие посты. Сгенерировано server/scripts/contract/export-fake.mjs из web/src/api/fake/datasets — не править руками.",
+  "posts": [
+    {
+      "platform": "vk",
+      "ownerId": "-100106",
+      "postId": "57990",
+      "sourceId": "vk-gai-krai",
+      "title": null,
+      "text": "Госавтоинспекция края подвела итоги рейда «Детское кресло». За неделю выявлено 214 нарушений правил перевозки детей.",
+      "publishedAt": "2026-09-15T10:00:00+07:00",
+      "timeReliability": "exact",
+      "edited": false,
+      "repostOf": null,
+      "hasMedia": false,
+      "views": 4060,
+      "reactions": 232,
+      "altUrls": [],
+      "sourceSlug": "demo_gai_krai"
+    }
+  ]
+}

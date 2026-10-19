@@ -1,0 +1,129 @@
+[project]
+name = "mediamonitor-server"
+version = "0.1.0"
+description = "Сервер Медиамонитора: поиск публикаций VK, OK и MAX по Красноярскому краю, подборка и выгрузка XLSX"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "alembic>=1.14",
+    "fastapi>=0.115",
+    "httpx>=0.28",
+    "mm-matching",
+    "numpy>=1.26",
+    "openpyxl>=3.1",
+    "pgvector>=0.3",
+    "psutil>=6",
+    "psycopg[binary]>=3.2",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "python-multipart>=0.0.18",
+    "sqlalchemy[asyncio]>=2.0.36",
+    "torch>=2.4",
+    "tzdata>=2026.5",
+    "uvicorn[standard]>=0.32",
+]
+
+[project.scripts]
+mediamonitor = "mediamonitor.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mediamonitor"]
+
+# Воронка «Э-Отбор» — пакет рядом (server/matching). torch — сборка для CPU: иначе на Linux
+# приедет сборка с CUDA (+2 ГБ). uv не наследует источники зависимостей — повторяем их здесь.
+[tool.uv.sources]
+mm-matching = { path = "matching", editable = true }
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[dependency-groups]
+dev = [
+    "aiosqlite>=0.20",
+    "asgi-lifespan>=2.1",
+    "jsonschema>=4.23",
+    "mypy>=1.13",
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.8",
+    "types-jsonschema>=4.26.0.20261006",
+    "types-openpyxl>=3.1.5.20261017",
+    "types-psutil>=7.2.2.20260906",
+]
+
+# ---------------------------------------------------------------- качество
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+extend-exclude = ["matching", "scripts/contract/node_modules"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP", "SIM", "C4", "RUF", "ASYNC", "S", "PT", "RET", "PL", "N"]
+ignore = [
+    "PLR0911", # много return в разборе статусов — читается проще, чем таблица
+    "PLR0912",
+    "PLR0913",
+    "PLR0915",
+    "PLR2004", # числа порогов живут рядом с правилом, а не в константах
+    "RUF001",  # русский текст: «похожие» символы — это кириллица, а не ошибка
+    "RUF002",
+    "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S105", "S106", "PLC0415"]
+"migrations/**" = ["N999"]
+"scripts/**" = ["S101", "PT018"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+# mm_matching (server/matching) без py.typed: подключаем его исходники, ошибки в них не наши.
+mypy_path = "src,matching/src"
+packages = ["mediamonitor", "tests"]
+plugins = ["pydantic.mypy"]
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = ["pgvector.*", "asgi_lifespan.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["mm_matching", "mm_matching.*"]
+follow_imports = "silent"
+
+[[tool.mypy.overrides]]
+module = [
+    "datasketch.*", "natasha.*", "razdel.*", "pymorphy2.*", "pymorphy2_dicts_ru.*",
+    "sentence_transformers.*", "transformers.*",
+]
+ignore_missing_imports = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+asyncio_default_test_loop_scope = "function"
+filterwarnings = ["error::DeprecationWarning:mediamonitor.*"]
+markers = [
+    "postgres: тест требует PostgreSQL (TEST_DATABASE_URL)",
+    "slow: медленный тест с настоящей моделью BERTA (uv run pytest -m slow)",
+]
+addopts = "-m 'not slow'"

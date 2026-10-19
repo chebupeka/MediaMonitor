@@ -1,0 +1,20 @@
+{
+  "model": "hf.co/ai-sage/GigaChat3.1-10B-A1.8B-GGUF:Q6_K",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Новость: «В Красноярске 18 октября открыли движение по новому мосту через Енисей».\nПост:\n[1] Вчера в краевом центре запустили движение по новому мосту.\n[2] По нему пройдут шесть автобусных маршрутов.\n[3] Подписывайтесь на канал.\nПост о том же событии? Ответь меткой и номером предложения-доказательства."
+    }
+  ],
+  "format": {
+    "type": "object",
+    "properties": {
+      "label": { "type": "string", "enum": ["same-event", "other-event", "unsure"] },
+      "evidence": { "type": "integer", "minimum": 1, "maximum": 3 }
+    },
+    "required": ["label", "evidence"],
+    "additionalProperties": false
+  },
+  "stream": false,
+  "options": { "temperature": 0, "seed": 0, "num_ctx": 8192 }
+}

@@ -1,0 +1,31 @@
+{
+  "method": "excludeSource",
+  "schema": null,
+  "value": {
+    "itemIds": [
+      "vk:-100107_88140",
+      "vk:-100107_90314"
+    ],
+    "counts": {
+      "total": 37,
+      "excluded": 3,
+      "byRelevance": {
+        "direct": 22,
+        "indirect": 9,
+        "disputed": 6
+      },
+      "byPlatform": {
+        "vk": 24,
+        "ok": 7,
+        "max": 6
+      },
+      "byPlacementType": {
+        "verbatim": 2,
+        "shortened": 2,
+        "retold": 0,
+        "repost": 0
+      },
+      "new": 0
+    }
+  }
+}

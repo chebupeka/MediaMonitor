@@ -1,0 +1,456 @@
+{
+  "method": "recheckSources",
+  "schema": "SourcesRecheckReport",
+  "value": {
+    "checkedAt": "2026-10-19T14:33:06+07:00",
+    "checked": 23,
+    "ok": 22,
+    "problems": [
+      {
+        "sourceId": "vk-boguchany",
+        "name": "Новости Богучан",
+        "state": "closed",
+        "message": "Группа закрыта: её посты не видны, поиск по ней невозможен."
+      }
+    ],
+    "sources": [
+      {
+        "id": "vk-adm-norilsk",
+        "platform": "vk",
+        "name": "Администрация Норильска",
+        "url": "https://vk.com/demo_adm_norilsk",
+        "type": "municipal",
+        "district": "Норильск",
+        "subscribers": 41000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "catalog",
+        "addedAt": "2026-09-12T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "vk-achinsk",
+        "platform": "vk",
+        "name": "Ачинск. Главное",
+        "url": "https://vk.com/demo_achinsk",
+        "type": "community",
+        "district": "Ачинск",
+        "subscribers": 41000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "catalog",
+        "addedAt": "2026-08-17T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "vk-portal-krsk",
+        "platform": "vk",
+        "name": "Городской портал Красноярска",
+        "url": "https://vk.com/demo_portal_krsk",
+        "type": "media",
+        "district": "Красноярск",
+        "subscribers": 318000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "catalog",
+        "addedAt": "2026-08-11T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "vk-portal-norilsk",
+        "platform": "vk",
+        "name": "Городской портал Норильска",
+        "url": "https://vk.com/demo_portal_norilsk",
+        "type": "media",
+        "district": "Норильск",
+        "subscribers": 64000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "catalog",
+        "addedAt": "2026-09-12T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "vk-gai-krai",
+        "platform": "vk",
+        "name": "Госавтоинспекция края",
+        "url": "https://vk.com/demo_gai_krai",
+        "type": "authority",
+        "district": "весь край",
+        "subscribers": 58000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "catalog",
+        "addedAt": "2026-09-15T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "vk-dorpatrul",
+        "platform": "vk",
+        "name": "Дорожный патруль Красноярска",
+        "url": "https://vk.com/demo_dorpatrul",
+        "type": "community",
+        "district": "Красноярск",
+        "subscribers": 96000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "manual",
+        "addedAt": "2026-07-16T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "vk-zapolyarye",
+        "platform": "vk",
+        "name": "Заполярье: новости Таймыра",
+        "url": "https://vk.com/demo_zapolyarye",
+        "type": "community",
+        "district": "Таймырский район",
+        "subscribers": 23000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "manual",
+        "addedAt": "2026-07-10T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "max-portal",
+        "platform": "max",
+        "name": "Канал городского портала",
+        "url": "https://max.ru/demo_portal_kanal",
+        "type": "media",
+        "district": "Красноярск",
+        "subscribers": 56000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "catalog",
+        "addedAt": "2026-08-11T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "max-press",
+        "platform": "max",
+        "name": "Канал Пресс-центра края",
+        "url": "https://max.ru/demo_press_kanal",
+        "type": "authority",
+        "district": "весь край",
+        "subscribers": 12000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "manual",
+        "addedAt": "2026-07-10T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "vk-kansk",
+        "platform": "vk",
+        "name": "Канск сегодня",
+        "url": "https://vk.com/demo_kansk",
+        "type": "media",
+        "district": "Канск",
+        "subscribers": 29000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "catalog",
+        "addedAt": "2026-09-18T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "vk-minobr",
+        "platform": "vk",
+        "name": "Министерство образования края",
+        "url": "https://vk.com/demo_minobr",
+        "type": "authority",
+        "district": "весь край",
+        "subscribers": 37000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "catalog",
+        "addedAt": "2026-08-14T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "vk-minusinsk",
+        "platform": "vk",
+        "name": "Минусинск",
+        "url": "https://vk.com/demo_minusinsk",
+        "type": "community",
+        "district": null,
+        "subscribers": 33000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "manual",
+        "addedAt": "2026-10-19T14:33:03+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "vk-boguchany",
+        "platform": "vk",
+        "name": "Новости Богучан",
+        "url": "https://vk.com/demo_boguchany",
+        "type": "community",
+        "district": "Богучанский район",
+        "subscribers": 6200,
+        "inMySources": true,
+        "regional": true,
+        "origin": "manual",
+        "addedAt": "2026-07-13T10:00:00+07:00",
+        "check": {
+          "state": "closed",
+          "message": "Группа закрыта: её посты не видны, поиск по ней невозможен.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "ok-krasnoyarye",
+        "platform": "ok",
+        "name": "Новости Красноярья",
+        "url": "https://ok.ru/group/5600104",
+        "type": "media",
+        "district": "весь край",
+        "subscribers": 31000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "catalog",
+        "addedAt": "2026-08-17T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "ok-novosti-kraya",
+        "platform": "ok",
+        "name": "Новости края",
+        "url": "https://ok.ru/group/5600101",
+        "type": "media",
+        "district": "весь край",
+        "subscribers": 95000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "catalog",
+        "addedAt": "2026-08-14T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "max-norilsk",
+        "platform": "max",
+        "name": "Норильск. Коротко",
+        "url": "https://max.ru/demo_norilsk_korotko",
+        "type": "media",
+        "district": "Норильск",
+        "subscribers": 21000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "catalog",
+        "addedAt": "2026-09-12T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "vk-press-centre",
+        "platform": "vk",
+        "name": "Пресс-центр края",
+        "url": "https://vk.com/demo_press_centre",
+        "type": "authority",
+        "district": "весь край",
+        "subscribers": 48000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "manual",
+        "addedAt": "2026-07-13T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "ok-gazeta-kansk",
+        "platform": "ok",
+        "name": "Районная газета Канского района",
+        "url": "https://ok.ru/group/5600103",
+        "type": "media",
+        "district": "Канский район",
+        "subscribers": 7000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "manual",
+        "addedAt": "2026-07-16T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "ok-gazeta-taimyr",
+        "platform": "ok",
+        "name": "Районная газета Таймыра",
+        "url": "https://ok.ru/group/5600102",
+        "type": "media",
+        "district": "Таймырский район",
+        "subscribers": 18000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "catalog",
+        "addedAt": "2026-09-15T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "vk-parents",
+        "platform": "vk",
+        "name": "Родительское сообщество края",
+        "url": "https://vk.com/demo_parents",
+        "type": "community",
+        "district": "весь край",
+        "subscribers": 52000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "catalog",
+        "addedAt": "2026-08-11T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "vk-tv-kraya",
+        "platform": "vk",
+        "name": "Телеканал края",
+        "url": "https://vk.com/demo_tv_kraya",
+        "type": "media",
+        "district": "Красноярск",
+        "subscribers": 212000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "manual",
+        "addedAt": "2026-07-10T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "max-tv",
+        "platform": "max",
+        "name": "Телеканал края в MAX",
+        "url": "https://max.ru/demo_tv_max",
+        "type": "media",
+        "district": "Красноярск",
+        "subscribers": 34000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "manual",
+        "addedAt": "2026-07-13T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      },
+      {
+        "id": "ok-yug",
+        "platform": "ok",
+        "name": "Юг края: Минусинск и район",
+        "url": "https://ok.ru/group/5600106",
+        "type": "community",
+        "district": "Минусинск",
+        "subscribers": 14000,
+        "inMySources": true,
+        "regional": true,
+        "origin": "catalog",
+        "addedAt": "2026-09-18T10:00:00+07:00",
+        "check": {
+          "state": "ok",
+          "message": "Источник доступен: открытая группа, посты читаются.",
+          "preview": null,
+          "checkedAt": "2026-10-19T14:33:06+07:00"
+        }
+      }
+    ]
+  }
+}

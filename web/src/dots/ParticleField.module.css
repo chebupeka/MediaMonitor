@@ -1,0 +1,26 @@
+.field {
+  position: relative;
+  width: 100%;
+  pointer-events: none;
+}
+
+/*
+ * На сайте точки рисуются во весь экран, и при перелёте разлетаются без границ.
+ * Здесь холст — блок: края мягко гаснут, чтобы разлёт не обрезался по прямой линии.
+ * (В маске важна только прозрачность, цвет не виден.)
+ */
+.canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent, #000 9%, #000 91%, transparent),
+    linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to bottom, transparent, #000 9%, #000 91%, transparent),
+    linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+  mask-composite: intersect;
+}

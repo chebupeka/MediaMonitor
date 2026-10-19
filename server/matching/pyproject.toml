@@ -1,0 +1,76 @@
+[project]
+name = "mm-matching"
+version = "0.1.0"
+description = "MediaMonitor: воронка смыслового отбора публикаций (Р5–Р6)"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = "MIT"
+dependencies = [
+    "datasketch>=1.6",
+    "natasha>=1.6.0",
+    "sentence-transformers>=3.0",
+    "httpx>=0.27",
+    "numpy>=1.26",
+    "torch>=2.4",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "pytest>=8",
+]
+eval = [
+    "trafilatura>=1.12",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mm_matching"]
+
+[tool.uv]
+default-groups = ["dev", "eval"]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+src = ["src", "tests", "eval"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "N", "PL", "C4", "PT"]
+ignore = [
+    "RUF001", "RUF002", "RUF003",  # кириллица в строках и комментариях — это нормально
+    "SIM905",                      # список стоп-слов строкой читается лучше
+    "PLR0911", "PLR0912", "PLR0913", "PLR0915", "PLR0917", "PLR2004",
+    "PLC0415",                     # ленивые импорты тяжёлых библиотек — намеренно
+    "PT018",                       # составные assert в тестах читаются нормально
+]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+mypy_path = "src"
+files = ["src", "tests", "eval"]
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = [
+    "datasketch.*", "natasha.*", "razdel.*", "pymorphy2.*", "pymorphy2_dicts_ru.*",
+    "sentence_transformers.*", "trafilatura.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

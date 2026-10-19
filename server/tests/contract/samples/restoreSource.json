@@ -1,0 +1,31 @@
+{
+  "method": "restoreSource",
+  "schema": "Source",
+  "value": {
+    "id": "vk-minusinsk",
+    "platform": "vk",
+    "name": "Минусинск",
+    "url": "https://vk.com/demo_minusinsk",
+    "type": "community",
+    "district": null,
+    "subscribers": 33000,
+    "inMySources": true,
+    "regional": true,
+    "origin": "manual",
+    "addedAt": "2026-10-19T14:33:03+07:00",
+    "check": {
+      "state": "ok",
+      "message": "«Минусинск — наш город» доступен: открытая группа, посты читаются.",
+      "preview": {
+        "platform": "vk",
+        "name": "Минусинск — наш город",
+        "url": "https://vk.com/demo_minusinsk",
+        "subscribers": 33000,
+        "lastPostAt": "2026-10-19T09:40:00+07:00",
+        "suggestedType": "community",
+        "suggestedDistrict": "Минусинск"
+      },
+      "checkedAt": "2026-10-19T14:33:03+07:00"
+    }
+  }
+}

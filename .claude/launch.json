@@ -1,0 +1,121 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "mockup-snapshot",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "--prefix",
+        "web",
+        "vite",
+        "preview",
+        "web",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "4173",
+        "--strictPort"
+      ],
+      "port": 4173,
+      "url": "http://127.0.0.1:4173"
+    },
+    {
+      "name": "mockup-dev",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "--prefix",
+        "web",
+        "vite",
+        "web",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "5173",
+        "--strictPort"
+      ],
+      "port": 5173,
+      "url": "http://127.0.0.1:5173"
+    },
+    {
+      "name": "branch-ext-ui",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "--prefix",
+        "C:\\Users\\User\\AppData\\Local\\Temp\\claude\\C--Users-User-Desktop-MediaMonitor\\48dff687-6410-42b7-81a7-56dc81c9b35a\\scratchpad\\ext-ui\\web",
+        "vite",
+        "preview",
+        "C:\\Users\\User\\AppData\\Local\\Temp\\claude\\C--Users-User-Desktop-MediaMonitor\\48dff687-6410-42b7-81a7-56dc81c9b35a\\scratchpad\\ext-ui\\web",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "4180",
+        "--strictPort"
+      ],
+      "port": 4180,
+      "url": "http://127.0.0.1:4180"
+    },
+    {
+      "name": "strezhen-site",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4181",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "site"
+      ],
+      "port": 4181,
+      "url": "http://127.0.0.1:4181"
+    },
+    {
+      "name": "app-dev",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "--prefix",
+        "web",
+        "vite",
+        "web",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "5188",
+        "--strictPort"
+      ],
+      "port": 5188,
+      "url": "http://127.0.0.1:5188"
+    },
+    {
+      "name": "link-api",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "C:\\Users\\User\\AppData\\Local\\Temp\\claude\\C--Users-User-Desktop-MediaMonitor\\48dff687-6410-42b7-81a7-56dc81c9b35a\\scratchpad\\link\\link-api.cmd"
+      ],
+      "port": 8000,
+      "url": "http://127.0.0.1:8000"
+    },
+    {
+      "name": "link-api-maxdown",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "C:\\Users\\User\\AppData\\Local\\Temp\\claude\\C--Users-User-Desktop-MediaMonitor\\48dff687-6410-42b7-81a7-56dc81c9b35a\\scratchpad\\link\\link-api.cmd",
+        "max:unavailable"
+      ],
+      "port": 8000,
+      "url": "http://127.0.0.1:8000"
+    },
+    {
+      "name": "link-web",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "C:\\Users\\User\\AppData\\Local\\Temp\\claude\\C--Users-User-Desktop-MediaMonitor\\48dff687-6410-42b7-81a7-56dc81c9b35a\\scratchpad\\link\\link-web.cmd"
+      ],
+      "port": 5187,
+      "url": "http://127.0.0.1:5187"
+    }
+  ]
+}

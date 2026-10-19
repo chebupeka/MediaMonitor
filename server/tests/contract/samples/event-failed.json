@@ -1,0 +1,13 @@
+{
+  "method": "event-failed",
+  "schema": "SearchEvent[]",
+  "value": [
+    {
+      "type": "failed",
+      "error": {
+        "code": "too-long",
+        "message": "Текст запроса длиннее 20 000 знаков. Оставьте заголовок и первые абзацы."
+      }
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+/* Экран «Недавние поиски» — в стиле «Поиска» ветки: карточки, крупная цифра узким гротеском. Только токены. */
+
+.screen {
+  gap: var(--space-5);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: reveal var(--duration-slower) var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * var(--duration-instant));
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-3));
+  }
+}
+
+.days {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Как карточка публикации в «Поиске» */
+.card {
+  padding: var(--space-4);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+}
+
+.kindLine {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-ink-3);
+}
+
+.kind {
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.06em;
+  color: var(--color-ink-2);
+}
+
+/* «повтор» — как «Исходный» в таблице размещений; золото смешано с текстом для контраста AA */
+.mark {
+  display: inline-block;
+  padding: 1px var(--space-2);
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  color: color-mix(in srgb, var(--color-gold) 75%, var(--color-ink));
+}
+
+.when {
+  font-size: var(--text-xs);
+  color: var(--color-ink-3);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.headline {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  overflow-wrap: anywhere;
+}
+
+.fullText summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-ink-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.fullText p {
+  margin-top: var(--space-2);
+  padding-left: var(--space-3);
+  border-left: 3px solid var(--color-line-strong);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink-2);
+}
+
+.conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.outcome {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+}
+
+/* Крупная цифра узким гротеском — как «Найдено» в «Поиске» */
+.found {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.foundNum {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 0.85;
+  font-variant-numeric: tabular-nums;
+}
+
+.foundLabel {
+  display: grid;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-2);
+}
+
+.platforms {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  color: var(--color-ink-3);
+}
+
+.footer {
+  gap: var(--space-2);
+}
+
+.repeatHint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-basis: 100%;
+  font-size: var(--text-xs);
+  color: var(--color-ink-3);
+}
+
+.repeatHint svg {
+  flex: none;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}
+
+.legend {
+  margin: 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-3);
+}
+
+@container screen (max-width: 560px) {
+  .card {
+    padding: var(--space-3);
+  }
+
+  .foundNum {
+    font-size: 34px;
+  }
+}

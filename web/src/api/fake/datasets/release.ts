@@ -6,7 +6,7 @@
  * о другом событии» (К17) в «как система поняла тему».
  */
 import type { Citation, PlacementType, ResultGroup, TopicUnderstanding } from '../../types';
-import { buildItem, type PostSpec } from '../build';
+import { aiScoresOf, buildItem, buildText, type PostSpec } from '../build';
 import type { Dataset, ReleaseMeta } from './types';
 
 export const RELEASE_GROUP_ID = 'g-release-school';
@@ -64,6 +64,8 @@ interface PlacementSpec {
   original?: boolean;
   repostOf?: { src: string; n: string };
   places: string[];
+  /** Заданная оценка проверки на ИИ (имитация, PostSpec.ai) */
+  ai?: number;
 }
 
 const TV_INTRO = 'Хорошие новости из Заполярья.';
@@ -78,6 +80,7 @@ const PLACEMENTS: PlacementSpec[] = [
     original: true,
     views: 6_100,
     places: ['Норильск'],
+    ai: 0.12,
   },
   {
     n: '88015',
@@ -88,6 +91,7 @@ const PLACEMENTS: PlacementSpec[] = [
     paragraphs: [0, 1, 2, 3],
     views: 18_400,
     places: ['Норильск'],
+    ai: 0.15,
   },
   {
     n: '3301',
@@ -115,6 +119,8 @@ const PLACEMENTS: PlacementSpec[] = [
     ],
     views: 21_700,
     places: ['Норильск'],
+    // Гладкий пересказ — в демо «похоже на ИИ»
+    ai: 0.93,
   },
   {
     n: '30377',
@@ -139,6 +145,7 @@ const PLACEMENTS: PlacementSpec[] = [
     phrases: ['в районе Оганер', '48 классов'],
     views: 9_800,
     places: ['Норильск', 'Талнах'],
+    ai: 0.21,
   },
   {
     n: '64388',
@@ -148,6 +155,7 @@ const PLACEMENTS: PlacementSpec[] = [
     paragraphs: [0, 1, 3],
     views: 7_200,
     places: ['Норильск'],
+    ai: 0.1,
   },
   {
     n: '9011',
@@ -167,6 +175,7 @@ const PLACEMENTS: PlacementSpec[] = [
       'В Норильске начала работу новая школа — самая большая в Заполярье за тридцать лет.',
       'Её построили за два года по краевой программе строительства школ.',
       'В здании 48 классов, бассейн и лаборатория робототехники.',
+      'Учебный год в новом здании начнётся 20 октября, а записать ребёнка можно через портал госуслуг.',
     ],
     phrases: [
       'по краевой программе строительства школ',
@@ -175,6 +184,8 @@ const PLACEMENTS: PlacementSpec[] = [
     ],
     views: 5_500,
     places: ['Норильск'],
+    // В демо «есть признаки ИИ»
+    ai: 0.71,
   },
   {
     n: '2236',
@@ -240,6 +251,7 @@ const PLACEMENTS: PlacementSpec[] = [
     paragraphs: [0, 1],
     views: null,
     places: ['Норильск'],
+    ai: 0.08,
   },
 ];
 
@@ -271,8 +283,28 @@ function toPostSpec(p: PlacementSpec): PostSpec {
     citation: citation(p.paragraphs ?? [], p.phrases ?? []),
     group: RELEASE_GROUP_ID,
     ...(p.repostOf ? { repostOf: p.repostOf } : {}),
+    ...(p.ai !== undefined ? { ai: p.ai } : {}),
   };
 }
+
+/** Заданные оценки проверки на ИИ (имитация): исходный и копии — «не похоже», пересказы — все уровни. */
+export const RELEASE_AI_SCORES: readonly [string, number][] = aiScoresOf(PLACEMENTS.map(toPostSpec));
+
+function placementText(n: string): string {
+  const placement = PLACEMENTS.find((p) => p.n === n);
+  return (placement && buildText(toPostSpec(placement).text)?.text) ?? '';
+}
+
+/**
+ * Примеры для экрана «Проверка на ИИ» (только мокап): тексты пересказов из этого набора,
+ * поэтому результат совпадает с меткой в подборке и в «Распространении».
+ */
+export const RELEASE_AI_SAMPLES: readonly { id: string; label: string; text: string }[] = [
+  { id: 'portal', label: 'Пересказ портала', text: placementText('77122') },
+  { id: 'ministry', label: 'Пересказ министерства', text: placementText('45601') },
+  { id: 'admin', label: 'Пост администрации', text: placementText('70120') },
+  { id: 'short', label: 'Короткий пост', text: placementText('2236') },
+];
 
 const EXTRA: PostSpec[] = [
   {

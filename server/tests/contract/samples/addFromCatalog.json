@@ -1,0 +1,25 @@
+{
+  "method": "addFromCatalog",
+  "schema": "Source[]",
+  "value": [
+    {
+      "id": "vk-fire",
+      "platform": "vk",
+      "name": "Пожарная охрана края",
+      "url": "https://vk.com/demo_fire_krai",
+      "type": "authority",
+      "district": "весь край",
+      "subscribers": 31000,
+      "inMySources": true,
+      "regional": true,
+      "origin": "catalog",
+      "addedAt": "2026-10-19T14:33:10+07:00",
+      "check": {
+        "state": "ok",
+        "message": "Источник доступен: открытая группа, посты читаются.",
+        "preview": null,
+        "checkedAt": "2026-10-19T08:00:00+07:00"
+      }
+    }
+  ]
+}

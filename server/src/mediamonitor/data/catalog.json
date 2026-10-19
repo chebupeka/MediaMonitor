@@ -1,0 +1,4 @@
+{
+  "$comment": "Каталог краевых источников для режима DATA_SOURCE=live (Р4, НТ-14). Пока пуст: ждём список от организаторов (В4) и разведку И1. Формат записи: {platform, ownerId, slug, name, type, district, subscribers, description}. В режиме fixtures каталог берётся из записанных примеров.",
+  "sources": []
+}

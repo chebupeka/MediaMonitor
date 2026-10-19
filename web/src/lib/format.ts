@@ -184,6 +184,7 @@ export const WORDS = {
   search: ['поиск', 'поиска', 'поисков'],
   second: ['секунда', 'секунды', 'секунд'],
   newItem: ['новая', 'новых', 'новых'],
+  word: ['слово', 'слова', 'слов'],
 } as const satisfies Record<string, readonly [string, string, string]>;
 
 /** Обрезать строку по слову: «Безопасность дорожного…» */

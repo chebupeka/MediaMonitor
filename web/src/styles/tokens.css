@@ -55,6 +55,10 @@
   --color-info-bg: #e5effb;
   --color-info-solid: #2a78d6;
 
+  /* Акценты сайта: синий — действие и фокус, золото — найденное */
+  --color-accent: #2a6fe0;
+  --color-gold: #b07a12;
+
   /* Пометки «Демо-данные», «только в мокапе» */
   --color-note-bg: #fff7e0;
   --color-note-ink: #5c4300;
@@ -81,9 +85,9 @@
   --color-dots-haze: rgb(140 196 255 / 0.08); /* лёгкое свечение за картой */
 
   /* ---------- Типографика ---------- */
-  --font-ui: 'Golos Text', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  /* Unbounded — только для крупных цифр и заголовков бренда */
-  --font-display: 'Unbounded', 'Golos Text', 'Segoe UI', Arial, sans-serif;
+  --font-ui: 'Montserrat', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  /* Узкий гротеск капсом — заголовки экранов, крупные цифры, знак (как на сайте) */
+  --font-display: 'Fira Sans Extra Condensed', 'Arial Narrow', 'Segoe UI', Arial, sans-serif;
   --font-mono: ui-monospace, 'Cascadia Mono', Consolas, 'Liberation Mono', monospace;
 
   --text-2xs: 11px;
@@ -180,27 +184,29 @@
 /* ---------- Тёмная тема: значения повторяются в двух блоках ниже ---------- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --color-bg: #111418;
-    --color-surface: #191d22;
-    --color-surface-2: #22272d;
-    --color-surface-3: #2b3139;
-    --color-surface-inverse: #e9edf1;
-    --color-overlay: rgb(0 0 0 / 0.6);
-    --color-ink: #eef1f4;
-    --color-ink-2: #b8c0c9;
-    --color-ink-3: #939ca6;
-    --color-ink-inverse: #111418;
-    --color-ink-disabled: #6b737c;
-    --color-line: #2d333a;
-    --color-line-strong: #3a414a;
-    --color-line-control: #6f7883;
-    --color-control: #e9edf1;
+    --color-bg: #07080b;
+    --color-surface: #0d0f14;
+    --color-surface-2: #141720;
+    --color-surface-3: #1c2029;
+    --color-surface-inverse: #f2f4f8;
+    --color-overlay: rgb(0 0 0 / 0.66);
+    --color-ink: #f2f4f8;
+    --color-ink-2: #aab1bf;
+    --color-ink-3: #8a91a0;
+    --color-ink-inverse: #07080b;
+    --color-ink-disabled: #5f6573;
+    --color-line: #1f232c;
+    --color-line-strong: #2c313c;
+    --color-line-control: #5c6372;
+    --color-control: #f2f4f8;
     --color-control-hover: #ffffff;
-    --color-control-active: #cfd6dd;
-    --color-control-ink: #111418;
-    --color-selected-bg: #1f2f45;
-    --color-link: #7fb2f0;
-    --color-focus: #6aa7f0;
+    --color-control-active: #d6dae2;
+    --color-control-ink: #07080b;
+    --color-selected-bg: #16233d;
+    --color-link: #8ab4ff;
+    --color-focus: #5b95ff;
+    --color-accent: #5b95ff;
+    --color-gold: #f2b544;
     --color-good-ink: #84d6a0;
     --color-good-bg: #16301f;
     --color-good-solid: #3fb36b;
@@ -213,18 +219,18 @@
     --color-info-ink: #93bff5;
     --color-info-bg: #16273d;
     --color-info-solid: #3987e5;
-    --color-note-bg: #3a2f10;
-    --color-note-ink: #f3dc9a;
-    --color-note-line: #5a4a1c;
-    --color-mark-bg: #5c4a12;
-    --color-mark-ink: #fff4cf;
-    --color-vk: #3987e5;
-    --color-ok: #d95926;
-    --color-max: #199e70;
-    --color-vk-bg: #172a40;
-    --color-ok-bg: #3a2016;
-    --color-max-bg: #123126;
-    --color-dots-ground: #0b0e12;
+    --color-note-bg: #2a2210;
+    --color-note-ink: #f2d58a;
+    --color-note-line: #4a3c18;
+    --color-mark-bg: #5a4510;
+    --color-mark-ink: #fff1cc;
+    --color-vk: #3884ff;
+    --color-ok: #ff7f33;
+    --color-max: #2edb8c;
+    --color-vk-bg: #13213a;
+    --color-ok-bg: #33200f;
+    --color-max-bg: #0f2c20;
+    --color-dots-ground: #07080b;
     --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
     --shadow-2: 0 4px 12px rgb(0 0 0 / 0.45), 0 1px 3px rgb(0 0 0 / 0.3);
     --shadow-3: 0 12px 32px rgb(0 0 0 / 0.6), 0 2px 6px rgb(0 0 0 / 0.4);
@@ -238,27 +244,29 @@
  */
 :root[data-theme='dark'],
 [data-scope='dark'] {
-  --color-bg: #111418;
-  --color-surface: #191d22;
-  --color-surface-2: #22272d;
-  --color-surface-3: #2b3139;
-  --color-surface-inverse: #e9edf1;
-  --color-overlay: rgb(0 0 0 / 0.6);
-  --color-ink: #eef1f4;
-  --color-ink-2: #b8c0c9;
-  --color-ink-3: #939ca6;
-  --color-ink-inverse: #111418;
-  --color-ink-disabled: #6b737c;
-  --color-line: #2d333a;
-  --color-line-strong: #3a414a;
-  --color-line-control: #6f7883;
-  --color-control: #e9edf1;
+  --color-bg: #07080b;
+  --color-surface: #0d0f14;
+  --color-surface-2: #141720;
+  --color-surface-3: #1c2029;
+  --color-surface-inverse: #f2f4f8;
+  --color-overlay: rgb(0 0 0 / 0.66);
+  --color-ink: #f2f4f8;
+  --color-ink-2: #aab1bf;
+  --color-ink-3: #8a91a0;
+  --color-ink-inverse: #07080b;
+  --color-ink-disabled: #5f6573;
+  --color-line: #1f232c;
+  --color-line-strong: #2c313c;
+  --color-line-control: #5c6372;
+  --color-control: #f2f4f8;
   --color-control-hover: #ffffff;
-  --color-control-active: #cfd6dd;
-  --color-control-ink: #111418;
-  --color-selected-bg: #1f2f45;
-  --color-link: #7fb2f0;
-  --color-focus: #6aa7f0;
+  --color-control-active: #d6dae2;
+  --color-control-ink: #07080b;
+  --color-selected-bg: #16233d;
+  --color-link: #8ab4ff;
+  --color-focus: #5b95ff;
+  --color-accent: #5b95ff;
+  --color-gold: #f2b544;
   --color-good-ink: #84d6a0;
   --color-good-bg: #16301f;
   --color-good-solid: #3fb36b;
@@ -271,18 +279,18 @@
   --color-info-ink: #93bff5;
   --color-info-bg: #16273d;
   --color-info-solid: #3987e5;
-  --color-note-bg: #3a2f10;
-  --color-note-ink: #f3dc9a;
-  --color-note-line: #5a4a1c;
-  --color-mark-bg: #5c4a12;
-  --color-mark-ink: #fff4cf;
-  --color-vk: #3987e5;
-  --color-ok: #d95926;
-  --color-max: #199e70;
-  --color-vk-bg: #172a40;
-  --color-ok-bg: #3a2016;
-  --color-max-bg: #123126;
-  --color-dots-ground: #0b0e12;
+  --color-note-bg: #2a2210;
+  --color-note-ink: #f2d58a;
+  --color-note-line: #4a3c18;
+  --color-mark-bg: #5a4510;
+  --color-mark-ink: #fff1cc;
+  --color-vk: #3884ff;
+  --color-ok: #ff7f33;
+  --color-max: #2edb8c;
+  --color-vk-bg: #13213a;
+  --color-ok-bg: #33200f;
+  --color-max-bg: #0f2c20;
+  --color-dots-ground: #07080b;
   --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
   --shadow-2: 0 4px 12px rgb(0 0 0 / 0.45), 0 1px 3px rgb(0 0 0 / 0.3);
   --shadow-3: 0 12px 32px rgb(0 0 0 / 0.6), 0 2px 6px rgb(0 0 0 / 0.4);
