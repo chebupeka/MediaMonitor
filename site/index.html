@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Стрежень — куда разошлась новость</title>
+<meta name="description" content="«Стрежень» — расширение для браузера: выделите абзац новости и увидите, где её опубликовали во ВКонтакте, Одноклассниках и MAX.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@600;700;800&amp;family=Montserrat:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+
+<div class="cur-ring" aria-hidden="true"></div>
+<div class="cur-dot" aria-hidden="true"></div>
+
+<header class="hdr">
+  <a class="logo" href="#top" aria-label="Стрежень, в начало страницы">Стрежень<span class="logo-dot"></span></a>
+  <nav class="hdr-nav" aria-label="Быстрые ссылки">
+    <a href="#install" data-hover>Установить</a>
+    <a href="#faq" data-hover>Вопросы</a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Открыть меню"><span></span><span></span></button>
+  </nav>
+</header>
+
+<div class="menu" id="menu" aria-hidden="true">
+  <nav class="menu-nav" aria-label="Разделы страницы">
+    <a href="#how" class="display" data-hover>Как работает</a>
+    <a href="#where" class="display o" data-hover>Где ищем</a>
+    <a href="#spread" class="display" data-hover>Распространение</a>
+    <a href="#picks" class="display o" data-hover>Подборка</a>
+    <a href="#faq" class="display" data-hover>Вопросы</a>
+    <a href="#install" class="display o" data-hover>Установить</a>
+  </nav>
+  <p class="menu-note">Медиамониторинг соцсетей Красноярского края</p>
+</div>
+
+<a class="progress" href="#top" aria-label="Наверх">
+  <svg viewBox="0 0 40 40" aria-hidden="true">
+    <circle cx="20" cy="20" r="17" class="progress-track"/>
+    <circle cx="20" cy="20" r="17" class="progress-bar" pathLength="1"/>
+  </svg>
+  <span class="progress-dot"></span>
+</a>
+
+<main id="top">
+
+  <!-- Лендинг, покой: силуэт края, по нему течёт Енисей — «это про наш край» -->
+  <section class="sec hero" data-shape="krai" data-place="right" aria-labelledby="h-hero">
+    <div class="col">
+      <h1 id="h-hero" class="display hero-title">
+        <span class="line o" data-scramble data-delay="350">Куда</span>
+        <span class="line" data-scramble data-delay="520">разошлась</span>
+        <span class="line" data-scramble data-delay="690">новость<span class="badge" aria-hidden="true"></span></span>
+      </h1>
+      <p class="lead" data-scramble data-delay="1000">Мы сделали <b>«Стрежень»</b> — <b>расширение для браузера</b>, которое находит, где опубликована новость: <b>во ВКонтакте, Одноклассниках и MAX</b>. Выделите абзац на любом сайте — <b>панель сбоку</b> покажет все размещения.</p>
+      <div class="actions fade" style="--d: 1.5s">
+        <a class="pill" href="#install" data-hover>Скачать расширение</a>
+        <a class="ghost" href="#how" data-hover>Как это работает</a>
+      </div>
+      <p class="small fade" style="--d: 1.7s">Яндекс Браузер и Chrome · без регистрации</p>
+    </div>
+    <p class="map-caption fade" style="--d: 2.2s" aria-hidden="true">Красноярский край — от Саян до Таймыра. По карте течёт Енисей</p>
+    <div class="scroll-hint" aria-hidden="true"><span>Листайте</span><i></i></div>
+  </section>
+
+  <!-- Местный образ: Коммунальный мост через Енисей -->
+  <section class="sec ticker-sec" data-shape="bridge" data-place="center" aria-label="Поиск по смыслу">
+    <div class="marquee ticker" data-speed="0.55" aria-hidden="true">
+      <div class="marquee-track"><span>Ищем по смыслу, а не по словам —&nbsp;</span><span class="o">ВКонтакте · Одноклассники · MAX —&nbsp;</span></div>
+    </div>
+    <div class="col col-narrow ticker-text">
+      <p class="sr">Ищем по смыслу, а не по словам — во ВКонтакте, Одноклассниках и MAX.</p>
+      <p data-scramble>Новость о <b>пожарной безопасности</b> не попадёт в подборку о <b>безопасности дорожного движения</b>. Совпадения слов мало — важно, о чём текст.</p>
+      <p class="small" data-scramble data-delay="300">Коммунальный мост через Енисей — тот, что на десятирублёвой купюре.</p>
+    </div>
+  </section>
+
+  <!-- 01 · Человек вводит запрос: облако оживает и тянется к полю — «система слушает» -->
+  <section id="how" class="sec moment" data-shape="listening" data-place="left" aria-labelledby="h-how">
+    <div class="col col-right">
+      <p class="kicker" data-scramble><span class="kicker-n">01</span> Запрос · система слушает</p>
+      <h2 id="h-how" class="display h-lg"><span data-scramble>Выделите</span> <span class="o" data-scramble data-delay="150">абзац</span></h2>
+      <p data-scramble data-delay="200">На любом сайте: правая кнопка, пункт <b>«Найти, где это опубликовано»</b>. Или вставьте в одно поле тему, событие, имя человека или текст новости.</p>
+      <div class="field fade" aria-hidden="true">
+        <span class="field-label">Запрос</span>
+        <span class="field-text" data-scramble data-front="1" data-dur="2600" data-delay="400">У школ Красноярска обновили разметку и поставили новые знаки</span><i class="caret"></i>
+      </div>
+      <p class="muted" data-scramble data-delay="300">«Стрежень» — не отдельный сайт, а <b>панель сбоку в браузере</b>: рядом с любой страницей, без регистрации и прав администратора.</p>
+    </div>
+  </section>
+
+  <!-- 02 · Идёт поиск: три облака VK, OK, MAX, из них точки текут на карту -->
+  <section id="where" class="sec moment search-moment" data-shape="searching" data-place="right" aria-labelledby="h-where">
+    <div class="wide">
+      <div class="marquee area" data-speed="-0.35" aria-hidden="true">
+        <div class="marquee-track"><span class="o">Где ищем&nbsp;</span><span>ВКонтакте&nbsp;</span><span class="o">Одноклассники&nbsp;</span><span>MAX&nbsp;</span><span class="o">Красноярский край&nbsp;</span></div>
+      </div>
+      <div class="col">
+        <p class="kicker" data-scramble><span class="kicker-n">02</span> Поиск · видно, где сейчас ищем</p>
+        <h2 id="h-where" class="display h-lg"><span data-scramble>Три</span> <span class="o" data-scramble data-delay="150">площадки</span></h2>
+        <p data-scramble data-delay="200">Во ВКонтакте, Одноклассниках и MAX — в группах, сообществах и каналах. По своему списку источников или по всей площадке.</p>
+        <ul class="runs" aria-label="Ход поиска (демо)">
+          <li class="run fade"><span class="dot dot-vk"></span><span class="run-name">ВКонтакте</span><span class="run-bar"><i data-fill="57"></i></span><span class="run-num"><b data-count="12">12</b> из 21</span></li>
+          <li class="run fade" style="--d: .1s"><span class="dot dot-ok"></span><span class="run-name">Одноклассники</span><span class="run-bar"><i data-fill="64"></i></span><span class="run-num"><b data-count="7">7</b> из 11</span></li>
+          <li class="run fade" style="--d: .2s"><span class="dot dot-max"></span><span class="run-name">MAX</span><span class="run-bar"><i data-fill="33"></i></span><span class="run-num"><b data-count="2">2</b> из 6</span></li>
+        </ul>
+        <p class="muted" data-scramble data-delay="300">Первые результаты видны сразу. Недоступный источник — отдельной строкой, найденное при этом сохраняется.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · Найдено: на карте загораются точки в городах, где вышли публикации -->
+  <section id="found" class="sec moment" data-shape="found" data-place="left" aria-labelledby="h-found">
+    <div class="col col-right">
+      <p class="kicker" data-scramble><span class="kicker-n">03</span> Найдено · где о нас пишут</p>
+      <h2 id="h-found" class="display h-lg"><span data-scramble>Города</span> <span class="o" data-scramble data-delay="150">загораются</span></h2>
+      <p data-scramble data-delay="200">Публикация попадает в подборку, если <b>источник из края</b> или <b>в тексте есть привязка к краю</b>. У каждой видно, почему она краевая. Без известного места точка на карте не загорается.</p>
+      <ul class="cities" aria-label="Публикации по городам (демо)">
+        <li class="fade"><span class="city">Красноярск</span><b data-count="6">6</b></li>
+        <li class="fade" style="--d: .08s"><span class="city">Норильск</span><b data-count="4">4</b></li>
+        <li class="fade" style="--d: .16s"><span class="city">Канск</span><b data-count="2">2</b></li>
+        <li class="fade" style="--d: .24s"><span class="city">Ачинск</span><b data-count="1">1</b></li>
+        <li class="fade" style="--d: .32s"><span class="city">Минусинск</span><b data-count="1">1</b></li>
+        <li class="fade" style="--d: .4s"><span class="city">Лесосибирск</span><b data-count="1">1</b></li>
+      </ul>
+      <p class="small">Цифры — демонстрационные.</p>
+    </div>
+  </section>
+
+  <!-- 04 · «Распространение»: вспышка из точки-источника и волны к перепечаткам -->
+  <section id="spread" class="sec moment" data-shape="spread" data-place="right" aria-labelledby="h-spread">
+    <div class="col">
+      <p class="kicker" data-scramble><span class="kicker-n">04</span> Распространение · главная функция</p>
+      <h2 id="h-spread" class="display h-lg"><span data-scramble>Как</span> <span class="o" data-scramble data-delay="150">разошлась</span> <span data-scramble data-delay="300">новость</span></h2>
+      <p data-scramble data-delay="200">Вставьте текст релиза — и увидите каждое размещение: исходник, сокращённые версии, пересказы с другим заголовком.</p>
+      <div class="stats">
+        <div class="stat fade"><b class="display" data-count="15">15</b><span>размещений</span></div>
+        <div class="stat fade" style="--d: .1s"><span class="stat-row"><span class="dot dot-vk"></span>ВКонтакте <b data-count="9">9</b></span><span class="stat-row"><span class="dot dot-ok"></span>Одноклассники <b data-count="4">4</b></span><span class="stat-row"><span class="dot dot-max"></span>MAX <b data-count="2">2</b></span></div>
+        <div class="stat fade" style="--d: .2s"><span class="stat-label">Первым опубликовал</span><span class="stat-value">Агентство · 14 окт, 10:02</span></div>
+      </div>
+      <p class="muted" data-scramble data-delay="300">Подписчики и просмотры — отдельными цифрами. Если площадка их не отдаёт, так и пишем: «нет данных».</p>
+      <p class="small">Цифры — демонстрационные.</p>
+    </div>
+  </section>
+
+  <!-- 05 · Подборка: большие имена источников -->
+  <section id="picks" class="sec picks" aria-labelledby="h-picks">
+    <div class="wide">
+      <div class="picks-head">
+        <div>
+          <p class="kicker" data-scramble><span class="kicker-n">05</span> Подборка</p>
+          <h2 id="h-picks" class="display h-xl stack">
+            <span data-scramble>Что</span>
+            <span class="o" data-scramble data-delay="150">в вашей</span>
+            <span data-scramble data-delay="300">подборке</span>
+          </h2>
+        </div>
+        <p data-scramble data-delay="350"><b>Каждое размещение — отдельно.</b> Одна новость в трёх группах — три записи. Тот же пост, найденный повторно, счётчик не увеличивает. У каждой записи: <b>площадка и источник, заголовок или начало поста, дата, выдержка и ссылка</b>. Если дату узнать не удалось — так и написано.</p>
+      </div>
+
+      <ul class="names" aria-label="Пример подборки">
+        <li class="name">
+          <span class="nm display" data-scramble>Городские новости</span>
+          <span class="cap"><b>ВКонтакте</b> · 12 сентября · исходный текст</span>
+        </li>
+        <li class="name">
+          <span class="nm display o" data-scramble data-delay="100">Родители Советского района</span>
+          <span class="cap"><b>Одноклассники</b> · 12 сентября · другой заголовок</span>
+        </li>
+        <li class="name">
+          <span class="nm display" data-scramble data-delay="200">Новости района</span>
+          <span class="cap"><b>MAX</b> · 13 сентября · сокращённая версия</span>
+        </li>
+        <li class="name">
+          <span class="nm display o" data-scramble>Школьный совет</span>
+          <span class="cap"><b>ВКонтакте</b> · 14 сентября · пересказ</span>
+        </li>
+        <li class="name">
+          <span class="nm display" data-scramble data-delay="100">Канал микрорайона</span>
+          <span class="cap"><b>MAX</b> · <em>дата не определена</em> · перепечатка</span>
+        </li>
+        <li class="name name-off">
+          <span class="nm display o" data-scramble data-delay="200">Похожая новость</span>
+          <span class="cap">Другое событие · <b>не включена</b></span>
+        </li>
+      </ul>
+      <p class="small">Источники и даты — демонстрационные.</p>
+    </div>
+  </section>
+
+  <!-- Выгрузка XLSX: точки складываются в сетку таблицы — «файл готов» -->
+  <section class="sec moment" data-shape="grid" data-place="right" aria-labelledby="h-export">
+    <div class="col">
+      <p class="kicker" data-scramble><span class="kicker-n">06</span> Выгрузка · файл готов</p>
+      <h2 id="h-export" class="display h-lg"><span data-scramble>Таблица</span> <span class="o" data-scramble data-delay="150">в один клик</span></h2>
+      <p data-scramble data-delay="200">XLSX совпадает с тем, что на экране: номер записи, площадка и источник, заголовок или начало поста, дата, выдержка и ссылка. Плюс запрос, период и количество.</p>
+      <div class="export fade">
+        <a class="pill" href="#install" data-hover>Сохранить в Excel</a>
+        <span><b>5 размещений</b> · проверено 38 источников</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Честные состояния: пусто — точки гаснут; сбой — облако MAX серое и мерцает -->
+  <section class="states" aria-labelledby="h-empty">
+    <div class="sec moment" data-shape="empty" data-place="center">
+      <div class="col">
+        <p class="kicker" data-scramble>Если пусто · без тревоги</p>
+        <h2 id="h-empty" class="display h-lg"><span data-scramble>Ничего</span> <span class="o" data-scramble data-delay="150">не нашли</span></h2>
+        <p data-scramble data-delay="200">Точки спокойно гаснут. «Ничего не найдено» и «не удалось проверить» выглядят по-разному — сразу понятно, что это не ошибка.</p>
+      </div>
+    </div>
+    <div class="sec moment" data-shape="failure" data-place="right">
+      <div class="col">
+        <p class="kicker" data-scramble>Если площадка не ответила</p>
+        <h2 class="display h-lg"><span data-scramble>Сбой</span> <span class="o" data-scramble data-delay="150">площадки</span></h2>
+        <p data-scramble data-delay="200">Её облако серое и мерцает — сразу видно, какой площадке плохо. Найденное на других сохраняется, рядом кнопка «Повторить».</p>
+        <ul class="runs" aria-label="Пример сбоя (демо)">
+          <li class="run fade"><span class="dot dot-vk"></span><span class="run-name">ВКонтакте</span><span class="run-bar"><i data-fill="100"></i></span><span class="run-num">найдено 9</span></li>
+          <li class="run fade" style="--d: .1s"><span class="dot dot-ok"></span><span class="run-name">Одноклассники</span><span class="run-bar"><i data-fill="100"></i></span><span class="run-num">найдено 4</span></li>
+          <li class="run run-fail fade" style="--d: .2s"><span class="dot dot-fail"></span><span class="run-name">MAX</span><span class="run-bar"><i data-fill="20"></i></span><span class="run-num">не отвечает · <u>Повторить</u></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Сравнение -->
+  <section class="sec cmp-sec" aria-labelledby="h-cmp">
+    <div class="wide">
+      <h2 id="h-cmp" class="display h-lg"><span data-scramble>Сайт</span> <span class="o" data-scramble data-delay="120">или</span> <span data-scramble data-delay="240">расширение</span></h2>
+      <p class="cmp-lead" data-scramble data-delay="200">Поиск и подборка одинаковые. <b>Расширение добавляет то, что умеет только браузер.</b></p>
+      <div class="cmp" role="table" aria-label="Сравнение сайта и расширения">
+        <div class="cmp-row cmp-head" role="row">
+          <span role="columnheader"><span class="sr">Возможность</span></span>
+          <span role="columnheader">Сайт</span>
+          <span role="columnheader">Расширение</span>
+        </div>
+        <div class="cmp-row fade" role="row">
+          <span class="display" role="rowheader">Поиск по запросу</span>
+          <span role="cell">есть</span>
+          <span role="cell"><b>есть</b></span>
+        </div>
+        <div class="cmp-row fade" role="row">
+          <span class="display" role="rowheader">Поиск по выделенному тексту</span>
+          <span role="cell">текст нужно вставить вручную</span>
+          <span role="cell"><b>выделить и нажать правую кнопку</b></span>
+        </div>
+        <div class="cmp-row fade" role="row">
+          <span class="display" role="rowheader">Где открыт</span>
+          <span role="cell">в отдельной вкладке</span>
+          <span role="cell"><b>сбоку от любой страницы</b></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Вопросы -->
+  <section id="faq" class="sec faq-sec" data-shape="dust" data-place="center" aria-labelledby="h-faq">
+    <div class="wide">
+      <h2 id="h-faq" class="display h-lg" data-scramble>Вопросы</h2>
+      <div class="faq">
+        <details>
+          <summary class="display" data-hover>Нужно ли что-то настраивать?</summary>
+          <p>Нет. Ввели запрос или выделили текст — получили подборку. <b>Список источников правится в самой панели.</b></p>
+        </details>
+        <details>
+          <summary class="display" data-hover>Что, если площадка не ответила?</summary>
+          <p>Панель покажет, какой источник не ответил, <b>сохранит найденное</b> и предложит повторить. «Ничего не найдено» и «не удалось проверить» выглядят по-разному.</p>
+        </details>
+        <details>
+          <summary class="display" data-hover>А новостные сайты?</summary>
+          <p>Пока ищем во ВКонтакте, Одноклассниках и MAX. <b>Новостные сайты — в планах.</b></p>
+        </details>
+        <details>
+          <summary class="display" data-hover>Откуда в подборке ссылки и выдержки?</summary>
+          <p>Только из настоящих публикаций. <b>Ничего не придумывается</b>: если дату узнать не удалось, так и будет написано.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Установка: местный образ — часовня Параскевы Пятницы, и огромная надпись -->
+  <section id="install" class="sec install" data-shape="chapel" data-place="right" aria-labelledby="h-inst">
+    <div class="wide">
+      <p class="label" data-scramble>Готовы попробовать?</p>
+      <h2 id="h-inst" class="giant">
+        <!-- TODO: ссылка на архив расширения -->
+        <a href="#" data-scramble data-front="1" data-hover>Установить «Стрежень»</a>
+      </h2>
+      <div class="foot-cols">
+        <div>
+          <p class="label">Как установить</p>
+          <ol class="foot-list">
+            <li>Скачайте расширение.</li>
+            <li>Подтвердите установку в браузере — права администратора не нужны.</li>
+            <li>Закрепите значок «Стрежень» на панели — по нему открывается боковая панель.</li>
+          </ol>
+        </div>
+        <div>
+          <p class="label">Где работает</p>
+          <p>Яндекс Браузер и Chrome<br>Версия [0.1]<br><a href="#" data-hover>Открыть веб-версию</a></p>
+        </div>
+        <div>
+          <p class="label">Кто сделал</p>
+          <p>[Название команды]<br>Первенство России по продуктовому программированию, 2026<br>Кейс Агентства печати и массовых коммуникаций Красноярского края</p>
+        </div>
+      </div>
+      <footer class="foot-bottom">
+        <span>© 2026 «Стрежень» · медиамониторинг соцсетей Красноярского края</span>
+        <a href="#top" data-hover>Наверх</a>
+      </footer>
+    </div>
+  </section>
+
+</main>
+
+<script src="particles.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>
