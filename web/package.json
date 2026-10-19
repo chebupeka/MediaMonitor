@@ -15,7 +15,11 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "ext:dev": "wxt",
+    "ext:build": "wxt build",
+    "ext:zip": "wxt zip",
+    "ext:icons": "node extension/scripts/make-icons.mjs"
   },
   "dependencies": {
     "lucide-react": "1.59.0",
@@ -41,6 +45,7 @@
     "typescript": "5.9.3",
     "typescript-eslint": "8.71.2",
     "vite": "8.3.4",
-    "vite-plugin-singlefile": "2.3.4"
+    "vite-plugin-singlefile": "2.3.4",
+    "wxt": "0.21.4"
   }
 }

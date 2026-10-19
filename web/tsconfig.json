@@ -29,5 +29,5 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["src", "vite.config.ts"]
+  "include": ["src", "extension", "vite.config.ts", "wxt.config.ts"]
 }

@@ -27,13 +27,25 @@ npm run build:single   # всё в один файл dist/index.html (его п�
 `screen` — id экрана, `q` — сразу искать, `theme` — `light | dark | system`,
 `layout` — `site | panel`.
 
+## Расширение
+
+Тот же интерфейс в боковой панели браузера (Manifest V3, WXT). Подробно — `extension/README.md`.
+
+```bash
+npm run ext:build      # → .output/chrome-mv3/: «Загрузить распакованное» в Chrome или Яндекс Браузере
+npm run ext:zip        # → .output/*.zip
+npm run ext:dev        # разработка с автообновлением
+```
+
 ## Структура
 
 ```
 web/
   index.html               шрифты Google Fonts, корень
   vite.config.ts           alias @ → src, режим single → vite-plugin-singlefile
+  wxt.config.ts            сборка расширения: манифест, разрешения, srcDir = src
   eslint.config.js         правила, в т.ч. запрет dangerouslySetInnerHTML и импорта из api/fake
+  extension/               расширение: фон, боковая панель, вкладка, значки (extension/README.md)
   src/
     main.tsx
     styles/tokens.css      ВСЕ дизайн-токены, светлая и тёмная тема

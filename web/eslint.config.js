@@ -7,7 +7,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist', 'node_modules', 'eslint.config.js'] },
+  { ignores: ['dist', 'node_modules', 'eslint.config.js', '.output', '.wxt', 'extension/scripts'] },
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -69,7 +69,12 @@ export default tseslint.config(
     rules: { 'no-restricted-imports': 'off' },
   },
   {
-    files: ['vite.config.ts'],
+    // Фон расширения — service worker: в нём нет window и DOM.
+    files: ['extension/entrypoints/background.ts'],
+    languageOptions: { globals: globals.serviceworker },
+  },
+  {
+    files: ['vite.config.ts', 'wxt.config.ts'],
     languageOptions: { globals: globals.node },
   },
   prettier,
