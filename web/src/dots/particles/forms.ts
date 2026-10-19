@@ -41,6 +41,7 @@ export interface FormInput {
   form: DotsForm;
   cities: readonly DotsCityCount[];
   platforms: Partial<Record<PlatformId, DotsPlatformState>>;
+  placements: readonly PlatformId[];
 }
 
 type Put = (x: number, y: number, z: number, code: number) => void;
@@ -427,8 +428,12 @@ function found(cities: readonly DotsCityCount[], dataDots: { x: number; y: numbe
   return parts;
 }
 
-/** «Распространение»: вспышка из точки-источника и волны к перепечаткам. */
-function spread(): Part[] {
+/**
+ * «Распространение»: вспышка из точки-источника и волны к перепечаткам. Опор ровно
+ * столько, сколько размещений (правило честности 1); кольцо — очередь публикации:
+ * раньше опубликовано — ближе к источнику. Без данных — пример с сайта (15 размещений).
+ */
+function spread(placements: readonly PlatformId[]): Part[] {
   const SX = 0.1;
   const PY = -0.3;
   const STEP = 0.28;
@@ -439,7 +444,7 @@ function spread(): Part[] {
     ct * y - st * z,
     st * y + ct * z,
   ];
-  const plats: PlatformId[] = [
+  const example: PlatformId[] = [
     'vk',
     'vk',
     'vk',
@@ -456,8 +461,10 @@ function spread(): Part[] {
     'max',
     'max',
   ];
+  const plats = placements.length > 0 ? placements : example;
+  const perRing = Math.max(1, Math.ceil(plats.length / 5));
   const nodes = plats.map((p, i) => {
-    const ring = 1 + (i % 5);
+    const ring = 1 + Math.floor(i / perRing);
     const a = (i * 2.399) % (Math.PI * 2);
     return {
       x: SX + Math.cos(a) * ring * STEP,
@@ -601,7 +608,7 @@ function grid(): Part[] {
 export function formKey(input: FormInput): string {
   const p = input.platforms;
   const cities = input.cities.map((c) => `${c.city}:${c.count}`).join(',');
-  return `${input.form}|${p.vk ?? ''}${p.ok ?? ''}${p.max ?? ''}|${cities}`;
+  return `${input.form}|${p.vk ?? ''}${p.ok ?? ''}${p.max ?? ''}|${cities}|${input.placements.join(',')}`;
 }
 
 /** Точки формы для `count` частиц. Точки-данные идут первыми и не перемешиваются с декором. */
@@ -626,7 +633,7 @@ export function buildForm(input: FormInput, count: number): Float32Array {
       parts = found(input.cities, data);
       break;
     case 'spread':
-      parts = spread();
+      parts = spread(input.placements);
       break;
     case 'empty':
       parts = empty();

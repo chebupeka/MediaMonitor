@@ -36,6 +36,7 @@ export function ParticleCanvas({
   intensity = 'full',
   cities = [],
   platforms = {},
+  placements = [],
   height = 220,
   className,
   still,
@@ -78,7 +79,7 @@ export function ParticleCanvas({
     };
   }, [count, still, onUnsupported]);
 
-  const input: FormInput = { form, cities, platforms };
+  const input: FormInput = { form, cities, platforms, placements };
   const key = formKey(input);
   const inputRef = useRef(input);
   inputRef.current = input;

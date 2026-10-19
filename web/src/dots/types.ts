@@ -36,6 +36,11 @@ export interface DotsSceneProps {
   platforms?: Partial<Record<PlatformId, DotsPlatformState>>;
   /** Для `spread`: город первоисточника */
   sourceCity?: string;
+  /**
+   * Для `spread`: площадки размещений в порядке публикации — по опоре на размещение
+   * (правило честности 1). Чем раньше опубликовано, тем ближе к источнику.
+   */
+  placements?: readonly PlatformId[];
   /** Высота области; ширина — по контейнеру */
   height?: number | string;
   className?: string;
