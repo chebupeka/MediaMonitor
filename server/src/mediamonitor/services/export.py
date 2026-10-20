@@ -55,7 +55,7 @@ from mediamonitor.labels import (
 )
 from mediamonitor.normalize.urls import is_safe_post_url
 from mediamonitor.services.selection import compute_counts
-from mediamonitor.timeutil import KRSK, TIME_ZONE_LABEL_FULL, excel_local, parse_iso
+from mediamonitor.timeutil import KRSK, TIME_ZONE_LABEL_FULL, excel_local, parse_iso, to_krsk
 
 PREVIEW_ROWS = 50
 XLSX_CELL_LIMIT = 32_767
@@ -102,10 +102,15 @@ def export_items(selection: Selection, options: ExportOptions | None) -> list[Re
 
 
 def file_name(selection: Selection) -> str:
+    """`Медиарадар_<тема>_2026-10-20_18-55.xlsx`: день и время поиска по Красноярску.
+
+    Время — чтобы две выгрузки за день не путались; «-» вместо «:» — Windows не берёт «:».
+    """
     conditions = selection.conditions
-    day = (conditions.finished_at or conditions.started_at)[:10]
+    moment = to_krsk(parse_iso(conditions.finished_at or conditions.started_at))
+    stamp = moment.strftime("%Y-%m-%d_%H-%M")
     label = re.sub(r"[^\w]+", "_", conditions.label, flags=re.UNICODE).strip("_")[:40] or "подборка"
-    return f"Медиарадар_{label}_{day}.xlsx"
+    return f"Медиарадар_{label}_{stamp}.xlsx"
 
 
 def _date_note(item: ResultItem) -> str:

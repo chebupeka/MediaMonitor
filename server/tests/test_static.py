@@ -135,6 +135,36 @@ async def test_service_files_and_paths_outside_are_not_served(
     assert "Страница не найдена" in missing.text
 
 
+async def test_missing_site_file_gets_styled_not_found_page(
+    static_client: httpx.AsyncClient,
+) -> None:
+    for path in ("/nope.html", "/foo/bar.png"):
+        response = await static_client.get(path)
+        assert response.status_code == 404, path
+        assert response.headers["content-type"] == "text/html; charset=utf-8"
+        assert response.headers["cache-control"] == "no-store"
+        page = response.text
+        assert '<html lang="ru">' in page
+        assert '<meta name="viewport"' in page
+        assert "<h1>Страница не найдена</h1>" in page
+        assert 'href="/">На главную</a>' in page
+        assert 'href="/app/">Веб-версия</a>' in page
+        # Тёмный фон сайта и светлый — при светлой теме системы; без внешних файлов.
+        assert "--bg:#07080B" in page
+        assert "prefers-color-scheme: light" in page
+        assert "http://" not in page
+        assert "https://" not in page
+        assert "<script" not in page
+        assert "<link" not in page
+        # CSP не мешает встроенным стилям страницы.
+        assert "style-src 'self' 'unsafe-inline'" in response.headers["content-security-policy"]
+    head = await static_client.head("/nope.html")
+    assert head.status_code == 404
+    assert head.content == b""
+    # Существующие файлы раздаются как раньше.
+    assert (await static_client.get("/styles.css")).status_code == 200
+
+
 async def test_web_app_spa_fallback(static_client: httpx.AsyncClient) -> None:
     redirect = await static_client.get("/app")
     assert redirect.status_code == 308

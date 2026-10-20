@@ -105,15 +105,50 @@ PAGE_HEADERS: tuple[tuple[bytes, bytes], ...] = (
     (b"permissions-policy", b"camera=(), microphone=(), geolocation=(), payment=(), usb=()"),
     (b"cross-origin-opener-policy", b"same-origin"),
 )
-NOT_FOUND_PAGE = (
-    '<!doctype html><html lang="ru"><head><meta charset="utf-8">'
-    '<meta name="viewport" content="width=device-width, initial-scale=1">'
-    "<title>Страница не найдена — Медиарадар</title></head>"
-    '<body style="font-family:system-ui,sans-serif;max-width:36rem;margin:4rem auto;'
-    'padding:0 1rem;line-height:1.5"><h1>Страница не найдена</h1>'
-    '<p>Такой страницы нет. <a href="/">На главную</a> · '
-    '<a href="/app/">Веб-версия</a></p></body></html>'
-)
+# Страница 404 в цветах сайта (токены --bg/--fg/--fg-2 из site/styles.css): тёмная, а при
+# светлой теме системы — светлая. Всё внутри страницы: ни шрифтов, ни картинок, ни скриптов.
+NOT_FOUND_PAGE = """<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Страница не найдена — Медиарадар</title>
+<style>
+:root{color-scheme:dark;--bg:#07080B;--fg:#F2F4F8;--fg-2:#8E95A3;
+--line:rgba(255,255,255,.35);--focus:#F2B544}
+@media (prefers-color-scheme: light){:root{color-scheme:light;--bg:#F2F3EF;--fg:#121A2B;
+--fg-2:#3A4357;--line:rgba(18,26,43,.42);--focus:#8A5300}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg)}
+body{min-height:100vh;min-height:100dvh;display:flex;align-items:center;padding:48px 7vw;
+font:16px/1.55 Montserrat,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:36rem}
+.brand{margin:0 0 12px;font-size:13px;font-weight:600;letter-spacing:.14em;
+text-transform:uppercase;color:var(--fg-2)}
+h1{margin:0 0 16px;font:700 clamp(40px,9vw,72px)/1.02 "Fira Sans Extra Condensed",
+"Arial Narrow",sans-serif}
+p{margin:0 0 32px;color:var(--fg-2)}
+nav{display:flex;flex-wrap:wrap;gap:12px}
+a{display:inline-flex;align-items:center;min-height:48px;padding:0 24px;border-radius:999px;
+border:1px solid var(--line);color:var(--fg);font-size:14px;font-weight:600;
+text-decoration:none;transition:background-color .3s,color .3s,border-color .3s}
+a:hover,a.main{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+a.main:hover{background:transparent;color:var(--fg);border-color:var(--line)}
+a:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+@media (prefers-reduced-motion: reduce){a{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<p class="brand">Медиарадар · 404</p>
+<h1>Страница не найдена</h1>
+<p>Такой страницы нет. Проверьте адрес или перейдите по ссылке ниже.</p>
+<nav><a class="main" href="/">На главную</a><a href="/app/">Веб-версия</a></nav>
+</main>
+</body>
+</html>
+"""
 
 
 def media_type_of(path: str) -> str:
