@@ -30,6 +30,7 @@ from mediamonitor.matcher.embeddings import (
     build_embedder,
 )
 from mediamonitor.matcher.funnel import FunnelMatcher
+from mediamonitor.services import runner as runner_module
 from mediamonitor.settings import Settings
 from tests.conftest import (
     Harness,
@@ -93,7 +94,10 @@ def check_item(item: dict[str, Any]) -> None:
     assert text[excerpt["start"] : excerpt["end"]] == excerpt["text"]
 
 
-async def test_topic_search_through_funnel(tmp_path: Path) -> None:
+async def test_topic_search_through_funnel(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    # Записанные примеры отбираются быстрее, чем копится пачка (ITEMS_EVENT_INTERVAL):
+    # здесь — событие на каждую порцию; пачки проверяет test_search_speed.py.
+    monkeypatch.setattr(runner_module, "ITEMS_EVENT_INTERVAL", 0.0)
     harness, built = funnel_app(tmp_path)
     async with open_client(harness.app) as client:
         headers = await new_workspace(client)

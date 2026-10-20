@@ -65,6 +65,9 @@ class Settings(BaseSettings):
     # Не больше стольких запросов к VK в секунду на ключ (правила VK для ключа — 3 в секунду).
     vk_requests_per_second: float = Field(default=3.0, gt=0, le=20)
     vk_timeout_sec: float = Field(default=15.0, gt=0)
+    # Стены скольких сообществ читаются одновременно (частоту держит vk_requests_per_second).
+    # Ответ VK со стенда идёт ~2 с: по одной стене «Везде» не укладывался в 90 с.
+    vk_parallel_walls: int = Field(default=4, ge=1, le=8)
     # Повторный поиск не ходит в VK за стеной сообщества, полученной не раньше стольких минут
     # назад: посты берутся из кэша публикаций в базе (Р7). 0 — кэш выключен.
     vk_cache_minutes: int = Field(default=30, ge=0)

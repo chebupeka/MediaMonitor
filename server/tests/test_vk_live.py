@@ -403,7 +403,10 @@ async def test_error_6_is_retried_then_partial(tmp_path: Path) -> None:
     assert partial[0].code == "rate-limited"
     assert partial[0].retryable
     assert len(fake.wall_calls(-101)) == 3  # первый вызов и два повтора
-    assert fake.wall_calls(-102) == []
+    # Стены читаются окном (vk_parallel_walls): соседняя уже была в пути, но её посты
+    # после «частично» не отдаются и новых стен не начинается.
+    assert len(fake.wall_calls(-102)) <= 1
+    assert posts == []
 
 
 @pytest.mark.parametrize("code", [15, 18, 30])

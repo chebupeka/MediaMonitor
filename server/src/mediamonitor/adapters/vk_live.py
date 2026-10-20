@@ -28,6 +28,7 @@ import json
 import logging
 import re
 import time
+from collections import deque
 from collections.abc import AsyncIterator, Awaitable, Callable, Iterable, Sequence
 from dataclasses import dataclass, replace
 from datetime import UTC, datetime, timedelta
@@ -674,36 +675,63 @@ class VkAdapter:
         capped_federal: list[str] = []
         full = self.settings.vk_max_pages_per_source
         federal = min(self.settings.vk_federal_max_pages, full)
-        for index, source in enumerate(sources):
-            yield Progress(index, total, "sources", source.name)
-            if source.closed:
-                closed.append(source.name)
-                continue
-            # Федеральные сообщества «Везде» (не краевые, пишут много) — только последние
-            # страницы: о крае у них редкие посты, а вызовы дорогие (бюджет стенда).
-            is_federal = not mine and not source.regional
-            try:
-                walk = await self._wall(
-                    source, query.start, query.end, federal if is_federal else full
-                )
-            except VkApiError as error:
-                if error.code in CLOSED_ERRORS or error.code in GONE_ERRORS:
-                    closed.append(source.name)
-                    continue
-                if error.code in RATE_ERRORS:
-                    yield Partial(
-                        "rate-limited",
-                        "ВКонтакте ограничил частоту запросов: проверена только часть "
-                        f"сообществ ({index} из {total}). Повторите через минуту.",
-                        True,
-                    )
+        # Стены читаются окном в несколько сообществ сразу (частоту держит общий _Gate),
+        # а результаты отдаются по порядку источников — ход и итог те же, что по одной.
+        window = max(1, self.settings.vk_parallel_walls)
+        ahead: deque[tuple[int, SourceInfo, bool, asyncio.Task[_Walk] | None]] = deque()
+        upcoming = iter(enumerate(sources))
+
+        def launch() -> None:
+            while len(ahead) < window:
+                step = next(upcoming, None)
+                if step is None:
                     return
-                raise self._fatal(error) from error
-            self._access_problem = None
-            if walk.capped:
-                (capped_federal if is_federal else capped).append(source.name)
-            if walk.posts:
-                yield Posts(walk.posts)
+                index, source = step
+                # Федеральные сообщества «Везде» (не краевые, пишут много) — только последние
+                # страницы: о крае у них редкие посты, а вызовы дорогие (бюджет стенда).
+                is_federal = not mine and not source.regional
+                task = None
+                if not source.closed:
+                    task = asyncio.ensure_future(
+                        self._wall(source, query.start, query.end, federal if is_federal else full)
+                    )
+                ahead.append((index, source, is_federal, task))
+
+        try:
+            launch()
+            while ahead:
+                index, source, is_federal, task = ahead.popleft()
+                yield Progress(index, total, "sources", source.name)
+                if task is None:
+                    closed.append(source.name)
+                    launch()
+                    continue
+                try:
+                    walk = await task
+                except VkApiError as error:
+                    if error.code in CLOSED_ERRORS or error.code in GONE_ERRORS:
+                        closed.append(source.name)
+                        launch()
+                        continue
+                    if error.code in RATE_ERRORS:
+                        yield Partial(
+                            "rate-limited",
+                            "ВКонтакте ограничил частоту запросов: проверена только часть "
+                            f"сообществ ({index} из {total}). Повторите через минуту.",
+                            True,
+                        )
+                        return
+                    raise self._fatal(error) from error
+                launch()
+                self._access_problem = None
+                if walk.capped:
+                    (capped_federal if is_federal else capped).append(source.name)
+                if walk.posts:
+                    yield Posts(walk.posts)
+        finally:
+            for _, _, _, rest in ahead:
+                if rest is not None:
+                    rest.cancel()
         yield Progress(total, total, "sources", None)
         if capped or capped_federal:
             notes = []
