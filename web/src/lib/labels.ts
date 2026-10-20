@@ -6,6 +6,7 @@ import type {
   PeriodPreset,
   PlacementType,
   PlatformId,
+  PlatformInfo,
   PlatformStatus,
   QueryKind,
   RegionReason,
@@ -15,7 +16,7 @@ import type {
   SourceType,
   TimeReliability,
 } from '@/api/types';
-import { formatNumber } from './format';
+import { formatCount, formatNumber } from './format';
 
 // ---------------------------------------------------------------- площадки
 
@@ -68,6 +69,71 @@ export const PLATFORMS: Record<PlatformId, PlatformMeta> = {
     colorVar: 'var(--color-dzen)',
   },
 };
+
+/** Где ищем, в предложном падеже: предлог и слово. Соцсети подряд — с одним предлогом. */
+const PLATFORM_IN: Record<PlatformId, { prep: string; word: string; social: boolean }> = {
+  vk: { prep: 'во', word: 'ВКонтакте', social: true },
+  ok: { prep: 'в', word: 'Одноклассниках', social: true },
+  max: { prep: 'в', word: 'MAX', social: true },
+  site: { prep: 'на', word: 'сайтах СМИ', social: false },
+  dzen: { prep: 'в', word: 'Дзене', social: false },
+};
+
+/**
+ * Площадки поиска для подписи «Идёт поиск …»: «во ВКонтакте, Одноклассниках, MAX, на сайтах
+ * СМИ и в Дзене». Список — от сервера (`StartState.platforms`, `SearchConditions.platforms`),
+ * порядок — `PLATFORM_ORDER`. Пустой список — пустая строка.
+ */
+export function platformsWhere(ids: readonly PlatformId[]): string {
+  const parts: string[] = [];
+  let socialStarted = false;
+  for (const id of PLATFORM_ORDER) {
+    if (!ids.includes(id)) continue;
+    const { prep, word, social } = PLATFORM_IN[id];
+    parts.push(social && socialStarted ? word : `${prep} ${word}`);
+    if (social) socialStarted = true;
+  }
+  return joinNames(parts);
+}
+
+/** Площадки поиска через запятую для подписи-раздела, коротко: «VK, OK, MAX, сайты СМИ, Дзен». */
+export function platformsList(ids: readonly PlatformId[]): string {
+  return PLATFORM_ORDER.filter((id) => ids.includes(id))
+    .map((id) => (id === 'site' ? 'сайты СМИ' : PLATFORMS[id].short))
+    .join(', ');
+}
+
+/** Площадки через запятую с «и»: «ВКонтакте, Одноклассники, MAX, сайты СМИ края и Дзен». */
+export function platformsNames(ids: readonly PlatformId[]): string {
+  return joinNames(
+    PLATFORM_ORDER.filter((id) => ids.includes(id)).map((id) =>
+      id === 'site' ? 'сайты СМИ края' : PLATFORMS[id].name,
+    ),
+  );
+}
+
+/**
+ * Честная оговорка о покрытии дополнительных площадок — из их `note` от сервера:
+ * «43 из 48 сайтов СМИ края; Дзен — 25 каналов редакций, правила Дзена запрещают копировать
+ * контент без разрешения». `null` — дополнительных площадок нет.
+ */
+export function extraCoverage(info: readonly PlatformInfo[]): string | null {
+  const parts: string[] = [];
+  const site = info.find((p) => p.id === 'site');
+  if (site) {
+    const m = /(\d+)\s+\S+\s+из\s+(\d+)/u.exec(site.note ?? '');
+    parts.push(m ? `${m[1]} из ${m[2]} сайтов СМИ края` : 'сайты СМИ края из каталога');
+  }
+  const dzen = info.find((p) => p.id === 'dzen');
+  if (dzen) {
+    const m = /(\d+)\s+редакц/u.exec(dzen.note ?? '');
+    const channels = m ? formatCount(Number(m[1]), ['канал', 'канала', 'каналов']) : 'каналы';
+    parts.push(
+      `Дзен — ${channels} редакций, только публичные страницы: правила Дзена запрещают копировать контент без разрешения`,
+    );
+  }
+  return parts.length > 0 ? parts.join('; ') : null;
+}
 
 // ---------------------------------------------------------------- демо-площадки
 
@@ -166,7 +232,8 @@ export const MODE_LABEL: Record<SearchMode, string> = {
 
 export const MODE_HINT: Record<SearchMode, string> = {
   'my-sources': 'Только группы и каналы из вашего списка',
-  everywhere: 'Все публичные посты, которые относятся к Красноярскому краю',
+  everywhere:
+    'Все краевые источники из каталога: 48 СМИ края на сайтах, VK, OK, MAX и в Дзене, плюс федеральные сообщества VK, если пишут о крае',
 };
 
 export const PERIOD_PRESET_LABEL: Record<PeriodPreset, string> = {

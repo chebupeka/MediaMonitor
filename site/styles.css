@@ -58,7 +58,7 @@
   --focus: #F2B544;
   --glow: 1; /* свечение у точек и цифр: 1 — есть (тёмная), 0 — нет (чернила) */
 
-  /* Точки (particles.js, arrows.js). Восемь цветов палитры форм — в порядке кодов движка:
+  /* Точки (particles.js). Восемь цветов палитры форм — в порядке кодов движка:
      синий, белый, золото, VK, OK, MAX, серый (сбой), приглушённый (основа карты) */
   --dot-blue: #4D8CFF;
   --dot-white: #EDF2FF;
@@ -860,21 +860,9 @@ p { margin: 0 0 14px; color: var(--fg-2); max-width: 31em; }
 
 /* Установка */
 .install { flex-direction: column; justify-content: center; align-items: stretch; padding-bottom: 40px; min-height: 100vh; }
-/* Стрелки к кнопке — свой холст внутри раздела (arrows.js), под текстом */
-.install-arrows { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 0; }
 .install .wide { position: relative; z-index: 1; }
-.giant {
-  font-family: var(--sans);
-  font-weight: 200;
-  font-size: clamp(44px, 8.4vw, 156px);
-  line-height: 1.02;
-  letter-spacing: -.035em;
-  margin: 0 0 12vh;
-}
-.giant a { text-decoration: none; transition: color .4s ease; }
-.giant a:hover { color: var(--gold); }
 
-/* Установка из файла: слева кнопка «Скачать», справа четыре шага */
+/* Установка из файла: слева заголовок и кнопка «Скачать», справа четыре шага */
 .inst {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
@@ -883,6 +871,7 @@ p { margin: 0 0 14px; color: var(--fg-2); max-width: 31em; }
   scroll-margin-top: 96px; /* под шапкой */
 }
 .inst-get { display: flex; flex-direction: column; align-items: flex-start; }
+.inst-title { font-size: clamp(44px, 5.2vw, 96px); margin: 0 0 22px; }
 .pill-solid { background: var(--fg); color: var(--bg); border-color: var(--fg); gap: 12px; }
 .pill-solid:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
 .pill-solid svg { width: 20px; height: 20px; flex: none; }
@@ -1022,8 +1011,8 @@ html[data-lowvision] .ghost { background: none; }
 html[data-lowvision] :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 html[data-lowvision] .o, html[data-lowvision] .o .sc-b { color: var(--fg); -webkit-text-stroke: 0; }
 html[data-lowvision] :is(.marquee, .cur-ring, .cur-dot, .scroll-hint, .map-caption) { display: none !important; }
-#gl, .install-arrows { transition: opacity .35s ease, visibility 0s linear 0s; }
-html[data-lowvision] :is(#gl, .install-arrows) { opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s; }
+#gl { transition: opacity .35s ease, visibility 0s linear 0s; }
+html[data-lowvision] #gl { opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s; }
 html[data-lowvision] .js .fade { opacity: 1; transform: none; transition: none; }
 html[data-lowvision] .js :is(.cities li, .cmp-row:not(.cmp-head), .faq details) { background-size: 100% 1px; }
 html[data-lowvision] :is(.caret, .dot-fail, .scroll-hint i::after) { animation: none; }
@@ -1081,7 +1070,6 @@ html[data-lowvision] .ticker-text { margin-left: 0; max-width: calc(52em + var(-
   .cmp-row > :first-child { grid-column: 1 / -1; }
   .cmp-head > :first-child { display: none; }
   .foot-cols { grid-template-columns: minmax(0, 1fr); }
-  .giant { font-size: 12vw; }
   .inst { grid-template-columns: minmax(0, 1fr); gap: 36px; margin-bottom: 64px; }
   .inst-btn { width: 100%; justify-content: center; text-align: center; padding: 14px 20px; }
   .inst-steps li { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; font-size: 14px; }

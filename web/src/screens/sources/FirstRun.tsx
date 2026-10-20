@@ -5,11 +5,12 @@
 import { ArrowRight, FileSpreadsheet, Library, Link2 } from 'lucide-react';
 import { useCallback, type CSSProperties } from 'react';
 import { api, useAsync } from '@/api';
+import { useServerPlatforms } from '@/app/platforms';
 import type { PlatformId } from '@/api/types';
 import { Button, cx, PlatformDot } from '@/components';
 import { DotsStage } from '@/dots';
 import { formatCount, plural, WORDS } from '@/lib/format';
-import { PLATFORM_ORDER, PLATFORMS } from '@/lib/labels';
+import { PLATFORM_ORDER, PLATFORMS, platformsWhere } from '@/lib/labels';
 import styles from './sources.module.css';
 
 export function FirstRun({
@@ -24,6 +25,7 @@ export function FirstRun({
   onSearch: () => void;
 }) {
   const catalog = useAsync(useCallback(() => api.getCatalog(), []));
+  const { ids: platformIds } = useServerPlatforms();
   const size = catalog.data?.length ?? null;
   const by = (p: PlatformId): number => catalog.data?.filter((c) => c.platform === p).length ?? 0;
 
@@ -51,9 +53,9 @@ export function FirstRun({
         <span className={styles.regionDot} aria-hidden="true" />
         <div className={styles.regionText}>
           <p>
-            <b>Режим «Везде» работает без списка.</b> Ищем публичные посты Красноярского края во
-            ВКонтакте, Одноклассниках и MAX. Пост краевой, если его опубликовал краевой источник или
-            в тексте упоминается место края.
+            <b>Режим «Везде» работает без списка.</b> Ищем публичные посты Красноярского края{' '}
+            {platformsWhere(platformIds)}. Пост краевой, если его опубликовал краевой источник или в
+            тексте упоминается место края.
           </p>
           <p>
             Во ВКонтакте поиска по всей площадке для нас нет — там обходим широкий пул сообществ

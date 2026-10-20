@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Медиарадар — найдёт, где о вас написали</title>
-<meta name="description" content="«Медиарадар» найдёт, где о вас написали: расширение для браузера — выделите абзац новости и увидите, где её опубликовали во ВКонтакте, Одноклассниках и MAX.">
+<meta name="description" content="«Медиарадар» найдёт, где о вас написали: расширение для браузера — выделите абзац новости и увидите, где её опубликовали во ВКонтакте, Одноклассниках, MAX, на сайтах СМИ края и в Дзене.">
 <!-- Шрифты — свои (fonts/), без внешних запросов; первые два нужны первому экрану сразу -->
 <link rel="preload" href="fonts/fira-sans-extra-condensed-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/montserrat-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=20261020-6">
+<link rel="stylesheet" href="styles.css?v=20261020-7">
 <meta name="color-scheme" content="dark light">
 <script>
   // Тема, тёплый свет и версия для слабовидящих — до отрисовки, чтобы не мигало.
@@ -39,7 +39,7 @@
   <a class="logo" href="#top" aria-label="Медиарадар, в начало страницы">Медиарадар<span class="logo-dot"></span></a>
   <nav class="hdr-nav" aria-label="Быстрые ссылки">
     <a class="hdr-pill" href="/app/" data-hover>Веб-версия</a>
-    <a href="#install" data-hover>Установить</a>
+    <a href="#install-steps" data-hover>Установить</a>
     <a href="#faq" data-hover>Вопросы</a>
     <div class="prefs" role="group" aria-label="Вид страницы">
       <div class="prefs-theme">
@@ -65,7 +65,7 @@
     <a href="#spread" class="display" data-hover>Распространение</a>
     <a href="#picks" class="display o" data-hover>Подборка</a>
     <a href="#faq" class="display" data-hover>Вопросы</a>
-    <a href="#install" class="display o" data-hover>Установить</a>
+    <a href="#install-steps" class="display o" data-hover>Установить</a>
     <a href="/app/" class="display" data-hover>Веб-версия</a>
   </nav>
   <p class="menu-note">Медиамониторинг соцсетей Красноярского края</p>
@@ -89,9 +89,9 @@
         <span class="line" data-scramble data-delay="520">разошлась</span>
         <span class="line" data-scramble data-delay="690">новость</span>
       </h1>
-      <p class="lead" data-scramble data-delay="1000">Мы сделали <b>«Медиарадар»</b> — <b>расширение для браузера</b>, которое находит, где опубликована новость: <b>во ВКонтакте, Одноклассниках и MAX</b>. Выделите абзац на любом сайте — <b>панель сбоку</b> покажет все размещения.</p>
+      <p class="lead" data-scramble data-delay="1000">Мы сделали <b>«Медиарадар»</b> — <b>расширение для браузера</b>, которое находит, где опубликована новость: <b>во ВКонтакте, Одноклассниках, MAX</b>, на сайтах СМИ края и в Дзене. Выделите абзац на любом сайте — <b>панель сбоку</b> покажет все размещения.</p>
       <div class="actions fade" style="--d: 1.5s">
-        <a class="pill" href="#install" data-hover>Скачать расширение</a>
+        <a class="pill" href="#install-steps" data-hover>Скачать расширение</a>
         <a class="ghost" href="#how" data-hover>Как это работает</a>
       </div>
       <p class="small fade" style="--d: 1.7s">Яндекс Браузер и Chrome · без регистрации</p>
@@ -103,10 +103,10 @@
   <!-- Местный образ: Коммунальный мост через Енисей -->
   <section class="sec ticker-sec" data-shape="bridge" data-place="center" aria-label="Поиск по смыслу">
     <div class="marquee ticker" data-speed="0.55" aria-hidden="true">
-      <div class="marquee-track"><span>Ищем по смыслу, а не по словам —&nbsp;</span><span class="o">ВКонтакте · Одноклассники · MAX —&nbsp;</span></div>
+      <div class="marquee-track"><span>Ищем по смыслу, а не по словам —&nbsp;</span><span class="o">ВКонтакте · Одноклассники · MAX · сайты СМИ · Дзен —&nbsp;</span></div>
     </div>
     <div class="col col-narrow ticker-text">
-      <p class="sr">Ищем по смыслу, а не по словам — во ВКонтакте, Одноклассниках и MAX.</p>
+      <p class="sr">Ищем по смыслу, а не по словам — во ВКонтакте, Одноклассниках, MAX, на сайтах СМИ края и в Дзене.</p>
       <p data-scramble>Новость о <b>пожарной безопасности</b> не попадёт в подборку о <b>безопасности дорожного движения</b>. Совпадения слов мало — важно, о чём текст.</p>
       <p class="small" data-scramble data-delay="300">Коммунальный мост через Енисей — тот, что на десятирублёвой купюре.</p>
     </div>
@@ -130,12 +130,12 @@
   <section id="where" class="sec moment search-moment" data-shape="searching" data-place="right" aria-labelledby="h-where">
     <div class="wide">
       <div class="marquee area" data-speed="-0.35" aria-hidden="true">
-        <div class="marquee-track"><span class="o">Где ищем&nbsp;</span><span>ВКонтакте&nbsp;</span><span class="o">Одноклассники&nbsp;</span><span>MAX&nbsp;</span><span class="o">Красноярский край&nbsp;</span></div>
+        <div class="marquee-track"><span class="o">Где ищем&nbsp;</span><span>ВКонтакте&nbsp;</span><span class="o">Одноклассники&nbsp;</span><span>MAX&nbsp;</span><span class="o">Сайты СМИ&nbsp;</span><span>Дзен&nbsp;</span><span class="o">Красноярский край&nbsp;</span></div>
       </div>
       <div class="col">
         <p class="kicker" data-scramble><span class="kicker-n">02</span> Поиск · видно, где сейчас ищем</p>
         <h2 id="h-where" class="display h-lg"><span data-scramble>Три</span> <span class="o" data-scramble data-delay="150">площадки</span></h2>
-        <p data-scramble data-delay="200">Во ВКонтакте, Одноклассниках и MAX — в группах, сообществах и каналах. По своему списку источников или по всей площадке.</p>
+        <p data-scramble data-delay="200">Во ВКонтакте, Одноклассниках и MAX — в группах, сообществах и каналах; на 43 из 48 сайтов СМИ края и в 25 каналах редакций на Дзене. Начали с обязательных соцсетей и подключаем площадки дальше. По своему списку источников или по всем краевым.</p>
         <ul class="runs" aria-label="Ход поиска (демо)">
           <li class="run fade"><span class="dot dot-vk"></span><span class="run-name">ВКонтакте</span><span class="run-bar"><i data-fill="57"></i></span><span class="run-num"><b data-count="12">12</b> из 21</span></li>
           <li class="run fade" style="--d: .1s"><span class="dot dot-ok"></span><span class="run-name">Одноклассники</span><span class="run-bar"><i data-fill="64"></i></span><span class="run-num"><b data-count="7">7</b> из 11</span></li>
@@ -232,7 +232,7 @@
       <h2 id="h-export" class="display h-lg"><span data-scramble>Таблица</span> <span class="o" data-scramble data-delay="150">в один клик</span></h2>
       <p data-scramble data-delay="200">XLSX совпадает с тем, что на экране: номер записи, площадка и источник, заголовок или начало поста, дата, выдержка и ссылка. Плюс запрос, период и количество.</p>
       <div class="export fade">
-        <a class="pill" href="#install" data-hover>Сохранить в Excel</a>
+        <a class="pill" href="#install-steps" data-hover>Сохранить в Excel</a>
         <span><b>5 размещений</b> · проверено 38 источников</span>
       </div>
     </div>
@@ -306,7 +306,7 @@
         </details>
         <details>
           <summary class="display" data-hover>А новостные сайты?</summary>
-          <p>Пока ищем во ВКонтакте, Одноклассниках и MAX. <b>Новостные сайты — в планах.</b></p>
+          <p>Уже ищем. <b>Сайты СМИ края — 43 из 48</b>: по их лентам и поиску на сайте; пять пока не опрашиваются, и над подборкой это написано. <b>Дзен — 25 каналов редакций</b>, только публичные страницы: правила Дзена запрещают копировать контент без разрешения, поэтому это серая зона, как у Одноклассников.</p>
         </details>
         <details>
           <summary class="display" data-hover>Откуда в подборке ссылки и выдержки?</summary>
@@ -316,19 +316,16 @@
     </div>
   </section>
 
-  <!-- Установка: огромная надпись-кнопка, к ней две стрелки из точек (arrows.js — свой холст
-       в разделе, едет вместе со страницей); общий холст частиц здесь — спокойные приглушённые точки -->
+  <!-- Установка: заголовок раздела, кнопка «Скачать» и четыре шага; общий холст частиц здесь —
+       спокойные приглушённые точки. Все ссылки «Установить» ведут сюда, к #install-steps -->
   <section id="install" class="sec install" data-shape="empty" data-place="center" aria-labelledby="h-inst">
     <div class="wide">
-      <p class="label" data-scramble>Готовы попробовать?</p>
-      <h2 id="h-inst" class="giant">
-        <a href="#install-steps" data-scramble data-front="1" data-hover>Установить «Медиарадар»</a>
-      </h2>
       <!-- Установка из файла: архив раздаёт сервер (/download/…, server/Dockerfile собирает его
            из web/ командой ext:zip). В магазинах расширений пока нет — честно пишем «скоро». -->
       <div class="inst" id="install-steps">
         <div class="inst-get">
-          <p class="label">Установка за 4 шага</p>
+          <h2 id="h-inst" class="display inst-title" data-scramble>Установка</h2>
+          <p class="label">4 шага, без регистрации</p>
           <a class="pill pill-solid inst-btn" href="/download/mediaradar-chrome.zip" download data-hover>
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg>
             Скачать для Chrome и Яндекс Браузера
@@ -366,9 +363,8 @@
 
 </main>
 
-<script src="particles.js?v=20261020-1"></script>
-<script src="ui.js?v=20261020-1"></script>
-<script src="arrows.js?v=20261020-2"></script>
-<script src="prefs.js?v=20261020-1"></script>
+<script src="particles.js?v=20261020-2"></script>
+<script src="ui.js?v=20261020-2"></script>
+<script src="prefs.js?v=20261020-2"></script>
 </body>
 </html>

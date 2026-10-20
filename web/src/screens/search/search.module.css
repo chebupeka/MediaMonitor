@@ -65,6 +65,16 @@
   font-weight: var(--weight-semibold);
 }
 
+/*
+ * Рабочая раскладка на широкой вкладке: регион уже назван в строке условий над подборкой
+ * («Регион: Красноярский край») — место под формой отдаём карте края.
+ */
+@container screen (min-width: 1280px) {
+  .queryWork .regionPrinciple {
+    display: none;
+  }
+}
+
 .regionDot {
   flex: none;
   width: 6px;

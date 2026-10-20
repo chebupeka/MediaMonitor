@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import asyncio
 import io
+import re
 from typing import cast
+from urllib.parse import quote
 
 import httpx
 from openpyxl import load_workbook
@@ -78,10 +80,14 @@ async def test_search_to_xlsx(client: httpx.AsyncClient) -> None:
     assert preview["rowCount"] == selection["counts"]["total"]
     assert preview["publications"]["totalRows"] == preview["rowCount"]
     assert preview["timeZoneNote"] == "время красноярское, UTC+7"
+    # В имени файла — день и время поиска (по Красноярску), без «:»: две выгрузки за день
+    # не путаются.
+    assert re.fullmatch(r"Медиарадар_\w+_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.xlsx", preview["fileName"])
 
     response = await client.get(f"/api/searches/{search_id}/export.xlsx", headers=headers)
     assert response.status_code == 200
     assert "attachment" in response.headers["content-disposition"]
+    assert quote(preview["fileName"]) in response.headers["content-disposition"]
     # ExportFile.rowCount интерфейса — заголовком; CORS открывает его браузеру.
     assert response.headers["x-export-rows"] == str(preview["rowCount"])
     workbook = load_workbook(io.BytesIO(response.content))

@@ -10,11 +10,13 @@ import { useConnection } from '@/api';
 import { useAnnounce } from '@/components';
 import { IS_WEB_BUILD, SELECTION_FEATURES } from '@/lib/build';
 import { TIME_ZONE_LABEL_FULL } from '@/lib/format';
+import { platformsNames } from '@/lib/labels';
 import { EXTENSION_INFO_URL, Header } from './Header';
 // Только мокап и расширение; в веб-версии — заглушки (src/app/mock-only.web.tsx)
 import { DemoPanel, subscribeDemo } from './mock-only';
 import { SiteCursor } from './SiteCursor';
 import { useNavigation, type ScreenId, type ScreenParamsMap, type ScreenProps } from './navigation';
+import { useServerPlatforms } from './platforms';
 import { HostPage, SCREENS, SCREEN_COMPONENTS, SCREEN_ORDER } from './screens';
 import { useShell } from './shell-state';
 import styles from './Shell.module.css';
@@ -52,11 +54,13 @@ function ConnectionBanner() {
 
 function Footer() {
   const { navigate } = useNavigation();
+  // Площадки — от сервера (StartState.platforms): какие включены, те и названы
+  const { ids } = useServerPlatforms();
   return (
     <footer className={styles.footer}>
       <div className={styles.footerInfo}>
         <p className={styles.footerText}>
-          Медиарадар · ВКонтакте, Одноклассники и MAX · Красноярский край · только публичные посты
+          Медиарадар · {platformsNames(ids)} · Красноярский край · только публичные посты
         </p>
         <p className={styles.footerText}>Время везде — {TIME_ZONE_LABEL_FULL}</p>
         {/* Веб-версия: ненавязчиво про расширение (решение Р-В5) */}

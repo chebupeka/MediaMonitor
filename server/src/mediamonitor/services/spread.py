@@ -184,6 +184,7 @@ def build_spread(
             url=m.publication.url,
             # Та же оценка, что у записи подборки: общий кэш по тексту поста.
             ai_check=m.ai_check,
+            demo=m.publication.demo,
         )
         for m in members
     ]

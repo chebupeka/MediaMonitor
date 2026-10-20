@@ -686,6 +686,7 @@ function buildSpread(record: SearchRecord, groupId?: string): SpreadReport {
     citationShare: m.citation?.share ?? 0,
     url: m.publication.url,
     ...(m.aiCheck ? { aiCheck: m.aiCheck } : {}),
+    ...(m.publication.demo ? { demo: true } : {}),
   }));
   // Проверка на ИИ — только пересказы: копия релиза получает оценку самого релиза.
   const retold = placements.filter((p) => !p.isOriginal && p.placementType === 'retold');

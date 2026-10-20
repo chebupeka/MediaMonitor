@@ -801,6 +801,9 @@ class SpreadPlacement(ApiModel):
     citation_share: float
     url: str
     ai_check: AiCheck | None = absent()
+    # Публикация из записанных примеров (демо): ссылки на пост нет — «Распространение»
+    # её не показывает. У живых публикаций поля нет.
+    demo: bool | None = absent()
     # Сверх контракта ветки: район источника для точек, аномалии охвата (НТ-24) и т.п.
     source_id: str = server_only("")
     source_type: SourceType = server_only("community")

@@ -38,6 +38,7 @@ import {
   StatusLine,
   TextArea,
   ToggleGroup,
+  cx,
   useAnnounce,
   useToast,
 } from '@/components';
@@ -51,7 +52,15 @@ import {
 import { WORDS, formatCount, formatPeriod, plural } from '@/lib/format';
 import { getHost } from '@/lib/host';
 import { motionAllowed } from '@/lib/motion';
-import { REGION_PRINCIPLE, RELEVANCE_ORDER, RELEVANCE_SHORT, demoLine } from '@/lib/labels';
+import {
+  MODE_HINT,
+  REGION_PRINCIPLE,
+  RELEVANCE_ORDER,
+  RELEVANCE_SHORT,
+  demoLine,
+  platformsList,
+  platformsWhere,
+} from '@/lib/labels';
 import { AiDots } from '@/screens/ai-check/AiMark';
 import { ExportDialog } from './ExportDialog';
 import { ResultCard } from './ResultCard';
@@ -65,9 +74,9 @@ const PERIODS: { value: PeriodPreset; label: string }[] = [
   { value: '30d', label: '30 дней' },
 ];
 
-const MODES: { value: SearchMode; label: string }[] = [
-  { value: 'everywhere', label: 'Везде' },
-  { value: 'my-sources', label: 'Мои источники' },
+const MODES: { value: SearchMode; label: string; hint: string }[] = [
+  { value: 'everywhere', label: 'Везде', hint: MODE_HINT.everywhere },
+  { value: 'my-sources', label: 'Мои источники', hint: MODE_HINT['my-sources'] },
 ];
 
 /** Поле запроса: к нему течёт поток точек «система слушает» */
@@ -119,8 +128,19 @@ interface DotsView {
   caption: string;
 }
 
-/** Что показывают точки сейчас: момент продукта по словарю форм. */
-function dotsView(state: SearchRunState, listening: boolean): DotsView {
+/**
+ * Что показывают точки сейчас: момент продукта по словарю форм. `enabled` — площадки,
+ * включённые на сервере (`StartState.platforms`): из них — подписи «где ищем».
+ */
+function dotsView(
+  state: SearchRunState,
+  listening: boolean,
+  enabled: readonly PlatformId[],
+): DotsView {
+  // Где идёт этот поиск: его площадки, а пока условий нет — включённые на сервере
+  const searched = state.conditions?.platforms.length ? state.conditions.platforms : enabled;
+  const searchedIn = platformsWhere(searched);
+  const enabledIn = platformsWhere(enabled);
   const platforms: Partial<Record<PlatformId, DotsPlatformState>> = {};
   for (const s of state.statuses) platforms[s.platform] = cloudState(s.state);
   const failed = state.statuses.filter((s) => cloudState(s.state) === 'failed').length;
@@ -131,7 +151,7 @@ function dotsView(state: SearchRunState, listening: boolean): DotsView {
       form: 'searching',
       platforms,
       cities: [],
-      caption: 'Идёт поиск во ВКонтакте, Одноклассниках и MAX.',
+      caption: searchedIn ? `Идёт поиск ${searchedIn}.` : 'Идёт поиск.',
     };
 
   if (state.phase === 'done' || state.phase === 'stopped') {
@@ -188,7 +208,7 @@ function dotsView(state: SearchRunState, listening: boolean): DotsView {
         form: 'krai',
         platforms,
         cities: [],
-        caption: 'Красноярский край: ищем во ВКонтакте, Одноклассниках и MAX.',
+        caption: enabledIn ? `Красноярский край: ищем ${enabledIn}.` : 'Красноярский край.',
       };
 }
 
@@ -237,6 +257,11 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
   // Режим и период по умолчанию — от сервера (последний выбранный режим, период стенда),
   // пока человек сам их не выбрал (аудит, Ж8).
   const defaults = startState.data;
+  // Площадки, по которым ищет этот сервер (StartState.platforms) — для подписей «где ищем»
+  const enabledPlatforms = useMemo(
+    () => (defaults?.platforms ?? []).filter((p) => p.enabled).map((p) => p.id),
+    [defaults],
+  );
   useEffect(() => {
     if (!defaults || chosen.current) return;
     setMode(defaults.defaultMode);
@@ -416,8 +441,8 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
   }, [launches, layout]);
 
   const dots = useMemo(
-    () => dotsView(state, focused || text.trim().length > 0),
-    [state, focused, text],
+    () => dotsView(state, focused || text.trim().length > 0, enabledPlatforms),
+    [state, focused, text, enabledPlatforms],
   );
   const visible = state.items.filter((i) =>
     filter === 'all'
@@ -490,6 +515,7 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
           statuses={state.statuses}
           total={total}
           running={running}
+          stopped={state.phase === 'stopped'}
           currentSource={state.currentSource}
           onRetry={retryPlatform}
           actions={
@@ -604,7 +630,7 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
   return (
     <Screen
       index="01"
-      eyebrow="Поиск · ВКонтакте, Одноклассники, MAX"
+      eyebrow={enabledPlatforms.length > 0 ? `Поиск · ${platformsList(enabledPlatforms)}` : 'Поиск'}
       title="Поиск *по смыслу*"
       width="narrow"
       className={styles.screen}
@@ -624,7 +650,11 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
         />
       }
     >
-      <form className={styles.query} onSubmit={onSubmit} aria-label="Запрос">
+      <form
+        className={cx(styles.query, work && styles.queryWork)}
+        onSubmit={onSubmit}
+        aria-label="Запрос"
+      >
         <div className={styles.field}>
           {/* Подпись внутри поля — как поле «Запрос» на сайте; для скринридера — label поля */}
           <span className={styles.fieldLabel} aria-hidden="true">
@@ -697,7 +727,7 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
             </span>
           </p>
         )}
-        <p className={styles.region}>
+        <p className={cx(styles.region, styles.regionPrinciple)}>
           <span className={styles.regionDot} aria-hidden="true" />
           <span>
             <b>Красноярский край.</b> {REGION_PRINCIPLE}

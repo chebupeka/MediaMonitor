@@ -16,6 +16,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IS_MOCKUP, api, demoQueries, errorMessage, useSearchRun } from '@/api';
 import type { SpreadPlacement, SpreadReport } from '@/api/types';
 import { useNavigation, type ScreenProps } from '@/app/navigation';
+import { useServerPlatforms } from '@/app/platforms';
 import { useShell } from '@/app/shell-state';
 import {
   Button,
@@ -38,10 +39,13 @@ import {
   plural,
 } from '@/lib/format';
 import {
+  DEMO_POST_NOTE,
   PLACEMENT_TYPE_LABEL,
   PLATFORMS,
   PLATFORM_ORDER,
   TIME_RELIABILITY_LABEL,
+  platformsNames,
+  platformsWhere,
 } from '@/lib/labels';
 import { AI_DISCLAIMER } from '@/lib/ai-check';
 import { AiDots, AiMark } from '@/screens/ai-check/AiMark';
@@ -79,6 +83,8 @@ function typeLabel(p: SpreadPlacement): string {
 }
 
 export default function SpreadScreen({ params, navKey }: ScreenProps<'spread'>) {
+  // Где ищем — площадки сервера (StartState.platforms)
+  const { ids: platformIds } = useServerPlatforms();
   const { navigate } = useNavigation();
   const { layout } = useShell();
   const { state, start } = useSearchRun();
@@ -155,7 +161,7 @@ export default function SpreadScreen({ params, navKey }: ScreenProps<'spread'>) 
       ? `Ищем размещения новости… найдено ${state.counts?.total ?? 0}`
       : failed
         ? 'Распространение не посчитать.'
-        : 'Красноярский край: ВКонтакте, Одноклассники и MAX.';
+        : `Красноярский край: ${platformsNames(platformIds)}.`;
 
   return (
     <Screen
@@ -179,8 +185,8 @@ export default function SpreadScreen({ params, navKey }: ScreenProps<'spread'>) 
         <>
           {!report && searching && (
             <p className={styles.lead}>
-              Ищем, где вышла новость: во ВКонтакте, Одноклассниках и MAX. Когда поиск закончится,
-              здесь появятся первоисточник, все размещения и как широко разошлась новость.
+              Ищем, где вышла новость: {platformsWhere(platformIds)}. Когда поиск закончится, здесь
+              появятся первоисточник, все размещения и как широко разошлась новость.
             </p>
           )}
 
@@ -478,10 +484,15 @@ function PlacementsTable({ placements }: { placements: readonly SpreadPlacement[
                 )}
               </td>
               <td className={styles.openCell}>
-                <a className={styles.open} href={p.url} target="_blank" rel="noopener noreferrer">
-                  Открыть пост
-                  <ExternalLink aria-hidden="true" />
-                </a>
+                {p.demo ? (
+                  // Записанный пример: поста на площадке нет — ссылку не показываем (Р11 п. 3)
+                  <span className={styles.demoPost}>{DEMO_POST_NOTE}</span>
+                ) : (
+                  <a className={styles.open} href={p.url} target="_blank" rel="noopener noreferrer">
+                    Открыть пост
+                    <ExternalLink aria-hidden="true" />
+                  </a>
+                )}
               </td>
             </tr>
           ))}
