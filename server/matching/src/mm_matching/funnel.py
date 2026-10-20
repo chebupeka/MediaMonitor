@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import math
 import time
 from collections import deque
 from collections.abc import Callable, Sequence
@@ -451,6 +452,11 @@ class FunnelMatcher:
             ref_stems, 1, "topic", inc_labels, self.config.topic.evidence_sim, wide_stems=query_stems
         )
 
+        # Без модели смысла: пост должен содержать слова самого запроса или одной из граней
+        # «входит» (большую их часть), иначе он отсекается правилами, а не уходит в «Спорно».
+        word_groups = [content_stems(tokenize(query_text))] + [
+            content_stems(tokenize(f.label)) for f in card.includes
+        ]
         if works and self.embedder is not None:
             qv = self.embedder.encode(inc_labels + [f.label for f in exc], "topic")
             ref.vectors = qv[: len(inc_labels)]
@@ -469,7 +475,7 @@ class FunnelMatcher:
         timer.lap("embeddings")
 
         for w in works:
-            self._topic_rules(w, card, exc, kind, query_stems)
+            self._topic_rules(w, card, exc, kind, query_stems, word_groups)
         timer.lap("events")
 
         for w in works:
@@ -495,16 +501,26 @@ class FunnelMatcher:
         return MatchReport(results=final, llm=status, timings=timer.done())
 
     def _topic_rules(
-        self, w: _Work, card: TopicCard, exc: Sequence[TopicFacet], kind: QueryKind, query_stems: set[str]
+        self,
+        w: _Work,
+        card: TopicCard,
+        exc: Sequence[TopicFacet],
+        kind: QueryKind,
+        query_stems: set[str],
+        word_groups: Sequence[set[str]] = (),
     ) -> None:
         cfg = self.config.topic
         if w.cos is None:
-            lex = _stem_overlap(query_stems, content_stems(list(w.sh.tokens)))
+            post_stems = content_stems(list(w.sh.tokens))
+            lex = _stem_overlap(query_stems, post_stems)
             w.extra["lexical"] = lex
             if lex < 0.2:
                 self._decide(w, "no", "rules", "Не по теме: нет общих слов с темой")
+            elif word_groups and not _covers_any(word_groups, post_stems):
+                # Площадки ищут по любому слову: «Енисей» без «ледостава» — хоккей и погода.
+                self._decide(w, "no", "rules", "Не по теме: нет слов запроса или грани темы")
             else:
-                self._decide(w, "gray", "rules", "Спорно: есть общие слова с темой")
+                self._decide(w, "gray", "rules", "Спорно: есть слова запроса или грани темы")
             return
         anti = w.anti if w.anti is not None else -1.0
         margin = w.cos - anti
@@ -796,6 +812,11 @@ def _no_text(c: Candidate) -> MatchResult:
         evidence=None,
         excerpt=None,
     )
+
+
+def _covers_any(groups: Sequence[set[str]], post: set[str]) -> bool:
+    """Есть ли в посте большая часть слов (не меньше 60 %) запроса или одной из граней."""
+    return any(g and len(g & post) >= math.ceil(0.6 * len(g)) for g in groups)
 
 
 def _stem_overlap(a: set[str], b: set[str]) -> float:
