@@ -62,6 +62,8 @@ def make_settings(tmp_path: Path, **overrides: Any) -> Settings:
         "search_rate_limit_per_minute": 10_000,
         "workspace_rate_limit_per_minute": 10_000,
         "ai_check_rate_limit_per_minute": 10_000,
+        # Общая база PostgreSQL (TEST_DATABASE_URL) копит счётчик за сутки между прогонами.
+        "workspaces_per_ip_per_day": 1_000_000,
         "public_app_url": "https://monitor.example/",
         # Большинство тестов — на простой заглушке отбора (быстро и предсказуемо);
         # воронка «Э-Отбор» — в test_funnel.py с лёгкой моделью смысла.

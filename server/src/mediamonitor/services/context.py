@@ -1,5 +1,5 @@
 """Зависимости приложения в одном месте: настройки, база, площадки, нейросеть, отбор,
-проверка текста на ИИ."""
+проверка текста на ИИ, бюджет вызовов площадок."""
 
 from __future__ import annotations
 
@@ -19,7 +19,9 @@ from mediamonitor.services.topic import TopicService
 from mediamonitor.settings import Settings
 
 if TYPE_CHECKING:
+    from mediamonitor.services.budget import CallBudget
     from mediamonitor.services.runner import SearchRunner
+    from mediamonitor.services.workspace import NewWorkspaceLimit
 
 
 @dataclass
@@ -33,5 +35,9 @@ class AppContext:
     bus: EventBus
     topics: TopicService
     ai_checks: AiCheckService
+    # Суточный и месячный предел вызовов платных площадок (НТ-6).
+    budget: CallBudget
+    # Новых рабочих мест с одного IP за сутки (НТ-6).
+    new_workspaces: NewWorkspaceLimit
     started_at: datetime
     runner: SearchRunner = field(init=False)

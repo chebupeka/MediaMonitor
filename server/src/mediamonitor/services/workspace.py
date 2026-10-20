@@ -8,16 +8,26 @@ SHA-256: по базе ключ не восстановить. Клиент пе
 
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import secrets
+from collections.abc import Callable
+from datetime import datetime, timedelta
 
-from sqlalchemy import func, select
+from sqlalchemy import delete, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from mediamonitor.contract import Workspace, WorkspaceLink
-from mediamonitor.db.models import SearchRow, WorkspaceRow, WorkspaceSourceRow
+from mediamonitor.db.models import (
+    ClientDailyUsageRow,
+    SearchRow,
+    WorkspaceRow,
+    WorkspaceSourceRow,
+)
+from mediamonitor.db.session import SessionMaker
 from mediamonitor.errors import ApiProblem
-from mediamonitor.timeutil import iso, utcnow
+from mediamonitor.labels import format_number
+from mediamonitor.timeutil import day_start, iso, krsk_today, utcnow
 
 KEY_HEADER = "X-Workspace-Key"
 NOT_FOUND = "Рабочее место по этой ссылке не найдено. Проверьте, что ссылка скопирована целиком."
@@ -25,6 +35,57 @@ NOT_FOUND = "Рабочее место по этой ссылке не найд�
 
 def hash_key(key: str) -> str:
     return hashlib.sha256(key.encode("utf-8")).hexdigest()
+
+
+def client_hash(ip: str | None) -> str:
+    """Адрес клиента для счётчиков стенда: храним только хеш, не сам IP."""
+    return hashlib.sha256(f"mediamonitor-client:{ip or 'unknown'}".encode()).hexdigest()
+
+
+class NewWorkspaceLimit:
+    """Не больше `limit` новых рабочих мест с одного IP за сутки по Красноярску (НТ-6).
+
+    Ссылка на стенд публичная: без предела скрипт засорил бы базу пустыми рабочими местами.
+    Частоту в минуту ограничивает RateLimitMiddleware, это — предел на сутки; счётчик в базе
+    (`client_daily_usage`) переживает перезапуск сервера. Сервер — один процесс, поэтому
+    «проверить и увеличить» защищены замком процесса.
+    """
+
+    KIND = "workspace"
+
+    def __init__(
+        self, sessions: SessionMaker, limit: int, *, clock: Callable[[], datetime] = utcnow
+    ) -> None:
+        self._sessions = sessions
+        self._limit = limit
+        self._clock = clock
+        self._lock = asyncio.Lock()
+
+    async def admit(self, client_ip: str | None) -> None:
+        """Учесть новое рабочее место с этого адреса или ответить 429 до завтра."""
+        now = self._clock()
+        today = krsk_today(now)
+        key = (self.KIND, client_hash(client_ip), today.isoformat())
+        async with self._lock, self._sessions.begin() as session:
+            row = await session.get(ClientDailyUsageRow, key, with_for_update=True)
+            if row is None:
+                # Первое за сутки с этого адреса — заодно убрать позавчерашние и старше.
+                yesterday = (today - timedelta(days=1)).isoformat()
+                await session.execute(
+                    delete(ClientDailyUsageRow).where(ClientDailyUsageRow.day < yesterday)
+                )
+                row = ClientDailyUsageRow(kind=key[0], client_hash=key[1], day=key[2], count=0)
+                session.add(row)
+            if row.count >= self._limit:
+                tomorrow = day_start(today + timedelta(days=1))
+                raise ApiProblem(
+                    "too-many-requests",
+                    f"С вашего адреса сегодня создано уже {format_number(self._limit)} "
+                    "рабочих мест — это предел открытого стенда. Откройте прежнее рабочее место "
+                    "по ссылке-ключу или попробуйте завтра.",
+                    retry_after_sec=max(1, int((tomorrow - now).total_seconds()) + 1),
+                )
+            row.count += 1
 
 
 def clean_key(raw: str) -> str:

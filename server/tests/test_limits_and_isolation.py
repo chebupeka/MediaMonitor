@@ -3,11 +3,17 @@
 from __future__ import annotations
 
 import asyncio
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import httpx
+import pytest
+from sqlalchemy import delete, select
 
 from mediamonitor.api.middleware import RateLimiter
+from mediamonitor.db.models import ClientDailyUsageRow
+from mediamonitor.errors import ApiProblem
+from mediamonitor.services.workspace import NewWorkspaceLimit, client_hash
 from tests.conftest import (
     BDD,
     PERIOD,
@@ -105,6 +111,71 @@ def test_rate_limiter_window() -> None:
     assert limiter.hit("all", "other-ip", 2) is None
     now[0] = 60.5
     assert limiter.hit("all", "ip", 2) is None
+
+
+async def test_new_workspaces_per_ip_per_day(tmp_path: Path) -> None:
+    harness = make_app(make_settings(tmp_path, workspaces_per_ip_per_day=3))
+    async with open_client(harness.app, client_ip="10.0.0.7") as client:
+        async with harness.app.state.ctx.sessions.begin() as session:
+            await session.execute(
+                delete(ClientDailyUsageRow).where(
+                    ClientDailyUsageRow.client_hash == client_hash("10.0.0.7")
+                )
+            )
+        first = await client.post("/api/workspaces")
+        assert first.status_code == 201
+        codes = [(await client.post("/api/workspaces")).status_code for _ in range(3)]
+        assert codes == [201, 201, 429]
+        refused = await client.post("/api/workspaces")
+        error = refused.json()
+        assert error["code"] == "too-many-requests"
+        assert "предел открытого стенда" in error["message"]
+        assert 0 < error["retryAfterSec"] <= 24 * 3600
+        assert refused.headers["retry-after"] == str(error["retryAfterSec"])
+        # Уже созданное рабочее место по-прежнему открывается.
+        own = await client.get("/api/workspace", headers={"X-Workspace-Key": first.json()["key"]})
+        assert own.status_code == 200
+    async with open_client(harness.app, client_ip="10.0.0.8") as other:
+        assert (await other.post("/api/workspaces")).status_code == 201
+    # IP в базе не хранится — только хеш.
+    async with harness.app.state.ctx.sessions() as session:
+        stored = list(await session.scalars(select(ClientDailyUsageRow.client_hash)))
+    assert "10.0.0.7" not in stored
+    assert client_hash("10.0.0.7") in stored
+
+
+async def test_new_workspace_limit_resets_next_day(tmp_path: Path) -> None:
+    harness = make_app(make_settings(tmp_path))
+    async with open_client(harness.app):
+        sessions = harness.app.state.ctx.sessions
+        now = [datetime(2031, 3, 14, 16, 59, tzinfo=UTC)]  # 23:59 по Красноярску
+        gate = NewWorkspaceLimit(sessions, 2, clock=lambda: now[0])
+        ip = "203.0.113.5"
+        async with sessions.begin() as session:
+            await session.execute(
+                delete(ClientDailyUsageRow).where(
+                    ClientDailyUsageRow.client_hash == client_hash(ip)
+                )
+            )
+        await gate.admit(ip)
+        await gate.admit(ip)
+        with pytest.raises(ApiProblem) as refused:
+            await gate.admit(ip)
+        assert refused.value.retry_after_sec == 61  # до полуночи — минута и секунда запаса
+        now[0] += timedelta(minutes=2)  # наступили новые сутки
+        await gate.admit(ip)
+        # Через двое суток старые счётчики удаляются при первом входе за день.
+        now[0] += timedelta(days=2)
+        await gate.admit(ip)
+        async with sessions() as session:
+            days = sorted(
+                await session.scalars(
+                    select(ClientDailyUsageRow.day).where(
+                        ClientDailyUsageRow.client_hash == client_hash(ip)
+                    )
+                )
+            )
+        assert days == ["2031-03-17"]
 
 
 async def test_body_size_limit(tmp_path: Path) -> None:

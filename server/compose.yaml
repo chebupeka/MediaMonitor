@@ -1,8 +1,14 @@
-# Медиамонитор: база (PostgreSQL 16 + pgvector), миграции, сервер API; HTTPS — профиль https.
+# Медиамонитор: база (PostgreSQL 16 + pgvector), миграции, сервер API с сайтом на «/» и
+# веб-версией панели на «/app/»; HTTPS — профиль https.
 #   cp .env.example .env   # задать POSTGRES_PASSWORD и остальное
 #   docker compose up -d --build
 #   docker compose --profile https up -d   # с Caddy и сертификатом для DOMAIN
 name: mediamonitor
+
+# Образ собирается из корня репозитория: веб-версия — из web/, сайт — из site/.
+x-build: &build
+  context: ..
+  dockerfile: server/Dockerfile
 
 x-database-url: &database-url
   DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-mediamonitor}:${POSTGRES_PASSWORD:?Задайте POSTGRES_PASSWORD в server/.env}@db:5432/${POSTGRES_DB:-mediamonitor}
@@ -27,7 +33,7 @@ services:
     restart: unless-stopped
 
   migrate:
-    build: .
+    build: *build
     command: ["alembic", "upgrade", "head"]
     environment:
       <<: *database-url
@@ -37,7 +43,7 @@ services:
     restart: "no"
 
   api:
-    build: .
+    build: *build
     env_file:
       - path: .env
         required: false
@@ -45,7 +51,7 @@ services:
       <<: *database-url
       HOST: 0.0.0.0
       PORT: "8000"
-      # Порт API открыт только локально, снаружи — через Caddy в той же сети.
+      # Порт открыт только локально, снаружи — через Caddy в той же сети.
       FORWARDED_ALLOW_IPS: "*"
     ports:
       - "127.0.0.1:${API_PORT:-8000}:8000"

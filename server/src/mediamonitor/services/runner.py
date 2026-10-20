@@ -662,6 +662,8 @@ class SearchRunner:
         final: str | None = None
         problem: dict[str, Any] | None = None
         try:
+            # Предел вызовов площадки на сутки или месяц исчерпан — обход не начинаем (НТ-6).
+            await self.ctx.budget.ensure_available(platform)
             async with asyncio.timeout(self.settings.platform_timeout_sec):
                 async for event in adapter.search(query):
                     if live.stop.is_set():

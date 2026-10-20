@@ -22,6 +22,7 @@ from mediamonitor.adapters.base import (
     AdapterEvent,
     AdapterHealth,
     AdapterQuery,
+    CallMeter,
     QuotaInfo,
     RawPost,
     SourceProbe,
@@ -39,9 +40,18 @@ class _LiveAdapter:
     # Имя переменной окружения с ключом; None — площадке ключ не нужен.
     key_env: str | None = None
 
-    def __init__(self, settings: Settings, client: httpx.AsyncClient) -> None:
+    def __init__(
+        self, settings: Settings, client: httpx.AsyncClient, budget: CallMeter | None = None
+    ) -> None:
         self.settings = settings
         self.client = client
+        self.budget = budget
+
+    async def _spend(self, amount: int = 1) -> None:
+        """Перед каждым платным вызовом площадки (НТ-6): нет бюджета — AdapterError,
+        вызов не делается. VK — 1 за вызов API, MaxStat — кредиты метода (поиск — 3)."""
+        if self.budget is not None:
+            await self.budget.spend(self.platform, amount)
 
     def _has_key(self) -> bool:
         return True
@@ -96,14 +106,17 @@ class VkAdapter(_LiveAdapter):
     - ошибки API → AdapterError: 5 → key-invalid; 6, 9, 29 → rate-limited / quota-exhausted;
       15, 18, 30 → закрытая группа (Partial «sources-closed»);
       непонятный JSON → bad-response (НТ-5);
-    - каждый вызов учитывать в квоте (10 000 вызовов в месяц у неверифицированного приложения).
+    - перед каждым вызовом API — `await self._spend()`: бюджет на сутки и месяц (НТ-6,
+      10 000 вызовов в месяц у неверифицированного приложения).
     """
 
     platform: PlatformId = "vk"
     key_env = "VK_SERVICE_TOKEN"
 
-    def __init__(self, settings: Settings, client: httpx.AsyncClient) -> None:
-        super().__init__(settings, client)
+    def __init__(
+        self, settings: Settings, client: httpx.AsyncClient, budget: CallMeter | None = None
+    ) -> None:
+        super().__init__(settings, client, budget)
         self.description = AdapterDescription(
             platform="vk",
             via="VK API (сервисный ключ)",
@@ -131,8 +144,10 @@ class OkAdapter(_LiveAdapter):
 
     platform: PlatformId = "ok"
 
-    def __init__(self, settings: Settings, client: httpx.AsyncClient) -> None:
-        super().__init__(settings, client)
+    def __init__(
+        self, settings: Settings, client: httpx.AsyncClient, budget: CallMeter | None = None
+    ) -> None:
+        super().__init__(settings, client, budget)
         self.description = AdapterDescription(platform="ok", via="Веб-поиск Одноклассников")
 
 
@@ -145,14 +160,17 @@ class MaxAdapter(_LiveAdapter):
     - индекс отстаёт до ~24 ч — `freshness` в статусе (НТ-4);
     - каждая ссылка проверяется анонимным GET `max.ru/<канал>/<номер>`: в HTML есть текст;
     - время публикации вычисляется из номера поста → timeReliability="approximate" (П4);
-    - 1 000 бесплатных кредитов (~330 поисков) — учитывать в квоте.
+    - 1 000 тестовых кредитов: перед вызовом — `await self._spend(<кредиты метода>)`
+      (поиск — 3, пост — 1), бюджет на сутки и месяц (НТ-6).
     """
 
     platform: PlatformId = "max"
     key_env = "MAXSTAT_TOKEN"
 
-    def __init__(self, settings: Settings, client: httpx.AsyncClient) -> None:
-        super().__init__(settings, client)
+    def __init__(
+        self, settings: Settings, client: httpx.AsyncClient, budget: CallMeter | None = None
+    ) -> None:
+        super().__init__(settings, client, budget)
         self.description = AdapterDescription(
             platform="max",
             via="Сторонний индекс MaxStat + проверка ссылок на max.ru",

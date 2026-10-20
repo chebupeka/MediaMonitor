@@ -4,8 +4,9 @@
 #   ssh team-27@109.196.167.227 /opt/mediamonitor/app/server/scripts/update-server.sh
 #
 # Берёт ветку BRANCH (по умолчанию integration/full) только перемоткой вперёд, пересобирает
-# образ без модели на CPU (compose.server.yaml), применяет миграции, ждёт /health.
-# Данные базы (том pgdata) и настройки (server/.env) не трогает.
+# образ без модели на CPU (compose.server.yaml) вместе с сайтом и веб-версией, применяет
+# миграции, ждёт /health и проверяет, что сайт («/») и веб-версия («/app/») открываются.
+# Данные базы (том pgdata) и настройки (server/.env) не трогает. sudo не нужен.
 set -euo pipefail
 
 main() {
@@ -18,6 +19,15 @@ main() {
   for _ in $(seq 1 60); do
     if curl -fsS -m 3 http://127.0.0.1:8000/health; then
       echo
+      local page code
+      for page in / /app/; do
+        code="$(curl -s -o /dev/null -w '%{http_code}' -m 5 "http://127.0.0.1:8000$page")"
+        echo "$page → $code"
+        if [ "$code" != "200" ]; then
+          echo "Страница $page не открылась: docker compose logs api" >&2
+          return 1
+        fi
+      done
       docker image prune -f >/dev/null
       return 0
     fi

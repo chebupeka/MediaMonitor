@@ -1,0 +1,29 @@
+# Контекст сборки server/Dockerfile — корень репозитория (compose: context: ..).
+# Берём только server/, site/ и web/ без зависимостей, сборок и служебного.
+*
+!server
+!site
+!web
+
+**/.git
+**/node_modules
+**/.venv
+**/.env
+**/*.db
+**/*.db-*
+**/__pycache__
+**/.mypy_cache
+**/.ruff_cache
+**/.pytest_cache
+
+server/tests
+server/scripts
+!server/scripts/precompress.mjs
+server/matching/eval
+
+web/dist
+web/dist-web
+web/.output
+web/.wxt
+web/screenshots
+web/extension/.output

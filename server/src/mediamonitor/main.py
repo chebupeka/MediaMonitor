@@ -1,4 +1,5 @@
-"""Приложение FastAPI: сборка зависимостей, жизненный цикл, маршруты.
+"""Приложение FastAPI: сборка зависимостей, жизненный цикл, маршруты API, раздача сайта
+и веб-версии (api/static.py).
 
 Запуск: `uv run uvicorn mediamonitor.main:create_app --factory` (см. server/README.md).
 """
@@ -24,16 +25,19 @@ from mediamonitor.api.middleware import (
     SecurityHeadersMiddleware,
 )
 from mediamonitor.api.routes import router
+from mediamonitor.api.static import build_static
 from mediamonitor.contract import Health
 from mediamonitor.db.session import create_all, create_engine, create_sessions
 from mediamonitor.errors import install_error_handlers
 from mediamonitor.matcher import Matcher, load_matcher
+from mediamonitor.services.budget import CallBudget
 from mediamonitor.services.context import AppContext
 from mediamonitor.services.events import EventBus
 from mediamonitor.services.runner import SearchRunner
 from mediamonitor.services.sources import seed_catalog
 from mediamonitor.services.stand import log_event
 from mediamonitor.services.topic import TopicService
+from mediamonitor.services.workspace import NewWorkspaceLimit
 from mediamonitor.settings import Settings, get_settings
 from mediamonitor.timeutil import utcnow
 
@@ -79,7 +83,12 @@ def create_app(
             headers={"User-Agent": f"MediaMonitor/{settings.app_version}"},
             follow_redirects=False,
         )
-        adapters = (adapter_factory or build_adapters)(settings, http)
+        budget = CallBudget(settings, sessions)
+        adapters = (
+            adapter_factory(settings, http)
+            if adapter_factory
+            else build_adapters(settings, http, budget)
+        )
         judge = (judge_factory or build_judge)(settings, http)
         matcher = (
             matcher_factory(settings)
@@ -98,6 +107,8 @@ def create_app(
             ai_checks=AiCheckService(
                 settings, sessions, (detector_factory or build_detector)(settings)
             ),
+            budget=budget,
+            new_workspaces=NewWorkspaceLimit(sessions, settings.workspaces_per_ip_per_day),
             started_at=utcnow(),
         )
         ctx.runner = SearchRunner(ctx)
@@ -166,6 +177,11 @@ def create_app(
             database="ok" if database == "ok" else "down",
             version=settings.app_version,
         )
+
+    # Сайт на «/» и веб-версия на «/app/» — последними: маршруты API и /health важнее.
+    static = build_static(settings.site_dir, settings.web_app_dir)
+    if static is not None:
+        app.mount("/", static, name="static")
 
     # Порядок: внешние обёртки — последними.
     app.add_middleware(RateLimitMiddleware, settings=settings)

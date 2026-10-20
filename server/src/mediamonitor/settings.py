@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from pathlib import Path
 from typing import Literal
 
 from pydantic import Field, SecretStr, field_validator, model_validator
@@ -35,6 +36,11 @@ class Settings(BaseSettings):
     public_app_url: str = "http://localhost:5173/"
     # Откуда разрешены запросы браузера: сайт и расширение (chrome-extension://<id>).
     cors_origins: str = "http://localhost:5173"
+    # Раздача статики с того же адреса, что и API (api/static.py): сайт-витрина на «/»
+    # (папка site/) и веб-версия панели на «/app/» (сборка web/dist-web/). Не заданы —
+    # сервер отдаёт только API. В образе Docker заданы (Dockerfile).
+    site_dir: Path | None = None
+    web_app_dir: Path | None = None
 
     # ---------------------------------------------------------------- данные площадок
     # fixtures — записанные примеры (разработка, тесты); live — настоящие площадки.
@@ -48,9 +54,15 @@ class Settings(BaseSettings):
     fixture_shift_to_now: bool = False
     vk_service_token: SecretStr | None = None
     vk_api_version: str = "5.199"
-    vk_monthly_quota: int = 10_000
+    # Бюджет вызовов внешних площадок на открытом стенде (НТ-6, services/budget.py): предел
+    # на сутки (по красноярскому времени) и на календарный месяц; 0 — без предела на период.
+    # VK без верификации даёт 10 000 вызовов в месяц; суточный предел не даёт сжечь месяц
+    # за один день. MaxStat — 1 000 тестовых кредитов (поиск — 3 кредита за страницу).
+    vk_monthly_quota: int = Field(default=10_000, ge=0)
+    vk_daily_calls: int = Field(default=1_500, ge=0)
     maxstat_token: SecretStr | None = None
-    maxstat_credits: int = 1_000
+    maxstat_credits: int = Field(default=1_000, ge=0)
+    maxstat_daily_credits: int = Field(default=150, ge=0)
     # Сколько ждём одну площадку целиком, секунд; дольше — статус «не уложилась во время».
     platform_timeout_sec: float = Field(default=90.0, gt=0)
 
@@ -134,6 +146,9 @@ class Settings(BaseSettings):
     rate_limit_per_minute: int = Field(default=240, ge=1)
     search_rate_limit_per_minute: int = Field(default=12, ge=1)
     workspace_rate_limit_per_minute: int = Field(default=20, ge=1)
+    # Новых рабочих мест с одного IP за сутки (по красноярскому времени): защита базы от
+    # засорения. С запасом на офис экспертов за одним адресом (сайт, веб-версия, расширение).
+    workspaces_per_ip_per_day: int = Field(default=60, ge=1)
     max_body_bytes: int = 1_000_000
     max_import_bytes: int = 5_000_000
     max_import_rows: int = 1_000
@@ -154,6 +169,13 @@ class Settings(BaseSettings):
     @classmethod
     def _blank_secret_is_none(cls, value: object) -> object:
         """Пустая строка в .env — «ключ не задан», а не пустой ключ."""
+        if value is None or (isinstance(value, str) and not value.strip()):
+            return None
+        return value
+
+    @field_validator("site_dir", "web_app_dir", mode="before")
+    @classmethod
+    def _blank_dir_is_none(cls, value: object) -> object:
         if value is None or (isinstance(value, str) and not value.strip()):
             return None
         return value

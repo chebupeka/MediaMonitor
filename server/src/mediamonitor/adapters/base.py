@@ -142,10 +142,24 @@ class SourceProbe:
 
 @dataclass(frozen=True)
 class QuotaInfo:
+    """Площадка платит вызовами: такую площадку стенд показывает с расходом бюджета.
+
+    Учёт и пределы (сутки и месяц) — `services/budget.py` (`CallBudget`), здесь — справка.
+    """
+
     limit: int
     unit: str
-    # Период учёта: «2026-10» (месяц) или «total» (кредиты без сброса).
     period: Literal["month", "day", "total"]
+
+
+class CallMeter(Protocol):
+    """Бюджет вызовов внешней площадки (НТ-6): адаптер списывает вызов до обращения.
+
+    Предел исчерпан — `AdapterError` с кодом `quota-exhausted` (вызов не делается).
+    Реализация — `services.budget.CallBudget`.
+    """
+
+    async def spend(self, platform: PlatformId, amount: int = 1) -> None: ...
 
 
 @dataclass(frozen=True)

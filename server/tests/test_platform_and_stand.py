@@ -10,7 +10,6 @@ from pathlib import Path
 import httpx
 from sqlalchemy import delete, select
 
-from mediamonitor.adapters.base import QuotaInfo
 from mediamonitor.ai.judge import AiJudge
 from mediamonitor.db.models import QuotaUsageRow, SearchRow, StandEventRow
 from mediamonitor.matcher import (
@@ -23,7 +22,6 @@ from mediamonitor.matcher import (
     load_matcher,
 )
 from mediamonitor.matcher.simple import SimpleMatcher
-from mediamonitor.services.stand import spend_quota
 from tests.conftest import Harness, make_app, make_settings, new_workspace, open_client, run_search
 
 
@@ -41,24 +39,25 @@ async def test_stand_status(harness: Harness, client: httpx.AsyncClient) -> None
     assert "sqlite" not in str(stand).lower()
 
 
-async def test_quota_warning_at_80_percent(harness: Harness, client: httpx.AsyncClient) -> None:
-    ctx = harness.app.state.ctx
-    info = QuotaInfo(limit=100, unit="вызовов в месяц", period="month")
-    async with ctx.sessions.begin() as session:
-        # База может быть общей для прогонов (TEST_DATABASE_URL) — начинаем с чистого счётчика.
-        await session.execute(delete(QuotaUsageRow).where(QuotaUsageRow.platform == "vk"))
-        await session.execute(delete(StandEventRow).where(StandEventRow.message.like("VK:%")))
-    async with ctx.sessions.begin() as session:
-        await spend_quota(session, "vk", info, 79, 0.8)
-    async with ctx.sessions.begin() as session:
-        await spend_quota(session, "vk", info, 1, 0.8)
-    async with ctx.sessions.begin() as session:
-        await spend_quota(session, "vk", info, 5, 0.8)
-    stand = (await client.get("/api/stand")).json()
-    warnings = [e for e in stand["events"] if "квоты" in e["message"]]
+async def test_quota_warning_at_80_percent(tmp_path: Path) -> None:
+    # Только месячный предел (суточный 0 — выключен): одно предупреждение на 80%.
+    settings = make_settings(tmp_path, vk_monthly_quota=100, vk_daily_calls=0)
+    harness = make_app(settings)
+    async with open_client(harness.app) as client:
+        ctx = harness.app.state.ctx
+        async with ctx.sessions.begin() as session:
+            # База может быть общей для прогонов (TEST_DATABASE_URL) — с чистого счётчика.
+            await session.execute(delete(QuotaUsageRow).where(QuotaUsageRow.platform == "vk"))
+            await session.execute(delete(StandEventRow).where(StandEventRow.message.like("VK:%")))
+        await ctx.budget.spend("vk", 79)
+        await ctx.budget.spend("vk", 1)
+        await ctx.budget.spend("vk", 5)
+        stand = (await client.get("/api/stand")).json()
+    warnings = [e for e in stand["events"] if "лимита" in e["message"]]
     assert len(warnings) == 1  # предупреждение одно, а не на каждый вызов
     assert warnings[0]["level"] == "warning"
     assert "80%" in warnings[0]["message"]
+    assert "80 из 100 вызовов за месяц" in warnings[0]["message"]
 
 
 async def test_large_selection_and_platform_cap(client: httpx.AsyncClient) -> None:

@@ -1,4 +1,41 @@
-# Сервер Медиамонитора: Python 3.12 + зависимости из uv.lock (без dev).
+# Сервер Медиарадара: API (Python 3.12, зависимости из uv.lock без dev), сайт-витрина на «/»
+# и веб-версия панели на «/app/» — один образ, один порт.
+#
+# Собирается из КОРНЯ репозитория: веб-версию собирает node из web/, сайт берётся из site/.
+#   docker build -f server/Dockerfile .      (compose: context: .., dockerfile: server/Dockerfile)
+# Что попадает в контекст — server/Dockerfile.dockerignore.
+
+# ---------------------------------------------------------------- 1. сайт и веб-версия (node)
+FROM node:22-slim AS web
+WORKDIR /src/web
+# Сборка Vite укладывается в 1,5 ГБ кучи: на VPS 4 ГБ, стенд занимает около 1 ГБ.
+ENV NODE_OPTIONS=--max-old-space-size=1536 \
+    npm_config_fund=false \
+    npm_config_audit=false \
+    npm_config_update_notifier=false
+COPY web/package.json web/package-lock.json ./
+RUN npm ci
+COPY web/ ./
+# Веб-версия работает с этим же сервером (VITE_API_URL=/ — тот адрес, откуда открыта
+# страница) и без демо-панели (VITE_TARGET=web). Переменные заданы здесь, а не только
+# в web/.env.web: файлы .env.* в git не попадают.
+ARG VITE_API_URL=/
+ARG VITE_TARGET=web
+# Скрипт build:web (vite build --mode web → dist-web/, base /app/). Его ещё нет в ветке —
+# обычная сборка с base /app/ в ту же папку.
+RUN if node -e "process.exit(require('./package.json').scripts['build:web'] ? 0 : 1)"; then \
+        VITE_API_URL="$VITE_API_URL" VITE_TARGET="$VITE_TARGET" npm run build:web; \
+    else \
+        echo "build:web нет — vite build --base /app/"; \
+        VITE_API_URL="$VITE_API_URL" VITE_TARGET="$VITE_TARGET" \
+            npx vite build --base /app/ --outDir dist-web; \
+    fi \
+    && test -f dist-web/index.html
+COPY site/ /out/site/
+COPY server/scripts/precompress.mjs /tmp/precompress.mjs
+RUN mv dist-web /out/app && node /tmp/precompress.mjs /out/site /out/app
+
+# ---------------------------------------------------------------- 2. сервер (Python)
 FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -19,14 +56,14 @@ ARG CPU_MODEL_PACKAGES="torch sentence-transformers transformers tokenizers safe
 huggingface-hub hf-xet scikit-learn sympy mpmath networkx"
 
 # Сначала зависимости — слой кэшируется, пока не меняется uv.lock (torch — сборка для CPU).
-COPY pyproject.toml uv.lock README.md ./
-COPY matching/pyproject.toml matching/README.md ./matching/
+COPY server/pyproject.toml server/uv.lock server/README.md ./
+COPY server/matching/pyproject.toml server/matching/README.md ./matching/
 RUN skip=""; if [ "$LOCAL_MODEL" = "false" ]; then \
         for p in $CPU_MODEL_PACKAGES; do skip="$skip --no-install-package $p"; done; fi; \
     uv sync --frozen --no-dev --no-install-project --no-install-package mm-matching $skip
 
 # Код сервера, миграции и воронка «Э-Отбор» (server/matching, пакет mm_matching).
-COPY . .
+COPY server/ ./
 RUN skip=""; if [ "$LOCAL_MODEL" = "false" ]; then \
         for p in $CPU_MODEL_PACKAGES; do skip="$skip --no-install-package $p"; done; fi; \
     uv sync --frozen --no-dev $skip \
@@ -34,12 +71,18 @@ RUN skip=""; if [ "$LOCAL_MODEL" = "false" ]; then \
     && mkdir -p /models \
     && chown -R app /app /models
 
+# Сайт и веб-версия — последним слоем: их правка не пересобирает Python.
+COPY --from=web /out/site /app/static/site
+COPY --from=web /out/app /app/static/app
+
 USER app
 # Модель смысла (BERTA, ~0,5 ГБ) скачивается при первом прогреве в том /models.
 ENV PATH="/app/.venv/bin:${PATH}" \
     HOST=0.0.0.0 \
     PORT=8000 \
-    HF_HOME=/models
+    HF_HOME=/models \
+    SITE_DIR=/app/static/site \
+    WEB_APP_DIR=/app/static/app
 EXPOSE 8000
 
 CMD ["mediamonitor"]

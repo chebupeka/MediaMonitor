@@ -531,7 +531,9 @@ async def get_catalog(ctx: Ctx, key: WorkspaceKey = None) -> list[CatalogSource]
 @router.post(
     "/workspaces", status_code=201, response_model=WorkspaceLink, summary="новое рабочее место"
 )
-async def create_workspace(ctx: Ctx) -> WorkspaceLink:
+async def create_workspace(ctx: Ctx, request: Request) -> WorkspaceLink:
+    # Предел новых рабочих мест с одного адреса за сутки (НТ-6); частота — RateLimitMiddleware.
+    await ctx.new_workspaces.admit(request.client.host if request.client else None)
     async with ctx.sessions.begin() as session:
         row, key = await workspace_service.create_workspace(session)
     return workspace_service.link_of(row, key, ctx.settings.public_app_url)
