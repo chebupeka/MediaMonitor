@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING, Any, cast
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from mediamonitor.adapters import AdapterRegistry
+from mediamonitor.adapters import AdapterRegistry, FixtureAdapter, is_demo_post
 from mediamonitor.contract import (
     PLATFORM_ORDER,
     AiCheck,
@@ -169,6 +169,7 @@ def publication_model(bundle: ItemBundle, mine: set[str]) -> Publication:
         link_check=LinkCheck(
             state=cast(Any, pub.link_state), checked_at=iso_or_none(pub.link_checked_at)
         ),
+        demo=True if is_demo_post(pub.id) else None,
     )
 
 
@@ -301,7 +302,12 @@ def compute_groups(
 
 
 def platform_status(
-    run: PlatformRunRow, found: int, adapters: AdapterRegistry, phase: str
+    run: PlatformRunRow,
+    found: int,
+    adapters: AdapterRegistry,
+    phase: str,
+    *,
+    demo_found: bool = False,
 ) -> PlatformStatus:
     platform = cast(PlatformId, run.platform)
     state = cast(PlatformState, run.state)
@@ -322,6 +328,9 @@ def platform_status(
         freshness=adapter.description.freshness if adapter else None,
         cap=PlatformCap.model_validate(run.cap) if run.cap else None,
         updated_at=iso_or_none(run.updated_at),
+        # Площадка на примерах сейчас или в подборке есть её демо-публикации (найденные,
+        # пока площадка была на примерах).
+        demo=True if demo_found or isinstance(adapter, FixtureAdapter) else None,
     )
 
 
@@ -340,10 +349,16 @@ def statuses_of(
     phase: str,
 ) -> list[PlatformStatus]:
     found: dict[str, int] = {}
+    demo = {item.publication.platform for item in items if item.publication.demo}
     for item in items:
         if not item.excluded:
             found[item.publication.platform] = found.get(item.publication.platform, 0) + 1
-    return [platform_status(run, found.get(run.platform, 0), adapters, phase) for run in runs]
+    return [
+        platform_status(
+            run, found.get(run.platform, 0), adapters, phase, demo_found=run.platform in demo
+        )
+        for run in runs
+    ]
 
 
 def notices_of(search: SearchRow, items: Sequence[ResultItem]) -> list[SelectionNotice]:

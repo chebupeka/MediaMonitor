@@ -66,6 +66,7 @@ from mediamonitor.contract import (
 )
 from mediamonitor.db.models import ExportRow, SearchRow, WorkspaceRow, WorkspaceSourceRow
 from mediamonitor.errors import ApiProblem, required
+from mediamonitor.labels import demo_line
 from mediamonitor.normalize.query import analyze, preset_period
 from mediamonitor.services import curation, imports
 from mediamonitor.services import sources as source_service
@@ -115,8 +116,14 @@ async def workspace_tx(
         yield session, workspace
 
 
-def _data_note(ctx: AppContext) -> str:
-    return FIXTURE_DATA_NOTE if ctx.settings.data_source == "fixtures" else LIVE_DATA_NOTE
+def _data_note(selection: Selection) -> str:
+    """Лист «Сводка», строка «Данные»: живые площадки и площадки на примерах (демо)."""
+    platforms = tuple(s.platform for s in selection.statuses)
+    demo = [s.platform for s in selection.statuses if s.demo]
+    if platforms and len(demo) == len(platforms):
+        return FIXTURE_DATA_NOTE
+    line = demo_line(demo, platforms)
+    return f"{LIVE_DATA_NOTE} {line}" if line else LIVE_DATA_NOTE
 
 
 # ---------------------------------------------------------------- старт и запрос
@@ -396,7 +403,9 @@ async def export_preview(
     async with workspace_tx(ctx, key) as (session, workspace):
         search = await curation.own_search(session, workspace, search_id)
         selection = await build_selection(session, search, ctx.adapters, ctx.ai_checks)
-    return build_preview(selection, _export_options(only_relevance, only_undated), _data_note(ctx))
+    return build_preview(
+        selection, _export_options(only_relevance, only_undated), _data_note(selection)
+    )
 
 
 @router.get(
@@ -413,7 +422,7 @@ async def export_xlsx(
     async with workspace_tx(ctx, key) as (session, workspace):
         search = await curation.own_search(session, workspace, search_id)
         selection = await build_selection(session, search, ctx.adapters, ctx.ai_checks)
-        content = build_xlsx(selection, options, _data_note(ctx))
+        content = build_xlsx(selection, options, _data_note(selection))
         name = file_name(selection)
         # Столько строк в листе «Публикации» — то же число, что в предпросмотре (rowCount).
         rows = len(export_items(selection, options))

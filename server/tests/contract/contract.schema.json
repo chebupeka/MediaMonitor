@@ -943,6 +943,9 @@
               "type": "null"
             }
           ]
+        },
+        "demo": {
+          "type": "boolean"
         }
       },
       "required": [
@@ -1112,6 +1115,9 @@
         },
         "linkCheck": {
           "$ref": "#/definitions/LinkCheck"
+        },
+        "demo": {
+          "type": "boolean"
         }
       },
       "required": [

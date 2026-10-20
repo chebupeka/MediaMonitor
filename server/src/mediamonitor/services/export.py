@@ -39,6 +39,7 @@ from mediamonitor.contract import (
 )
 from mediamonitor.errors import required
 from mediamonitor.labels import (
+    DEMO_POST_NOTE,
     METHOD_LABEL,
     MODE_LABEL,
     PLACEMENT_TYPE_LABEL,
@@ -195,7 +196,8 @@ def _row(
         p.headline,
         excel_local(parse_iso(p.published_at)) if p.published_at else None,
         _date_note(item),
-        p.url,
+        # Демо-публикация: ссылки нет — вместо вымышленного адреса пометка, без гиперссылки.
+        DEMO_POST_NOTE if p.demo else p.url,
         item.excerpt.text if item.excerpt else "текст отсутствует",
         RELEVANCE_LABEL[item.relevance],
         METHOD_LABEL[item.method],

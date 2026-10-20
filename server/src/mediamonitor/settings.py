@@ -44,7 +44,13 @@ class Settings(BaseSettings):
 
     # ---------------------------------------------------------------- данные площадок
     # fixtures — записанные примеры (разработка, тесты); live — настоящие площадки.
+    # DATA_SOURCE — для всех площадок сразу; DATA_SOURCE_VK / _OK / _MAX — для одной площадки
+    # (не задано или пусто — как DATA_SOURCE). Публикации площадок на примерах помечаются
+    # в контракте `demo: true`, ссылок на них нет (Р11 п. 3: никакой имитации под видом живого).
     data_source: Literal["fixtures", "live"] = "fixtures"
+    data_source_vk: Literal["fixtures", "live"] | None = None
+    data_source_ok: Literal["fixtures", "live"] | None = None
+    data_source_max: Literal["fixtures", "live"] | None = None
     # Сбои для FixtureAdapter: «max:unavailable,ok:slow». Режимы — adapters/fixture.py.
     fixture_failures: str = ""
     # Пауза между шагами хода в FixtureAdapter, мс: чтобы ход поиска был виден.
@@ -54,6 +60,17 @@ class Settings(BaseSettings):
     fixture_shift_to_now: bool = False
     vk_service_token: SecretStr | None = None
     vk_api_version: str = "5.199"
+    # Адрес методов VK API (adapters/vk_live.py). Ключ уходит в теле POST, не в адресе.
+    vk_api_url: str = "https://api.vk.com/method"
+    # Не больше стольких запросов к VK в секунду на ключ (правила VK для ключа — 3 в секунду).
+    vk_requests_per_second: float = Field(default=3.0, gt=0, le=20)
+    vk_timeout_sec: float = Field(default=15.0, gt=0)
+    # Повторный поиск не ходит в VK за стеной сообщества, полученной не раньше стольких минут
+    # назад: посты берутся из кэша публикаций в базе (Р7). 0 — кэш выключен.
+    vk_cache_minutes: int = Field(default=30, ge=0)
+    # Потолок страниц wall.get (по 100 постов) на одно сообщество за один поиск: не даёт одному
+    # большому сообществу съесть суточный бюджет на длинном периоде (честный «потолок выдачи»).
+    vk_max_pages_per_source: int = Field(default=10, ge=1, le=100)
     # Бюджет вызовов внешних площадок на открытом стенде (НТ-6, services/budget.py): предел
     # на сутки (по красноярскому времени) и на календарный месяц; 0 — без предела на период.
     # VK без верификации даёт 10 000 вызовов в месяц; суточный предел не даёт сжечь месяц
@@ -179,6 +196,14 @@ class Settings(BaseSettings):
             return None
         return value
 
+    @field_validator("data_source_vk", "data_source_ok", "data_source_max", mode="before")
+    @classmethod
+    def _blank_source_is_none(cls, value: object) -> object:
+        """Пусто — «как DATA_SOURCE»."""
+        if value is None or (isinstance(value, str) and not value.strip()):
+            return None
+        return value.strip().lower() if isinstance(value, str) else value
+
     @field_validator("site_dir", "web_app_dir", mode="before")
     @classmethod
     def _blank_dir_is_none(cls, value: object) -> object:
@@ -205,6 +230,20 @@ class Settings(BaseSettings):
             raise ValueError("AI_CHECK_SIGNS_THRESHOLD больше AI_CHECK_LIKELY_THRESHOLD")
         return self
 
+    def source_of(self, platform: str) -> Literal["fixtures", "live"]:
+        """Откуда данные площадки: своя переменная DATA_SOURCE_<ПЛОЩАДКА> или общая."""
+        own: Literal["fixtures", "live"] | None = getattr(self, f"data_source_{platform}", None)
+        return own or self.data_source
+
+    @property
+    def demo_platforms(self) -> tuple[str, ...]:
+        """Площадки на записанных примерах — в порядке vk, ok, max."""
+        return tuple(p for p in ("vk", "ok", "max") if self.source_of(p) == "fixtures")
+
+    @property
+    def all_fixtures(self) -> bool:
+        return len(self.demo_platforms) == 3
+
     @property
     def ai_detect_kind(self) -> Literal["gigacheck", "fixture", "off"]:
         """Какой провайдер проверки на ИИ работает при этих настройках."""
@@ -216,7 +255,7 @@ class Settings(BaseSettings):
             return "gigacheck"
         # Демо-оценка из хеша — только для разработки на записанных примерах: на стенде её
         # легко принять за настоящую (правый клик по живому тексту), поэтому там — явно.
-        if self.data_source == "fixtures" and self.environment != "production":
+        if self.all_fixtures and self.environment != "production":
             return "fixture"
         return "off"
 

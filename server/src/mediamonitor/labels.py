@@ -51,6 +51,31 @@ MODE_LABEL: dict[SearchMode, str] = {"my-sources": "Мои источники", 
 MONTHS_SHORT = ("янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек")
 NBSP = " "
 
+# Публикация из записанных примеров: вместо ссылки на пост (карточка, XLSX).
+DEMO_POST_NOTE = "демо-публикация, ссылки нет"
+
+
+def _join_names(names: list[str]) -> str:
+    if len(names) <= 1:
+        return "".join(names)
+    return ", ".join(names[:-1]) + " и " + names[-1]
+
+
+def demo_line(demo: list[PlatformId], all_platforms: tuple[PlatformId, ...]) -> str | None:
+    """«ВКонтакте — живые данные. Одноклассники и MAX — пока демонстрационные примеры».
+    None — демонстрационных площадок нет."""
+    if not demo:
+        return None
+    live = [PLATFORM_NAME[p] for p in all_platforms if p not in demo]
+    shown = _join_names([PLATFORM_NAME[p] for p in all_platforms if p in demo])
+    if not live:
+        return "Все площадки — демонстрационные примеры: публикации вымышлены, ссылок на посты нет."
+    return (
+        f"{_join_names(live)} — живые данные. {shown} — пока демонстрационные примеры: "
+        "публикации вымышлены, ссылок на посты нет."
+    )
+
+
 AI_UNAVAILABLE_NOTE = (
     "Смысловая проверка недоступна: нейросеть не отвечает. Решите сами, подходит ли публикация."
 )

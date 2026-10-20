@@ -279,6 +279,8 @@ class PlatformStatus(ApiModel):
     freshness: DataFreshness | None
     cap: PlatformCap | None
     updated_at: IsoDateTime | None
+    # Площадка отвечает записанными примерами (демо): её публикации вымышлены, ссылок нет.
+    demo: bool | None = absent()
 
 
 # ============================================================================
@@ -504,6 +506,9 @@ class Publication(ApiModel):
     reactions: int | None
     fetched_at: IsoDateTime
     link_check: LinkCheck
+    # Публикация из записанных примеров (демо): источник вымышлен, ссылки на пост нет.
+    # У живых публикаций поля нет.
+    demo: bool | None = absent()
 
 
 class RegionReason(ApiModel):

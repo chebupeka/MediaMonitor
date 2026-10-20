@@ -1,4 +1,4 @@
-"""Заготовки настоящих адаптеров VK, OK и MAX.
+"""Заготовки настоящих адаптеров OK и MAX; VK живой — `adapters/vk_live.py`.
 
 Каждый реализует интерфейс `PlatformAdapter`, честно отвечает «нет доступа», если ключ
 не задан, и «ещё не подключено» — пока логика получения данных не написана.
@@ -28,6 +28,7 @@ from mediamonitor.adapters.base import (
     SourceProbe,
 )
 from mediamonitor.adapters.fixture import MAX_FRESHNESS
+from mediamonitor.adapters.vk_live import VkAdapter
 from mediamonitor.contract import PlatformId
 from mediamonitor.labels import PLATFORM_NAME
 from mediamonitor.normalize.urls import PostRef
@@ -93,42 +94,6 @@ class _LiveAdapter:
         return AdapterHealth("down", error.message)
 
 
-class VkAdapter(_LiveAdapter):
-    """ВКонтакте через официальный API с сервисным ключом своего приложения VK ID.
-
-    TODO(И1, разведка §1.2–§1.3, §6, §7.1):
-    - «мои источники»: `wall.search` (owner_id=-<id>, query=…) по каждой группе списка,
-      либо `wall.get` + отбор по периоду; `count` ≤ 100, листаем `offset`;
-    - «везде»: `newsfeed.search` (q, start_time, end_time), если метод открыт новому
-      приложению (проба §7.4 п. 1); иначе — широкий пул сообществ края + `wall.search`;
-    - `groups.getById` (fields=members_count,city) — подписчики и город источника;
-    - проверка ссылки: `wall.getById` (posts=<owner>_<id>); пост удалён → None;
-    - ошибки API → AdapterError: 5 → key-invalid; 6, 9, 29 → rate-limited / quota-exhausted;
-      15, 18, 30 → закрытая группа (Partial «sources-closed»);
-      непонятный JSON → bad-response (НТ-5);
-    - перед каждым вызовом API — `await self._spend()`: бюджет на сутки и месяц (НТ-6,
-      10 000 вызовов в месяц у неверифицированного приложения).
-    """
-
-    platform: PlatformId = "vk"
-    key_env = "VK_SERVICE_TOKEN"
-
-    def __init__(
-        self, settings: Settings, client: httpx.AsyncClient, budget: CallMeter | None = None
-    ) -> None:
-        super().__init__(settings, client, budget)
-        self.description = AdapterDescription(
-            platform="vk",
-            via="VK API (сервисный ключ)",
-            quota=QuotaInfo(
-                limit=settings.vk_monthly_quota, unit="вызовов в месяц", period="month"
-            ),
-        )
-
-    def _has_key(self) -> bool:
-        return self.settings.vk_service_token is not None
-
-
 class OkAdapter(_LiveAdapter):
     """Одноклассники: анонимный веб-поиск ok.ru и страницы постов (ключ не нужен).
 
@@ -180,3 +145,6 @@ class MaxAdapter(_LiveAdapter):
 
     def _has_key(self) -> bool:
         return self.settings.maxstat_token is not None
+
+
+__all__ = ["MaxAdapter", "OkAdapter", "VkAdapter"]
