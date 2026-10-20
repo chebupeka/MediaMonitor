@@ -13,7 +13,8 @@ export type DemoScenario =
   | 'queue'
   | 'offline'
   | 'first-run'
-  | 'large';
+  | 'large'
+  | 'demo-platforms';
 
 /** Вид сбоя MAX в сценарии «MAX недоступен» — чтобы показать полный набор статусов (НТ-3). */
 export type MaxFailure =
@@ -42,6 +43,11 @@ export const DEMO_SCENARIOS: readonly { id: DemoScenario; label: string; hint: s
   { id: 'offline', label: 'Нет связи', hint: 'Связь пропадает на 6 секунд, поиск продолжается' },
   { id: 'first-run', label: 'Первый запуск', hint: 'Список источников пуст' },
   { id: 'large', label: '500 результатов', hint: 'Большая подборка на любой запрос' },
+  {
+    id: 'demo-platforms',
+    label: 'Демо-площадки',
+    hint: 'Как на стенде: ВКонтакте живой, OK и MAX — записанные примеры без ссылок',
+  },
 ];
 
 export const MAX_FAILURES: readonly { id: MaxFailure; label: string }[] = [

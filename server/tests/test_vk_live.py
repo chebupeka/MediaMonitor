@@ -593,11 +593,43 @@ async def test_repeat_search_within_ttl_uses_cache(tmp_path: Path) -> None:
 def test_catalog_takes_only_communities() -> None:
     targets = load_vk_catalog()
     keys = {t.key for t in targets}
-    assert len(targets) == 45  # 48 редакций, у трёх ссылка на личную страницу
+    krai = [t for t in targets if t.regional]
+    federal = [t for t in targets if not t.regional]
+    assert len(krai) == 45  # 48 редакций, у трёх ссылка на личную страницу
+    assert len(federal) == 21  # docs/research/vk-krai-communities.md
     assert "avangard_online" in keys
     assert "68905670" in keys  # vk.com/club68905670 → число
+    assert {"ria", "tassagency", "ru__novosti"} <= {t.key for t in federal}
     assert not any(k.startswith("id") and k[2:].isdigit() for k in keys)
     assert len(keys) == len(targets)
+
+
+async def test_federal_communities_read_one_page_and_are_not_regional(tmp_path: Path) -> None:
+    fake = FakeVk()
+    two_groups(fake)
+    fake.groups["ria"] = group(15755094, "РИА Новости", "ria")
+    fake.walls[-15755094] = [
+        post(-15755094, 900_000 - i, NOW - timedelta(minutes=10 * i), f"Новость {i}")
+        for i in range(500)
+    ]
+    catalog = [*CATALOG, VkTarget("ria", "РИА Новости", None, None, regional=False)]
+    vk = VkAdapter(
+        vk_settings(tmp_path),
+        httpx.AsyncClient(transport=httpx.MockTransport(fake.handler)),
+        catalog=catalog,
+        sleep=no_sleep,
+        clock=Clock(NOW),
+    )
+    pool = {s.owner_id: s for s in await vk.pool()}
+    assert pool["-101"].regional
+    assert pool["-15755094"].regional is False  # краевой — только по месту в тексте
+    posts, events = await collect(vk.search(query(days=7)))
+    assert len(fake.wall_calls(-15755094)) == 1  # VK_FEDERAL_MAX_PAGES=1
+    assert len([p for p in posts if p.ref.owner_id == "-15755094"]) == 100
+    caps = [e for e in events if isinstance(e, Capped)]
+    assert caps
+    assert "федеральных сообществ (1)" in caps[0].note
+    assert "последние 100 постов" in caps[0].note
 
 
 def test_per_platform_data_source(tmp_path: Path) -> None:

@@ -48,6 +48,7 @@ import {
   truncateText,
 } from '@/lib/format';
 import {
+  DEMO_POST_NOTE,
   METHOD_LABEL,
   MODE_LABEL,
   PLACEMENT_TYPE_LABEL,
@@ -743,7 +744,7 @@ function buildExport(record: SearchRecord, options?: ExportOptions, full = false
       safeCell(p.source.name),
       safeCell(p.headline),
       formatPublishedAt(p),
-      p.url,
+      p.demo ? DEMO_POST_NOTE : p.url,
       item.excerpt ? safeCell(item.excerpt.text) : 'текст отсутствует',
       RELEVANCE_LABEL[item.relevance],
       METHOD_LABEL[item.method],

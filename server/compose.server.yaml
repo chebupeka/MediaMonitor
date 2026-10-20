@@ -41,4 +41,7 @@ services:
       FORWARDED_ALLOW_IPS: "127.0.0.1"
       EMBEDDINGS_CPU_FALLBACK: "false"
       HF_HUB_OFFLINE: "1"
+      # VK вживую: сервисный ключ уже в /opt/mediamonitor/.env. Вернуть примеры —
+      # DATA_SOURCE_VK=fixtures в server/.env. OK и MAX — по DATA_SOURCE (или DATA_SOURCE_OK/_MAX).
+      DATA_SOURCE_VK: ${DATA_SOURCE_VK:-live}
     mem_limit: 768m

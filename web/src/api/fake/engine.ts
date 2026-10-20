@@ -68,6 +68,8 @@ export interface SearchRecord {
   arrival: number;
   /** Обрыв связи уже был в этом поиске */
   connectionDropped: boolean;
+  /** Площадки «на записанных примерах» (сценарий «Демо-площадки», как на стенде) */
+  demoPlatforms: ReadonlySet<PlatformId>;
 }
 
 const records = new Map<string, SearchRecord>();
@@ -180,6 +182,7 @@ function platformStatus(record: SearchRecord, platform: PlatformId): PlatformSta
     freshness,
     cap,
     updatedAt: plan.updatedAt,
+    ...(record.demoPlatforms.has(platform) ? { demo: true } : {}),
   };
 }
 
@@ -692,7 +695,13 @@ export function startFakeSearch(request: SearchRequest, ctx: SearchContext): Fak
 
   const dataset = pickDataset(request.text, request.meaningId, scenario);
   const prepared = prepareItems(dataset, request, ctx, startedMs);
-  const items = prepared.map((d) => decorate(d, request, ctx, aiDown));
+  // Сценарий «Демо-площадки»: как на стенде — VK живой, OK и MAX на записанных примерах
+  const demoPlatforms = new Set<PlatformId>(scenario === 'demo-platforms' ? ['ok', 'max'] : []);
+  const items = prepared.map((d) => {
+    const item = decorate(d, request, ctx, aiDown);
+    if (demoPlatforms.has(item.publication.platform)) item.publication.demo = true;
+    return item;
+  });
   const platforms =
     request.platforms && request.platforms.length > 0 ? request.platforms : [...PLATFORM_ORDER];
   const meaning = request.meaningId
@@ -739,6 +748,7 @@ export function startFakeSearch(request: SearchRequest, ctx: SearchContext): Fak
     notices: notesFor(dataset, items, aiDown),
     arrival: 0,
     connectionDropped: false,
+    demoPlatforms,
   };
   records.set(searchId, record);
 
@@ -896,6 +906,7 @@ export function adoptRecord(
     arrival: selection.items.reduce((max, i) => Math.max(max, i.arrival), 0),
     // обрыв связи по сценарию уже показали в исходном поиске
     connectionDropped: true,
+    demoPlatforms: new Set(selection.statuses.filter((s) => s.demo).map((s) => s.platform)),
   };
   records.set(record.searchId, record);
   return record;

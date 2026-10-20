@@ -105,6 +105,8 @@ class VkTarget:
     name: str
     district: str | None
     subscribers: int | None
+    # Краевое СМИ (основание «краевой источник», Р4); федеральное — только по месту в тексте.
+    regional: bool = True
 
 
 @dataclass(frozen=True)
@@ -139,8 +141,9 @@ def _community_key(owner: str | None, slug: str | None) -> str | None:
 
 
 def load_vk_catalog() -> list[VkTarget]:
-    """Охват «Везде» для VK: сообщества краевых СМИ из `krai-media.json` и VK-записи
-    `catalog.json`, без личных страниц и без повторов."""
+    """Охват «Везде» для VK: сообщества краевых СМИ из `krai-media.json`, VK-записи
+    `catalog.json` и федеральные сообщества `vk-federal.json` (ТЗ-Ф10: о крае пишут и они),
+    без личных страниц и без повторов."""
     targets: dict[str, VkTarget] = {}
     for media in _read_json("krai-media.json").get("media", []):
         vk = (media.get("links") or {}).get("vk")
@@ -173,6 +176,21 @@ def load_vk_catalog() -> list[VkTarget]:
                 name=str(entry.get("name") or key),
                 district=entry.get("district"),
                 subscribers=subscribers if isinstance(subscribers, int) else None,
+            ),
+        )
+    for entry in _read_json("vk-federal.json").get("sources", []):
+        key = _community_key(str(entry.get("ownerId") or ""), entry.get("slug"))
+        if key is None:
+            continue
+        subscribers = entry.get("subscribers")
+        targets.setdefault(
+            key,
+            VkTarget(
+                key=key,
+                name=str(entry.get("name") or key),
+                district=None,
+                subscribers=subscribers if isinstance(subscribers, int) else None,
+                regional=False,
             ),
         )
     return list(targets.values())
@@ -495,8 +513,8 @@ class VkAdapter:
             else (target.subscribers if target else None),
             type="media",
             district=target.district if target else None,
-            regional=True,
-            in_catalog=True,
+            regional=target.regional if target else False,
+            in_catalog=target.regional if target else False,
             closed=bool(group.get("is_closed")) or bool(group.get("deactivated")),
         )
 
@@ -537,8 +555,11 @@ class VkAdapter:
             lock = self._locks[owner] = asyncio.Lock()
         return lock
 
-    async def _wall(self, source: SourceInfo, start: datetime, end: datetime) -> _Walk:
-        """Посты сообщества за период: из кэша (Р7) или листая wall.get до начала периода."""
+    async def _wall(
+        self, source: SourceInfo, start: datetime, end: datetime, max_pages: int
+    ) -> _Walk:
+        """Посты сообщества за период: из кэша (Р7) или листая wall.get до начала периода,
+        но не больше `max_pages` страниц."""
         owner = source.owner_id
         async with self._lock(owner):
             mark = self.marks.get(owner)
@@ -552,7 +573,7 @@ class VkAdapter:
             exhausted = False
             capped = False
             while True:
-                if pages >= self.settings.vk_max_pages_per_source:
+                if pages >= max_pages:
                     capped = True
                     break
                 response = await self.call(
@@ -615,13 +636,21 @@ class VkAdapter:
         total = len(sources)
         closed: list[str] = []
         capped: list[str] = []
+        capped_federal: list[str] = []
+        full = self.settings.vk_max_pages_per_source
+        federal = min(self.settings.vk_federal_max_pages, full)
         for index, source in enumerate(sources):
             yield Progress(index, total, "sources", source.name)
             if source.closed:
                 closed.append(source.name)
                 continue
+            # Федеральные сообщества «Везде» (не краевые, пишут много) — только последние
+            # страницы: о крае у них редкие посты, а вызовы дорогие (бюджет стенда).
+            is_federal = not mine and not source.regional
             try:
-                walk = await self._wall(source, query.start, query.end)
+                walk = await self._wall(
+                    source, query.start, query.end, federal if is_federal else full
+                )
             except VkApiError as error:
                 if error.code in CLOSED_ERRORS or error.code in GONE_ERRORS:
                     closed.append(source.name)
@@ -637,17 +666,24 @@ class VkAdapter:
                 raise self._fatal(error) from error
             self._access_problem = None
             if walk.capped:
-                capped.append(source.name)
+                (capped_federal if is_federal else capped).append(source.name)
             if walk.posts:
                 yield Posts(walk.posts)
         yield Progress(total, total, "sources", None)
-        if capped:
-            limit = self.settings.vk_max_pages_per_source * PAGE_SIZE
-            yield Capped(
-                limit,
-                f"ВКонтакте: в {_count_word(len(capped))} просмотрены только "
-                f"последние {limit} постов",
-            )
+        if capped or capped_federal:
+            notes = []
+            if capped:
+                notes.append(
+                    f"в {_count_word(len(capped))} просмотрены только последние "
+                    f"{full * PAGE_SIZE} постов"
+                )
+            if capped_federal:
+                notes.append(
+                    f"у федеральных сообществ ({len(capped_federal)}) — только последние "
+                    f"{federal * PAGE_SIZE} постов, это предел стенда"
+                )
+            limit = (federal if capped_federal else full) * PAGE_SIZE
+            yield Capped(limit, "ВКонтакте: " + "; ".join(notes))
         if closed:
             yield Partial("sources-closed", _closed_message(closed, mine), False)
 
@@ -718,10 +754,12 @@ class VkAdapter:
             return AdapterHealth("down", self._no_key().message)
         if self._access_problem:
             return AdapterHealth("down", self._access_problem)
+        krai = sum(1 for t in self.catalog if t.regional)
         return AdapterHealth(
             "ok",
-            f"Живые данные: VK API, стены сообществ. «Везде» — {len(self.catalog)} сообществ "
-            f"края из каталога; повтор за {self.settings.vk_cache_minutes} мин — из кэша.",
+            f"Живые данные: VK API, стены сообществ. «Везде» — {krai} сообществ краевых СМИ "
+            f"и {len(self.catalog) - krai} федеральных; повтор за "
+            f"{self.settings.vk_cache_minutes} мин — из кэша.",
         )
 
 

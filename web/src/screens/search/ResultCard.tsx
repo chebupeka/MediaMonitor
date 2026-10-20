@@ -19,7 +19,13 @@ import {
 } from '@/components';
 import { formatPublishedAt } from '@/lib/format';
 import { excerptSegments } from '@/lib/highlight';
-import { METHOD_LABEL, PLATFORMS, RELEVANCE_SHORT, regionReasonText } from '@/lib/labels';
+import {
+  DEMO_POST_NOTE,
+  METHOD_LABEL,
+  PLATFORMS,
+  RELEVANCE_SHORT,
+  regionReasonText,
+} from '@/lib/labels';
 import { AiMark } from '@/screens/ai-check/AiMark';
 import styles from './search.module.css';
 
@@ -83,10 +89,15 @@ export function ResultCard({ item, onToggleExcluded }: ResultCardProps) {
         )}
       </CardBody>
       <CardFooter className={styles.cardFooter}>
-        <a className={styles.open} href={pub.url} target="_blank" rel="noopener noreferrer">
-          Открыть пост
-          <ExternalLink aria-hidden="true" />
-        </a>
+        {pub.demo ? (
+          // Записанный пример: поста на площадке нет — ссылку не показываем (Р11 п. 3)
+          <span className={styles.demoPost}>{DEMO_POST_NOTE}</span>
+        ) : (
+          <a className={styles.open} href={pub.url} target="_blank" rel="noopener noreferrer">
+            Открыть пост
+            <ExternalLink aria-hidden="true" />
+          </a>
+        )}
         <span className={styles.method}>
           {METHOD_LABEL[item.method]}
           {/* Проверка текста на ИИ: метка только у «похоже на ИИ» и «признаки ИИ» */}

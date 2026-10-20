@@ -51,7 +51,7 @@ import {
 import { WORDS, formatCount, formatPeriod, plural } from '@/lib/format';
 import { getHost } from '@/lib/host';
 import { motionAllowed } from '@/lib/motion';
-import { REGION_PRINCIPLE, RELEVANCE_ORDER, RELEVANCE_SHORT } from '@/lib/labels';
+import { REGION_PRINCIPLE, RELEVANCE_ORDER, RELEVANCE_SHORT, demoLine } from '@/lib/labels';
 import { AiDots } from '@/screens/ai-check/AiMark';
 import { ExportDialog } from './ExportDialog';
 import { ResultCard } from './ResultCard';
@@ -429,6 +429,8 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
   const aiLikely = state.counts?.aiLikely ?? 0;
   const total = state.counts?.total ?? 0;
   const releaseGroup = state.groups.find((g) => g.kind === 'release');
+  // Часть площадок на записанных примерах — говорим прямо, какие данные живые (Р11 п. 3)
+  const demoNote = demoLine(state.statuses);
 
   const toggleExcluded = (item: ResultItem) => {
     const next = !item.excluded;
@@ -517,6 +519,7 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
       {state.items.length > 0 && (
         <section className={styles.results} aria-labelledby="results-title">
           <Kicker className={styles.resultsKicker}>Подборка · каждое размещение отдельно</Kicker>
+          {demoNote && <p className={styles.demoLine}>{demoNote}</p>}
           <div className={styles.resultsHead}>
             <h2 id="results-title" className={styles.found}>
               <span className={styles.foundNum}>{total}</span>
