@@ -84,9 +84,13 @@ class HostLimiter:
 
 
 class TtlCache:
-    """Кэш ответов на короткое время (Р7: экономия, не источник выдачи)."""
+    """Кэш ответов на короткое время (Р7: экономия, не источник выдачи).
 
-    def __init__(self, ttl: float, size: int = 512, clock: Callable[[], float] = time.monotonic):
+    Не больше `size` ответов (лента ~150 КБ, канал Дзена ~300 КБ): на сервере 4 ГБ памяти,
+    а у API — предел контейнера 768 МБ. 200 ответов — 43 ленты, 25 каналов и поиски.
+    """
+
+    def __init__(self, ttl: float, size: int = 200, clock: Callable[[], float] = time.monotonic):
         self.ttl = ttl
         self.size = size
         self._clock = clock
