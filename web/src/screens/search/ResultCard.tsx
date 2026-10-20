@@ -5,7 +5,7 @@
  * «в вашем списке» (НТ-25) и «новое» после «Повторить» из недавних (П12).
  * Тексты постов выводим только как текст (НТ-9).
  */
-import { ExternalLink } from 'lucide-react';
+import { Copy, ExternalLink } from 'lucide-react';
 import type { ResultItem } from '@/api/types';
 import {
   Button,
@@ -20,6 +20,7 @@ import {
 import { formatPublishedAt } from '@/lib/format';
 import { excerptSegments } from '@/lib/highlight';
 import {
+  type CopyMark,
   DEMO_POST_NOTE,
   METHOD_LABEL,
   PLATFORMS,
@@ -31,10 +32,12 @@ import styles from './search.module.css';
 
 interface ResultCardProps {
   item: ResultItem;
+  /** Группа копий (Р9): «копия · 3» / «оригинал · 3» — из `copyMark`. */
+  copy?: CopyMark | null;
   onToggleExcluded: (item: ResultItem) => void;
 }
 
-export function ResultCard({ item, onToggleExcluded }: ResultCardProps) {
+export function ResultCard({ item, copy, onToggleExcluded }: ResultCardProps) {
   const pub = item.publication;
   const segments = excerptSegments(item);
   // «в вашем списке» — один раз: причиной региона (режим «Мои источники») или пометкой
@@ -57,6 +60,11 @@ export function ResultCard({ item, onToggleExcluded }: ResultCardProps) {
             {item.isNew && (
               <Chip size="sm" tone="info">
                 новое
+              </Chip>
+            )}
+            {copy && (
+              <Chip size="sm" tone="info" icon={<Copy />} title={copy.hint}>
+                {copy.label}
               </Chip>
             )}
             <Chip size="sm" tone={item.relevance === 'disputed' ? 'warning' : 'neutral'}>

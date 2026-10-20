@@ -11,6 +11,8 @@ import type {
   QueryKind,
   RegionReason,
   Relevance,
+  ResultGroup,
+  ResultItem,
   SearchMode,
   SelectionMethod,
   SourceType,
@@ -268,6 +270,37 @@ export function regionReasonText(reason: RegionReason): string {
   if (reason.inMySources) parts.push('в вашем списке');
   if (reason.places.length > 0) parts.push(`упоминается: ${reason.places.join(', ')}`);
   return parts.join(' · ');
+}
+
+/** Пометка карточки о группе копий (Р9, ТЗ-Ф29): «копия · 3», у первой публикации — «оригинал · 3». */
+export interface CopyMark {
+  label: string;
+  hint: string;
+}
+
+/**
+ * Метка группы копий для карточки. Нет группы, группа релиза (у неё «Распространение»)
+ * или в группе меньше двух размещений — `null`. Каждое размещение остаётся отдельной записью.
+ */
+export function copyMark(
+  item: Pick<ResultItem, 'id' | 'groupId' | 'isOriginal'>,
+  groups: readonly ResultGroup[],
+): CopyMark | null {
+  if (!item.groupId) return null;
+  const group = groups.find((g) => g.id === item.groupId);
+  if (!group || group.kind !== 'copies' || group.itemIds.length < 2) return null;
+  const n = group.itemIds.length;
+  const original = group.originalItemId ? group.originalItemId === item.id : item.isOriginal;
+  const where = formatCount(n, ['размещение', 'размещения', 'размещений']);
+  return original
+    ? {
+        label: `оригинал · ${formatNumber(n)}`,
+        hint: `Тот же текст — ${where}; эта публикация вышла первой. Каждое размещение — отдельная запись, в XLSX — колонка «Группа».`,
+      }
+    : {
+        label: `копия · ${formatNumber(n)}`,
+        hint: `Тот же текст — ${where}; эта публикация — копия. Каждое размещение — отдельная запись, в XLSX — колонка «Группа».`,
+      };
 }
 
 export const TIME_RELIABILITY_LABEL: Record<TimeReliability, string | null> = {
