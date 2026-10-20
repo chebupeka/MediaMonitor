@@ -38,6 +38,7 @@ import {
   plural,
 } from '@/lib/format';
 import {
+  DEMO_POST_NOTE,
   PLACEMENT_TYPE_LABEL,
   PLATFORMS,
   PLATFORM_ORDER,
@@ -478,10 +479,15 @@ function PlacementsTable({ placements }: { placements: readonly SpreadPlacement[
                 )}
               </td>
               <td className={styles.openCell}>
-                <a className={styles.open} href={p.url} target="_blank" rel="noopener noreferrer">
-                  Открыть пост
-                  <ExternalLink aria-hidden="true" />
-                </a>
+                {p.demo ? (
+                  // Записанный пример: поста на площадке нет — ссылку не показываем (Р11 п. 3)
+                  <span className={styles.demoPost}>{DEMO_POST_NOTE}</span>
+                ) : (
+                  <a className={styles.open} href={p.url} target="_blank" rel="noopener noreferrer">
+                    Открыть пост
+                    <ExternalLink aria-hidden="true" />
+                  </a>
+                )}
               </td>
             </tr>
           ))}

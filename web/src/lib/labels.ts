@@ -69,6 +69,39 @@ export const PLATFORMS: Record<PlatformId, PlatformMeta> = {
   },
 };
 
+/** Где ищем, в предложном падеже: предлог и слово. Соцсети подряд — с одним предлогом. */
+const PLATFORM_IN: Record<PlatformId, { prep: string; word: string; social: boolean }> = {
+  vk: { prep: 'во', word: 'ВКонтакте', social: true },
+  ok: { prep: 'в', word: 'Одноклассниках', social: true },
+  max: { prep: 'в', word: 'MAX', social: true },
+  site: { prep: 'на', word: 'сайтах СМИ', social: false },
+  dzen: { prep: 'в', word: 'Дзене', social: false },
+};
+
+/**
+ * Площадки поиска для подписи «Идёт поиск …»: «во ВКонтакте, Одноклассниках, MAX, на сайтах
+ * СМИ и в Дзене». Список — от сервера (`StartState.platforms`, `SearchConditions.platforms`),
+ * порядок — `PLATFORM_ORDER`. Пустой список — пустая строка.
+ */
+export function platformsWhere(ids: readonly PlatformId[]): string {
+  const parts: string[] = [];
+  let socialStarted = false;
+  for (const id of PLATFORM_ORDER) {
+    if (!ids.includes(id)) continue;
+    const { prep, word, social } = PLATFORM_IN[id];
+    parts.push(social && socialStarted ? word : `${prep} ${word}`);
+    if (social) socialStarted = true;
+  }
+  return joinNames(parts);
+}
+
+/** Площадки поиска через запятую для подписи-раздела, коротко: «VK, OK, MAX, сайты СМИ, Дзен». */
+export function platformsList(ids: readonly PlatformId[]): string {
+  return PLATFORM_ORDER.filter((id) => ids.includes(id))
+    .map((id) => (id === 'site' ? 'сайты СМИ' : PLATFORMS[id].short))
+    .join(', ');
+}
+
 // ---------------------------------------------------------------- демо-площадки
 
 /** Публикация из записанных примеров: вместо «Открыть пост» (карточка, XLSX). */
@@ -166,7 +199,8 @@ export const MODE_LABEL: Record<SearchMode, string> = {
 
 export const MODE_HINT: Record<SearchMode, string> = {
   'my-sources': 'Только группы и каналы из вашего списка',
-  everywhere: 'Все публичные посты, которые относятся к Красноярскому краю',
+  everywhere:
+    'Все краевые источники из каталога: 48 СМИ края на сайтах, VK, OK, MAX и в Дзене, плюс федеральные сообщества VK, если пишут о крае',
 };
 
 export const PERIOD_PRESET_LABEL: Record<PeriodPreset, string> = {

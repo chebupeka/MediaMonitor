@@ -250,7 +250,7 @@ export default function HowScreen({ params, navKey }: ScreenProps<'how'>) {
           </li>
           <li>
             <b>{MODE_LABEL.everywhere}:</b> {lowerFirst(MODE_HINT.everywhere)}. Здесь регион —
-            главный фильтр. Во ВКонтакте это посты сообществ края из нашего пула.
+            главный фильтр.
           </li>
           <li>
             Регион один и всегда указан в условиях над подборкой. На запрос про другой регион

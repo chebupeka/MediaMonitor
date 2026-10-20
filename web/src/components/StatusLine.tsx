@@ -35,6 +35,8 @@ export interface StatusLineProps {
   total?: number | null;
   /** Поиск ещё идёт */
   running?: boolean;
+  /** Поиск остановлен человеком: внизу «Поиск остановлен …», а не «выполнен» */
+  stopped?: boolean;
   /** «Повторить» по площадке (ТЗ-Ф44) */
   onRetry?: (platform: PlatformId) => void;
   /** Площадка, которую сейчас повторяют: кнопка в состоянии загрузки */
@@ -71,6 +73,19 @@ function placeholder(platform: PlatformId): PlatformStatus {
 }
 
 /**
+ * «Данные с задержкой» (MAX, ~24 ч) — только у площадки, которая участвовала в поиске и
+ * ответила: у ожидающей, не ответившей или без доступа пометка ни о чём.
+ */
+function answeredFreshness(status: PlatformStatus) {
+  const answered =
+    status.state === 'found' ||
+    status.state === 'nothing' ||
+    status.state === 'partial' ||
+    status.state === 'stopped';
+  return answered ? freshnessView(status) : null;
+}
+
+/**
  * Строка условий и статусов (Р9 п. 3): что искали, где, за какой период, сколько
  * найдено и как ответила каждая площадка из полного набора (НТ-3, НТ-4).
  * Всегда над подборкой. Работает и в узкой панели (контейнерные запросы).
@@ -80,6 +95,7 @@ export function StatusLine({
   statuses,
   total = null,
   running = false,
+  stopped = false,
   onRetry,
   retrying = null,
   currentSource,
@@ -95,7 +111,7 @@ export function StatusLine({
   const full = shown.map((p) => byPlatform.get(p) ?? placeholder(p));
   const notes = full.flatMap((s) => {
     const view = platformStatusView(s);
-    const fresh = freshnessView(s);
+    const fresh = answeredFreshness(s);
     const lines: { key: string; platform: PlatformId; text: string; tone: string }[] = [];
     if (view.detail && (s.state === 'partial' || s.state === 'error' || s.state === 'no-access')) {
       lines.push({
@@ -188,7 +204,7 @@ export function StatusLine({
         <ul className={styles.platforms} aria-label="Статус площадок">
           {full.map((s) => {
             const view = platformStatusView(s);
-            const fresh = freshnessView(s);
+            const fresh = answeredFreshness(s);
             const source = currentSource?.[s.platform];
             return (
               <li key={s.platform} className={styles.platform}>
@@ -232,7 +248,7 @@ export function StatusLine({
       <p className={styles.time}>
         {running || !finished
           ? `Поиск начат ${formatDateTime(conditions.startedAt)}`
-          : `Поиск выполнен ${formatDateTime(finished)}`}{' '}
+          : `${stopped ? 'Поиск остановлен' : 'Поиск выполнен'} ${formatDateTime(finished)}`}{' '}
         · {TIME_ZONE_LABEL}
       </p>
     </section>

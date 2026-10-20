@@ -7,7 +7,7 @@
 import type { PlatformId, SpreadPlacement, WavePoint } from '@/api/types';
 import { cx } from '@/components';
 import { WORDS, formatCount, formatDate, formatPublishedAt, formatTime } from '@/lib/format';
-import { PLATFORMS, PLATFORM_ORDER, PLACEMENT_TYPE_LABEL } from '@/lib/labels';
+import { DEMO_POST_NOTE, PLATFORMS, PLATFORM_ORDER, PLACEMENT_TYPE_LABEL } from '@/lib/labels';
 import styles from './spread.module.css';
 
 const DAY_MS = 86_400_000;
@@ -66,27 +66,36 @@ export function Timeline({ placements, hourly }: TimelineProps) {
               ))}
               {dated
                 .filter((p) => p.platform === platform)
-                .map((p) => (
-                  <a
-                    key={p.itemId}
-                    href={p.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    tabIndex={-1}
-                    className={cx(
+                .map((p) => {
+                  const point = {
+                    className: cx(
                       styles.point,
                       p.isOriginal && styles.pointOriginal,
                       p.timeReliability === 'approximate' && styles.pointApprox,
-                    )}
-                    style={{
+                    ),
+                    style: {
                       left: `${x(Date.parse(p.publishedAt ?? ''))}%`,
                       background: PLATFORMS[platform].colorVar,
-                    }}
-                    title={`${p.sourceName} · ${formatPublishedAt(p)} · ${
-                      p.isOriginal ? 'исходный' : PLACEMENT_TYPE_LABEL[p.placementType]
-                    }`}
-                  />
-                ))}
+                    },
+                  };
+                  const title = `${p.sourceName} · ${formatPublishedAt(p)} · ${
+                    p.isOriginal ? 'исходный' : PLACEMENT_TYPE_LABEL[p.placementType]
+                  }`;
+                  // Записанный пример: поста на площадке нет — точка без ссылки
+                  return p.demo ? (
+                    <span key={p.itemId} title={`${title} · ${DEMO_POST_NOTE}`} {...point} />
+                  ) : (
+                    <a
+                      key={p.itemId}
+                      href={p.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      tabIndex={-1}
+                      title={title}
+                      {...point}
+                    />
+                  );
+                })}
             </div>
           </div>
         ))}
