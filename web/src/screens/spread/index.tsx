@@ -1,8 +1,11 @@
 /**
  * Экран «Распространение» (П4, Р10): куда и как широко разошлась новость.
  *
- * Отвечает на вопрос заказчика «как широко расходится релиз». Сверху — точки: вспышка
- * из источника, по опоре на каждое размещение. Дальше — кто опубликовал первым и
+ * Отвечает на вопрос заказчика «как широко расходится релиз». Как раздел «Распространение»
+ * сайта: слева заголовок, новость, первоисточник и цифры, справа — крупная вспышка точек из
+ * источника, по опоре на каждое размещение (в боковой панели — во всю ширину под заголовком).
+ * Сцена одна на все состояния: идёт поиск — облака площадок, готово — вспышка, формы
+ * перетекают друг в друга. Дальше, во всю ширину, — кто опубликовал первым и
  * насколько точно время (П4); размещения по площадкам и типам; аудитория источников и
  * просмотры отдельными цифрами с «как посчитано» (П5, НТ-24); как расходилась новость
  * по времени (П6); какие абзацы релиза взяли (П1); таблица размещений с сортировкой.
@@ -10,12 +13,12 @@
  */
 import { ExternalLink, FileSpreadsheet, Info } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { api, demoQueries, errorMessage, useSearchRun } from '@/api';
+import { IS_MOCKUP, api, demoQueries, errorMessage, useSearchRun } from '@/api';
 import type { SpreadPlacement, SpreadReport } from '@/api/types';
 import { useNavigation, type ScreenProps } from '@/app/navigation';
+import { useShell } from '@/app/shell-state';
 import {
   Button,
-  EmptyState,
   ErrorState,
   PlatformDot,
   Screen,
@@ -23,7 +26,8 @@ import {
   SkeletonText,
   ToggleGroup,
 } from '@/components';
-import { DotsScene } from '@/dots';
+import { DotsStage, type DotsForm } from '@/dots';
+import { SELECTION_FEATURES } from '@/lib/build';
 import {
   WORDS,
   formatCompact,
@@ -76,6 +80,7 @@ function typeLabel(p: SpreadPlacement): string {
 
 export default function SpreadScreen({ params, navKey }: ScreenProps<'spread'>) {
   const { navigate } = useNavigation();
+  const { layout } = useShell();
   const { state, start } = useSearchRun();
   const [report, setReport] = useState<SpreadReport | null>(null);
   const [loading, setLoading] = useState(false);
@@ -135,14 +140,100 @@ export default function SpreadScreen({ params, navKey }: ScreenProps<'spread'>) 
     [report],
   );
 
-  const releaseText = demoQueries.find((q) => q.id === 'release')?.text ?? '';
+  // Пример релиза — только на демо-данных: на сервере такой новости нет
+  const releaseText = IS_MOCKUP ? (demoQueries.find((q) => q.id === 'release')?.text ?? '') : '';
   const searching = state.phase === 'running' || state.phase === 'queued';
+  const failed = !report && !searching && !loading && error !== null;
+
+  // Сцена — одна на все состояния: формы перетекают друг в друга
+  const form: DotsForm = report ? 'spread' : searching ? 'searching' : failed ? 'failure' : 'krai';
+  const caption = report
+    ? `${formatCount(report.totals.placements, WORDS.placement)}: ${platformSummary(report)}. Ближе к центру — опубликованные раньше.`
+    : searching
+      ? `Ищем размещения новости… найдено ${state.counts?.total ?? 0}`
+      : failed
+        ? 'Распространение не посчитать.'
+        : 'Красноярский край: ВКонтакте, Одноклассники и MAX.';
 
   return (
     <Screen
-      title="Распространение"
-      eyebrow="Поиск по тексту новости → распространение"
+      index="02"
+      eyebrow="Распространение · по тексту новости"
+      title="Как *разошлась* новость"
       className={styles.screen}
+      sceneMode="hero"
+      scene={
+        <DotsStage
+          form={form}
+          intensity="calm"
+          placements={report ? chronological : undefined}
+          // В панели вспышка вписывается по ширине — крупнее, до краёв, как на сайте в телефоне
+          zoom={layout === 'panel' && report ? 1.3 : 1}
+          caption={caption}
+          live={searching}
+        />
+      }
+      intro={
+        <>
+          {!report && searching && (
+            <p className={styles.lead}>
+              Ищем, где вышла новость: во ВКонтакте, Одноклассниках и MAX. Когда поиск закончится,
+              здесь появятся первоисточник, все размещения и как широко разошлась новость.
+            </p>
+          )}
+
+          {!report && !searching && loading && <SkeletonText lines={6} />}
+
+          {failed && (
+            <ErrorState
+              compact
+              title="Распространение не посчитать"
+              description={error}
+              actions={
+                <Button variant="secondary" onClick={() => navigate('search')}>
+                  К поиску
+                </Button>
+              }
+            />
+          )}
+
+          {!report && !searching && !loading && !error && (
+            <div className={styles.start}>
+              <p className={styles.lead}>
+                <b>Распространение считается по тексту новости.</b>{' '}
+                {SELECTION_FEATURES
+                  ? 'Вставьте текст релиза в поиск или выделите его на сайте СМИ и нажмите «Найти, где это опубликовано».'
+                  : 'Вставьте текст релиза в поиск.'}{' '}
+                Когда поиск закончится, нажмите «Распространение» в строке состояния.
+              </p>
+              <div className={styles.startActions}>
+                {releaseText && (
+                  <Button variant="primary" size="lg" onClick={() => runText(releaseText)}>
+                    Показать на примере релиза
+                  </Button>
+                )}
+                <Button
+                  variant={releaseText ? 'link' : 'secondary'}
+                  size={releaseText ? 'md' : 'lg'}
+                  onClick={() => navigate('search')}
+                >
+                  К поиску
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {report && (
+            <>
+              <header className={styles.news}>
+                <h2 className={styles.newsTitle}>{report.title}</h2>
+                <Origin report={report} />
+              </header>
+              <Totals report={report} />
+            </>
+          )}
+        </>
+      }
       actions={
         report ? (
           <>
@@ -161,77 +252,21 @@ export default function SpreadScreen({ params, navKey }: ScreenProps<'spread'>) 
         ) : undefined
       }
     >
-      {!report && searching && (
-        <figure className={styles.stage}>
-          <DotsScene form="searching" intensity="calm" height={180} />
-          <figcaption className={styles.caption} role="status">
-            Ищем размещения новости… найдено {state.counts?.total ?? 0}
-          </figcaption>
-        </figure>
-      )}
-
-      {!report && !searching && loading && <SkeletonText lines={6} />}
-
-      {!report && !searching && !loading && error && (
-        <ErrorState
-          title="Распространение не посчитать"
-          description={error}
-          actions={
-            <Button variant="secondary" onClick={() => navigate('search')}>
-              К поиску
-            </Button>
-          }
-        />
-      )}
-
-      {!report && !searching && !loading && !error && (
-        <EmptyState
-          variant="start"
-          title="Распространение считается по тексту новости"
-          description="Вставьте текст релиза в поиск или выделите его на сайте СМИ и нажмите «Найти, где это опубликовано». Когда поиск закончится, нажмите «Распространение» в строке состояния."
-          actions={
-            <>
-              <Button variant="primary" onClick={() => runText(releaseText)}>
-                Показать на примере релиза
-              </Button>
-              <Button variant="secondary" onClick={() => navigate('search')}>
-                К поиску
-              </Button>
-            </>
-          }
-        />
-      )}
-
       {report && (
         <>
-          <header className={styles.news}>
-            <h2 className={styles.newsTitle}>{report.title}</h2>
-            <Origin report={report} />
-          </header>
-
-          <figure className={styles.stage}>
-            <DotsScene form="spread" intensity="calm" placements={chronological} height={200} />
-            <figcaption className={styles.caption}>
-              {formatCount(report.totals.placements, WORDS.placement)}: {platformSummary(report)}.
-              Ближе к центру — опубликованные раньше.
-            </figcaption>
-          </figure>
-
-          <Totals report={report} />
-
-          <Section title="Как расходилась новость">
+          <Section title="Как *расходилась* новость">
             <Timeline placements={report.placements} hourly={report.wave.hourly} />
           </Section>
 
           <Section
-            title="Что взяли из релиза"
+            title="Что *взяли* из релиза"
             aside={<span className={styles.aside}>Ярче — абзац перепечатали чаще</span>}
           >
             <Fragments report={report} />
           </Section>
 
           <Section
-            title="Все размещения"
+            title="Все *размещения*"
             aside={
               <ToggleGroup
                 label="Сортировка"

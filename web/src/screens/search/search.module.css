@@ -1,26 +1,36 @@
-/* Экран «Поиск» — в стиле сайта «Медиарадар», спокойнее: только токены. */
+/* Экран «Поиск» — в стиле сайта «Медиарадар»: только токены. Сцена точек — в Screen. */
 
 .screen {
-  gap: var(--space-5);
-}
-
-/* ---------- точки по словарю форм ---------- */
-.stage {
-  margin: calc(var(--space-2) * -1) 0 0;
-  display: grid;
-  gap: var(--space-1);
-}
-
-.caption {
-  font-size: var(--text-xs);
-  color: var(--color-ink-3);
-  text-align: center;
+  gap: var(--space-6);
 }
 
 /* ---------- запрос ---------- */
 .query {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-4);
+}
+
+/* Поле «Запрос» как на сайте: подпись внутри, тонкий контур, под полем видно точки */
+.field {
+  position: relative;
+}
+
+.fieldLabel {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-5);
+  z-index: 1;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-kicker);
+  color: var(--color-ink-3);
+  pointer-events: none;
+}
+
+.fieldInput textarea {
+  padding: var(--space-10) var(--space-5) var(--space-4);
+  border-radius: var(--radius-2xl);
+  font-size: var(--text-md);
 }
 
 .examples {
@@ -67,11 +77,9 @@
 
 .submit {
   display: flex;
-  gap: var(--space-2);
-}
-
-.submit > * {
-  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-6);
 }
 
 .notice {
@@ -86,6 +94,12 @@
 .results {
   display: grid;
   gap: var(--space-4);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-line);
+}
+
+.resultsKicker {
+  margin-bottom: calc(var(--space-2) * -1);
 }
 
 .resultsHead {
@@ -112,8 +126,8 @@
 
 .foundNum {
   font-family: var(--font-display);
-  font-size: 56px;
-  font-weight: 800;
+  font-size: clamp(64px, 6vw, 96px);
+  font-weight: var(--weight-display);
   line-height: 0.85;
   font-variant-numeric: tabular-nums;
 }
@@ -228,8 +242,26 @@
   gap: var(--space-3);
 }
 
+/* Версия для слабовидящих: точек нет */
+:global(:root[data-lowvision]) .exportScene {
+  display: none;
+}
+
+/* Сетка выгрузки во всю ширину окна (до краёв, мимо отступов окна) */
+.exportScene {
+  height: var(--scene-h-dialog);
+  margin: calc(var(--space-2) * -1) calc(var(--space-6) * -1) var(--space-2);
+}
+
+@media (max-width: 560px) {
+  .exportScene {
+    height: 200px;
+  }
+}
+
 .exportFile {
   font-size: var(--text-sm);
+  overflow-wrap: anywhere;
 }
 
 .exportDone,
@@ -310,7 +342,12 @@
 /* Узкая боковая панель расширения и увеличение 200 % */
 @container screen (max-width: 560px) {
   .foundNum {
-    font-size: 46px;
+    font-size: 56px;
+  }
+
+  /* В панели «Найти» — во всю ширину */
+  .submit > * {
+    flex: 1 1 auto;
   }
 
   .controls {

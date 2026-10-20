@@ -94,7 +94,7 @@ function Cell({ shape, width, height, label }: CellProps) {
           intensity={intensity}
           height={height}
           still={params.get('still') === '1'}
-          lightTheme={params.get('theme') === 'light'}
+          theme={params.get('theme') === 'light' ? 'light' : 'dark'}
           onUnsupported={onUnsupported}
           onEngine={setEngine}
           place={place === 'left' || place === 'right' ? place : 'center'}

@@ -3,13 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Медиарадар — куда разошлась новость</title>
-<meta name="description" content="«Медиарадар» — расширение для браузера: выделите абзац новости и увидите, где её опубликовали во ВКонтакте, Одноклассниках и MAX.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@600;700;800&amp;family=Montserrat:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261020-3">
-<script>document.documentElement.classList.add('js');</script>
+<title>Медиарадар — найдёт, где о вас написали</title>
+<meta name="description" content="«Медиарадар» найдёт, где о вас написали: расширение для браузера — выделите абзац новости и увидите, где её опубликовали во ВКонтакте, Одноклассниках и MAX.">
+<!-- Шрифты — свои (fonts/), без внешних запросов; первые два нужны первому экрану сразу -->
+<link rel="preload" href="fonts/fira-sans-extra-condensed-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/montserrat-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css?v=20261020-4">
+<meta name="color-scheme" content="dark light">
+<script>
+  // Тема, тёплый свет и версия для слабовидящих — до отрисовки, чтобы не мигало.
+  // Выбор человека хранится в браузере; при первом заходе тема — как в системе.
+  (function () {
+    var d = document.documentElement, t = null, w = false, v = false;
+    d.classList.add('js');
+    try {
+      t = localStorage.getItem('mr-theme');
+      w = localStorage.getItem('mr-warm') === '1';
+      v = localStorage.getItem('mr-lowvision') === '1';
+    } catch (e) {}
+    if (t !== 'light' && t !== 'dark') t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    d.setAttribute('data-theme', t);
+    if (w) d.setAttribute('data-warm', '');
+    if (v) d.setAttribute('data-lowvision', '');
+  })();
+</script>
 </head>
 <body>
 
@@ -23,6 +40,19 @@
   <nav class="hdr-nav" aria-label="Быстрые ссылки">
     <a href="#install" data-hover>Установить</a>
     <a href="#faq" data-hover>Вопросы</a>
+    <div class="prefs" role="group" aria-label="Вид страницы">
+      <div class="prefs-theme">
+        <button class="pref pref-theme" type="button" aria-pressed="false" aria-label="Светлая тема">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.25" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 3.75a8.25 8.25 0 0 1 0 16.5z" fill="currentColor"/></svg>
+        </button>
+        <button class="pref pref-warm" type="button" aria-pressed="false" aria-label="Тёплый свет: меньше синего">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 17.5h18M6.5 17.5a5.5 5.5 0 0 1 11 0M12 6.5v2.2M5.3 9.6l1.6 1.5M18.7 9.6l-1.6 1.5M8.5 20.5h7"/></svg>
+        </button>
+      </div>
+      <button class="pref pref-lowvision" type="button" aria-pressed="false" aria-label="Версия для слабовидящих">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M2.5 12S6 5.75 12 5.75 21.5 12 21.5 12 18 18.25 12 18.25 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
     <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Открыть меню"><span></span><span></span></button>
   </nav>
 </header>
@@ -55,7 +85,7 @@
       <h1 id="h-hero" class="display hero-title">
         <span class="line o" data-scramble data-delay="350">Куда</span>
         <span class="line" data-scramble data-delay="520">разошлась</span>
-        <span class="line" data-scramble data-delay="690">новость<span class="badge" aria-hidden="true"></span></span>
+        <span class="line" data-scramble data-delay="690">новость</span>
       </h1>
       <p class="lead" data-scramble data-delay="1000">Мы сделали <b>«Медиарадар»</b> — <b>расширение для браузера</b>, которое находит, где опубликована новость: <b>во ВКонтакте, Одноклассниках и MAX</b>. Выделите абзац на любом сайте — <b>панель сбоку</b> покажет все размещения.</p>
       <div class="actions fade" style="--d: 1.5s">
@@ -90,7 +120,7 @@
         <span class="field-label">Запрос</span>
         <span class="field-text" data-scramble data-front="1" data-dur="2600" data-delay="400">У школ Красноярска обновили разметку и поставили новые знаки</span><i class="caret"></i>
       </div>
-      <p class="muted" data-scramble data-delay="300">«Медиарадар» — не отдельный сайт, а <b>панель сбоку в браузере</b>: рядом с любой страницей, без регистрации и прав администратора.</p>
+      <p class="muted" data-scramble data-delay="300">«Медиарадар» — <b>панель сбоку в браузере</b>: рядом с любой страницей, без регистрации и прав администратора. Без расширения — <a href="/app/" data-hover>веб-версия</a> в отдельной вкладке.</p>
     </div>
   </section>
 
@@ -232,12 +262,12 @@
   <!-- Сравнение -->
   <section class="sec cmp-sec" aria-labelledby="h-cmp">
     <div class="wide">
-      <h2 id="h-cmp" class="display h-lg"><span data-scramble>Сайт</span> <span class="o" data-scramble data-delay="120">или</span> <span data-scramble data-delay="240">расширение</span></h2>
+      <h2 id="h-cmp" class="display h-lg"><span data-scramble>Веб-версия</span> <span class="o" data-scramble data-delay="120">или</span> <span data-scramble data-delay="240">расширение</span></h2>
       <p class="cmp-lead" data-scramble data-delay="200">Поиск и подборка одинаковые. <b>Расширение добавляет то, что умеет только браузер.</b></p>
-      <div class="cmp" role="table" aria-label="Сравнение сайта и расширения">
+      <div class="cmp" role="table" aria-label="Сравнение веб-версии и расширения">
         <div class="cmp-row cmp-head" role="row">
           <span role="columnheader"><span class="sr">Возможность</span></span>
-          <span role="columnheader">Сайт</span>
+          <span role="columnheader"><a href="/app/" data-hover>Веб-версия</a></span>
           <span role="columnheader">Расширение</span>
         </div>
         <div class="cmp-row fade" role="row">
@@ -304,7 +334,7 @@
         </div>
         <div>
           <p class="label">Где работает</p>
-          <p>Яндекс Браузер и Chrome<br>Версия [0.1]<br><a href="#" data-hover>Открыть веб-версию</a></p>
+          <p>Яндекс Браузер и Chrome<br>Версия [0.1]<br><a href="/app/" data-hover>Открыть веб-версию</a> — без установки, в любом браузере</p>
         </div>
         <div>
           <p class="label">Кто сделал</p>
@@ -312,7 +342,7 @@
         </div>
       </div>
       <footer class="foot-bottom">
-        <span>© 2026 «Медиарадар» · медиамониторинг соцсетей Красноярского края</span>
+        <span>© 2026 «Медиарадар» — найдёт, где о вас написали · медиамониторинг соцсетей Красноярского края</span>
         <a href="#top" data-hover>Наверх</a>
       </footer>
     </div>
@@ -320,8 +350,9 @@
 
 </main>
 
-<script src="particles.js?v=20261019-4"></script>
-<script src="ui.js?v=20261019-4"></script>
-<script src="arrows.js?v=20261019-4"></script>
+<script src="particles.js?v=20261020-1"></script>
+<script src="ui.js?v=20261020-1"></script>
+<script src="arrows.js?v=20261020-1"></script>
+<script src="prefs.js?v=20261020-1"></script>
 </body>
 </html>

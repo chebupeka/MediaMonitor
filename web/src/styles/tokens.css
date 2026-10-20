@@ -1,89 +1,25 @@
 /*
- * Дизайн-токены Медиарадара. ЕДИНСТВЕННОЕ место, где заданы цвета, шрифты,
- * размеры, отступы, радиусы, тени и длительности. В компонентах и экранах —
- * только var(--…). Визуал предварительный: окончательную палитру и шрифты
- * подставим сюда, ничего больше не меняя (09-mockup-brief.md, последний абзац).
+ * Дизайн-токены Медиарадара. ЕДИНСТВЕННОЕ место, где заданы цвета, шрифты, размеры,
+ * отступы, радиусы, тени и длительности. В компонентах и экранах — только var(--…).
  *
- * Темы:
- *  - по умолчанию светлая;
- *  - тёмная — по prefers-color-scheme, если на <html> нет data-theme="light";
- *  - принудительно — data-theme="dark" / data-theme="light" на <html>.
- * Стартовые значения взяты из docs/visuals/rasprostranenie.html.
+ * Режимы — как на сайте «Медиарадар» (site/styles.css, те же значения), атрибуты на <html>
+ * ставит src/app/prefs.ts до первой отрисовки:
+ *  - data-theme="dark" — тёмная («космос», по умолчанию, если система не просит светлую);
+ *  - data-theme="light" — «чернила на бумаге»: бумажный фон, текст цвета чернил, точки —
+ *    брызги туши без свечения;
+ *  - data-warm — «Тёплый свет» (только в светлой): меньше синего в бумаге, тексте и точках;
+ *  - data-lowvision — версия для слабовидящих (ГОСТ Р 52872-2019): крупный шрифт, чистый
+ *    белый на чёрном или чёрный на белом, без точек, звёзд, анимаций и своего курсора.
+ * [data-scope='dark'] — тёмный участок внутри светлой страницы (лендинг мокапа).
+ *
+ * Соответствие переменным сайта: --bg → --color-bg, --fg → --color-ink, --fg-2 → --color-ink-2,
+ * --fg-3 → --color-ink-3, --blue → --color-accent, --gold → --color-gold, --line → --color-line,
+ * --line-2 → --color-line-strong, --line-3 → --color-line-pill, --field-bg → --color-field-bg,
+ * --focus → --color-focus, --vk/--ok/--max → --color-vk/ok/max, --ring-* → --color-cursor-*,
+ * --dot-* — те же имена. Поверхности, семантика и пометки — дополнения приложения в тех же тонах.
  */
 
 :root {
-  /* ---------- Поверхности (нейтрали с лёгким холодным уклоном) ---------- */
-  --color-bg: #f3f5f7; /* фон страницы */
-  --color-surface: #ffffff; /* карточки, панели */
-  --color-surface-2: #eef1f4; /* вторичные блоки, чипы, шапки таблиц */
-  --color-surface-3: #e3e7ec; /* наведение на вторичные блоки */
-  --color-surface-inverse: #1c2430; /* тёмные подсказки на светлом */
-  --color-overlay: rgb(17 22 28 / 0.48); /* затемнение под окнами */
-
-  /* ---------- Текст: 3 уровня ---------- */
-  --color-ink: #151a20; /* основной, 16.8:1 на surface */
-  --color-ink-2: #48515c; /* вторичный, 8.1:1 */
-  --color-ink-3: #5f6874; /* третичный, 5.7:1 на surface, 5.0:1 на surface-2 */
-  --color-ink-inverse: #ffffff;
-  --color-ink-disabled: #8a929c;
-
-  /* ---------- Линии ---------- */
-  --color-line: #dde2e8; /* разделители */
-  --color-line-strong: #c6cdd5; /* рамки блоков */
-  --color-line-control: #858e99; /* рамки полей ввода: 3.3:1, видимы (WCAG 1.4.11) */
-
-  /* ---------- Управляющий цвет (кнопки, выбранное) ---------- */
-  --color-control: #1c2430;
-  --color-control-hover: #2d3746;
-  --color-control-active: #0f141b;
-  --color-control-ink: #ffffff;
-  --color-selected-bg: #e2ebf7; /* выбранная строка, активная вкладка (фон) */
-  --color-link: #1b5fb4;
-  --color-focus: #1f6fd1; /* кольцо фокуса */
-
-  /* ---------- Семантика: ink — текст/значок, bg — подложка, solid — заливка ---------- */
-  --color-good-ink: #1b6a39;
-  --color-good-bg: #e3f3e8;
-  --color-good-solid: #2e9d57;
-  --color-warning-ink: #7a4800;
-  --color-warning-bg: #fff1d1;
-  --color-warning-solid: #d18a00;
-  --color-critical-ink: #a3261b;
-  --color-critical-bg: #fde7e4;
-  --color-critical-solid: #d63a2b;
-  --color-info-ink: #1d58a3;
-  --color-info-bg: #e5effb;
-  --color-info-solid: #2a78d6;
-
-  /* Акценты сайта: синий — действие и фокус, золото — найденное */
-  --color-accent: #2a6fe0;
-  --color-gold: #b07a12;
-
-  /* Пометки «Демо-данные», «только в мокапе» */
-  --color-note-bg: #fff7e0;
-  --color-note-ink: #5c4300;
-  --color-note-line: #ecd9a2;
-
-  /* Подсветка доказательства в выдержке (П3) */
-  --color-mark-bg: #fff0b3;
-  --color-mark-ink: #151a20;
-
-  /* ---------- Площадки (те же цвета на графиках и в точках) ---------- */
-  --color-vk: #2a78d6;
-  --color-ok: #eb6834;
-  --color-max: #1baf7a;
-  --color-vk-bg: #e6effa;
-  --color-ok-bg: #fdece4;
-  --color-max-bg: #e1f5ec;
-
-  /* ---------- Точки (декор и данные, 08-visual-concept.md) ---------- */
-  --color-dots-ground: #151b23; /* фон «космоса» на лендинге — тёмный в обеих темах */
-  --color-dots-base: #6f8197; /* точки силуэта края */
-  --color-dots-river: #8cc4ff; /* Енисей */
-  --color-dots-city: #ffd27a; /* города — тёплые точки */
-  --color-dots-star: #4a5868; /* фоновые звёзды */
-  --color-dots-haze: rgb(140 196 255 / 0.08); /* лёгкое свечение за картой */
-
   /* ---------- Типографика ---------- */
   --font-ui: 'Montserrat', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   /* Узкий гротеск капсом — заголовки экранов, крупные цифры, знак (как на сайте) */
@@ -134,11 +70,12 @@
   --control-h-sm: 28px;
   --control-h-md: 36px;
   --control-h-lg: 44px;
+  --control-h-xl: 52px; /* пилюля сайта */
   --icon-sm: 14px;
   --icon-md: 16px;
   --icon-lg: 20px;
-  --dot-size: 9px; /* точка площадки в тексте */
-  --content-max: 1180px; /* ширина рабочей области сайта */
+  --platform-dot-size: 9px; /* точка площадки в тексте */
+  --content-max: 1180px; /* ширина рабочей области вкладки */
   --reading-max: 68ch;
   --header-h: 56px;
   --panel-width: 380px; /* боковая панель расширения */
@@ -152,21 +89,20 @@
   --radius-2xl: 20px;
   --radius-pill: 999px;
 
-  /* ---------- Тени ---------- */
-  --shadow-1: 0 1px 2px rgb(21 26 32 / 0.06), 0 1px 1px rgb(21 26 32 / 0.04);
-  --shadow-2: 0 4px 12px rgb(21 26 32 / 0.08), 0 1px 3px rgb(21 26 32 / 0.06);
-  --shadow-3: 0 12px 32px rgb(21 26 32 / 0.16), 0 2px 6px rgb(21 26 32 / 0.08);
-  --focus-ring: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-focus);
-
   /* ---------- Движение ---------- */
   --duration-instant: 80ms;
   --duration-fast: 140ms;
   --duration-base: 200ms;
   --duration-slow: 320ms;
   --duration-slower: 600ms;
+  --duration-site: 1s; /* появление блоков, как на сайте */
+  --duration-pill: 350ms; /* заливка пилюли при наведении */
+  --duration-theme: 350ms; /* смена темы: старый вид растворяется в новом */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-site: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-site-inout: cubic-bezier(0.7, 0, 0.2, 1);
 
   /* ---------- Слои ---------- */
   --z-sticky: 10;
@@ -177,96 +113,72 @@
   --z-popover: 60;
   --z-toast: 70;
   --z-tooltip: 80;
+  --z-cursor: 90;
 
-  color-scheme: light;
+  /* ---------- Как на сайте: подпись-раздел, заголовок с контурным словом, сцена ---------- */
+  --page-pad: clamp(16px, 5vw, 96px); /* поля экрана во вкладке (на сайте 7vw) */
+  --text-hero: clamp(52px, 5.4vw, 96px); /* заголовок экрана (.h-lg сайта) */
+  --text-hero-panel: 44px; /* он же в боковой панели */
+  --text-section: clamp(24px, 2.2vw, 34px); /* заголовок раздела (.h-sm сайта) */
+  --text-kicker: 12px; /* подпись-раздел «01 Запрос · система слушает» */
+  --text-kicker-num: 15px;
+  --tracking-kicker: 0.06em;
+  --leading-display: 0.9;
+  --weight-display: 800;
+  --outline-width: 1.4px; /* контур слова в заголовке */
+  --blur-field: 6px;
+  --scene-h-panel: 300px; /* сцена точек в боковой панели */
+  --scene-h-dialog: 240px; /* сцена точек в окне */
+  --focus-width: 2px;
 }
 
-/* ---------- Тёмная тема: значения повторяются в двух блоках ниже ---------- */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --color-bg: #07080b;
-    --color-surface: #0d0f14;
-    --color-surface-2: #141720;
-    --color-surface-3: #1c2029;
-    --color-surface-inverse: #f2f4f8;
-    --color-overlay: rgb(0 0 0 / 0.66);
-    --color-ink: #f2f4f8;
-    --color-ink-2: #aab1bf;
-    --color-ink-3: #8a91a0;
-    --color-ink-inverse: #07080b;
-    --color-ink-disabled: #5f6573;
-    --color-line: #1f232c;
-    --color-line-strong: #2c313c;
-    --color-line-control: #5c6372;
-    --color-control: #f2f4f8;
-    --color-control-hover: #ffffff;
-    --color-control-active: #d6dae2;
-    --color-control-ink: #07080b;
-    --color-selected-bg: #16233d;
-    --color-link: #8ab4ff;
-    --color-focus: #5b95ff;
-    --color-accent: #5b95ff;
-    --color-gold: #f2b544;
-    --color-good-ink: #84d6a0;
-    --color-good-bg: #16301f;
-    --color-good-solid: #3fb36b;
-    --color-warning-ink: #f2c66e;
-    --color-warning-bg: #3a2e10;
-    --color-warning-solid: #e0a020;
-    --color-critical-ink: #ff9d92;
-    --color-critical-bg: #3e1b18;
-    --color-critical-solid: #e5574a;
-    --color-info-ink: #93bff5;
-    --color-info-bg: #16273d;
-    --color-info-solid: #3987e5;
-    --color-note-bg: #2a2210;
-    --color-note-ink: #f2d58a;
-    --color-note-line: #4a3c18;
-    --color-mark-bg: #5a4510;
-    --color-mark-ink: #fff1cc;
-    --color-vk: #3884ff;
-    --color-ok: #ff7f33;
-    --color-max: #2edb8c;
-    --color-vk-bg: #13213a;
-    --color-ok-bg: #33200f;
-    --color-max-bg: #0f2c20;
-    --color-dots-ground: #07080b;
-    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
-    --shadow-2: 0 4px 12px rgb(0 0 0 / 0.45), 0 1px 3px rgb(0 0 0 / 0.3);
-    --shadow-3: 0 12px 32px rgb(0 0 0 / 0.6), 0 2px 6px rgb(0 0 0 / 0.4);
-    color-scheme: dark;
-  }
-}
-
-/*
- * Принудительно тёмная тема. [data-scope='dark'] — тёмный участок внутри светлой
- * страницы (например, «космос» на лендинге): внутри работают те же токены.
- */
-:root[data-theme='dark'],
+/* ======================================================================================
+ * Тёмная («космос») — по умолчанию. Значения сайта (:root в site/styles.css).
+ * ====================================================================================== */
+:root,
 [data-scope='dark'] {
+  /* Поверхности */
   --color-bg: #07080b;
   --color-surface: #0d0f14;
   --color-surface-2: #141720;
   --color-surface-3: #1c2029;
   --color-surface-inverse: #f2f4f8;
   --color-overlay: rgb(0 0 0 / 0.66);
+  --color-menu-bg: rgb(7 8 11 / 0.94);
+  --color-field-bg: rgb(7 8 11 / 0.55);
+  --color-track: rgb(255 255 255 / 0.1);
+  --color-track-2: rgb(255 255 255 / 0.15);
+
+  /* Текст: три уровня. --fg-3 сайта — #7a8191 (AA); здесь приглушённый текст стоит и на
+     вторичных поверхностях, поэтому чуть светлее (расчёт — docs/visuals/themes/contrast.md) */
   --color-ink: #f2f4f8;
-  --color-ink-2: #aab1bf;
+  --color-ink-2: #a3aab8;
   --color-ink-3: #8a91a0;
   --color-ink-inverse: #07080b;
   --color-ink-disabled: #5f6573;
-  --color-line: #1f232c;
-  --color-line-strong: #2c313c;
-  --color-line-control: #5c6372;
+
+  /* Линии */
+  --color-line: rgb(255 255 255 / 0.12);
+  --color-line-strong: rgb(255 255 255 / 0.22);
+  --color-line-pill: rgb(255 255 255 / 0.38); /* контур пилюль и полей: ≥ 3 : 1 (WCAG 1.4.11) */
+  --color-line-control: rgb(255 255 255 / 0.38);
+
+  /* Управляющий цвет: кнопка «Найти», выбранное */
   --color-control: #f2f4f8;
   --color-control-hover: #ffffff;
   --color-control-active: #d6dae2;
   --color-control-ink: #07080b;
   --color-selected-bg: #16233d;
   --color-link: #8ab4ff;
-  --color-focus: #5b95ff;
+  --color-focus: #f2b544;
+
+  /* Акценты сайта: синий — действие, золото — найденное */
   --color-accent: #5b95ff;
   --color-gold: #f2b544;
+  --color-gold-glow: rgb(242 181 68 / 0.45);
+  --color-blue-glow: #5b95ff;
+
+  /* Семантика: ink — текст/значок, bg — подложка, solid — заливка */
   --color-good-ink: #84d6a0;
   --color-good-bg: #16301f;
   --color-good-solid: #3fb36b;
@@ -279,22 +191,406 @@
   --color-info-ink: #93bff5;
   --color-info-bg: #16273d;
   --color-info-solid: #3987e5;
+
+  /* Пометки «Демо-данные», «только в мокапе» */
   --color-note-bg: #2a2210;
   --color-note-ink: #f2d58a;
   --color-note-line: #4a3c18;
+
+  /* Подсветка доказательства в выдержке (П3) */
   --color-mark-bg: #5a4510;
   --color-mark-ink: #fff1cc;
+
+  /* Площадки (те же цвета на графиках и в точках) */
   --color-vk: #3884ff;
   --color-ok: #ff7f33;
   --color-max: #2edb8c;
   --color-vk-bg: #13213a;
   --color-ok-bg: #33200f;
   --color-max-bg: #0f2c20;
-  --color-dots-ground: #07080b;
+
+  /* Как на сайте */
+  --color-outline: var(--color-ink);
+  --color-kicker: var(--color-ink-2);
+  --color-kicker-num: var(--color-gold);
+  --color-scramble: var(--color-accent); /* мелькающие знаки «расшифровки» */
+  --color-scene-caption: var(--color-ink-3);
+  --glow: 1; /* свечение у точек и цифр: 1 — есть, 0 — нет (чернила) */
+
+  /* Свой курсор (только во вкладке) */
+  --color-cursor-dot: var(--color-ink);
+  --color-cursor-ring-bg: rgb(91 149 255 / 0.16);
+  --color-cursor-ring-line: rgb(170 200 255 / 0.5);
+  --color-cursor-hot-bg: rgb(242 181 68 / 0.14);
+  --color-cursor-hot-line: rgb(242 181 68 / 0.55);
+
+  /* Тени */
   --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
   --shadow-2: 0 4px 12px rgb(0 0 0 / 0.45), 0 1px 3px rgb(0 0 0 / 0.3);
   --shadow-3: 0 12px 32px rgb(0 0 0 / 0.6), 0 2px 6px rgb(0 0 0 / 0.4);
+  --focus-ring: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--color-focus);
+
+  /*
+   * Точки (src/dots/engine) — переменные сайта --dot-*. Восемь цветов палитры форм в порядке
+   * кодов движка: синий, белый, золото, VK, OK, MAX, серый (сбой), приглушённый (основа карты).
+   */
+  --dot-blue: #4d8cff;
+  --dot-white: #edf2ff;
+  --dot-gold: #ffb347;
+  --dot-vk: #3885ff;
+  --dot-ok: #ff8033;
+  --dot-max: #2edb8c;
+  --dot-grey: #80879a;
+  --dot-dim: #5c739e;
+  --dot-hi: #edf2ff; /* редкие яркие точки (3,5 % точек) подмешивают этот цвет */
+  --dot-star-1: #73a6ff; /* звёзды: синие, золотые, белые */
+  --dot-star-2: #ffc261;
+  --dot-star-3: #ebf0ff;
+  --dot-star-alpha: 1;
+  --dot-star-size: 1;
+  --dot-blend: additive; /* additive — свечение сложением; normal — обычное наложение (тушь) */
+  --dot-ink: 0; /* край точки: 0 — мягкий ореол, 1 — плотная капля без ореола */
+  --dot-alpha: 0.8;
+  --dot-size: 1; /* множитель размера точек */
+  --dot-max-size: 0; /* предел размера точки, CSS px; 0 — без предела */
+  --dots: on; /* off — точек нет совсем (версия для слабовидящих) */
+
   color-scheme: dark;
+}
+
+/* ======================================================================================
+ * Светлая — «чернила на бумаге» (html[data-theme="light"] сайта). Без свечения.
+ * ====================================================================================== */
+:root[data-theme='light'] {
+  --color-bg: #f2f3ef;
+  --color-surface: #f9f9f6;
+  --color-surface-2: #e8eae3;
+  --color-surface-3: #dde0d8;
+  --color-surface-inverse: #121a2b;
+  --color-overlay: rgb(18 26 43 / 0.42);
+  --color-menu-bg: rgb(242 243 239 / 0.95);
+  --color-field-bg: rgb(242 243 239 / 0.7);
+  --color-track: rgb(18 26 43 / 0.1);
+  --color-track-2: rgb(18 26 43 / 0.16);
+
+  --color-ink: #121a2b;
+  --color-ink-2: #3a4357;
+  --color-ink-3: #535c6e;
+  --color-ink-inverse: #f2f3ef;
+  --color-ink-disabled: #8a909c;
+
+  --color-line: rgb(18 26 43 / 0.14);
+  --color-line-strong: rgb(18 26 43 / 0.28);
+  --color-line-pill: rgb(18 26 43 / 0.5);
+  --color-line-control: rgb(18 26 43 / 0.5);
+
+  --color-control: #121a2b;
+  --color-control-hover: #24304a;
+  --color-control-active: #0a0f1a;
+  --color-control-ink: #f2f3ef;
+  --color-selected-bg: #dde2ee;
+  --color-link: #1f3f9e;
+  --color-focus: #1f3f9e;
+
+  --color-accent: #1f3f9e;
+  --color-gold: #8a5300;
+  --color-gold-glow: rgb(138 83 0 / 0);
+  --color-blue-glow: rgb(31 63 158 / 0);
+
+  --color-good-ink: #1b6537;
+  --color-good-bg: #dbe9dd;
+  --color-good-solid: #2e8a52;
+  --color-warning-ink: #714300;
+  --color-warning-bg: #f3e5c5;
+  --color-warning-solid: #b87900;
+  --color-critical-ink: #9a2a1e;
+  --color-critical-bg: #f4dcd6;
+  --color-critical-solid: #c4402f;
+  --color-info-ink: #1f3f9e;
+  --color-info-bg: #dee3f0;
+  --color-info-solid: #2d55c0;
+
+  --color-note-bg: #f3e9cf;
+  --color-note-ink: #5c4300;
+  --color-note-line: #d9c896;
+
+  --color-mark-bg: #efd98a;
+  --color-mark-ink: #121a2b;
+
+  --color-vk: #1e56c4;
+  --color-ok: #b24a0a;
+  --color-max: #0b7548;
+  --color-vk-bg: #dee5f4;
+  --color-ok-bg: #f4e2d6;
+  --color-max-bg: #d8eadf;
+
+  --glow: 0;
+
+  --color-cursor-ring-bg: rgb(31 63 158 / 0.08);
+  --color-cursor-ring-line: rgb(31 63 158 / 0.55);
+  --color-cursor-hot-bg: rgb(138 83 0 / 0.08);
+  --color-cursor-hot-line: rgb(138 83 0 / 0.6);
+
+  --shadow-1: 0 1px 2px rgb(18 26 43 / 0.06), 0 1px 1px rgb(18 26 43 / 0.04);
+  --shadow-2: 0 4px 12px rgb(18 26 43 / 0.08), 0 1px 3px rgb(18 26 43 / 0.06);
+  --shadow-3: 0 12px 32px rgb(18 26 43 / 0.16), 0 2px 6px rgb(18 26 43 / 0.08);
+
+  /* Точки — тушь на бумаге: обычное наложение, плотные капли без ореола */
+  --dot-blue: #1f3f9e;
+  --dot-white: #121a2b;
+  --dot-gold: #8a5300;
+  --dot-vk: #1e56c4;
+  --dot-ok: #b24a0a;
+  --dot-max: #0b7548;
+  --dot-grey: #6b7180;
+  --dot-dim: #5e6880;
+  --dot-hi: #070b14;
+  --dot-star-1: #1f3f9e;
+  --dot-star-2: #8a5300;
+  --dot-star-3: #121a2b;
+  --dot-star-alpha: 0.45; /* брызги туши мельче и тише звёзд */
+  --dot-star-size: 0.7;
+  --dot-blend: normal;
+  --dot-ink: 1;
+  --dot-alpha: 1;
+  --dot-size: 1.1;
+  --dot-max-size: 3.2; /* ближние точки рассеянных форм — брызги, а не кляксы */
+
+  color-scheme: light;
+}
+
+/* ---------- «Тёплый свет»: та же бумага теплее, в чернилах и акцентах меньше синего ---------- */
+:root[data-theme='light'][data-warm] {
+  --color-bg: #f3ecdd;
+  --color-surface: #f8f3e8;
+  --color-surface-2: #e9e0cd;
+  --color-surface-3: #dfd4bf;
+  --color-surface-inverse: #2a2118;
+  --color-overlay: rgb(42 33 24 / 0.42);
+  --color-menu-bg: rgb(243 236 221 / 0.95);
+  --color-field-bg: rgb(243 236 221 / 0.7);
+  --color-track: rgb(42 33 24 / 0.1);
+  --color-track-2: rgb(42 33 24 / 0.16);
+
+  --color-ink: #2a2118;
+  --color-ink-2: #4a3e31;
+  --color-ink-3: #62564a;
+  --color-ink-inverse: #f3ecdd;
+  --color-ink-disabled: #93887a;
+
+  --color-line: rgb(42 33 24 / 0.14);
+  --color-line-strong: rgb(42 33 24 / 0.28);
+  --color-line-pill: rgb(42 33 24 / 0.5);
+  --color-line-control: rgb(42 33 24 / 0.5);
+
+  --color-control: #2a2118;
+  --color-control-hover: #3d3125;
+  --color-control-active: #1a140e;
+  --color-control-ink: #f3ecdd;
+  --color-selected-bg: #e4dccb;
+  --color-link: #36487a;
+  --color-focus: #36487a;
+
+  --color-accent: #36487a;
+  --color-gold: #844b00;
+
+  --color-good-ink: #2c5e34;
+  --color-good-bg: #dfe6d3;
+  --color-good-solid: #3f7a46;
+  --color-warning-ink: #6e4100;
+  --color-warning-bg: #f0dfbd;
+  --color-warning-solid: #a86e00;
+  --color-critical-ink: #93301f;
+  --color-critical-bg: #f1d9cd;
+  --color-critical-solid: #b5432b;
+  --color-info-ink: #36487a;
+  --color-info-bg: #e3dfdc;
+  --color-info-solid: #4a5f96;
+
+  --color-note-bg: #eedfc0;
+  --color-note-ink: #57400a;
+  --color-note-line: #d6c394;
+
+  --color-mark-bg: #e8d28a;
+  --color-mark-ink: #2a2118;
+
+  --color-vk: #38508c;
+  --color-ok: #a6470b;
+  --color-max: #2c6a3c;
+  --color-vk-bg: #e2ddd9;
+  --color-ok-bg: #f1dccc;
+  --color-max-bg: #dbe4d3;
+
+  --color-cursor-ring-bg: rgb(54 72 122 / 0.08);
+  --color-cursor-ring-line: rgb(54 72 122 / 0.55);
+  --color-cursor-hot-bg: rgb(132 75 0 / 0.08);
+  --color-cursor-hot-line: rgb(132 75 0 / 0.6);
+
+  --dot-blue: #36487a;
+  --dot-white: #2a2118;
+  --dot-gold: #844b00;
+  --dot-vk: #38508c;
+  --dot-ok: #a6470b;
+  --dot-max: #2c6a3c;
+  --dot-grey: #76695a;
+  --dot-dim: #7d7262;
+  --dot-hi: #1a140e;
+  --dot-star-1: #36487a;
+  --dot-star-2: #844b00;
+  --dot-star-3: #2a2118;
+}
+
+/* ======================================================================================
+ * Версия для слабовидящих: максимальный контраст по текущей теме — чистый белый на чёрном…
+ * ====================================================================================== */
+:root[data-lowvision] {
+  --color-bg: #000000;
+  --color-surface: #000000;
+  --color-surface-2: #111111;
+  --color-surface-3: #222222;
+  --color-surface-inverse: #ffffff;
+  --color-overlay: rgb(0 0 0 / 0.85);
+  --color-menu-bg: #000000;
+  --color-field-bg: #000000;
+  --color-track: rgb(255 255 255 / 0.35);
+  --color-track-2: rgb(255 255 255 / 0.5);
+
+  --color-ink: #ffffff;
+  --color-ink-2: #ffffff;
+  --color-ink-3: #ffffff;
+  --color-ink-inverse: #000000;
+  --color-ink-disabled: #b3b3b3;
+
+  --color-line: rgb(255 255 255 / 0.6);
+  --color-line-strong: #ffffff;
+  --color-line-pill: #ffffff;
+  --color-line-control: #ffffff;
+
+  --color-control: #ffffff;
+  --color-control-hover: #ffffff;
+  --color-control-active: #e6e6e6;
+  --color-control-ink: #000000;
+  --color-selected-bg: #1d3260;
+  --color-link: #9cc2ff;
+  --color-focus: #ffd45c;
+
+  --color-accent: #9cc2ff;
+  --color-gold: #ffd45c;
+  --color-gold-glow: rgb(0 0 0 / 0);
+  --color-blue-glow: rgb(0 0 0 / 0);
+
+  --color-good-ink: #7df0a8;
+  --color-good-bg: #000000;
+  --color-good-solid: #3df2a0;
+  --color-warning-ink: #ffd45c;
+  --color-warning-bg: #000000;
+  --color-warning-solid: #ffd45c;
+  --color-critical-ink: #ffaaa0;
+  --color-critical-bg: #000000;
+  --color-critical-solid: #ff8a7a;
+  --color-info-ink: #9cc2ff;
+  --color-info-bg: #000000;
+  --color-info-solid: #9cc2ff;
+
+  --color-note-bg: #000000;
+  --color-note-ink: #ffd45c;
+  --color-note-line: #ffd45c;
+
+  --color-mark-bg: #ffd45c;
+  --color-mark-ink: #000000;
+
+  --color-vk: #6fa6ff;
+  --color-ok: #ff9a5c;
+  --color-max: #3df2a0;
+  --color-vk-bg: #000000;
+  --color-ok-bg: #000000;
+  --color-max-bg: #000000;
+
+  --glow: 0;
+  --dots: off; /* точки и звёзды выключены */
+
+  /* Крупный шрифт: текст 20 px, мелкий — 18 px (ГОСТ Р 52872-2019) */
+  --text-2xs: 18px;
+  --text-xs: 18px;
+  --text-sm: 18px;
+  --text-md: 20px;
+  --text-lg: 22px;
+  --text-xl: 24px;
+  --text-2xl: 26px;
+  --text-kicker: 18px;
+  --text-kicker-num: 20px;
+  --outline-width: 0px; /* слова-контуры становятся сплошными */
+  --focus-width: 3px;
+  --duration-site: 0ms;
+  --duration-pill: 0ms;
+  --duration-theme: 0ms;
+
+  color-scheme: dark;
+}
+
+/* …или чистый чёрный на белом */
+:root[data-lowvision][data-theme='light'] {
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-2: #f0f0f0;
+  --color-surface-3: #e0e0e0;
+  --color-surface-inverse: #000000;
+  --color-overlay: rgb(0 0 0 / 0.6);
+  --color-menu-bg: #ffffff;
+  --color-field-bg: #ffffff;
+  --color-track: rgb(0 0 0 / 0.3);
+  --color-track-2: rgb(0 0 0 / 0.45);
+
+  --color-ink: #000000;
+  --color-ink-2: #000000;
+  --color-ink-3: #000000;
+  --color-ink-inverse: #ffffff;
+  --color-ink-disabled: #595959;
+
+  --color-line: rgb(0 0 0 / 0.6);
+  --color-line-strong: #000000;
+  --color-line-pill: #000000;
+  --color-line-control: #000000;
+
+  --color-control: #000000;
+  --color-control-hover: #000000;
+  --color-control-active: #1a1a1a;
+  --color-control-ink: #ffffff;
+  --color-selected-bg: #d6e0ff;
+  --color-link: #0030b8;
+  --color-focus: #0030b8;
+
+  --color-accent: #0030b8;
+  --color-gold: #000000;
+
+  --color-good-ink: #005a30;
+  --color-good-bg: #ffffff;
+  --color-good-solid: #005a30;
+  --color-warning-ink: #5c3700;
+  --color-warning-bg: #ffffff;
+  --color-warning-solid: #5c3700;
+  --color-critical-ink: #9c1a10;
+  --color-critical-bg: #ffffff;
+  --color-critical-solid: #9c1a10;
+  --color-info-ink: #0030b8;
+  --color-info-bg: #ffffff;
+  --color-info-solid: #0030b8;
+
+  --color-note-bg: #ffffff;
+  --color-note-ink: #000000;
+  --color-note-line: #000000;
+
+  --color-mark-bg: #ffe27a;
+  --color-mark-ink: #000000;
+
+  --color-vk: #0040c0;
+  --color-ok: #a33a00;
+  --color-max: #005a30;
+  --color-vk-bg: #ffffff;
+  --color-ok-bg: #ffffff;
+  --color-max-bg: #ffffff;
+
+  color-scheme: light;
 }
 
 /* ---------- Уменьшение движения: длительности обнуляются для всех ---------- */
@@ -305,5 +601,8 @@
     --duration-base: 0ms;
     --duration-slow: 0ms;
     --duration-slower: 0ms;
+    --duration-site: 0ms;
+    --duration-pill: 0ms;
+    --duration-theme: 0ms;
   }
 }

@@ -64,7 +64,7 @@ export function HostPage() {
 export default function DemoPageScreen(_props: ScreenProps<'demo-page'>) {
   return (
     <Screen
-      title="Демо-страница СМИ"
+      title="Демо-страница *СМИ*"
       lead="Так расширение работает на сайте СМИ: выделите текст новости и найдите, где ещё она вышла."
       eyebrow="Только в мокапе"
     >

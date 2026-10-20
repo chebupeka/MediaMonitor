@@ -171,8 +171,8 @@ export default function StatusScreen({ active }: ScreenProps<'status'>) {
 
   return (
     <Screen
-      title="Состояние стенда"
-      eyebrow="Служебная страница · для дежурного"
+      title="Состояние *стенда*"
+      eyebrow="Стенд · служебная страница для дежурного"
       className={styles.screen}
       actions={
         <Button

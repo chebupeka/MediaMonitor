@@ -17,11 +17,32 @@ npm run lint           # ESLint: typescript-eslint, react-hooks, jsx-a11y; 0 п�
 npm run format         # Prettier
 npm run build          # обычная сборка в dist/
 npm run build:single   # всё в один файл dist/index.html (его публикуем для команды)
+npm run build:web      # веб-версия для сервера → dist-web/, адрес /app/ (см. «Веб-версия»)
 npm run check:ai       # проверка на ИИ: один текст — один результат везде (scripts/check-ai.mjs)
 ```
 
 `dist/index.html` после `build:single` открывается двойным щелчком, без сервера.
-Внешние запросы — только к Google Fonts; без сети сработают системные шрифты.
+Внешних запросов нет: шрифты (Fira Sans Extra Condensed, Montserrat — кириллица и латиница)
+лежат в сборке, из пакетов `@fontsource` (`src/styles/fonts.css`).
+
+## Веб-версия (`/app/` на сервере)
+
+Та же панель во вкладке, для тех, кто не может поставить расширение. `npm run build:web` →
+`dist-web/` (`index.html` + `assets/`), все пути — от `/app/`. Отличия от мокапа
+(`src/lib/build.ts`; переменные `VITE_TARGET=web` и `VITE_API_URL=/` сборка ставит сама,
+файл `.env` не нужен — их же задаёт образ сервера):
+
+- данные — только наш сервер на том же адресе: `/api/…` и `/health` (`VITE_API_URL=/`);
+  другой сервер — `VITE_API_URL=https://… npm run build:web`;
+- нет панели «Демо-сценарий», пометки «Демо-данные», демо-запросов и примера релиза;
+- нет функций «по выделенному тексту» (демо-страница СМИ, подсказки про правую кнопку);
+- открывается сразу на «Поиске», раскладка — всегда вкладка.
+
+Раздача: каталог `dist-web/` — статикой по `/app/` (для неизвестных путей внутри `/app/` —
+`/app/index.html`); `/api/*` и `/health` — на API, как сейчас в `server/Caddyfile`. Серверу —
+`PUBLIC_APP_URL=https://<домен>/app/`; CORS не нужен (тот же адрес). Проверка у себя:
+`npm run build:web && npx vite preview --mode web` → http://localhost:4173/app/, запросы к API
+уходят на `API_PROXY` (по умолчанию http://127.0.0.1:8000).
 
 **Подсказки в адресе — только для скриншотов и ручной проверки** (навигация от адреса
 не зависит): `index.html?screen=search&q=ДТП&theme=dark&layout=panel`.
@@ -44,7 +65,7 @@ npm run ext:build:safari   # → .output/safari-mv3/ (дальше Xcode, см. 
 
 ```
 web/
-  index.html               шрифты Google Fonts, корень
+  index.html               корень (шрифты — в src/styles/fonts.css)
   vite.config.ts           alias @ → src, режим single → vite-plugin-singlefile
   wxt.config.ts            сборка расширения: манифест, разрешения, srcDir = src
   eslint.config.js         правила, в т.ч. запрет dangerouslySetInnerHTML и импорта из api/fake
@@ -234,15 +255,29 @@ state.conditions; // условия выполненного поиска
 `src/styles/tokens.css`: поверхности (`--color-bg`, `--color-surface`, `-2`, `-3`), текст в
 три уровня (`--color-ink`, `-2`, `-3`), линии, управляющий цвет (`--color-control*`),
 семантика (`--color-{good|warning|critical|info}-{ink|bg|solid}`), площадки
-(`--color-vk|ok|max` и `-bg`), точки (`--color-dots-*`), пометка демо (`--color-note-*`),
+(`--color-vk|ok|max` и `-bg`), точки (`--dot-*` — те же имена, что у сайта), пометка демо (`--color-note-*`),
 подсветка (`--color-mark-*`), акценты сайта (`--color-accent` — синий, `--color-gold` —
 найденное); шрифты (`--font-ui` Montserrat, `--font-display` Fira Sans Extra Condensed —
 заголовки экранов капсом, крупные цифры, знак), шкала `--text-*`, `--leading-*`, `--weight-*`;
 отступы `--space-*` (шаг 4 px); `--radius-*`; `--shadow-*`; `--duration-*` и `--ease-*`
 (обнуляются при «уменьшить движение»); `--z-*`; размеры (`--target-min`, `--control-h-*`,
-`--panel-width`). Визуал — как у сайта «Медиарадар»: по умолчанию тёмная тема («космос» со
-звёздами, палитра сайта); светлая и «как в системе» — в меню «Вид» (`data-theme` на `<html>`);
-`data-scope="dark"` делает тёмным участок страницы.
+`--panel-width`); всё, чем экраны повторяют сайт (`--text-hero`, `--page-pad`,
+`--color-line-pill`, `--color-field-bg`, курсор `--color-cursor-*`, сцены `--scene-h-*`).
+
+**Режимы — как на сайте** (`src/app/prefs.ts`, кнопки в шапке — `PrefsButtons`): тёмная
+(«космос»), светлая «чернила на бумаге» (`data-theme`), «Тёплый свет» (`data-warm`, только в
+светлой) и версия для слабовидящих (`data-lowvision`: текст 20/18 px, чистый чёрный/белый,
+без точек, анимаций, «расшифровки» и своего курсора). Первая тема — из системы, выбор хранится
+в браузере (ключи сайта `mr-theme`, `mr-warm`, `mr-lowvision`). Смена — плавным перетеканием
+за 0,35 с (View Transitions), точки сами плывут к новым цветам. Значения — те же, что в
+`site/styles.css`; новая тема меняет только `tokens.css`. Контраст AA всех режимов посчитан:
+`docs/visuals/themes/app-contrast-aa.md`. `data-scope="dark"` делает тёмным участок страницы.
+
+**Как на сайте.** `Screen` — подпись-раздел (`index="01"`, `eyebrow`), заголовок капсом, где
+слова в `*звёздочках*` — контуром (`title="Поиск *по смыслу*"`), «расшифровка» заголовков
+(`ScrambleText`, только заголовки — не данные), крупная сцена точек (`scene`, `sceneMode`):
+на широкой вкладке справа во всю высоту экрана, в боковой панели — во всю ширину под
+заголовком. Свой курсор сайта — только во вкладке (`app/SiteCursor.tsx`).
 
 ## Компоненты (`src/components`)
 
@@ -259,8 +294,13 @@ state.conditions; // условия выполненного поиска
 Слот «Точки» (`@/dots`):
 
 ```tsx
-<DotsScene form="krai" intensity="full" />
-<DotsScene form="found" intensity="calm" cities={[{ city: 'Норильск', count: 4, platform: 'vk' }]} />
+<DotsStage form="found" cities={[{ city: 'Норильск', count: 4, platform: 'vk' }]} caption="…" />
+<DotsScene form="krai" intensity="full" height={300} />
 ```
+
+`DotsStage` — сцена во весь отведённый блок с подписью (её дают `Screen scene`, окно «Файл
+готов»); `DotsScene` — холст заданной высоты. Плотность и яркость — как на сайте: 20 000 точек
+на экран высотой 1080 px, блок получает долю по меньшей стороне (`budgetFor`). Под открытым
+окном сцена не рисуется. Цвета — из токенов `--dot-*` текущей темы.
 
 Формы: `krai | listening | searching | found | spread | empty | failure | export`.

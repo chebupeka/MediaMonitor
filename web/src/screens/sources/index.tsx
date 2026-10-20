@@ -470,8 +470,9 @@ export default function SourcesScreen({ params, navKey }: ScreenProps<'sources'>
 
   return (
     <Screen
-      title="Источники"
-      eyebrow="Режим «Мои источники» · Красноярский край"
+      index="04"
+      title="Мои *источники*"
+      eyebrow="Источники · режим «Мои источники» · Красноярский край"
       lead="Группы и каналы, по которым ищем в режиме «Мои источники». В режиме «Везде» список не нужен."
       actions={list !== null && all.length === 0 ? undefined : actions}
       className={styles.screen}

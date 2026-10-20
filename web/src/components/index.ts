@@ -7,10 +7,12 @@ export { Button, IconButton, type ButtonProps, type IconButtonProps } from './Bu
 export { Card, CardBody, CardFooter, CardHeader, CardMeta, type CardProps } from './Card';
 export { Chip, type ChipProps } from './Chip';
 export { DemoBadge } from './DemoBadge';
+export { DisplayText, Kicker, parseDisplay, plainDisplay } from './Display';
 export { Dialog, DialogClose, type DialogProps } from './Dialog';
 export { AnnouncerProvider, LiveRegion, useAnnounce } from './LiveRegion';
 export { PlatformDot, PlatformLabel } from './PlatformDot';
 export { Screen, Section, type ScreenProps as ScreenLayoutProps } from './Screen';
+export { ScrambleText } from './Scramble';
 export { EmptyState, ErrorState, Skeleton, SkeletonText } from './States';
 export { StatusBadge, StatusBadgeFromView, type StatusBadgeProps } from './StatusBadge';
 export { StatusLine, type StatusLineProps } from './StatusLine';

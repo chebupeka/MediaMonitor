@@ -100,8 +100,9 @@ export default function AiCheckScreen({ params, navKey }: ScreenProps<'ai-check'
 
   return (
     <Screen
-      title="Проверка на ИИ"
-      eyebrow="Похож ли текст на написанный нейросетью"
+      index="03"
+      title="Проверка *на ИИ*"
+      eyebrow="Проверка на ИИ · похож ли текст на написанный нейросетью"
       width="narrow"
       className={styles.screen}
     >

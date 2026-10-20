@@ -1,0 +1,83 @@
+/* Кнопки вида — как на сайте (.prefs, .pref в site/styles.css) */
+.prefs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.themeGroup {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.pref {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    visibility 0s linear 0s;
+}
+
+.pref svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.pref:hover {
+  background: var(--color-track);
+}
+
+.pref[aria-pressed='true'] {
+  background: var(--color-track-2);
+}
+
+/* «Тёплый свет» выезжает из-под кнопки темы при наведении или фокусе; включённый виден всегда */
+.warm {
+  opacity: 0;
+  transform: translateX(10px);
+  visibility: hidden;
+  transition:
+    background-color 0.25s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    visibility 0s linear 0.25s;
+}
+
+.themeGroup:is(:hover, :focus-within, .reveal) .warm,
+.warm[aria-pressed='true'] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition:
+    background-color 0.25s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    visibility 0s linear 0s;
+}
+
+/* Боковая панель: компактнее, цели не меньше 32 px */
+.compact {
+  gap: 0;
+}
+
+.compact .pref {
+  width: 32px;
+  height: 32px;
+}
+
+.compact .pref svg {
+  width: 18px;
+  height: 18px;
+}

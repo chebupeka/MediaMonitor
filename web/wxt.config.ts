@@ -49,8 +49,9 @@ function serverAccess(mode: string, dev: boolean): UserManifest {
     "default-src 'self'",
     "script-src 'self' 'wasm-unsafe-eval'",
     "object-src 'self'",
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-    "font-src 'self' https://fonts.gstatic.com",
+    "style-src 'self' 'unsafe-inline'",
+    // Шрифты — в пакете расширения (src/styles/fonts.css), внешних запросов нет
+    "font-src 'self'",
     "img-src 'self' data: blob:",
     `connect-src ${connect}`,
   ].join('; ');
@@ -100,8 +101,9 @@ export default defineConfig({
   manifestVersion: 3,
   manifest: ({ browser, mode, command }) => ({
     name: 'Медиарадар',
+    // Подпись продукта — в начале; в Chrome Web Store описание не длиннее 132 знаков
     description:
-      'Поиск публикаций во ВКонтакте, Одноклассниках и MAX по Красноярскому краю: выделите текст новости — и увидите, где она опубликована.',
+      'Найдёт, где о вас написали во ВКонтакте, Одноклассниках и MAX по Красноярскому краю: выделите текст новости и увидите все посты.',
     ...browserSpecific(browser),
     ...serverAccess(mode, command === 'serve'),
     // contextMenus — пункт «Найти, где это опубликовано»; storage — передать выделенный текст панели;

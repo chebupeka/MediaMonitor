@@ -54,6 +54,50 @@ const DATA_SPACING = 3.6;
 const CACHE_LIMIT = 24;
 /** Поворот формы за мышью (как на сайте) */
 const MOUSE_YAW = 0.25;
+/**
+ * Вид точек по теме — переменные сайта `--dot-*` (tokens.css, те же имена и значения, что в
+ * site/styles.css). Палитра — в порядке кодов движка (BLUE … DIM).
+ */
+const DOT_PALETTE = [
+  '--dot-blue',
+  '--dot-white',
+  '--dot-gold',
+  '--dot-vk',
+  '--dot-ok',
+  '--dot-max',
+  '--dot-grey',
+  '--dot-dim',
+] as const;
+/** Звёзды: синие, золотые, белые (как на сайте) */
+const DOT_STARS = ['--dot-star-1', '--dot-star-2', '--dot-star-3'] as const;
+/** Места в векторе вида: 24 палитра, 3 яркие точки, 9 звёзды, затем числа */
+const LOOK = {
+  hi: 24,
+  stars: 27,
+  ink: 36,
+  alpha: 37,
+  size: 38,
+  starAlpha: 39,
+  starSize: 40,
+  maxSize: 41,
+};
+const LOOK_LEN = 42;
+
+interface LookState {
+  v: Float32Array;
+  /** Обычное наложение (тушь), иначе — сложение (свечение) */
+  normal: boolean;
+}
+/** Смена темы: цвета плывут столько же, сколько перетекает страница (0,35 с) */
+const LOOK_MS = 350;
+/** Тёмная тема сайта — если токены не прочитались */
+// prettier-ignore
+const DARK_LOOK = new Float32Array([
+  ...PALETTE,
+  0.93, 0.95, 1.0, // яркие точки
+  0.45, 0.65, 1.0, 1.0, 0.76, 0.38, 0.92, 0.94, 1.0, // звёзды
+  0, 0.8, 1, 1, 1, 0, // тушь, прозрачность, размер, звёзды: прозрачность и размер, предел размера
+]);
 /** Прямоугольник «поток невидим» за пределами холста — то есть нигде */
 const NO_HIDE = new Float32Array([9, 9, 9.1, 9.1]);
 
@@ -70,6 +114,8 @@ export interface EngineOptions {
   intro: boolean;
   /** Где форма в блоке: по центру (или слева/справа, как разделы сайта) */
   place?: 'center' | 'left' | 'right';
+  /** Крупнее или мельче формы (1 — как на сайте) */
+  zoom?: number;
 }
 
 /** Прямоугольник на экране (CSS-пиксели окна) */
@@ -133,8 +179,21 @@ export class DotsEngine {
   private dir: 0 | 1 | -1 = 0;
   private queued: string | null = null;
 
-  private lightTheme = false;
-  private palette: Float32Array = PALETTE;
+  private themeKey = '';
+  private themeDirty = true;
+  /**
+   * Вид точек — из токенов `--dot-*`. При смене темы цвета, край и размер плывут от прежнего
+   * вида к новому за LOOK_MS, смешивание (сложение ↔ обычное) меняется посередине, когда
+   * точки почти прозрачны, — как на сайте.
+   */
+  private lookFrom: LookState = { v: DARK_LOOK, normal: false };
+  private lookTo: LookState = { v: DARK_LOOK, normal: false };
+  private lookT0 = -1e9;
+  private readonly look = new Float32Array(LOOK_LEN);
+  private readonly lookPal = new Float32Array(24);
+  private readonly lookHi = new Float32Array(3);
+  private readonly lookStars = new Float32Array(9);
+  private blendNormal = false;
   private visible = true;
   private lost = false;
   private raf = 0;
@@ -529,7 +588,7 @@ export class DotsEngine {
     const narrow = asp < 0.85;
     let x = 0;
     const y = m.lift ?? 0;
-    let s = m.scale;
+    let s = m.scale * (this.opts.zoom ?? 1);
     if (m.wide) {
       s *= Math.min(1, (hw * 1.9) / (m.width ?? 1)); // во всю ширину, но целиком
     } else if (m.model) {
@@ -611,26 +670,70 @@ export class DotsEngine {
 
   /* ---------- Кадр ---------- */
 
-  setTheme(light: boolean): void {
-    if (light === this.lightTheme) return;
-    this.lightTheme = light;
-    this.palette = light ? this.lightPalette() : PALETTE;
+  /**
+   * Тема изменилась (`key` — её имя): вид точек движок перечитает из токенов `--dot-*`
+   * (tokens.css) в ближайшем кадре — к этому моменту на <html> уже стоит новая тема — и
+   * плавно перейдёт к нему. Новая тема — только новые значения токенов.
+   */
+  setTheme(key: string): void {
+    if (key === this.themeKey) return;
+    this.themeKey = key;
+    this.themeDirty = true;
     this.start();
   }
 
-  /** На светлом фоне светлые точки теряются — тёмные насыщенные цвета (как в ветке). */
-  private lightPalette(): Float32Array {
+  /** Вид точек из токенов `--dot-*`: палитра, яркие точки, звёзды, край, размер, смешивание. */
+  private readLook(): LookState {
     const css = getComputedStyle(this.canvas);
-    const pal = Array.from(PALETTE);
-    const set = (i: number, rgb: readonly number[]) => pal.splice(i * 3, 3, ...rgb);
-    set(0, [0.13, 0.33, 0.8]);
-    set(1, [0.2, 0.25, 0.34]);
-    set(2, [0.82, 0.5, 0.0]);
-    set(3, hexToRgb(css.getPropertyValue('--color-vk')) ?? [0.22, 0.52, 1.0]);
-    set(4, hexToRgb(css.getPropertyValue('--color-ok')) ?? [1.0, 0.5, 0.2]);
-    set(5, hexToRgb(css.getPropertyValue('--color-max')) ?? [0.18, 0.86, 0.55]);
-    set(7, [0.42, 0.5, 0.62]);
-    return new Float32Array(pal);
+    const v = new Float32Array(DARK_LOOK);
+    const color = (name: string, at: number) => {
+      const rgb = hexToRgb(css.getPropertyValue(name));
+      if (rgb) v.set(rgb, at);
+    };
+    const num = (name: string, at: number) => {
+      const x = parseFloat(css.getPropertyValue(name));
+      if (Number.isFinite(x)) v[at] = x;
+    };
+    DOT_PALETTE.forEach((name, i) => color(name, i * 3));
+    color('--dot-hi', LOOK.hi);
+    DOT_STARS.forEach((name, i) => color(name, LOOK.stars + i * 3));
+    num('--dot-ink', LOOK.ink);
+    num('--dot-alpha', LOOK.alpha);
+    num('--dot-size', LOOK.size);
+    num('--dot-star-alpha', LOOK.starAlpha);
+    num('--dot-star-size', LOOK.starSize);
+    num('--dot-max-size', LOOK.maxSize);
+    return { v, normal: css.getPropertyValue('--dot-blend').trim() === 'normal' };
+  }
+
+  /** Тема сменилась: плыть от текущего вида к новому (первый раз и без движения — сразу). */
+  private readTheme(now: number): void {
+    const first = this.lookT0 < -1e8 && this.lookTo.v === DARK_LOOK;
+    this.themeDirty = false;
+    const next = this.readLook();
+    this.lookFrom = {
+      v: new Float32Array(first ? next.v : this.look),
+      normal: first ? next.normal : this.blendNormal,
+    };
+    this.lookTo = next;
+    this.lookT0 = first || this.opts.still ? -1e9 : now;
+  }
+
+  /** Текущий вид: доля перехода → цвета и числа; смешивание — по середине; провал прозрачности. */
+  private updateLook(now: number): number {
+    const x = clamp01((now - this.lookT0) / LOOK_MS);
+    const k = x * x * (3 - 2 * x);
+    const a = this.lookFrom.v;
+    const b = this.lookTo.v;
+    for (let i = 0; i < LOOK_LEN; i += 1)
+      this.look[i] = (a[i] ?? 0) + ((b[i] ?? 0) - (a[i] ?? 0)) * k;
+    this.blendNormal = x < 0.5 ? this.lookFrom.normal : this.lookTo.normal;
+    this.lookPal.set(this.look.subarray(0, 24));
+    this.lookHi.set(this.look.subarray(LOOK.hi, LOOK.hi + 3));
+    this.lookStars.set(this.look.subarray(LOOK.stars, LOOK.stars + 9));
+    if (x < 1) this.start(); // переход ещё идёт — нужен следующий кадр и без движения
+    // Смешивание меняется посередине: в этот миг точки почти прозрачны
+    return this.lookFrom.normal !== this.lookTo.normal ? 1 - 0.92 * Math.sin(Math.PI * x) : 1;
   }
 
   setVisible(visible: boolean): void {
@@ -702,25 +805,31 @@ export class DotsEngine {
       mouse.ny += (mouse.tny - mouse.ny) * ease(0.25, dt);
     }
     const intro = still || !this.opts.intro ? 0 : Math.pow(clamp01(1 - time / 2.6), 3);
-    const light = this.lightTheme;
+    if (this.themeDirty) this.readTheme(now);
+    const dip = this.updateLook(now);
+    const look = this.look;
+    const ink = look[LOOK.ink] ?? 0;
+    const maxSize = look[LOOK.maxSize] ?? 0;
 
     gl.viewport(0, 0, cw, ch);
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
-    // Тёмная тема — свечение сложением, как на сайте; светлая — обычное наложение (ветка)
-    if (light)
+    // Тёмная — свечение сложением, как на сайте; «чернила» — обычное наложение (тушь на бумаге).
+    // Холст прозрачный, под ним фон страницы: альфа копится как у обычного наложения.
+    if (this.blendNormal)
       gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
     else gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE, gl.ONE, gl.ONE);
 
-    // Звёзды (на сайте — во весь экран; здесь — только в блоке и только в тёмной теме)
+    // Звёзды (на сайте — во весь экран; здесь — только в блоке, гаснут к краям)
     const S = this.S;
-    if (this.starBuf && !light) {
+    if (this.starBuf) {
       gl.useProgram(S.p);
       gl.uniform1f(S.u.uScroll ?? null, 0);
       gl.uniform1f(S.u.uTime ?? null, time);
-      gl.uniform1f(S.u.uPx ?? null, 1.6 * dpr);
-      gl.uniform1f(S.u.uAlpha ?? null, 1);
-      gl.uniform1f(S.u.uSoft ?? null, 3.2);
+      gl.uniform1f(S.u.uPx ?? null, 1.6 * dpr * (look[LOOK.starSize] ?? 1));
+      gl.uniform1f(S.u.uAlpha ?? null, dip * (look[LOOK.starAlpha] ?? 1));
+      gl.uniform1f(S.u.uInk ?? null, ink);
+      gl.uniform3fv(S.u.uStar ?? null, this.lookStars);
       gl.uniform1f(S.u.uVignette ?? null, 1);
       this.attr(this.loc.s, this.starBuf);
       gl.drawArrays(gl.POINTS, 0, this.opts.stars);
@@ -750,9 +859,13 @@ export class DotsEngine {
       gl.uniform1f(P.u.uSpread ?? null, still ? 0 : 0.95);
       gl.uniform1f(P.u.uIntro ?? null, intro);
       gl.uniform1f(P.u.uAspect ?? null, W / H);
-      gl.uniform1f(P.u.uPx ?? null, (this.opts.lowPower ? 2.4 : 2.0) * dpr * (light ? 1.2 : 1));
+      gl.uniform1f(
+        P.u.uPx ?? null,
+        (this.opts.lowPower ? 2.4 : 2.0) * dpr * (look[LOOK.size] ?? 1),
+      );
+      gl.uniform1f(P.u.uMaxPx ?? null, maxSize > 0 ? maxSize * dpr : 26);
       gl.uniform1f(P.u.uTilt ?? null, tilt);
-      gl.uniform1f(P.u.uAlpha ?? null, light ? 1 : 0.8);
+      gl.uniform1f(P.u.uAlpha ?? null, (look[LOOK.alpha] ?? 0.8) * dip);
       const uA = this.xf(idA, time, W, H, this.uA);
       const uB = this.xf(idB, time, W, H, this.uB);
       gl.uniform4fv(P.u.uA ?? null, uA);
@@ -764,11 +877,14 @@ export class DotsEngine {
       gl.uniform2f(P.u.uShift ?? null, 0, 0);
       gl.uniform2f(P.u.uFade ?? null, 0, 0);
       gl.uniform2f(P.u.uMouse ?? null, still ? 9 : mouse.nx, still ? 9 : mouse.ny);
-      gl.uniform3fv(P.u.uPal ?? null, this.palette);
-      gl.uniform1f(P.u.uLight ?? null, light ? 1 : 0);
+      gl.uniform3fv(P.u.uPal ?? null, this.lookPal);
+      gl.uniform3fv(P.u.uHi ?? null, this.lookHi);
+      gl.uniform1f(P.u.uInk ?? null, ink);
       gl.uniform2f(P.u.uView ?? null, cw, ch);
-      gl.uniform1f(P.u.uDataPx ?? null, DATA_SPACING * dpr);
-      gl.uniform1f(P.u.uSoft ?? null, light ? 1.6 : 3.2);
+      // Тушь: точки-данные — отдельные капли, мельче и реже, чтобы их можно было сосчитать
+      // (при свечении соседние сливаются в светящийся город, у туши это была бы клякса)
+      gl.uniform1f(P.u.uDataPx ?? null, DATA_SPACING * dpr * (1 + 0.5 * ink));
+      gl.uniform1f(P.u.uDataScale ?? null, 1 - 0.3 * ink);
       gl.drawArrays(gl.POINTS, 0, this.opts.count);
       // Форма с периодом (мост) — во всю ширину холста: повторы слева и справа, пока она видна
       const pa = META[idA].period;

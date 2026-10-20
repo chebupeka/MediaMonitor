@@ -109,7 +109,7 @@
 }
 
 .listRegion:focus-visible {
-  outline: 2px solid var(--color-focus);
+  outline: var(--focus-width) solid var(--color-focus);
   outline-offset: var(--space-2);
   border-radius: var(--radius-lg);
 }
@@ -296,16 +296,21 @@
   gap: var(--space-5);
 }
 
-.stage {
-  margin: calc(var(--space-2) * -1) 0 0;
-  display: grid;
-  gap: var(--space-1);
+/* Версия для слабовидящих: точек нет */
+:global(:root[data-lowvision]) .firstScene {
+  display: none;
 }
 
-.caption {
-  font-size: var(--text-xs);
-  color: var(--color-ink-3);
-  text-align: center;
+/* Карта края во всю ширину экрана, до краёв */
+.firstScene {
+  margin: calc(var(--space-2) * -1) calc(var(--space-4) * -1) 0;
+}
+
+@container screen (min-width: 960px) {
+  .firstScene {
+    height: clamp(340px, 48vh, 480px);
+    margin-inline: calc(var(--space-6) * -1);
+  }
 }
 
 .firstHead {

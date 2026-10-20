@@ -509,7 +509,7 @@ export function createHttpApi(baseUrl: string): HttpMonitorApi {
           })
         ).rowCount;
       return {
-        fileName: fileNameFrom(response.headers.get('Content-Disposition')) ?? 'mediaradar.xlsx',
+        fileName: fileNameFrom(response.headers.get('Content-Disposition')) ?? 'Медиарадар.xlsx',
         rowCount,
         file,
       };

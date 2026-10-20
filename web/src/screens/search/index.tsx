@@ -1,7 +1,12 @@
 /**
- * Экран «Поиск» — главный экран расширения, в стиле сайта «Медиарадар», только спокойнее.
+ * Экран «Поиск» — главный экран расширения, в стиле сайта «Медиарадар».
  *
- * Сверху — точки по словарю форм (08-visual-concept.md): пока человек вводит запрос,
+ * Как разделы сайта: на широкой вкладке слева заголовок, форма и подборка, справа — крупная
+ * сцена точек во всю высоту экрана (держится на месте, пока листают подборку); в боковой
+ * панели сцена во всю ширину под заголовком. Сцена одна на все состояния — формы
+ * перетекают друг в друга, как при прокрутке сайта.
+ *
+ * Точки — по словарю форм (08-visual-concept.md): пока человек вводит запрос,
  * облако «слушает»; идёт поиск — три облака площадок текут на карту; найдено — на карте
  * загораются города, по точке на публикацию; пусто — точки гаснут; сбой — облако
  * площадки серое и мерцает. Ниже — поле запроса, период, режим, строка состояния
@@ -9,7 +14,7 @@
  */
 import { FileSpreadsheet, Maximize2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
-import { api, demoQueries, useAsync, useSearchRun, type SearchRunState } from '@/api';
+import { IS_MOCKUP, api, demoQueries, useAsync, useSearchRun, type SearchRunState } from '@/api';
 import type {
   IsoDate,
   Period,
@@ -28,6 +33,7 @@ import {
   EmptyState,
   ErrorState,
   IconButton,
+  Kicker,
   Screen,
   StatusLine,
   TextArea,
@@ -36,7 +42,7 @@ import {
   useToast,
 } from '@/components';
 import {
-  DotsScene,
+  DotsStage,
   KRAI_CITIES,
   type DotsCityCount,
   type DotsForm,
@@ -61,6 +67,9 @@ const MODES: { value: SearchMode; label: string }[] = [
   { value: 'everywhere', label: 'Везде' },
   { value: 'my-sources', label: 'Мои источники' },
 ];
+
+/** Поле запроса: к нему течёт поток точек «система слушает» */
+const QUERY_ID = 'search-query';
 
 /** «Сейчас» имитации — 19 октября 2026 (web/README.md, «Имитация и демо-данные»). */
 const MOCK_TODAY: IsoDate = '2026-10-19';
@@ -202,6 +211,14 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
   // «Сегодня» — у сервера: период по умолчанию заканчивается сегодняшним днём.
   const startState = useAsync(useCallback(() => api.getStartState(), []));
   const today = startState.data?.defaultPeriod.to ?? MOCK_TODAY;
+  // Примеры запросов: в мокапе — демо-запросы, с сервером — его пример (НТ-14)
+  // (сервер пишет пример как подсказку поля: «Например: …» — подпись «Например» уже есть)
+  const example = startState.data?.exampleQuery.replace(/^например:\s*/iu, '').trim();
+  const examples = IS_MOCKUP
+    ? demoQueries.slice(0, 3)
+    : example
+      ? [{ id: 'example', label: example, text: example }]
+      : [];
 
   const running = state.phase === 'running' || state.phase === 'queued';
   const finished = state.phase === 'done' || state.phase === 'stopped';
@@ -340,48 +357,59 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
 
   return (
     <Screen
-      title="Поиск"
-      eyebrow="Красноярский край · ВКонтакте, Одноклассники, MAX"
+      index="01"
+      eyebrow="Поиск · ВКонтакте, Одноклассники, MAX"
+      title="Поиск *по смыслу*"
       width="narrow"
       className={styles.screen}
-    >
-      <figure className={styles.stage}>
-        <DotsScene
+      scene={
+        <DotsStage
           form={dots.form}
           intensity="calm"
           platforms={dots.platforms}
           cities={dots.cities}
-          height={200}
+          flowTarget={`#${QUERY_ID}`}
+          caption={dots.caption}
+          live={running}
         />
-        <figcaption className={styles.caption}>{dots.caption}</figcaption>
-      </figure>
-
+      }
+    >
       <form className={styles.query} onSubmit={onSubmit} aria-label="Запрос">
-        <TextArea
-          label="Запрос"
-          hideLabel
-          placeholder="Тема, событие, человек или текст новости"
-          value={text}
-          rows={3}
-          onChange={(e) => setText(e.target.value)}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-        />
-        <div className={styles.examples}>
-          <span className={styles.examplesLabel}>Например:</span>
-          {demoQueries.slice(0, 3).map((q) => (
-            <Chip
-              key={q.id}
-              size="sm"
-              onClick={() => {
-                setText(q.text);
-                run(q.text);
-              }}
-            >
-              {q.label}
-            </Chip>
-          ))}
+        <div className={styles.field}>
+          {/* Подпись внутри поля — как поле «Запрос» на сайте; для скринридера — label поля */}
+          <span className={styles.fieldLabel} aria-hidden="true">
+            Запрос
+          </span>
+          <TextArea
+            id={QUERY_ID}
+            label="Запрос"
+            hideLabel
+            className={styles.fieldInput}
+            placeholder="Тема, событие, человек или текст новости"
+            value={text}
+            rows={3}
+            onChange={(e) => setText(e.target.value)}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+          />
         </div>
+        {examples.length > 0 && (
+          <div className={styles.examples}>
+            <span className={styles.examplesLabel}>Например:</span>
+            {examples.map((q) => (
+              <Chip
+                key={q.id}
+                size="sm"
+                onClick={() => {
+                  setText(q.text);
+                  run(q.text);
+                }}
+              >
+                {q.label}
+              </Chip>
+            ))}
+          </div>
+        )}
         <div className={styles.controls}>
           <ToggleGroup
             label="Период"
@@ -491,6 +519,7 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
 
       {state.items.length > 0 && (
         <section className={styles.results} aria-labelledby="results-title">
+          <Kicker className={styles.resultsKicker}>Подборка · каждое размещение отдельно</Kicker>
           <div className={styles.resultsHead}>
             <h2 id="results-title" className={styles.found}>
               <span className={styles.foundNum}>{total}</span>

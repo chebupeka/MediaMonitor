@@ -13,8 +13,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { browser } from 'wxt/browser';
+import '@/styles/fonts.css';
 import '@/styles/tokens.css';
 import '@/styles/base.css';
+import { applyPrefs, readPrefs } from '@/app/prefs';
 import { setHost } from '@/lib/host';
 import { onPendingSelection, takePendingSelection } from './handoff';
 import { OPEN_TAB_MESSAGE } from './messages';
@@ -39,6 +41,8 @@ function installExtensionHost(layout: 'panel' | 'site'): void {
 
 /** `panel` — узкая боковая панель; `site` — вкладка во всю ширину */
 export async function boot(layout: 'panel' | 'site'): Promise<void> {
+  // Тема и версия для слабовидящих — сразу, до ожидания выделения: страница не мигает
+  applyPrefs(readPrefs());
   installExtensionHost(layout);
   const pending = await takePendingSelection().catch(() => null);
 

@@ -7,7 +7,9 @@
  * Форму задаёт свойство `form` (на сайте — прокрутка): при его смене точки перелетают
  * так же, как на сайте при прокрутке к следующему разделу.
  * Запасной вариант — статичная карта (StaticKraiMap): без WebGL и при выключенном
- * переключателе «Анимация точек». При «уменьшить движение» форма статична.
+ * переключателе «Анимация точек». При «уменьшить движение» форма статична. В версии для
+ * слабовидящих точек нет совсем (как на сайте): факты экраны дублируют текстом.
+ * Цвета и способ рисования — из токенов `--dot-*` текущей темы (tokens.css).
  */
 import { useCallback, useState } from 'react';
 import { useShell } from '@/app/shell-state';
@@ -29,10 +31,11 @@ const SHAPE: Readonly<Record<DotsForm, ShapeId>> = {
 };
 
 export function DotsScene(props: DotsSceneProps) {
-  const { dotsEnabled, reducedMotion, resolvedTheme } = useShell();
+  const { dotsEnabled, reducedMotion, themeKey, lowVision } = useShell();
   const [unsupported, setUnsupported] = useState(false);
   const onUnsupported = useCallback(() => setUnsupported(true), []);
 
+  if (lowVision) return null;
   if (!dotsEnabled || unsupported) return <StaticKraiMap {...props} />;
   const {
     form,
@@ -43,6 +46,7 @@ export function DotsScene(props: DotsSceneProps) {
     height = 220,
     className,
     flowTarget,
+    zoom,
   } = props;
   const shape: ShapeRequest = { id: SHAPE[form], data: { cities, platforms, placements } };
   return (
@@ -52,9 +56,10 @@ export function DotsScene(props: DotsSceneProps) {
       height={height}
       className={className}
       still={reducedMotion}
-      lightTheme={resolvedTheme === 'light'}
+      theme={themeKey}
       onUnsupported={onUnsupported}
       flowTarget={flowTarget}
+      zoom={zoom}
     />
   );
 }

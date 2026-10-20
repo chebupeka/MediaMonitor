@@ -1,0 +1,39 @@
+/* Контурное слово заголовка (.o сайта) */
+.outline {
+  color: transparent;
+  -webkit-text-stroke: var(--outline-width) var(--color-outline);
+}
+
+/* Версия для слабовидящих: слова-контуры становятся сплошными, как на сайте */
+:global(:root[data-lowvision]) .outline {
+  color: var(--color-ink);
+  -webkit-text-stroke: 0;
+}
+
+/* Высокий контраст Windows не рисует контур — слово остаётся видимым */
+@media (forced-colors: active) {
+  .outline {
+    color: CanvasText;
+    -webkit-text-stroke: 0;
+  }
+}
+
+/* Подпись-раздел (.kicker сайта) */
+.kicker {
+  margin: 0;
+  font-size: var(--text-kicker);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-kicker);
+  line-height: var(--leading-snug);
+  color: var(--color-kicker);
+}
+
+.kickerNum {
+  display: inline-block;
+  margin-right: 10px;
+  font-family: var(--font-display);
+  font-size: var(--text-kicker-num);
+  font-weight: var(--weight-display);
+  letter-spacing: 0.02em;
+  color: var(--color-kicker-num);
+}

@@ -437,11 +437,12 @@
     'attribute vec4 aFrom;',
     'attribute vec4 aTo;',
     'attribute vec4 aRnd;',
-    'uniform float uP, uTime, uSpread, uIntro, uAspect, uPx, uTilt, uAlpha;',
+    'uniform float uP, uTime, uSpread, uIntro, uAspect, uPx, uTilt, uAlpha, uMaxPx;',
     'uniform vec4 uA;',
     'uniform vec4 uB;',
     'uniform vec2 uMouse;',
     'uniform vec3 uPal[8];',
+    'uniform vec3 uHi;', // цвет редких ярких точек (--dot-hi)
     // «Система слушает»: на сколько сдвинуть конец потока, чтобы он упёрся в поле ввода
     // (xy — в координатах экрана; z = 1 — у формы есть поток к полю; у остальных форм — 0)
     'uniform vec3 uTgtA;',
@@ -497,10 +498,10 @@
     '  float dl = length(dm);',
     '  q += dm / (dl + 1e-4) * 0.05 * smoothstep(0.28, 0.0, dl) * vec2(1.0 / uAspect, 1.0);',
     '  gl_Position = vec4(q, 0.0, 1.0);',
-    '  gl_PointSize = min(uPx * (3.4 / z) * (0.55 + d * 0.9), 26.0);',
+    '  gl_PointSize = min(uPx * (3.4 / z) * (0.55 + d * 0.9), uMaxPx);',
     '  vec4 la = look(aFrom.w, d), lb = look(aTo.w, d);',
     '  vec3 col = mix(la.rgb, lb.rgb, e);',
-    '  if (d > 0.965) col = mix(col, vec3(0.93, 0.95, 1.0), 0.7);',
+    '  if (d > 0.965) col = mix(col, uHi, 0.7);',
     '  vCol = col;',
     '  vAlpha = uAlpha * mix(la.a, lb.a, e) * clamp(1.7 - z * 0.27, 0.25, 1.0) * (1.0 - uIntro * 0.5);',
     '  vAlpha *= mix(1.0, 1.0 - e, uFade.x) * mix(1.0, e, uFade.y) * shown;',
@@ -510,6 +511,7 @@
   var VS_STARS = [
     'attribute vec4 aS;',
     'uniform float uScroll, uTime, uPx, uAlpha;',
+    'uniform vec3 uStar[3];', // синие, золотые и белые звёзды (--dot-star-1…3)
     'varying vec3 vCol;',
     'varying float vAlpha;',
     'void main() {',
@@ -518,19 +520,20 @@
     '  gl_PointSize = uPx * (0.7 + aS.z * 1.4);',
     '  float tw = 0.55 + 0.45 * sin(uTime * (0.8 + aS.w * 2.5) + aS.w * 50.0);',
     '  vAlpha = uAlpha * (0.25 + 0.6 * aS.z) * tw;',
-    '  vCol = aS.w < 0.12 ? vec3(0.45, 0.65, 1.0) : (aS.w < 0.22 ? vec3(1.0, 0.76, 0.38) : vec3(0.92, 0.94, 1.0));',
+    '  vCol = aS.w < 0.12 ? uStar[0] : (aS.w < 0.22 ? uStar[1] : uStar[2]);',
     '}'
   ].join('\n');
 
   var FS = [
     'precision mediump float;',
+    'uniform float uInk;', // 0 — ореол (тёмная тема), 1 — капля туши без ореола (светлая)
     'varying vec3 vCol;',
     'varying float vAlpha;',
     'void main() {',
     '  vec2 c = gl_PointCoord - 0.5;',
     '  float r = dot(c, c) * 4.0;',
     '  if (r > 1.0) discard;',
-    '  gl_FragColor = vec4(vCol, exp(-r * 3.2) * vAlpha);',
+    '  gl_FragColor = vec4(vCol, mix(exp(-r * 3.2), 1.0 - smoothstep(0.42, 1.0, r), uInk) * vAlpha);',
     '}'
   ].join('\n');
 
@@ -762,17 +765,66 @@
   // Доля сближения за кадр, пересчитанная на реальное время: при 60 кадрах/с — k
   function ease(k, dt) { return 1 - Math.pow(1 - k, dt * 60); }
 
+  /* ---------- Вид точек по теме ---------- */
+  // Цвета и правила — переменные --dot-* в styles.css (тёмная, светлая «чернила», тёплый свет,
+  // слабовидящие). Они читаются один раз при смене режима (событие 'mr-prefs' из prefs.js), а
+  // переход к новым цвету, фону и краю точки ведётся здесь, на холсте, за .35 с. Смешивание
+  // меняется посередине перехода (сложение ↔ обычное), точки в этот миг почти прозрачны.
+  var root = document.documentElement;
+  var DOT_KEYS = ['blue', 'white', 'gold', 'vk', 'ok', 'max', 'grey', 'dim'];
+  function hex(v, fallback) {
+    v = (v || '').trim();
+    if (/^#[0-9a-f]{6}$/i.test(v)) return [parseInt(v.slice(1, 3), 16) / 255, parseInt(v.slice(3, 5), 16) / 255, parseInt(v.slice(5, 7), 16) / 255];
+    return fallback;
+  }
+  function num(v, fallback) { var x = parseFloat(v); return isNaN(x) ? fallback : x; }
+  function readLook() {
+    var cs = getComputedStyle(root), c = [], i;
+    for (i = 0; i < 8; i++) c = c.concat(hex(cs.getPropertyValue('--dot-' + DOT_KEYS[i]), PALETTE.slice(i * 3, i * 3 + 3)));
+    c = c.concat(hex(cs.getPropertyValue('--dot-hi'), [0.93, 0.95, 1]));
+    c = c.concat(hex(cs.getPropertyValue('--dot-star-1'), [0.45, 0.65, 1]), hex(cs.getPropertyValue('--dot-star-2'), [1, 0.76, 0.38]), hex(cs.getPropertyValue('--dot-star-3'), [0.92, 0.94, 1]));
+    c = c.concat(hex(cs.getPropertyValue('--dot-bg'), [7 / 255, 8 / 255, 11 / 255]));
+    c.push(num(cs.getPropertyValue('--dot-ink'), 0), num(cs.getPropertyValue('--dot-alpha'), 0.8), num(cs.getPropertyValue('--dot-size'), 1), num(cs.getPropertyValue('--dot-star-alpha'), 1), num(cs.getPropertyValue('--dot-star-size'), 1), num(cs.getPropertyValue('--dot-max-size'), 0));
+    return {
+      v: c, // 24 палитра, 3 яркие точки, 9 звёзды, 3 фон, тушь, прозрачность, размер, прозрачность и размер звёзд
+      normal: cs.getPropertyValue('--dot-blend').trim() === 'normal',
+      on: cs.getPropertyValue('--dots').trim() !== 'off'
+    };
+  }
+  var lookTo = readLook(), lookFrom = lookTo, lookT0 = -1e9, LOOK_MS = 350;
+  var look = new Float32Array(lookTo.v), lookPal = new Float32Array(24), lookStars = new Float32Array(9), lookHi = new Float32Array(3);
+  var dotsOn = lookTo.on, offSince = dotsOn ? 0 : -1e9, running = true;
+  function smooth(x) { return x * x * (3 - 2 * x); }
+  document.addEventListener('mr-prefs', function () {
+    lookFrom = { v: Array.prototype.slice.call(look), normal: blendNormal, on: dotsOn };
+    lookTo = readLook();
+    lookT0 = performance.now();
+    if (lookTo.on !== dotsOn) {
+      dotsOn = lookTo.on;
+      if (!dotsOn) offSince = performance.now(); // холст гаснет (styles.css), потом кадры останавливаются
+    }
+    if (dotsOn && !running) { running = true; last = performance.now(); requestAnimationFrame(frame); }
+  });
+  var blendNormal = lookTo.normal;
+  // Текущий вид: доля перехода x → цвета, край, смешивание, провал прозрачности
+  function updateLook(now) {
+    var x = reduced ? 1 : Math.max(0, Math.min(1, (now - lookT0) / LOOK_MS)), k = smooth(x), i;
+    for (i = 0; i < look.length; i++) look[i] = lookFrom.v[i] + (lookTo.v[i] - lookFrom.v[i]) * k;
+    blendNormal = x < 0.5 ? lookFrom.normal : lookTo.normal;
+    var dip = lookFrom.normal !== lookTo.normal ? 1 - 0.92 * Math.sin(Math.PI * x) : 1;
+    lookPal.set(look.subarray(0, 24)); lookHi.set(look.subarray(24, 27)); lookStars.set(look.subarray(27, 36));
+    gl.clearColor(look[36], look[37], look[38], 1);
+    if (blendNormal) gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); else gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+    return dip;
+  }
+
   gl.disable(gl.DEPTH_TEST);
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
   gl.clearColor(7 / 255, 8 / 255, 11 / 255, 1);
   // Постоянные значения задаются один раз: программа их помнит
   gl.useProgram(P.p);
-  gl.uniform3fv(P.u.uPal, new Float32Array(PALETTE));
   gl.uniform1f(P.u.uSpread, reduced ? 0 : 0.95);
-  gl.uniform1f(P.u.uAlpha, 0.8);
-  gl.useProgram(S.p);
-  gl.uniform1f(S.u.uAlpha, 1);
 
   var uA = new Float32Array(4), uB = new Float32Array(4), gA = new Float32Array(3), gB = new Float32Array(3);
   var hideRect = new Float32Array(4), NO_HIDE = new Float32Array([9, 9, 9.1, 9.1]);
@@ -788,7 +840,10 @@
   }
 
   function frame(now) {
+    // Версия для слабовидящих: точек нет — холст погас, кадры не рисуются
+    if (!dotsOn && now - offSince > LOOK_MS + 50) { running = false; return; }
     requestAnimationFrame(frame);
+    var dip = updateLook(now), ink = look[39];
     var time = reduced ? 0 : (now - t0) / 1000;
     var dt = Math.min(1, Math.max(0, (now - last) / 1000));
     last = now;
@@ -806,7 +861,10 @@
     gl.useProgram(S.p);
     gl.uniform1f(S.u.uScroll, sy);
     gl.uniform1f(S.u.uTime, time);
-    gl.uniform1f(S.u.uPx, 1.6 * dpr);
+    gl.uniform1f(S.u.uPx, 1.6 * dpr * look[43]);
+    gl.uniform1f(S.u.uAlpha, dip * look[42]);
+    gl.uniform1f(S.u.uInk, ink);
+    gl.uniform3fv(S.u.uStar, lookStars);
     attr(locS, starBuf);
     gl.drawArrays(gl.POINTS, 0, STARS);
     gl.disableVertexAttribArray(locS);
@@ -824,7 +882,12 @@
       gl.uniform1f(P.u.uTime, time);
       gl.uniform1f(P.u.uIntro, intro);
       gl.uniform1f(P.u.uAspect, W / H);
-      gl.uniform1f(P.u.uPx, (light ? 2.4 : 2.0) * dpr);
+      gl.uniform1f(P.u.uPx, (light ? 2.4 : 2.0) * dpr * look[41]);
+      gl.uniform1f(P.u.uAlpha, look[40] * dip);
+      gl.uniform1f(P.u.uInk, ink);
+      gl.uniform1f(P.u.uMaxPx, look[44] > 0 ? look[44] * dpr : 26);
+      gl.uniform3fv(P.u.uPal, lookPal);
+      gl.uniform3fv(P.u.uHi, lookHi);
       gl.uniform1f(P.u.uTilt, tilt);
       gl.uniform4fv(P.u.uA, uA);
       gl.uniform4fv(P.u.uB, uB);

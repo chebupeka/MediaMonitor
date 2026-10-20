@@ -3,6 +3,9 @@
   inset: 0;
   z-index: var(--z-overlay);
   background: var(--color-overlay);
+  /* Как меню сайта: фон под окном размыт */
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   animation: fade var(--duration-base) var(--ease-out);
 }
 
@@ -17,8 +20,8 @@
   width: min(calc(100vw - 2 * var(--space-4)), var(--dialog-w));
   max-height: min(calc(100vh - 2 * var(--space-6)), 860px);
   transform: translate(-50%, -50%);
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-2xl);
   background: var(--color-surface);
   color: var(--color-ink);
   box-shadow: var(--shadow-3);
@@ -50,7 +53,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-3);
-  padding: var(--space-5) var(--space-5) var(--space-3);
+  padding: var(--space-6) var(--space-6) var(--space-4);
 }
 
 .titles {
@@ -59,11 +62,15 @@
   min-width: 0;
 }
 
+/* Как заголовки сайта: узкий гротеск капсом */
 .title {
   margin: 0;
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-display);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
 }
 
 .description {
@@ -74,7 +81,7 @@
 
 .body {
   overflow: auto;
-  padding: 0 var(--space-5) var(--space-5);
+  padding: 0 var(--space-6) var(--space-6);
 }
 
 .footer {
@@ -82,7 +89,7 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-5);
+  padding: var(--space-4) var(--space-6);
   border-top: 1px solid var(--color-line);
 }
 

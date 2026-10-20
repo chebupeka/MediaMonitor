@@ -7,7 +7,7 @@ import { useCallback, type CSSProperties } from 'react';
 import { api, useAsync } from '@/api';
 import type { PlatformId } from '@/api/types';
 import { Button, cx, PlatformDot } from '@/components';
-import { DotsScene } from '@/dots';
+import { DotsStage } from '@/dots';
 import { formatCount, plural, WORDS } from '@/lib/format';
 import { PLATFORM_ORDER, PLATFORMS } from '@/lib/labels';
 import styles from './sources.module.css';
@@ -29,12 +29,15 @@ export function FirstRun({
 
   return (
     <div className={styles.firstRun}>
-      <figure className={styles.stage}>
-        <DotsScene form="krai" intensity="calm" height={180} />
-        <figcaption className={styles.caption}>
-          Красноярский край — в режиме «Везде» поиск идёт по всему краю, список не нужен.
-        </figcaption>
-      </figure>
+      {/* Карта края крупно, во всю ширину — как первый экран сайта */}
+      <div className={styles.firstScene}>
+        <DotsStage
+          form="krai"
+          intensity="calm"
+          captionAlign="center"
+          caption="Красноярский край — в режиме «Везде» поиск идёт по всему краю, список не нужен."
+        />
+      </div>
 
       <header className={styles.firstHead}>
         <h2 className={styles.firstTitle}>Список пока пуст</h2>

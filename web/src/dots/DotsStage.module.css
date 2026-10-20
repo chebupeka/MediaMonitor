@@ -1,0 +1,61 @@
+/*
+ * Сцена точек. Широко (вкладка, окно): холст во весь блок, высоту задаёт родитель, подпись —
+ * мелко поверх, справа внизу, как подпись к карте на сайте (.map-caption).
+ * Узко (боковая панель, узкая вкладка): холст во всю ширину заданной высоты, подпись под ним.
+ */
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+}
+
+.canvas {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.caption,
+.captionCenter {
+  position: absolute;
+  right: var(--page-pad);
+  bottom: var(--space-6);
+  max-width: 26em;
+  margin: 0;
+  font-size: var(--text-2xs);
+  line-height: var(--leading-snug);
+  letter-spacing: 0.04em;
+  text-align: right;
+  color: var(--color-scene-caption);
+  text-shadow:
+    0 0 14px var(--color-bg),
+    0 0 4px var(--color-bg);
+}
+
+.captionCenter {
+  right: var(--space-4);
+  left: var(--space-4);
+  max-width: none;
+  text-align: center;
+}
+
+@container screen (max-width: 959px) {
+  .stage {
+    height: auto;
+  }
+
+  .canvas {
+    flex: none;
+    height: clamp(var(--scene-h-panel), 50cqw, 460px);
+  }
+
+  .caption,
+  .captionCenter {
+    position: static;
+    max-width: none;
+    margin: calc(var(--space-3) * -1) 0 0;
+    padding: 0 var(--space-4);
+    text-align: center;
+  }
+}

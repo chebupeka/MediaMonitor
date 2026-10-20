@@ -15,20 +15,22 @@
   border-radius: var(--radius-pill);
   font-family: var(--font-ui);
   font-size: var(--btn-font);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
+  /* Как пилюля сайта: заливка при наведении плавно, за 0,35 с */
   transition:
-    background-color var(--duration-fast) var(--ease-standard),
-    border-color var(--duration-fast) var(--ease-standard),
-    color var(--duration-fast) var(--ease-standard);
+    background-color var(--duration-pill) var(--ease-standard),
+    border-color var(--duration-pill) var(--ease-standard),
+    color var(--duration-pill) var(--ease-standard),
+    background-size var(--duration-slower) var(--ease-standard);
 }
 
 .button:focus-visible {
-  outline: 2px solid var(--color-focus);
+  outline: var(--focus-width) solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -50,10 +52,11 @@
   --btn-h: var(--control-h-md);
 }
 
+/* Крупная — как «Скачать расширение» на сайте (.pill): 52 px, 14 px полужирный */
 .lg {
-  --btn-h: var(--control-h-lg);
-  --btn-px: var(--space-5);
-  --btn-font: var(--text-md);
+  --btn-h: var(--control-h-xl);
+  --btn-px: var(--space-7);
+  --btn-font: var(--text-sm);
   border-radius: var(--radius-pill);
 }
 
@@ -81,7 +84,7 @@
 .secondary {
   background: transparent;
   color: var(--color-ink);
-  border-color: var(--color-line-control);
+  border-color: var(--color-line-pill);
 }
 
 .secondary:hover:not(:disabled, [aria-disabled='true']) {
@@ -111,17 +114,18 @@
   border-color: var(--color-critical-ink);
 }
 
+/* Как «Как это работает» на сайте (.ghost): линия-подчёркивание уходит вправо при наведении */
 .link {
   --btn-px: 0;
   min-height: var(--target-min);
-  background: transparent;
-  color: var(--color-link);
-  text-decoration: underline;
-  text-underline-offset: 0.18em;
+  border-radius: 0;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  color: var(--color-ink);
 }
 
 .link:hover:not(:disabled, [aria-disabled='true']) {
-  text-decoration-thickness: 2px;
+  background-size: 0 1px;
+  background-position: 100% 100%;
 }
 
 .icon {

@@ -7,7 +7,17 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist', 'node_modules', 'eslint.config.js', '.output', '.wxt', 'extension/scripts'] },
+  {
+    ignores: [
+      'dist',
+      'dist-web',
+      'node_modules',
+      'eslint.config.js',
+      '.output',
+      '.wxt',
+      'extension/scripts',
+    ],
+  },
   {
     files: ['**/*.{ts,tsx}'],
     extends: [

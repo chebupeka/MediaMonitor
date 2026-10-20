@@ -8,14 +8,6 @@
     <!-- В Safari боковых панелей для расширений нет: без этой точки входа в манифесте
          не будет side_panel и разрешения sidePanel, которых Safari не знает. -->
     <meta name="manifest.exclude" content="['safari']" />
-    <!-- Как в мокапе: шрифты Google Fonts, без сети — системные запасные.
-         TODO: перед сдачей положить шрифты в пакет расширения, чтобы панель не ходила в Google. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap"
-    />
   </head>
   <body>
     <div id="root"></div>

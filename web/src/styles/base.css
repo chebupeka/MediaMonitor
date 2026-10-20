@@ -109,7 +109,7 @@ mark {
 
 /* Видимый фокус для всего, что получает фокус с клавиатуры (НТ-16). */
 :focus-visible {
-  outline: 2px solid var(--color-focus);
+  outline: var(--focus-width) solid var(--color-focus);
   outline-offset: 2px;
   border-radius: var(--radius-xs);
 }
@@ -152,7 +152,7 @@ mark {
 }
 
 /* Звёзды на фоне тёмной темы — как на сайте «Медиарадар». Статичные: не отвлекают от подборки. */
-:root[data-theme='dark'] body {
+:root[data-theme='dark']:not([data-lowvision]) body {
   background-image:
     radial-gradient(1px 1px at 12% 18%, rgb(255 255 255 / 0.55), transparent),
     radial-gradient(1px 1px at 37% 72%, rgb(255 255 255 / 0.4), transparent),
@@ -190,42 +190,38 @@ mark {
   background-attachment: fixed;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) body {
-    background-image:
-      radial-gradient(1px 1px at 12% 18%, rgb(255 255 255 / 0.55), transparent),
-      radial-gradient(1px 1px at 37% 72%, rgb(255 255 255 / 0.4), transparent),
-      radial-gradient(1.5px 1.5px at 64% 9%, rgb(255 255 255 / 0.6), transparent),
-      radial-gradient(1px 1px at 82% 46%, rgb(255 255 255 / 0.35), transparent),
-      radial-gradient(1px 1px at 23% 88%, rgb(140 180 255 / 0.5), transparent),
-      radial-gradient(1.5px 1.5px at 51% 41%, rgb(255 255 255 / 0.45), transparent),
-      radial-gradient(1px 1px at 91% 83%, rgb(255 200 120 / 0.45), transparent),
-      radial-gradient(1px 1px at 6% 57%, rgb(255 255 255 / 0.3), transparent),
-      radial-gradient(1px 1px at 17% 31%, rgb(255 255 255 / 0.35), transparent),
-      radial-gradient(1px 1px at 44% 12%, rgb(140 180 255 / 0.4), transparent),
-      radial-gradient(1px 1px at 73% 64%, rgb(255 255 255 / 0.5), transparent),
-      radial-gradient(1.5px 1.5px at 88% 22%, rgb(255 255 255 / 0.4), transparent),
-      radial-gradient(1px 1px at 31% 93%, rgb(255 255 255 / 0.3), transparent),
-      radial-gradient(1px 1px at 58% 78%, rgb(255 200 120 / 0.35), transparent),
-      radial-gradient(1px 1px at 96% 51%, rgb(255 255 255 / 0.3), transparent),
-      radial-gradient(1.5px 1.5px at 9% 8%, rgb(255 255 255 / 0.45), transparent);
-    background-size:
-      260px 260px,
-      260px 260px,
-      260px 260px,
-      260px 260px,
-      260px 260px,
-      260px 260px,
-      260px 260px,
-      260px 260px,
-      370px 370px,
-      370px 370px,
-      370px 370px,
-      370px 370px,
-      370px 370px,
-      370px 370px,
-      370px 370px,
-      370px 370px;
-    background-attachment: fixed;
-  }
+/*
+ * Смена темы, «Тёплого света» и версии для слабовидящих (src/app/prefs.ts) — как на сайте:
+ * старый вид плавно растворяется в новом за 0,35 с. Это перетекание снимка страницы, а не
+ * переходы цвета на каждом элементе (те роняли кадры).
+ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--duration-theme);
+  animation-timing-function: ease;
+}
+
+/*
+ * Версия для слабовидящих (ГОСТ Р 52872-2019): крупный шрифт и контраст — в tokens.css;
+ * здесь — подчёркнутые ссылки, толстый фокус, без анимаций и появлений. Точки, звёзды,
+ * «расшифровку» и свой курсор выключают сами компоненты (атрибут data-lowvision).
+ */
+:root[data-lowvision] a {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+}
+
+:root[data-lowvision] :focus-visible {
+  outline: 3px solid var(--color-focus) !important;
+  outline-offset: 3px !important;
+}
+
+:root[data-lowvision] *,
+:root[data-lowvision] *::before,
+:root[data-lowvision] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }

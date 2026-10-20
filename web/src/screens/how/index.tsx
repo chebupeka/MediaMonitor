@@ -12,6 +12,7 @@ import type { SelectionMethod } from '@/api/types';
 import type { ScreenParamsMap, ScreenProps } from '@/app/navigation';
 import { useShell } from '@/app/shell-state';
 import { Chip, cx, PlatformDot, Screen } from '@/components';
+import { DotsStage } from '@/dots';
 import {
   METHOD_HINT,
   METHOD_LABEL,
@@ -73,41 +74,54 @@ export default function HowScreen({ params, navKey }: ScreenProps<'how'>) {
     return () => window.clearTimeout(timer);
   }, [navKey, params.section, goTo]);
 
+  // «Коротко» — рядом с картой края, как первый экран сайта
+  const short = (
+    <section className={cx(styles.short, styles.reveal)} aria-labelledby="how-short">
+      <h2 id="how-short" className={styles.kicker}>
+        Коротко
+      </h2>
+      <ul className={styles.shortList}>
+        <li>
+          Ищем <b>публичные посты</b> во ВКонтакте, Одноклассниках и MAX —{' '}
+          <b>только про Красноярский край</b>.
+        </li>
+        <li>
+          Каждая запись в подборке — <b>настоящий пост</b>: ссылку, дату, заголовок и выдержку берём
+          из самого поста.
+        </li>
+        <li>
+          Нейросеть только помогает разобрать спорные случаи. <b>Текст и ссылки она не пишет.</b>
+        </li>
+        <li>
+          Нейросеть работает <b>на нашем сервере</b>: тексты не уходят в облачные сервисы. Ключи
+          доступа к площадкам — <b>тоже только на сервере</b>.
+        </li>
+        <li>
+          Если площадка не ответила или данные неполные, это <b>видно над подборкой</b>, а не
+          выдаётся за «ничего не найдено».
+        </li>
+      </ul>
+    </section>
+  );
+
   return (
     <Screen
-      title="Как это работает"
-      eyebrow="Простыми словами · с честными рамками"
+      index="06"
+      title="Как это *работает*"
+      eyebrow="Как это работает · простыми словами, с честными рамками"
       lead="Откуда берутся публикации, как сервис решает, что подходит, и чего он не делает. Сверху — коротко, ниже — подробно."
       width="narrow"
       className={styles.screen}
+      sceneMode="hero"
+      scene={
+        <DotsStage
+          form="krai"
+          intensity="calm"
+          caption="Красноярский край — от Саян до Таймыра. По карте течёт Енисей"
+        />
+      }
+      intro={short}
     >
-      <section className={cx(styles.short, styles.reveal)} aria-labelledby="how-short">
-        <h2 id="how-short" className={styles.kicker}>
-          Коротко
-        </h2>
-        <ul className={styles.shortList}>
-          <li>
-            Ищем <b>публичные посты</b> во ВКонтакте, Одноклассниках и MAX —{' '}
-            <b>только про Красноярский край</b>.
-          </li>
-          <li>
-            Каждая запись в подборке — <b>настоящий пост</b>: ссылку, дату, заголовок и выдержку
-            берём из самого поста.
-          </li>
-          <li>
-            Нейросеть только помогает разобрать спорные случаи. <b>Текст и ссылки она не пишет.</b>
-          </li>
-          <li>
-            Нейросеть работает <b>на нашем сервере</b>: тексты не уходят в облачные сервисы. Ключи
-            доступа к площадкам — <b>тоже только на сервере</b>.
-          </li>
-          <li>
-            Если площадка не ответила или данные неполные, это <b>видно над подборкой</b>, а не
-            выдаётся за «ничего не найдено».
-          </li>
-        </ul>
-      </section>
-
       <nav aria-label="Разделы страницы">
         <ol className={styles.toc}>
           {SECTIONS.map((s, i) => (

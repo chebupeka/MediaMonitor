@@ -7,6 +7,8 @@
   var doc = document.documentElement;
   var reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   doc.classList.add('js');
+  // Версия для слабовидящих (prefs.js): без «расшифровки», бегущих строк и своего курсора
+  function lowVision() { return doc.hasAttribute('data-lowvision'); }
 
   /* ---------- Расшифровка текста ---------- */
   // Строка проявляется слева направо; на переднем крае несколько знаков
@@ -74,7 +76,7 @@
   var scRaf = 0, scLast = 0;
 
   function scramble(el, opts) {
-    if (reduced) return;
+    if (reduced || lowVision()) { finish(el); return; }
     opts = opts || {};
     if (!el._sc) prepare(el);
     running = running.filter(function (x) { return x.el !== el; });
@@ -117,7 +119,7 @@
   function countUp(el) {
     var to = Number(el.getAttribute('data-count')) || 0, t0 = performance.now(), dur = 1100 + to * 40, shown = '';
     (function tick(now) {
-      var p = Math.min(1, (now - t0) / dur);
+      var p = lowVision() ? 1 : Math.min(1, (now - t0) / dur); // слабовидящим — сразу итог
       var v = String(Math.round(to * (1 - Math.pow(1 - p, 3))));
       if (v !== shown) { shown = v; el.textContent = v; } // число не изменилось — DOM не трогаем
       if (p < 1) requestAnimationFrame(tick);
@@ -127,8 +129,10 @@
   if (reduced || !('IntersectionObserver' in window)) {
     Array.prototype.forEach.call(fades, function (el) { el.classList.add('in'); });
   } else {
-    scrambles.forEach(prepare);
-    counters.forEach(function (el) { el.textContent = '0'; });
+    if (!lowVision()) { // слабовидящим текст и числа видны сразу
+      scrambles.forEach(prepare);
+      counters.forEach(function (el) { el.textContent = '0'; });
+    }
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
@@ -179,7 +183,8 @@
 
   function measureMarquees() {
     marquees.forEach(function (q) {
-      var w = q.track.scrollWidth / q.copies || 1;
+      if (!q.track.scrollWidth) return; // строка скрыта (версия для слабовидящих) — мерить нечего
+      var w = q.track.scrollWidth / q.copies;
       var need = Math.max(2, Math.ceil(window.innerWidth / w) + 1);
       if (need !== q.copies) {
         q.copies = need;
@@ -199,7 +204,7 @@
   var cur = { x: -100, y: -100, rx: -100, ry: -100, moved: false };
 
   if (cursorOn) {
-    doc.classList.add('has-cursor');
+    if (!lowVision()) doc.classList.add('has-cursor');
     ring.style.transform = 'translate(-100px,-100px)'; // пока мышь не двигалась — за краем окна
     // Точка курсора переставляется в кадре (тот же кадр, что и событие): несколько событий
     // мыши за кадр — одна запись стиля
@@ -213,6 +218,19 @@
     });
     document.addEventListener('pointerleave', function () { cur.x = cur.y = -100; });
   }
+
+  document.addEventListener('mr-prefs', function () {
+    if (lowVision()) {
+      running.forEach(function (x) { finish(x.el); });
+      running = [];
+      scrambles.forEach(finish); // подготовленные к «расшифровке», но ещё не показанные
+      counters.forEach(function (el) { el.textContent = el.getAttribute('data-count'); });
+      Array.prototype.forEach.call(fades, function (el) { el.classList.add('in'); });
+      doc.classList.remove('has-cursor');
+    } else if (cursorOn) {
+      doc.classList.add('has-cursor');
+    }
+  });
 
   /* ---------- Меню ---------- */
 
@@ -304,7 +322,8 @@
         var q = marquees[k];
         if (q.top + q.h < scrollTop - 50 || q.top > scrollTop + vh + 50) continue; // строка за экраном — не двигаем
         var off = (sy - q.top + vh) * q.speed + drift * Math.sign(q.speed);
-        var x = (-(((off % q.w) + q.w) % q.w)).toFixed(1);
+        if (lowVision()) break; // строк не видно
+      var x = (-(((off % q.w) + q.w) % q.w)).toFixed(1);
         if (x !== q.x) { q.x = x; q.track.style.transform = 'translate3d(' + x + 'px,0,0)'; }
       }
     }

@@ -168,8 +168,9 @@ export default function RecentScreen({ navKey }: ScreenProps<'recent'>) {
 
   return (
     <Screen
-      title="Недавние поиски"
-      eyebrow="Условия поисков, а не подборки"
+      index="05"
+      title="Недавние *поиски*"
+      eyebrow="Недавние · условия поисков, а не подборки"
       lead="«Повторить» ищет заново прямо сейчас: появятся свежие публикации, удалённые пропадут. То, чего не было в прошлый раз, будет помечено «новое»."
       width="narrow"
       className={styles.screen}

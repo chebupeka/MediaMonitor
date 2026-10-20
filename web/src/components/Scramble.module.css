@@ -1,0 +1,14 @@
+/* «Расшифровка» как на сайте: мелькающие знаки — синим, непроявленная часть держит место */
+.b {
+  color: var(--color-scramble);
+}
+
+[data-outline] .b {
+  color: transparent;
+  -webkit-text-stroke-color: var(--color-scramble);
+}
+
+.c {
+  color: transparent !important;
+  -webkit-text-stroke-color: transparent !important;
+}

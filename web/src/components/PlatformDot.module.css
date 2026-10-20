@@ -1,8 +1,8 @@
 .dot {
   display: inline-block;
   flex: none;
-  width: var(--dot-size);
-  height: var(--dot-size);
+  width: var(--platform-dot-size);
+  height: var(--platform-dot-size);
   border-radius: 50%;
 }
 

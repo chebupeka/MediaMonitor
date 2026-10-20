@@ -5,9 +5,12 @@
  * - Холст создаётся заново при каждом монтировании: в StrictMode (`npm run dev`) эффект
  *   срабатывает дважды, и прежний холст уходит вместе с отпущенным контекстом — новый
  *   получает свежий WebGL (дефект ветки: второй запуск получал потерянный контекст).
- * - Бюджет точек — по высоте блока: сайт рисует 20 000 точек на экран (9 000 на слабых
- *   устройствах), блок получает долю по своей высоте; спокойная версия — не больше 4 000.
- * - Скрытый экран, вкладка в фоне или блок вне экрана — кадры не рисуются.
+ * - Бюджет точек — по размеру блока: сайт рисует 20 000 точек на экран высотой 1080 px
+ *   (9 000 на слабых устройствах), блок получает долю по меньшей стороне — плотность и
+ *   яркость как на сайте (замечание команды 20.10.2026: точки крупно, как на сайте).
+ *   Спокойная версия (`calm`) отличается только тем, что без своих звёзд.
+ * - Скрытый экран, вкладка в фоне, блок вне экрана или под открытым окном — кадры не
+ *   рисуются: на экране рисуется одна сцена (окно «Файл готов» — поверх «Поиска»).
  * - Размер блока движок получает из ResizeObserver, а не читает в кадре.
  * - «Система слушает»: поток течёт к полю ввода — `flowTarget` (CSS-селектор) или, если он
  *   не задан, первое текстовое поле после блока точек (на экране поиска — поле запроса).
@@ -15,14 +18,13 @@
  *   над ним поток невидим и проявляется у самого поля (как на сайте на узком экране).
  */
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { isModalOpen, onModalChange } from '@/lib/modal';
 import { DotsEngine, SITE_N, SITE_STARS, isLowPower } from './engine/engine';
 import { shapeKey, type ShapeRequest } from './engine/shapes';
 import styles from './ParticleField.module.css';
 
-/** Спокойная версия в панели (10-frontend-design-proposals §3.4): до 4 000 точек. */
-const CALM_CAP = 4000;
 /** Меньше — форма рассыпается на отдельные точки. */
-const MIN_COUNT = 1500;
+const MIN_COUNT = 3000;
 /** Высота экрана, на которую рассчитан бюджет сайта. */
 const SITE_H = 1080;
 
@@ -44,18 +46,13 @@ function setFlow(engine: DotsEngine, host: HTMLElement | null, on: boolean, sele
   engine.setTarget(field, field ? document.querySelector('[data-flow-cover]') : null);
 }
 
-export function budgetFor(
-  w: number,
-  h: number,
-  intensity: 'full' | 'calm',
-  lowPower: boolean,
-): number {
+export function budgetFor(w: number, h: number, lowPower: boolean): number {
   const base = lowPower ? SITE_N.low : SITE_N.normal;
-  // Форма вписывается в блок по высоте (а в узком блоке — по ширине)
-  const size = Math.min(h, w);
+  // Форма вписывается в блок по высоте, а в узком блоке — по ширине; формы шире своей высоты
+  // (облака площадок, сетка), поэтому узкий блок до 3 : 4 считается по высоте, как экран сайта
+  const size = Math.min(h, w / 0.75);
   const raw = (base * size) / SITE_H;
-  const cap = intensity === 'calm' ? CALM_CAP : base;
-  return Math.max(MIN_COUNT, Math.min(cap, Math.round(raw / 250) * 250));
+  return Math.max(MIN_COUNT, Math.min(base, Math.round(raw / 250) * 250));
 }
 
 function starsFor(w: number, h: number, intensity: 'full' | 'calm', lowPower: boolean): number {
@@ -71,7 +68,8 @@ export interface ParticleFieldProps {
   className?: string;
   /** «Уменьшить движение»: статичная форма */
   still: boolean;
-  lightTheme: boolean;
+  /** Имя темы: при смене движок перечитывает палитру из токенов `--dots-*` */
+  theme: string;
   /** Нет WebGL — пусть родитель покажет статичную карту */
   onUnsupported: () => void;
   /** Для витрины: доступ к движку (FPS) */
@@ -85,6 +83,8 @@ export interface ParticleFieldProps {
    * текстовое поле после блока точек.
    */
   flowTarget?: string;
+  /** Крупнее или мельче формы (1 — по умолчанию) */
+  zoom?: number;
 }
 
 export function ParticleField({
@@ -93,19 +93,20 @@ export function ParticleField({
   height,
   className,
   still,
-  lightTheme,
+  theme,
   onUnsupported,
   onEngine,
   place = 'center',
   count: fixedCount,
   flowTarget,
+  zoom = 1,
 }: ParticleFieldProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<DotsEngine | null>(null);
   const shapeRef = useRef(shape);
   shapeRef.current = shape;
-  const themeRef = useRef(lightTheme);
-  themeRef.current = lightTheme;
+  const themeRef = useRef(theme);
+  themeRef.current = theme;
   const onEngineRef = useRef(onEngine);
   onEngineRef.current = onEngine;
   const flowTargetRef = useRef(flowTarget);
@@ -122,7 +123,7 @@ export function ParticleField({
       const w = host.clientWidth;
       const h = host.clientHeight;
       if (w === 0 || h === 0) return; // скрытый экран — бюджет посчитаем, когда покажут
-      const count = fixedCount ?? budgetFor(w, h, intensity, lowPower);
+      const count = fixedCount ?? budgetFor(w, h, lowPower);
       const stars = starsFor(w, h, intensity, lowPower);
       setBudget((prev) =>
         prev && Math.abs(count - prev.count) / prev.count < 0.35 && stars === prev.stars
@@ -154,6 +155,7 @@ export function ParticleField({
       still,
       lowPower,
       place,
+      zoom,
       // Вступление сайта — только при первом показе, не при пересоздании из-за размера
       intro: performance.now() - mountedAt < 600,
     });
@@ -170,22 +172,27 @@ export function ParticleField({
     onEngineRef.current?.(engine);
 
     let onScreen = true;
-    const update = () => engine.setVisible(onScreen && !document.hidden);
+    // Под открытым окном сцена не видна; сцена внутри окна рисуется
+    const inDialog = host.closest('[role="dialog"]') !== null;
+    const update = () =>
+      engine.setVisible(onScreen && !document.hidden && (inDialog || !isModalOpen()));
     const io = new IntersectionObserver(([entry]) => {
       onScreen = entry?.isIntersecting ?? true;
       update();
     });
     io.observe(host);
     document.addEventListener('visibilitychange', update);
+    const offModal = onModalChange(update);
     return () => {
       io.disconnect();
+      offModal();
       document.removeEventListener('visibilitychange', update);
       onEngineRef.current?.(null);
       engine.destroy();
       canvas.remove();
       engineRef.current = null;
     };
-  }, [budget, still, lowPower, place, mountedAt, onUnsupported]);
+  }, [budget, still, lowPower, place, zoom, mountedAt, onUnsupported]);
 
   // Новая форма — точки перелетают в неё
   const key = shapeKey(shape);
@@ -201,8 +208,8 @@ export function ParticleField({
   }, [listening, flowTarget]);
 
   useEffect(() => {
-    engineRef.current?.setTheme(lightTheme);
-  }, [lightTheme]);
+    engineRef.current?.setTheme(theme);
+  }, [theme]);
 
   return (
     <div

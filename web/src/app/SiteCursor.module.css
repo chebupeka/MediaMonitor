@@ -1,0 +1,80 @@
+/* Свой курсор сайта (.cur-ring, .cur-dot в site/styles.css) */
+.ring,
+.dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-cursor);
+  display: none;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-100px, -100px);
+}
+
+:global(:root[data-cursor='site']) .ring,
+:global(:root[data-cursor='site']) .dot {
+  display: block;
+}
+
+/* Над полем ввода — системный курсор-«палочка», свой прячется */
+:global(:root[data-cursor-text]) .ring,
+:global(:root[data-cursor-text]) .dot {
+  opacity: 0;
+}
+
+.ring {
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  border: 1px solid var(--color-cursor-ring-line);
+  background: var(--color-cursor-ring-bg);
+  transition:
+    width var(--duration-pill) ease,
+    height var(--duration-pill) ease,
+    margin var(--duration-pill) ease,
+    background-color var(--duration-pill) ease,
+    border-color var(--duration-pill) ease,
+    opacity var(--duration-fast) ease;
+}
+
+.big {
+  width: 86px;
+  height: 86px;
+  margin: -43px 0 0 -43px;
+  border-color: var(--color-cursor-hot-line);
+  background: var(--color-cursor-hot-bg);
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  background: var(--color-cursor-dot);
+  transition: opacity var(--duration-fast) ease;
+}
+
+/* Системный курсор прячется везде, кроме полей ввода */
+:global(:root[data-cursor='site']),
+:global(:root[data-cursor='site'] body),
+:global(:root[data-cursor='site'] a),
+:global(:root[data-cursor='site'] button),
+:global(:root[data-cursor='site'] summary),
+:global(:root[data-cursor='site'] label),
+:global(:root[data-cursor='site'] select),
+:global(:root[data-cursor='site'] [role='button']),
+:global(:root[data-cursor='site'] [role='menuitem']),
+:global(:root[data-cursor='site'] [role='menuitemradio']),
+:global(:root[data-cursor='site'] [role='menuitemcheckbox']) {
+  cursor: none;
+}
+
+:global(:root[data-cursor='site'] textarea),
+:global(:root[data-cursor='site'] input:not([type='checkbox'], [type='radio'])),
+:global(:root[data-cursor='site'] [contenteditable='true']) {
+  cursor: text;
+}
+
+:global(:root[data-cursor='site'] button:disabled),
+:global(:root[data-cursor='site'] [aria-disabled='true']) {
+  cursor: not-allowed;
+}

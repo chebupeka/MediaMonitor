@@ -9,9 +9,11 @@ import { useEffect, useRef, useState, type ComponentType } from 'react';
 import { useConnection } from '@/api';
 import { subscribeDemo } from '@/api/fake/scenario';
 import { useAnnounce } from '@/components';
+import { IS_WEB_BUILD, SELECTION_FEATURES } from '@/lib/build';
 import { TIME_ZONE_LABEL_FULL } from '@/lib/format';
 import { DemoPanel } from './DemoPanel';
 import { Header } from './Header';
+import { SiteCursor } from './SiteCursor';
 import { useNavigation, type ScreenId, type ScreenParamsMap, type ScreenProps } from './navigation';
 import { HostPage, SCREENS, SCREEN_COMPONENTS, SCREEN_ORDER } from './screens';
 import { useShell } from './shell-state';
@@ -53,9 +55,11 @@ function Footer() {
         <button type="button" className={styles.footerLink} onClick={() => navigate('status')}>
           Состояние стенда
         </button>
-        <button type="button" className={styles.footerLink} onClick={() => navigate('demo-page')}>
-          Демо-страница СМИ
-        </button>
+        {SELECTION_FEATURES && (
+          <button type="button" className={styles.footerLink} onClick={() => navigate('demo-page')}>
+            Демо-страница СМИ
+          </button>
+        )}
       </nav>
     </footer>
   );
@@ -147,7 +151,10 @@ export function Shell() {
         </main>
         {layout === 'site' ? <Footer /> : null}
       </div>
-      <DemoPanel />
+      {/* Свой курсор сайта — только во вкладке, в боковой панели курсор системный */}
+      {layout === 'site' ? <SiteCursor /> : null}
+      {/* Панель «Демо-сценарий» — только в мокапе; в веб-версии на сервере её нет */}
+      {IS_WEB_BUILD ? null : <DemoPanel />}
     </div>
   );
 }

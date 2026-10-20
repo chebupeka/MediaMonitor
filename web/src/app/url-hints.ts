@@ -48,3 +48,14 @@ export function urlLayout(): 'site' | 'panel' | null {
 export function urlQuery(): string | null {
   return params().get('q');
 }
+
+/**
+ * Флаг вида из адреса — только для скриншотов: `&warm=1`, `&lowvision=1` (или `=0`).
+ * Не задан — `null`.
+ */
+export function urlFlag(name: 'warm' | 'lowvision'): boolean | null {
+  const value = params().get(name);
+  if (value === '1' || value === 'true') return true;
+  if (value === '0' || value === 'false') return false;
+  return null;
+}

@@ -251,7 +251,7 @@ export function platformStatusView(status: PlatformStatus): StatusView {
       return {
         tone: 'critical',
         icon: 'lock',
-        text: problem?.code === 'quota-exhausted' ? 'нет доступа: квота' : 'нет доступа',
+        text: problem?.code === 'quota-exhausted' ? 'лимит на сегодня исчерпан' : 'нет доступа',
         detail: problem?.message ?? null,
         retry: problem?.retryable ?? false,
       };

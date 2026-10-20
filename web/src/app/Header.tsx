@@ -1,9 +1,12 @@
-import { Check, Menu, SunMoon } from 'lucide-react';
+import { Check, Menu } from 'lucide-react';
 import { DropdownMenu } from 'radix-ui';
+import { IS_MOCKUP } from '@/api';
 import { DemoBadge, IconButton, cx } from '@/components';
+import { IS_WEB_BUILD } from '@/lib/build';
 import { useNavigation, type ScreenId } from './navigation';
 import { SCREENS, SCREEN_ORDER } from './screens';
-import { useShell, type ThemeChoice } from './shell-state';
+import { PrefsButtons } from './PrefsButtons';
+import { useShell } from './shell-state';
 import styles from './Header.module.css';
 
 /** Знак как на сайте: название узким гротеском капсом и золотая точка — «найденное». */
@@ -16,49 +19,10 @@ export function Logo() {
   );
 }
 
-const THEMES: { value: ThemeChoice; label: string }[] = [
-  { value: 'system', label: 'Как в системе' },
-  { value: 'light', label: 'Светлая' },
-  { value: 'dark', label: 'Тёмная' },
-];
-
-function ViewMenu({ size }: { size: 'sm' | 'md' }) {
-  const { theme, setTheme, dotsEnabled, setDotsEnabled } = useShell();
-  return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger asChild>
-        <IconButton label="Вид: тема и анимация" icon={<SunMoon />} tooltip={false} size={size} />
-      </DropdownMenu.Trigger>
-      <DropdownMenu.Portal>
-        <DropdownMenu.Content className={styles.menu} align="end" sideOffset={6}>
-          <DropdownMenu.Label className={styles.menuLabel}>Тема</DropdownMenu.Label>
-          <DropdownMenu.RadioGroup value={theme} onValueChange={(v) => setTheme(v as ThemeChoice)}>
-            {THEMES.map((t) => (
-              <DropdownMenu.RadioItem key={t.value} value={t.value} className={styles.menuItem}>
-                <DropdownMenu.ItemIndicator className={styles.indicator}>
-                  <Check aria-hidden="true" />
-                </DropdownMenu.ItemIndicator>
-                {t.label}
-              </DropdownMenu.RadioItem>
-            ))}
-          </DropdownMenu.RadioGroup>
-          <DropdownMenu.Separator className={styles.separator} />
-          <DropdownMenu.CheckboxItem
-            checked={dotsEnabled}
-            onCheckedChange={(v) => setDotsEnabled(v === true)}
-            className={styles.menuItem}
-          >
-            <DropdownMenu.ItemIndicator className={styles.indicator}>
-              <Check aria-hidden="true" />
-            </DropdownMenu.ItemIndicator>
-            Анимация точек
-          </DropdownMenu.CheckboxItem>
-        </DropdownMenu.Content>
-      </DropdownMenu.Portal>
-    </DropdownMenu.Root>
-  );
-}
-
+/**
+ * Меню ☰ — как бургер сайта: все разделы (в узкой панели навигации нет) и переключатель
+ * «Анимация точек». Тема и версия для слабовидящих — отдельными кнопками рядом (Prefs).
+ */
 function ScreensMenu({
   screens,
   current,
@@ -70,6 +34,7 @@ function ScreensMenu({
   onSelect: (id: ScreenId) => void;
   size: 'sm' | 'md';
 }) {
+  const { dotsChoice, setDotsEnabled, lowVision } = useShell();
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -95,6 +60,19 @@ function ScreensMenu({
               {SCREENS[id].navLabel}
             </DropdownMenu.Item>
           ))}
+          <DropdownMenu.Separator className={styles.separator} />
+          {/* В версии для слабовидящих точек нет вовсе — переключатель не нужен */}
+          <DropdownMenu.CheckboxItem
+            checked={dotsChoice && !lowVision}
+            disabled={lowVision}
+            onCheckedChange={(v) => setDotsEnabled(v === true)}
+            className={styles.menuItem}
+          >
+            <DropdownMenu.ItemIndicator className={styles.indicator}>
+              <Check aria-hidden="true" />
+            </DropdownMenu.ItemIndicator>
+            Анимация точек
+          </DropdownMenu.CheckboxItem>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
@@ -104,7 +82,10 @@ function ScreensMenu({
 export function Header({ compact }: { compact: boolean }) {
   const { screen, navigate } = useNavigation();
   const main = SCREEN_ORDER.filter((id) => SCREENS[id].group === 'main');
-  const menuScreens = SCREEN_ORDER.filter((id) => SCREENS[id].group !== 'mock');
+  // В веб-версии нет лендинга мокапа («Установить расширение» — на сайте)
+  const menuScreens = SCREEN_ORDER.filter(
+    (id) => SCREENS[id].group !== 'mock' && !(IS_WEB_BUILD && SCREENS[id].group === 'home'),
+  );
 
   return (
     <header className={cx(styles.header, compact && styles.compact)}>
@@ -138,14 +119,15 @@ export function Header({ compact }: { compact: boolean }) {
       )}
 
       <div className={styles.tools}>
-        <DemoBadge short={compact} />
+        {/* «Демо-данные» — только на имитации; с сервером данные настоящие */}
+        {IS_MOCKUP && <DemoBadge short={compact} />}
         <ScreensMenu
           screens={menuScreens}
           current={screen}
           onSelect={(id) => navigate(id)}
           size={compact ? 'sm' : 'md'}
         />
-        <ViewMenu size={compact ? 'sm' : 'md'} />
+        <PrefsButtons compact={compact} />
         {/* Выйти из предпросмотра панели — переключатель в панели «Демо-сценарий». */}
       </div>
     </header>

@@ -1,6 +1,7 @@
 import { X } from 'lucide-react';
 import { Dialog as RadixDialog } from 'radix-ui';
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
+import { holdModal } from '@/lib/modal';
 import { IconButton } from './Button';
 import styles from './Dialog.module.css';
 import { cx } from './cx';
@@ -43,6 +44,7 @@ export function Dialog({
           className={cx(styles.content, styles[size], className)}
           {...(description ? {} : { 'aria-describedby': undefined })}
         >
+          <ModalMarker />
           <div className={styles.header}>
             <div className={styles.titles}>
               <RadixDialog.Title className={styles.title}>{title}</RadixDialog.Title>
@@ -62,6 +64,12 @@ export function Dialog({
       </RadixDialog.Portal>
     </RadixDialog.Root>
   );
+}
+
+/** Окно открыто, пока смонтировано содержимое: точки под затемнением не рисуются. */
+function ModalMarker() {
+  useEffect(() => holdModal(), []);
+  return null;
 }
 
 /** Кнопка, закрывающая окно (для `footer`): `<DialogClose><Button>Готово</Button></DialogClose>` */

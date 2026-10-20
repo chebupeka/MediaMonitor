@@ -10,6 +10,8 @@
  * с чистого листа, а не смешивают данные имитации и сервера.
  */
 
+import { IS_WEB_BUILD } from '@/lib/build';
+
 export type DataSource = { kind: 'fake' } | { kind: 'server'; url: string };
 
 const STORAGE_KEY = 'mm-data-source';
@@ -17,12 +19,17 @@ const STORAGE_KEY = 'mm-data-source';
 /** Адрес сервера по умолчанию для поля в панели (так запускается server/ без Docker). */
 export const LOCAL_API_URL = 'http://127.0.0.1:8000';
 
-/** Привести адрес к виду `http(s)://хост[:порт][/путь]` без завершающей косой черты. */
+/**
+ * Привести адрес к виду `http(s)://хост[:порт][/путь]` без завершающей косой черты.
+ * Адрес от корня (`/`, `/stand`) — относительно страницы: веб-версия на том же сервере.
+ */
 export function normalizeApiUrl(raw: string | null | undefined): string | null {
   const value = (raw ?? '').trim();
   if (!value) return null;
   try {
-    const url = new URL(value);
+    const relative = value.startsWith('/') && !value.startsWith('//');
+    if (relative && typeof location === 'undefined') return null;
+    const url = relative ? new URL(value, location.origin) : new URL(value);
     if (url.protocol !== 'http:' && url.protocol !== 'https:') return null;
     if (url.search || url.hash || url.username || url.password) return null;
     return `${url.origin}${url.pathname}`.replace(/\/+$/u, '');
@@ -59,6 +66,8 @@ function readStored(): DataSource | null {
 
 /** Источник данных для этой загрузки страницы. */
 export function resolveDataSource(): DataSource {
+  // Веб-версия работает только с сервером: выбора «Данные» и имитации в ней нет
+  if (IS_WEB_BUILD && BUILD_API_URL) return { kind: 'server', url: BUILD_API_URL };
   const stored = readStored();
   if (stored?.kind === 'fake') return stored;
   if (stored?.kind === 'server' && !IN_EXTENSION) return stored;

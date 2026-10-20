@@ -10,18 +10,20 @@
   color: var(--color-ink);
 }
 
+/* Как поле «Запрос» на сайте (.field): пилюля с тонким контуром, под ней видно звёзды и точки */
 .input {
   width: 100%;
-  min-height: var(--control-h-md);
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--color-line-control);
-  border-radius: var(--radius-xl);
-  /* Полупрозрачное, как поле на сайте: под ним видно звёзды */
-  background: color-mix(in srgb, var(--color-surface) 82%, transparent);
+  min-height: var(--control-h-lg);
+  padding: var(--space-2) var(--space-5);
+  border: 1px solid var(--color-line-pill);
+  border-radius: var(--radius-pill);
+  background: var(--color-field-bg);
+  -webkit-backdrop-filter: blur(var(--blur-field));
+  backdrop-filter: blur(var(--blur-field));
   color: var(--color-ink);
   font-size: var(--text-md);
   line-height: var(--leading-normal);
-  transition: border-color var(--duration-fast) var(--ease-standard);
+  transition: border-color var(--duration-pill) var(--ease-standard);
 }
 
 .input::placeholder {
@@ -29,17 +31,19 @@
 }
 
 .input:hover {
-  border-color: var(--color-ink-3);
+  border-color: var(--color-ink-2);
 }
 
 .input:focus-visible {
-  outline: 2px solid var(--color-focus);
+  outline: var(--focus-width) solid var(--color-focus);
   outline-offset: 1px;
   border-color: var(--color-focus);
 }
 
 .textarea {
   min-height: 96px;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-2xl);
   resize: vertical;
 }
 

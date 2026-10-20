@@ -4,7 +4,8 @@
  *  - точки-данные (код +16, правило честности): крупнее и ярче декора, с мягким ореолом
  *    (город «загорается», как золотые облака сайта), без мерцания; раскладываются спиралью
  *    вокруг города с шагом в пикселях — их можно сосчитать при любой высоте блока;
- *  - светлая тема (uLight, uSoft): у сайта её нет, поправки — как в ветке;
+ * Темы — как на сайте (20.10.2026): цвета, яркие точки и звёзды — из токенов --dot-* (uPal,
+ * uHi, uStar), край точки — ореол или плотная капля туши (uInk), предел размера (uMaxPx).
  *  - звёзды гаснут к краям блока (uVignette): холст здесь — блок, а не всё окно, и ровное
  *    звёздное поле внутри блока читалось бы прямоугольником.
  * Общее с сайтом (исправления 19.10.2026): поток «система слушает» упирается в поле ввода
@@ -20,14 +21,15 @@ export const VS = `
 attribute vec4 aFrom;
 attribute vec4 aTo;
 attribute vec4 aRnd;
-uniform float uP, uTime, uSpread, uIntro, uAspect, uPx, uTilt, uAlpha;
+uniform float uP, uTime, uSpread, uIntro, uAspect, uPx, uTilt, uAlpha, uMaxPx;
 uniform vec4 uA;
 uniform vec4 uB;
 uniform vec2 uMouse;
 uniform vec3 uPal[8];
-uniform float uLight;   // прил.: 1 — светлая тема
+uniform vec3 uHi;       // цвет редких ярких точек (--dot-hi)
 uniform vec2 uView;     // прил.: размер холста в пикселях устройства
 uniform float uDataPx;  // прил.: шаг спирали точек-данных в пикселях устройства
+uniform float uDataScale; // прил.: размер точки-данных (тушь — мельче: капли не сливаются в кляксу)
 // «Система слушает»: на сколько сдвинуть конец потока, чтобы он упёрся в поле ввода
 // (xy — в координатах холста; z = 1 — у формы есть поток к полю; у остальных форм — 0)
 uniform vec3 uTgtA;
@@ -101,11 +103,12 @@ void main() {
   float data = mix(da, db, e);
   q += mix(spiral(aFrom.w) * da, spiral(aTo.w) * db, e) * uDataPx * 2.0 / uView;
   gl_Position = vec4(q, 0.0, 1.0);
-  gl_PointSize = min(uPx * (3.4 / z) * mix(0.55 + d * 0.9, DATA_SIZE, data), 26.0);
+  // предел размера — у декора (брызги туши, а не кляксы); точки-данные остаются крупными
+  gl_PointSize = min(uPx * (3.4 / z) * mix(0.55 + d * 0.9, DATA_SIZE * uDataScale, data), mix(uMaxPx, 26.0, data));
   vData = data;
   vec4 la = look(aFrom.w, d), lb = look(aTo.w, d);
   vec3 col = mix(la.rgb, lb.rgb, e);
-  if (d > 0.965 && data < 0.5) col = mix(col, vec3(0.93, 0.95, 1.0), 0.7 * (1.0 - uLight));
+  if (d > 0.965 && data < 0.5) col = mix(col, uHi, 0.7);
   vCol = col;
   vAlpha = uAlpha * mix(mix(la.a, lb.a, e), 1.0, data) * clamp(1.7 - z * 0.27, 0.25, 1.0) * (1.0 - uIntro * 0.5);
   vAlpha *= mix(1.0, 1.0 - e, uFade.x) * mix(1.0, e, uFade.y) * shown;
@@ -114,6 +117,7 @@ void main() {
 export const VS_STARS = `
 attribute vec4 aS;
 uniform float uScroll, uTime, uPx, uAlpha;
+uniform vec3 uStar[3]; // синие, золотые и белые звёзды (--dot-star-1…3)
 uniform float uVignette; // прил.: 1 — звёзды гаснут к краям блока (овалом, без прямых границ)
 varying vec3 vCol;
 varying float vAlpha;
@@ -127,13 +131,13 @@ void main() {
   float tw = 0.55 + 0.45 * sin(uTime * (0.8 + aS.w * 2.5) + aS.w * 50.0);
   vAlpha = uAlpha * (0.25 + 0.6 * aS.z) * tw;
   vAlpha *= mix(1.0, smoothstep(1.0, 0.45, length(pos)), uVignette);
-  vCol = aS.w < 0.12 ? vec3(0.45, 0.65, 1.0) : (aS.w < 0.22 ? vec3(1.0, 0.76, 0.38) : vec3(0.92, 0.94, 1.0));
+  vCol = aS.w < 0.12 ? uStar[0] : (aS.w < 0.22 ? uStar[1] : uStar[2]);
 }`;
 
 export const FS = `
 precision mediump float;
 #define DATA_SOFT ${DATA_SOFT}
-uniform float uSoft; // прил.: 3.2 — как на сайте; в светлой теме мягче
+uniform float uInk; // 0 — ореол (тёмная тема), 1 — капля туши без ореола (светлая), как на сайте
 varying vec3 vCol;
 varying float vAlpha;
 varying float vData; // прил.: точка-данные — с мягким ореолом: город «загорается»
@@ -141,5 +145,7 @@ void main() {
   vec2 c = gl_PointCoord - 0.5;
   float r = dot(c, c) * 4.0;
   if (r > 1.0) discard;
-  gl_FragColor = vec4(vCol, exp(-r * uSoft * mix(1.0, DATA_SOFT, vData)) * vAlpha);
+  float halo = exp(-r * 3.2 * mix(1.0, DATA_SOFT, vData));
+  float drop = 1.0 - smoothstep(0.42, 1.0, r);
+  gl_FragColor = vec4(vCol, mix(halo, drop, uInk) * vAlpha);
 }`;

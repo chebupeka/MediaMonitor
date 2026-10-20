@@ -6,29 +6,29 @@
 }
 
 .stars circle {
-  fill: var(--color-dots-star);
+  fill: var(--dot-star-3);
 }
 
 .land circle {
-  fill: var(--color-dots-base);
+  fill: var(--dot-dim);
   opacity: 0.75;
 }
 
 .river circle {
-  fill: var(--color-dots-river);
+  fill: var(--dot-blue);
 }
 
 .glow {
-  fill: var(--color-dots-city);
+  fill: var(--dot-gold);
   opacity: 0.18;
 }
 
 .core {
-  fill: var(--color-dots-city);
+  fill: var(--dot-gold);
 }
 
 .labels text {
-  fill: var(--color-dots-city);
+  fill: var(--dot-gold);
   font-family: var(--font-ui);
   font-size: 13px;
   font-weight: var(--weight-medium);
@@ -36,12 +36,12 @@
 }
 
 .data circle {
-  fill: var(--color-dots-city);
+  fill: var(--dot-gold);
 }
 
 .source circle {
   fill: none;
-  stroke: var(--color-dots-city);
+  stroke: var(--dot-gold);
   stroke-width: 1.5;
   opacity: 0.7;
 }
@@ -79,6 +79,6 @@
 }
 
 .tributaries circle {
-  fill: var(--color-dots-river);
+  fill: var(--dot-blue);
   opacity: 0.55;
 }

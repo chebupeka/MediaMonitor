@@ -8,7 +8,7 @@ import { Download } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { api, errorMessage, useAsync } from '@/api';
 import { Button, Dialog, ErrorState, SkeletonText, useAnnounce } from '@/components';
-import { DotsScene } from '@/dots';
+import { DotsStage } from '@/dots';
 import { saveFile } from '@/lib/download';
 import styles from './search.module.css';
 
@@ -90,8 +90,11 @@ function ExportPreviewBody({ searchId }: { searchId: string }) {
   const { fileName, rowCount, rule, summary, publications, timeZoneNote } = preview.data;
   return (
     <div className={styles.export}>
-      {/* Словарь форм: «выгрузка — точки складываются в сетку таблицы» */}
-      <DotsScene form="export" intensity="calm" height={130} />
+      {/* Словарь форм: «выгрузка — точки складываются в сетку таблицы». Крупно, во всю
+          ширину окна — как раздел «Выгрузка» на сайте */}
+      <div className={styles.exportScene}>
+        <DotsStage form="export" intensity="calm" zoom={1.7} />
+      </div>
       <p className={styles.exportFile}>
         <b>{fileName}</b> · {rowCount} {rowCount === 1 ? 'запись' : 'записей'}
       </p>
