@@ -21,7 +21,7 @@ FastAPI + Pydantic v2, SQLAlchemy 2 + Alembic, PostgreSQL 16 + pgvector.
 | Отбор | **воронка «Э-Отбор»** (`server/matching`, пакет `mm_matching`): фразы → смысл (BERTA) → признаки события → нейросеть; результаты идут в поток по мере отбора; векторы постов кэшируются в базе. Устройство и замеры — `docs/12-tech-design.md` §11 |
 | Модель смысла | BERTA на CPU сервера или сервис на компьютере с видеокартой (`EMBEDDINGS_URL`, папка `gpu-node/`) с откатом на CPU |
 | Нейросеть | GigaChat 3.1 Lightning в Ollama по `OLLAMA_URL`; не задан или не отвечает — спорные «не проверено ИИ» |
-| Сайт и веб-версия | `/` — `site/`, `/app/` — сборка `web` (`npm run build:web` → `dist-web/`, base `/app/`; пока скрипта нет — `vite build --base /app/`). Собирает Dockerfile (этап node), файлы — в памяти, `.br`/`.gz` заранее; хеш в имени — кэш на год, остальное — `no-cache` + ETag; CSP только на свой адрес, встроенные скрипты — по SHA-256; адрес без файла в `/app/` → `index.html` | работает |
+| Сайт и веб-версия | `/` — `site/`, `/app/` — сборка `web` (`npm run build:web` → `dist-web/`, base `/app/`, `VITE_TARGET=web`, `VITE_API_URL=/`). Собирает Dockerfile (этап node), файлы — в памяти, `.br`/`.gz` заранее; хеш в имени — кэш на год, остальное — `no-cache` + ETag; CSP только на свой адрес, встроенные скрипты — по SHA-256; адрес без файла в `/app/` → `index.html` | работает |
 | Проверка текста на ИИ | `POST /api/ai-check`, `aiCheck` у записей подборки (фоном) и размещений «Распространения», общий кэш `ai_checks`; клиент сервиса GigaCheck на gpu-node готов, сам сервис — после пробы. Без `AI_DETECT_URL` — «проверка недоступна» (при разработке на примерах — демо-оценка из хеша). `docs/12-tech-design.md` §13 |
 
 ## Запуск в Docker

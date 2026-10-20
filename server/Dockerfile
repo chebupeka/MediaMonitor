@@ -17,19 +17,12 @@ COPY web/package.json web/package-lock.json ./
 RUN npm ci
 COPY web/ ./
 # Веб-версия работает с этим же сервером (VITE_API_URL=/ — тот адрес, откуда открыта
-# страница) и без демо-панели (VITE_TARGET=web). Переменные заданы здесь, а не только
-# в web/.env.web: файлы .env.* в git не попадают.
+# страница) и без демо-панели (VITE_TARGET=web). Файл .env.web не нужен: те же значения
+# по умолчанию задаёт web/vite.config.ts в режиме web; файлы web/.env* в образ не попадают.
 ARG VITE_API_URL=/
 ARG VITE_TARGET=web
-# Скрипт build:web (vite build --mode web → dist-web/, base /app/). Его ещё нет в ветке —
-# обычная сборка с base /app/ в ту же папку.
-RUN if node -e "process.exit(require('./package.json').scripts['build:web'] ? 0 : 1)"; then \
-        VITE_API_URL="$VITE_API_URL" VITE_TARGET="$VITE_TARGET" npm run build:web; \
-    else \
-        echo "build:web нет — vite build --base /app/"; \
-        VITE_API_URL="$VITE_API_URL" VITE_TARGET="$VITE_TARGET" \
-            npx vite build --base /app/ --outDir dist-web; \
-    fi \
+# build:web — vite build --mode web → dist-web/ с base /app/; сервер раздаёт её на «/app/».
+RUN VITE_API_URL="$VITE_API_URL" VITE_TARGET="$VITE_TARGET" npm run build:web \
     && test -f dist-web/index.html
 COPY site/ /out/site/
 COPY server/scripts/precompress.mjs /tmp/precompress.mjs

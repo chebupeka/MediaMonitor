@@ -21,6 +21,7 @@ server/scripts
 !server/scripts/precompress.mjs
 server/matching/eval
 
+web/.env*
 web/dist
 web/dist-web
 web/.output
