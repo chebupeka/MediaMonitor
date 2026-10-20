@@ -117,6 +117,10 @@ INTERRUPTED = {
     "retryable": True,
 }
 PROGRESS_EVENT_INTERVAL = 0.25
+# Новые записи копятся и уходят в поток одним событием не чаще раза в столько секунд:
+# сборка подборки идёт по всем записям поиска, и сборка после каждой порции (сотни раз за
+# поиск из пяти площадок) занимала процессор и тормозила сбор с площадок.
+ITEMS_EVENT_INTERVAL = 1.5
 MAX_CUT_EXAMPLES = 6
 
 
@@ -253,6 +257,12 @@ class _Live:
     progress: dict[PlatformId, Progress] = field(default_factory=dict)
     ai_notice_sent: bool = False
     topic_changed: bool = False
+    # Записи, ещё не ушедшие в поток (id → текст поста), площадки, чей статус обновить, и
+    # записи с готовой оценкой ИИ. Уходят одним событием (ITEMS_EVENT_INTERVAL).
+    pending_items: dict[str, str | None] = field(default_factory=dict)
+    pending_platforms: set[PlatformId] = field(default_factory=set)
+    pending_ai: set[str] = field(default_factory=set)
+    last_items_event: float = 0.0
 
 
 def _period_bounds(conditions: SearchConditions) -> tuple[datetime, datetime]:
@@ -742,7 +752,15 @@ class SearchRunner:
         pending = set(platforms)
         step = self.settings.match_batch_size
         while pending:
-            job = await live.jobs.get()
+            try:
+                job = await asyncio.wait_for(live.jobs.get(), timeout=ITEMS_EVENT_INTERVAL)
+            except TimeoutError:
+                # Порций нет — накопленное уходит в поток, не дожидаясь следующей.
+                try:
+                    await self._flush_items(live)
+                except Exception:
+                    log.exception("Поиск %s: не удалось отправить записи", live.search_id)
+                continue
             try:
                 if isinstance(job, _PostsJob):
                     for start in range(0, len(job.posts), step):
@@ -751,6 +769,8 @@ class SearchRunner:
                     await self._capped(live, job.platform, job.capped)
                 else:
                     pending.discard(job.platform)
+                    # Записи площадки — в поток раньше её итога.
+                    await self._flush_items(live)
                     await self._platform_done(live, job.platform, job.final, job.problem)
             except asyncio.CancelledError:
                 raise
@@ -812,12 +832,9 @@ class SearchRunner:
                 search.notices = [*search.notices, notice.dump()]
 
     async def _ingest(self, live: _Live, platform: PlatformId, raws: Sequence[RawPost]) -> None:
-        # 1. Нормализация и кэш публикаций.
-        posts: dict[str, NormPost] = {}
-        for raw in raws:
-            post = normalize(raw, self.ctx.matcher.split_sentences)
-            if post is not None and post.id not in posts:
-                posts[post.id] = post
+        # 1. Нормализация (разбор текста, места края) — в потоке: цикл событий свободен
+        # для сетевых запросов площадок. Потом кэш публикаций.
+        posts = await asyncio.to_thread(self._normalize_batch, raws)
         if not posts:
             return
         candidates: list[Candidate] = []
@@ -896,38 +913,76 @@ class SearchRunner:
             if new_ids:
                 run = required(await session.get(PlatformRunRow, (live.search_id, platform)), "run")
                 _apply_progress(run, live.progress.get(platform))
-                await session.flush()
-                # Тексты новых записей — «ждут проверки на ИИ» до сборки события: запись
-                # уходит без `aiCheck`, оценка придёт следующим событием.
-                keys = self.ctx.ai_checks.reserve(
-                    text for text in (meta[i][0].text for i in new_ids) if text is not None
+                live.pending_items.update((i, meta[i][0].text) for i in new_ids)
+                live.pending_platforms.add(platform)
+        await self.ctx.bus.notify(live.search_id)
+        if self._items_due(live):
+            await self._flush_items(live)
+
+    def _normalize_batch(self, raws: Sequence[RawPost]) -> dict[str, NormPost]:
+        posts: dict[str, NormPost] = {}
+        for raw in raws:
+            post = normalize(raw, self.ctx.matcher.split_sentences)
+            if post is not None and post.id not in posts:
+                posts[post.id] = post
+        return posts
+
+    @staticmethod
+    def _items_due(live: _Live) -> bool:
+        return time.monotonic() - live.last_items_event >= ITEMS_EVENT_INTERVAL
+
+    async def _flush_items(self, live: _Live) -> None:
+        """Накопленные записи и оценки ИИ — в поток одним событием «items».
+
+        Подборка собирается по всем записям поиска, поэтому не после каждой порции, а не
+        чаще раза в ITEMS_EVENT_INTERVAL (первые записи — сразу), перед итогом площадки и
+        когда порций нет. Статусы площадок с новыми записями уходят вместе с ними.
+        """
+        if not live.pending_items and not live.pending_ai:
+            return
+        async with live.lock, self.ctx.sessions.begin() as session:
+            fresh, live.pending_items = live.pending_items, {}
+            platforms, live.pending_platforms = live.pending_platforms, set()
+            rated, live.pending_ai = live.pending_ai, set()
+            live.last_items_event = time.monotonic()
+            if live.finished or (not fresh and not rated):
+                return
+            search = await self._search(session, live)
+            # Тексты новых записей — «ждут проверки на ИИ» до сборки события: запись
+            # уходит без `aiCheck`, оценка придёт следующим событием.
+            keys = self.ctx.ai_checks.reserve(text for text in fresh.values() if text is not None)
+            waiting: list[tuple[str, str]] = []
+            try:
+                selection = await build_selection(
+                    session, search, self.ctx.adapters, self.ctx.ai_checks
                 )
-                waiting: list[tuple[str, str]] = []
-                try:
-                    selection = await build_selection(
-                        session, search, self.ctx.adapters, self.ctx.ai_checks
-                    )
-                    fresh = set(new_ids)
-                    items = [i for i in selection.items if i.id in fresh]
+                wanted = set(fresh) | rated
+                items = [i for i in selection.items if i.id in wanted]
+                if items:
                     append_event(
                         session,
                         search,
                         ItemsEvent(items=items, groups=selection.groups, counts=selection.counts),
                     )
-                    status = next(s for s in selection.statuses if s.platform == platform)
-                    append_event(
-                        session,
-                        search,
-                        PlatformEvent(status=status, current_source=run.current_source),
-                    )
-                    waiting = [
-                        (i.id, i.publication.text)
-                        for i in items
-                        if i.ai_check is None and i.publication.text is not None
-                    ]
-                finally:
-                    # Не ушло в очередь (сбой, остановка, всё уже в кэше) — отметки снимаются.
-                    self._queue_ai(live, waiting, keys)
+                for status in selection.statuses:
+                    if status.platform in platforms:
+                        progress = live.progress.get(status.platform)
+                        append_event(
+                            session,
+                            search,
+                            PlatformEvent(
+                                status=status,
+                                current_source=progress.current_source if progress else None,
+                            ),
+                        )
+                waiting = [
+                    (i.id, i.publication.text)
+                    for i in items
+                    if i.id in fresh and i.ai_check is None and i.publication.text is not None
+                ]
+            finally:
+                # Не ушло в очередь (сбой, остановка, всё уже в кэше) — отметки снимаются.
+                self._queue_ai(live, waiting, keys)
         await self.ctx.bus.notify(live.search_id)
 
     # ------------------------------------------------------------ проверка на ИИ (фоном)
@@ -974,23 +1029,14 @@ class SearchRunner:
                     ai.release(rest.keys)
 
     async def _emit_ai(self, live: _Live, item_ids: Sequence[str]) -> None:
-        async with live.lock, self.ctx.sessions.begin() as session:
-            if live.finished:
-                return
-            search = await self._search(session, live)
-            selection = await build_selection(
-                session, search, self.ctx.adapters, self.ctx.ai_checks
-            )
-            wanted = set(item_ids)
-            items = [i for i in selection.items if i.id in wanted]
-            if not items:
-                return
-            append_event(
-                session,
-                search,
-                ItemsEvent(items=items, groups=selection.groups, counts=selection.counts),
-            )
-        await self.ctx.bus.notify(live.search_id)
+        """Записи с оценкой ИИ — в поток вместе с новыми (не чаще ITEMS_EVENT_INTERVAL).
+
+        Не успевшие до итога придут в итоговой подборке."""
+        if live.finished:
+            return
+        live.pending_ai.update(item_ids)
+        if self._items_due(live):
+            await self._flush_items(live)
 
     async def _drain_ai(self, live: _Live, *, wait: bool) -> None:
         """Закрыть очередь проверки; при обычном конце — подождать её, но не дольше лимита."""

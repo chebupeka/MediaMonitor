@@ -274,8 +274,12 @@ def compute_groups(
     group_rows: Sequence[SearchGroupRow], items: Sequence[ResultItem]
 ) -> list[ResultGroup]:
     groups: list[ResultGroup] = []
+    by_group: dict[str, list[ResultItem]] = {}
+    for item in items:
+        if item.group_id is not None:
+            by_group.setdefault(item.group_id, []).append(item)
     for row in group_rows:
-        members = sorted((i for i in items if i.group_id == row.id), key=_published_key)
+        members = sorted(by_group.get(row.id, ()), key=_published_key)
         if not members:
             continue
         by_platform = ByPlatform()

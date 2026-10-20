@@ -242,7 +242,14 @@ class FunnelSession:
     def _core_for_step(self, *, semantic: bool) -> mm.FunnelMatcher:
         base = self.matcher.llm_settings
         remaining = max(0, base.max_gray - self.llm_used)
-        left = max(1.0, base.deadline_s - (time.monotonic() - self.started))
+        # Нейросеть проверяет спорные не дольше LLM_SEARCH_CAP_SEC от начала отбора, даже
+        # если LLM_DEADLINE_SEC больше: отбор идёт по очереди, и медленная нейросеть
+        # (одна в работе) держала весь поиск минутами. Остальные — «не проверено ИИ».
+        limit = min(base.deadline_s, self.matcher.settings.llm_search_cap_sec)
+        left = limit - (time.monotonic() - self.started)
+        if left <= 0:
+            remaining = 0
+        left = max(1.0, left)
         return self.matcher.make_core(
             replace(base, max_gray=remaining, deadline_s=left), semantic=semantic
         )
