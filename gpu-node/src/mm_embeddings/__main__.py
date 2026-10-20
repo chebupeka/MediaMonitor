@@ -1,7 +1,9 @@
 """Запуск: `uv run mm-embeddings` (или `python -m mm_embeddings`) из папки gpu-node.
 
-Читает .env из текущей папки (переменные окружения важнее файла), грузит модель и только
-потом открывает порт EMBEDDINGS_HOST:EMBEDDINGS_PORT (по умолчанию 0.0.0.0:8090).
+Читает .env из текущей папки (переменные окружения важнее файла), грузит модель эмбеддингов и
+только потом открывает порт EMBEDDINGS_HOST:EMBEDDINGS_PORT (по умолчанию 0.0.0.0:8090).
+Детектор ИИ-текста (AI_DETECT_ENABLED, по умолчанию включён) грузится фоном после открытия порта:
+эмбеддинги работают сразу, /ai-detect — когда детектор загрузится (состояние — в /health).
 """
 
 from __future__ import annotations
@@ -26,6 +28,8 @@ def main() -> None:
     for name in ("httpx", "huggingface_hub", "sentence_transformers"):
         logging.getLogger(name).setLevel(logging.ERROR)
     os.environ.setdefault("HF_HUB_VERBOSITY", "error")  # huggingface_hub ставит свой уровень при импорте
+    # Windows без режима разработчика: кэш без символических ссылок работает, предупреждение — шум.
+    os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
     env_file = Path.cwd() / ".env"
     if env_file.is_file():
         load_dotenv(env_file, override=False)

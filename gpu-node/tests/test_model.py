@@ -13,6 +13,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from mm_embeddings.app import create_app
+from mm_embeddings.detector import DetectorSlot
 from mm_embeddings.encoder import SentenceTransformerEncoder
 from mm_embeddings.settings import Settings
 from tests.conftest import AUTH, TOKEN
@@ -33,7 +34,7 @@ def encoder() -> SentenceTransformerEncoder:
 
 @pytest.fixture(scope="module")
 def client(encoder: SentenceTransformerEncoder) -> Iterator[TestClient]:
-    with TestClient(create_app(Settings(token=TOKEN), encoder)) as c:
+    with TestClient(create_app(Settings(token=TOKEN), encoder, DetectorSlot.disabled())) as c:
         yield c
 
 
@@ -91,4 +92,6 @@ def test_http_batch_of_256_with_real_model(client: TestClient) -> None:
     # Вектор из JSON совпадает с вектором модели: числа float32 не теряют точности.
     direct = client.app.state.encoder.encode(texts[:3], "paraphrase: ", normalize=True)  # type: ignore[attr-defined]
     assert np.min(np.sum(vectors[:3] * direct, axis=1)) > 0.99999
-    assert client.get("/health").json() == {"status": "ok", "model": "sergeyzh/BERTA", "device": "cpu"}
+    health = client.get("/health").json()
+    assert (health["status"], health["model"], health["device"]) == ("ok", "sergeyzh/BERTA", "cpu")
+    assert health["ai_detect"]["state"] == "disabled"
