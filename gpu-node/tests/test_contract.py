@@ -17,7 +17,12 @@ def body(texts: list[str], prefix: str = "paraphrase: ", **extra: object) -> dic
 def test_health_is_public_and_exact(client: TestClient) -> None:
     r = client.get("/health")
     assert r.status_code == 200
-    assert r.json() == {"status": "ok", "model": "sergeyzh/BERTA", "device": "cpu"}
+    assert r.json() == {
+        "status": "ok",
+        "model": "sergeyzh/BERTA",
+        "device": "cpu",
+        "ai_detect": {"state": "disabled", "model": "iitolstykh/GigaCheck-Classifier-Multi"},
+    }
 
 
 @pytest.mark.parametrize(

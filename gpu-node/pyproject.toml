@@ -1,7 +1,7 @@
 [project]
 name = "mm-gpu-node"
 version = "0.1.0"
-description = "MediaMonitor: сервис эмбеддингов (BERTA) для компьютера с видеокартой"
+description = "MediaMonitor: сервис эмбеддингов (BERTA) и детектор ИИ-текста (GigaCheck) для компьютера с видеокартой"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = "MIT"
@@ -13,6 +13,8 @@ dependencies = [
     "orjson>=3.10",
     "httpx>=0.27",
     "python-dotenv>=1.0",
+    # Детектор ИИ-текста: загрузка модели на видеокарту (device_map) и сжатие в 4 бита.
+    "accelerate>=1.0",
 ]
 
 # Сборка PyTorch выбирается одной из групп (ровно одной):
@@ -21,9 +23,11 @@ dependencies = [
 #   uv sync --extra cpu     — без видеокарты (проверка на обычном компьютере)
 # 2.11.0 — последняя версия torch, собранная под CUDA 12.8 (проверено по download.pytorch.org 19.10.2026);
 # 2.14.1 — последняя версия torch вообще (сборки cu130 и cu132).
+# bitsandbytes — 4 бита для детектора ИИ-текста (GigaCheck) на видеокарте; колёса есть для Windows,
+# 0.49+ собраны с CUDA 12.8+ (Blackwell). На CPU детектор работает без него (bf16).
 [project.optional-dependencies]
-cu128 = ["torch==2.11.0"]
-cu130 = ["torch==2.14.1"]
+cu128 = ["torch==2.11.0", "bitsandbytes>=0.49"]
+cu130 = ["torch==2.14.1", "bitsandbytes>=0.49"]
 cpu = ["torch==2.11.0"]
 
 [project.scripts]
