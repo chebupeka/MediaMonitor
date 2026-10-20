@@ -9,7 +9,13 @@
 | Д1 | Вписать `EMBEDDINGS_TOKEN` на сервер | Без него компьютер с видеокартой отвечает 401, и отбор по теме идёт только по словам: на стенде тема «БДД» нашла 3 записи | Значение — строка `EMBEDDINGS_TOKEN=…` в `gpu-node\.env` на компьютере с видеокартой (её создал `windows\start.ps1`). На сервере — в `/opt/mediamonitor/app/server/.env`: `set-secret` принимает только ключи VK и MaxStat. Команда ниже |
 | Д2 | Поправить бюджет нейросети в `server/.env` стенда | Там остались старые `LLM_CONCURRENCY=1`, `LLM_MAX_GRAY=60`, `LLM_DEADLINE_SEC=300` — они перекрывают новые 4 / 150 / 150 | Удалить эти три строки (тогда действуют значения по умолчанию) — та же команда ниже |
 
-Д1 и Д2 одной командой, со своего компьютера (ввод токена скрыт, в истории команд его не будет):
+**Короче всего — Д1, Д2 и подключение детектора (Д5) одной командой.** Адрес детектора можно вписать заранее: пока детектор на компьютере с видеокартой не готов, сервер честно отвечает «проверка недоступна» и сам пробует снова раз в минуту.
+
+```
+ssh -t team-27@109.196.167.227 'read -rs -p "Вставьте EMBEDDINGS_TOKEN и нажмите Enter: " v; echo; [ -n "$v" ] || { echo "Пусто — ничего не меняю"; exit 1; }; cd /opt/mediamonitor/app/server && sed -i -E "/^(EMBEDDINGS_TOKEN|LLM_CONCURRENCY|LLM_MAX_GRAY|LLM_DEADLINE_SEC|AI_DETECT_URL|AI_DETECT_PROVIDER)=/d" .env && printf "EMBEDDINGS_TOKEN=%s\nAI_DETECT_URL=http://127.0.0.1:8090\n" "$v" >> .env && /opt/mediamonitor/app/server/scripts/update-server.sh'
+```
+
+Только Д1 и Д2 (без детектора), со своего компьютера (ввод токена скрыт, в истории команд его не будет):
 
 ```
 ssh -t team-27@109.196.167.227 'read -rs -p "Вставьте EMBEDDINGS_TOKEN и нажмите Enter: " v; echo; cd /opt/mediamonitor/app/server && sed -i -E "/^(EMBEDDINGS_TOKEN|LLM_CONCURRENCY|LLM_MAX_GRAY|LLM_DEADLINE_SEC)=/d" .env && printf "EMBEDDINGS_TOKEN=%s\n" "$v" >> .env && /opt/mediamonitor/app/server/scripts/update-server.sh'
