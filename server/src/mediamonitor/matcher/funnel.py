@@ -9,6 +9,8 @@
 - отбирает порциями по мере сбора (НТ-2): векторы постов берёт из кэша в базе, новые
   туда же записывает (Р7) — пост, встречавшийся раньше, повторно не считается;
 - нейросеть — по OLLAMA_URL; бюджет спорных и времени — на весь поиск, а не на порцию;
+- модели смысла нет (сервис эмбеддингов недоступен, отката на CPU нет) — шаг идёт без
+  смысловой близости: фразы и признаки события, спорные — нейросети;
 - повторы одного поста в одном источнике (ТЗ-Ф30) отсекает, копии в разных
   источниках склеивает в группы (Р9).
 
@@ -42,7 +44,12 @@ from mediamonitor.matcher.base import (
     StandNote,
     VectorStore,
 )
-from mediamonitor.matcher.embeddings import CachingEmbedder, build_embedder, text_key
+from mediamonitor.matcher.embeddings import (
+    CachingEmbedder,
+    EmbeddingsUnavailableError,
+    build_embedder,
+    text_key,
+)
 from mediamonitor.normalize.query import ReleaseFragmentText
 from mediamonitor.normalize.text import Span
 from mediamonitor.settings import Settings
@@ -133,11 +140,14 @@ class FunnelMatcher:
         self.core = self.make_core(self.llm_settings)
         self.warmup_seconds: float | None = None
 
-    def make_core(self, llm_settings: LlmSettings) -> mm.FunnelMatcher:
-        """Воронка с общими моделями и своим бюджетом нейросети (на один шаг поиска)."""
+    def make_core(self, llm_settings: LlmSettings, *, semantic: bool = True) -> mm.FunnelMatcher:
+        """Воронка с общими моделями и своим бюджетом нейросети (на один шаг поиска).
+
+        `semantic=False` — без модели смысла: только фразы, признаки события и нейросеть.
+        """
         return mm.FunnelMatcher(
             self.config,
-            embedder=self.embedder,
+            embedder=self.embedder if semantic else None,
             llm=self.llm,
             events=self.events,
             llm_settings=llm_settings,
@@ -164,9 +174,15 @@ class FunnelMatcher:
     async def warmup(self) -> None:
         started = time.monotonic()
         await run_in_threadpool(self.embedder.check_remote)
-        await run_in_threadpool(self.core.warmup)
-        await run_in_threadpool(self.embedder.encode, ["Красноярск"], "topic")
-        self.embedder.warm = True
+        if self.embedder.available:
+            try:
+                await run_in_threadpool(self.core.warmup)
+                await run_in_threadpool(self.embedder.encode, ["Красноярск"], "topic")
+                self.embedder.warm = True
+            except EmbeddingsUnavailableError:
+                pass  # модели смысла нет — состояние на странице стенда
+        if not self.embedder.warm:
+            await run_in_threadpool(self.events.signs, "Красноярск")  # признаки события
         self.warmup_seconds = round(time.monotonic() - started, 1)
         log.info("Воронка прогрета за %s с (%s)", self.warmup_seconds, self.embedder.provider)
 
@@ -212,11 +228,13 @@ class FunnelSession:
     def ai_failed(self) -> bool:
         return self._ai_failed
 
-    def _core_for_step(self) -> mm.FunnelMatcher:
+    def _core_for_step(self, *, semantic: bool) -> mm.FunnelMatcher:
         base = self.matcher.llm_settings
         remaining = max(0, base.max_gray - self.llm_used)
         left = max(1.0, base.deadline_s - (time.monotonic() - self.started))
-        return self.matcher.make_core(replace(base, max_gray=remaining, deadline_s=left))
+        return self.matcher.make_core(
+            replace(base, max_gray=remaining, deadline_s=left), semantic=semantic
+        )
 
     async def classify(self, candidates: Sequence[Candidate]) -> list[Decision]:
         decisions: dict[str, Decision] = {}
@@ -250,17 +268,13 @@ class FunnelSession:
         keys = {c.id: text_key(c.text) for c in batch if c.text}
         cached = await self.vectors.load(self.matcher.model_key, self.embed_kind, keys)
         embedder.preload(self.embed_kind, {keys[pid]: vector for pid, vector in cached.items()})
-        core = self._core_for_step()
-        remaining = core.llm_settings.max_gray
-        if self.news:
-            report = await run_in_threadpool(core.match_news, self.release_text, batch)
-        else:
-            if self.card is None:
-                self.card = await run_in_threadpool(
-                    core.topic_card, self.query.text, self.query.kind
-                )
-            card: mm.TopicCard = self.card
-            report = await run_in_threadpool(core.match_topic, card, batch, kind=self.query.kind)
+        remaining = max(0, self.matcher.llm_settings.max_gray - self.llm_used)
+        try:
+            report = await self._step(batch, semantic=embedder.available)
+        except EmbeddingsUnavailableError:
+            # Сервис эмбеддингов упал посреди шага, отката на CPU нет. Смысловая близость
+            # считается до нейросети, поэтому шаг без неё повторяется с тем же бюджетом.
+            report = await self._step(batch, semantic=False)
         for name, seconds in report.timings.items():
             self.timings[name] = round(self.timings.get(name, 0.0) + seconds, 3)
         status = report.llm
@@ -271,6 +285,15 @@ class FunnelSession:
         rows = [(pid, key, fresh[key]) for pid, key in keys.items() if key in fresh]
         await self.vectors.save(self.matcher.model_key, self.embed_kind, rows)
         return report.results
+
+    async def _step(self, batch: list[mm.Candidate], *, semantic: bool) -> mm.MatchReport:
+        core = self._core_for_step(semantic=semantic)
+        if self.news:
+            return await run_in_threadpool(core.match_news, self.release_text, batch)
+        if self.card is None:
+            self.card = await run_in_threadpool(core.topic_card, self.query.text, self.query.kind)
+        card: mm.TopicCard = self.card
+        return await run_in_threadpool(core.match_topic, card, batch, kind=self.query.kind)
 
     def _decision(self, r: mm.MatchResult) -> Decision:
         if not r.included:

@@ -12,7 +12,9 @@
 Длинные тексты режутся на куски так же, как в mm_matching (`chunk_text`): вектор текста —
 нормированное среднее кусков; префиксы задач BERTA (`categorize_topic: `, `paraphrase: `)
 передаются полем prefix. Если сервис недоступен — откат на CPU сервера с пометкой на
-странице стенда; через EMBEDDINGS_RETRY_AFTER_SEC сервис пробуем снова.
+странице стенда; через EMBEDDINGS_RETRY_AFTER_SEC сервис пробуем снова. С
+EMBEDDINGS_CPU_FALLBACK=false (слабый сервер, образ без torch) отката нет: `encode`
+бросает `EmbeddingsUnavailableError`, и воронка делает шаг без смысловой близости.
 
 Сверху — `CachingEmbedder`: векторы в памяти процесса + выгрузка новых в базу и загрузка
 посчитанных раньше (services/vectors.py), чтобы пост не считался дважды.
@@ -21,6 +23,7 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import logging
 import math
 import threading
@@ -62,6 +65,10 @@ def _normalize(vector: Vector) -> Vector:
 
 class EmbeddingServiceError(Exception):
     """Сервис эмбеддингов не ответил по контракту: недоступен, ошибка, чужая модель."""
+
+
+class EmbeddingsUnavailableError(EmbeddingServiceError):
+    """Модели смысла нет: сервис недоступен, а считать на CPU сервера нельзя или нечем."""
 
 
 class HttpEmbedder:
@@ -133,6 +140,10 @@ class HttpEmbedder:
                 last = EmbeddingServiceError(f"сервис ответил кодом {response.status_code}")
                 time.sleep(0.5 * (attempt + 1))
                 continue
+            if response.status_code in (401, 403):
+                raise EmbeddingServiceError(
+                    f"сервис не принял EMBEDDINGS_TOKEN (код {response.status_code})"
+                )
             if response.status_code != 200:
                 raise EmbeddingServiceError(f"сервис ответил кодом {response.status_code}")
             return self._validate(response, len(texts))
@@ -158,13 +169,17 @@ class HttpEmbedder:
 
 
 class CachingEmbedder:
-    """Обёртка для воронки: кэш в памяти, учёт новых векторов, откат с сервиса на CPU."""
+    """Обёртка для воронки: кэш в памяти, учёт новых векторов, откат с сервиса на CPU.
+
+    `local=None` — отката на CPU нет: пока сервис недоступен, `encode` бросает
+    `EmbeddingsUnavailableError` (провайдер `off`), модель на CPU не грузится.
+    """
 
     def __init__(
         self,
         name: str,
         *,
-        local: Callable[[], Embedder],
+        local: Callable[[], Embedder] | None,
         remote: HttpEmbedder | None = None,
         retry_after: float = 60.0,
         memory: int = 50_000,
@@ -189,11 +204,22 @@ class CachingEmbedder:
 
     @property
     def provider(self) -> str:
-        if self._remote is None:
-            return "local"
-        return "fallback" if self._clock() < self._remote_down_until else "remote"
+        """remote — сервис; local — CPU сервера; fallback — CPU вместо упавшего сервиса;
+        off — модели смысла сейчас нет (сервис недоступен, отката на CPU нет)."""
+        if self._remote is not None and self._clock() >= self._remote_down_until:
+            return "remote"
+        if self._local_factory is None:
+            return "off"
+        return "local" if self._remote is None else "fallback"
+
+    @property
+    def available(self) -> bool:
+        """Можно ли сейчас считать векторы (сервисом или на CPU)."""
+        return self.provider != "off"
 
     def _local_model(self) -> Embedder:
+        if self._local_factory is None:
+            raise EmbeddingsUnavailableError(self.remote_error or "модель на CPU выключена")
         with self._lock:
             if self._local is None:
                 self._local = self._local_factory()
@@ -212,7 +238,8 @@ class CachingEmbedder:
     def _mark_down(self, reason: str) -> None:
         self.remote_error = reason
         self._remote_down_until = self._clock() + self._retry_after
-        log.warning("Сервис эмбеддингов недоступен (%s): считаем на CPU сервера", reason)
+        then = "считаем на CPU сервера" if self._local_factory else "отбор без смысловой близости"
+        log.warning("Сервис эмбеддингов недоступен (%s): %s", reason, then)
 
     def _compute(self, texts: list[str], kind: EmbedKind) -> Matrix:
         if self._remote is not None and self._clock() >= self._remote_down_until:
@@ -278,6 +305,21 @@ class CachingEmbedder:
 
     def notes(self) -> list[StandNote]:
         cached = len(self._memory)
+        if self.provider == "off":
+            if self._remote is not None:
+                reason = (
+                    f"сервис эмбеддингов недоступен ({self.remote_error}). Сервис пробуем снова "
+                    f"каждые {self._retry_after:g} с"
+                )
+            else:
+                reason = "EMBEDDINGS_URL не задан, а модели на CPU в образе нет"
+            return [
+                StandNote(
+                    "warning",
+                    f"Модель смысла недоступна: {reason}. Смысловая близость не считается — "
+                    "отбор по словам и признакам события, спорные проверяет нейросеть.",
+                )
+            ]
         if self._remote is not None:
             if self.provider == "fallback":
                 return [
@@ -305,7 +347,10 @@ class CachingEmbedder:
 
 
 def build_embedder(settings: Settings) -> CachingEmbedder:
-    """Провайдер по настройкам: EMBEDDINGS_URL — сервис, иначе CPU сервера."""
+    """Провайдер по настройкам: EMBEDDINGS_URL — сервис, иначе CPU сервера.
+
+    С сервисом и EMBEDDINGS_CPU_FALLBACK=false модели на CPU нет вовсе (образ без torch).
+    """
 
     def local() -> Embedder:
         return SentenceTransformerEmbedder(
@@ -325,9 +370,12 @@ def build_embedder(settings: Settings) -> CachingEmbedder:
             timeout=settings.embeddings_timeout_sec,
             batch_size=settings.embeddings_batch_size,
         )
+    # Образ без torch (Dockerfile, LOCAL_MODEL=false) — модели на CPU нет при любых настройках.
+    installed = importlib.util.find_spec("sentence_transformers") is not None
+    use_local = installed and (remote is None or settings.embeddings_cpu_fallback)
     return CachingEmbedder(
         settings.embedding_model,
-        local=local,
+        local=local if use_local else None,
         remote=remote,
         retry_after=settings.embeddings_retry_after_sec,
     )

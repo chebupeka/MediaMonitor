@@ -1,0 +1,44 @@
+# Сервер команды: VPS 2 vCPU / 4 ГБ, модель смысла и нейросеть — на компьютере с видеокартой
+# (docs/13-deploy-ai.md). Обратный SSH-туннель слушает 127.0.0.1:8090 (эмбеддинги) и
+# 127.0.0.1:11434 (Ollama) хоста. Дополняет compose.yaml:
+#
+#   cd server && docker compose -f compose.yaml -f compose.server.yaml up -d --build
+#
+# Настройки — server/.env (из .env.example: POSTGRES_PASSWORD, EMBEDDINGS_URL, OLLAMA_URL …);
+# ключи площадок — /opt/mediamonitor/.env команды, он здесь только читается.
+services:
+  db:
+    mem_limit: 512m
+
+  migrate:
+    build:
+      args:
+        LOCAL_MODEL: "false"
+    mem_limit: 256m
+
+  api:
+    build:
+      args:
+        # Образ без torch: векторы считает только сервис gpu-node, модель на CPU не грузится.
+        LOCAL_MODEL: "false"
+    # Туннель слушает 127.0.0.1 хоста, из сети Docker его не видно (host-gateway ведёт на
+    # адрес моста, а не на 127.0.0.1). Поэтому api — в сети хоста, база — через её порт.
+    network_mode: host
+    ports: !reset []
+    volumes: !reset []
+    env_file:
+      - path: .env
+        required: false
+      - path: ${TEAM_SECRETS:-/opt/mediamonitor/.env}
+        required: false
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-mediamonitor}:${POSTGRES_PASSWORD:?Задайте POSTGRES_PASSWORD в server/.env}@127.0.0.1:${DB_PORT:-5432}/${POSTGRES_DB:-mediamonitor}
+      # 0.0.0.0 — API открыт снаружи на :8000 (порт 80 занят nginx хоста); 127.0.0.1 — только
+      # с этого компьютера (например, за nginx с HTTPS).
+      HOST: ${API_HOST:-0.0.0.0}
+      PORT: "8000"
+      # Клиенты ходят напрямую: заголовкам X-Forwarded-* верим только от прокси на этом хосте.
+      FORWARDED_ALLOW_IPS: "127.0.0.1"
+      EMBEDDINGS_CPU_FALLBACK: "false"
+      HF_HUB_OFFLINE: "1"
+    mem_limit: 768m

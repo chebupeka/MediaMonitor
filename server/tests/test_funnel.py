@@ -21,7 +21,13 @@ from openpyxl import load_workbook
 from sqlalchemy import func, select
 
 from mediamonitor.db.models import PostEmbeddingRow
-from mediamonitor.matcher.embeddings import CachingEmbedder, EmbeddingServiceError, HttpEmbedder
+from mediamonitor.matcher.embeddings import (
+    CachingEmbedder,
+    EmbeddingServiceError,
+    EmbeddingsUnavailableError,
+    HttpEmbedder,
+    build_embedder,
+)
 from mediamonitor.matcher.funnel import FunnelMatcher
 from mediamonitor.settings import Settings
 from tests.conftest import (
@@ -349,3 +355,114 @@ async def test_search_uses_gpu_node(tmp_path: Path) -> None:
     assert not local.calls, "CPU сервера не понадобился"
     assert "сервис эмбеддингов" in stand["events"][0]["message"]
     assert stand["events"][0]["level"] == "info"
+
+
+# ---------------------------------------------------------------- без отката на CPU (слабый сервер)
+
+
+def token_rejected() -> httpx.MockTransport:
+    """Как настоящий gpu-node без нужного токена: /health открыт, /embed — 401."""
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/health":
+            return httpx.Response(
+                200, json={"status": "ok", "model": "fake-berta", "device": "cuda"}
+            )
+        return httpx.Response(401, json={"detail": "unauthorized"})
+
+    return httpx.MockTransport(handler)
+
+
+def test_build_embedder_without_cpu_fallback(tmp_path: Path) -> None:
+    settings = make_settings(
+        tmp_path, embeddings_url="http://gpu.test", embeddings_cpu_fallback=False
+    )
+    embedder = build_embedder(settings)
+    assert embedder._local_factory is None, "модель на CPU не создаётся вовсе"
+    assert embedder.provider == "remote"
+    # Без сервиса настройка не действует: CPU сервера — единственный провайдер.
+    plain = build_embedder(make_settings(tmp_path, embeddings_cpu_fallback=False))
+    assert plain._local_factory is not None
+    assert plain.provider == "local"
+
+
+def test_rejected_token_is_named() -> None:
+    remote = HttpEmbedder("http://gpu.test", "fake-berta", transport=token_rejected())
+    assert remote.health()["device"] == "cuda"
+    with pytest.raises(EmbeddingServiceError, match="EMBEDDINGS_TOKEN"):
+        remote.encode(["текст"], "topic")
+
+
+def test_no_cpu_fallback_and_back() -> None:
+    now = [0.0]
+    broken = HttpEmbedder(
+        "http://gpu.test", "fake-berta", token="test-token", transport=gpu_node(fail=True)
+    )
+    embedder = CachingEmbedder(
+        "fake-berta", local=None, remote=broken, retry_after=60, clock=lambda: now[0]
+    )
+    with pytest.raises(EmbeddingsUnavailableError):
+        embedder.encode(["Первый текст про ДТП."], "topic")
+    assert embedder.provider == "off"
+    assert not embedder.available
+    note = embedder.notes()[0]
+    assert note.level == "warning"
+    assert "Модель смысла недоступна" in note.message
+    assert "по словам и признакам события" in note.message
+    with pytest.raises(EmbeddingsUnavailableError):  # пока сервис «лежит» — сразу «недоступно»
+        embedder.encode(["Второй текст."], "topic")
+    # Через минуту — снова пробуем сервис; он ожил.
+    embedder._remote = HttpEmbedder(
+        "http://gpu.test", "fake-berta", token="test-token", transport=gpu_node()
+    )
+    now[0] = 61.0
+    assert embedder.provider == "remote"  # снова «доступна» — до первой ошибки
+    assert embedder.encode(["Третий текст про гололёд."], "topic").shape == (1, 256)
+    assert embedder.provider == "remote"
+    assert embedder.notes()[0].level == "info"
+
+
+async def test_warmup_without_embeddings(tmp_path: Path) -> None:
+    local = FakeEmbedder()
+    remote = HttpEmbedder("http://gpu.test", "fake-berta", transport=token_rejected())
+    matcher = make_funnel(
+        make_settings(tmp_path), embedder=local, remote=remote, cpu_fallback=False
+    )
+    await matcher.warmup()  # не падает и не грузит модель на CPU
+    assert not local.calls
+    assert not matcher.embedder.warm
+    assert matcher.embedder.provider == "off"
+    assert matcher.warmup_seconds is not None
+
+
+async def test_search_without_embeddings_is_lexical(tmp_path: Path) -> None:
+    """Сервис эмбеддингов не принял токен, отката на CPU нет: поиск идёт по словам и
+    признакам события, модель на CPU не грузится, на странице стенда — предупреждение."""
+    local = FakeEmbedder()
+
+    def factory(settings: Settings) -> FunnelMatcher:
+        remote = HttpEmbedder("http://gpu.test", "fake-berta", transport=token_rejected())
+        return make_funnel(settings, embedder=local, remote=remote, cpu_fallback=False)
+
+    settings = make_settings(
+        tmp_path, embeddings_url="http://gpu.test", embeddings_cpu_fallback=False
+    )
+    harness = make_app(settings, matcher_factory=factory)
+    async with open_client(harness.app) as client:
+        headers = await new_workspace(client)
+        search_id, events = await run_search(client, headers)
+        assert events[-1]["event"] == "finished"
+        selection = (await client.get(f"/api/searches/{search_id}", headers=headers)).json()
+        assert_contract("Selection", selection)
+        stand = (await client.get("/api/stand")).json()
+    assert not local.calls, "модель на CPU не загружалась"
+    assert selection["counts"]["total"] > 0
+    for item in selection["items"]:
+        check_item(item)
+        if item["method"] == "ai-unchecked":  # нейросети в тесте нет
+            assert item["relevance"] == "disputed"
+    assert stand["overall"] == "degraded"
+    first = stand["events"][0]
+    assert first["level"] == "warning"
+    assert "Модель смысла недоступна" in first["message"]
+    assert "EMBEDDINGS_TOKEN" in first["message"]

@@ -46,6 +46,25 @@ uv run mediamonitor                       # http://127.0.0.1:8000, докуме�
 uv run python scripts/smoke.py            # сквозная проверка: поиск → поток → подборка → XLSX
 ```
 
+### Сервер команды (2 vCPU / 4 ГБ, модели — на компьютере с видеокартой)
+
+```bash
+cd /opt/mediamonitor/app/server
+docker compose -f compose.yaml -f compose.server.yaml up -d --build   # первый запуск
+scripts/update-server.sh            # обновление: git pull --ff-only → сборка → миграции → /health
+```
+
+`compose.server.yaml` дополняет `compose.yaml`:
+- образ без torch (`LOCAL_MODEL=false`), `EMBEDDINGS_CPU_FALLBACK=false`: векторы считает только
+  сервис gpu-node; недоступен — отбор по словам и признакам события, спорные проверяет
+  нейросеть, на странице стенда предупреждение;
+- api в сети хоста (туннель слушает `127.0.0.1:8090` и `:11434`), база — через `127.0.0.1:5432`;
+- API на `0.0.0.0:8000` (`API_HOST=127.0.0.1` — только локально), лимиты памяти;
+- настройки — `server/.env`, ключи площадок — `/opt/mediamonitor/.env` команды (только чтение).
+
+Сверка векторов сервиса с эталоном, посчитанным на CPU (модели на сервере нет):
+`docker compose -f compose.yaml -f compose.server.yaml run --rm --no-deps -v "$PWD/scripts:/app/scripts:ro" --entrypoint python api scripts/compare_embeddings.py --reference scripts/berta-reference.json`.
+
 `/docs` и `/openapi.json` выключены при `ENVIRONMENT=production`. На Windows сервер сам
 берёт селекторный цикл событий (асинхронный psycopg не работает с Proactor).
 
@@ -68,6 +87,7 @@ uv run python scripts/smoke.py            # сквозная проверка: �
 | `MATCH_BATCH_SIZE`, `MATCHER_WARMUP` | постов за шаг отбора (результаты уходят в поток после шага); прогрев моделей при старте |
 | `EMBEDDING_MODEL`, `EMBEDDING_VERSION` | модель смысла (BERTA) и версия векторов в кэше базы |
 | `EMBEDDINGS_URL`, `EMBEDDINGS_TOKEN` | сервис эмбеддингов gpu-node; пусто — модель на CPU сервера. Проверка, что векторы совпадают: `uv run python scripts/compare_embeddings.py` |
+| `EMBEDDINGS_CPU_FALLBACK` | `false` — без отката на CPU, когда сервис недоступен (слабый сервер, образ без torch) |
 | `HF_HOME` | куда скачивается модель (~0,5 ГБ); в Docker — том `models` |
 | `AI_DETECT_PROVIDER`, `AI_DETECT_URL`, `AI_DETECT_MODEL` | детектор ИИ-текста: `auto` / `gigacheck` / `fixture` / `off`; адрес сервиса на gpu-node (токен — `EMBEDDINGS_TOKEN`); ожидаемая модель |
 | `AI_CHECK_LIKELY_THRESHOLD`, `AI_CHECK_SIGNS_THRESHOLD`, `AI_CHECK_MIN_WORDS` | пороги уровней (0,85 / 0,60) и минимум слов (40) — одни для всех мест |

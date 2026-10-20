@@ -124,12 +124,13 @@ def make_funnel(
     remote: HttpEmbedder | None = None,
     llm: Any = None,
     clock: Callable[[], float] | None = None,
+    cpu_fallback: bool = True,
 ) -> FunnelMatcher:
     model = embedder or FakeEmbedder()
     extra: dict[str, Any] = {"clock": clock} if clock else {}
     caching = CachingEmbedder(
         "fake-berta",
-        local=lambda: model,
+        local=(lambda: model) if cpu_fallback else None,
         remote=remote,
         retry_after=settings.embeddings_retry_after_sec,
         **extra,
