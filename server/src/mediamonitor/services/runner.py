@@ -753,7 +753,8 @@ class SearchRunner:
         step = self.settings.match_batch_size
         while pending:
             try:
-                job = await asyncio.wait_for(live.jobs.get(), timeout=ITEMS_EVENT_INTERVAL)
+                wait = max(ITEMS_EVENT_INTERVAL, 0.1)  # 0 — пачек нет, но очередь читается
+                job = await asyncio.wait_for(live.jobs.get(), timeout=wait)
             except TimeoutError:
                 # Порций нет — накопленное уходит в поток, не дожидаясь следующей.
                 try:
