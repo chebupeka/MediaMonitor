@@ -134,7 +134,10 @@ docker compose down           # остановить (данные базы ос
 Образ собирается **из корня репозитория** (`compose.yaml`: `context: ..`,
 `dockerfile: server/Dockerfile`; что попадает в контекст — `Dockerfile.dockerignore`):
 1. этап node: `npm ci` в `web/`, сборка веб-версии с `VITE_API_URL=/` (сервер на том же
-   адресе) и `VITE_TARGET=web`, копия `site/`, сжатие `scripts/precompress.mjs` (brotli и gzip);
+   адресе) и `VITE_TARGET=web`, архивы расширения (`npm run ext:zip`, `ext:zip:firefox` с
+   `VITE_API_URL=$EXT_API_URL`, по умолчанию стенд) в `site/download/` — сайт отдаёт их на
+   `/download/mediaradar-chrome.zip` и `/download/mediaradar-firefox.zip` с
+   `Content-Disposition: attachment`, копия `site/`, сжатие `scripts/precompress.mjs` (brotli и gzip);
 2. этап Python: как раньше, плюс `/app/static/site` и `/app/static/app`
    (`SITE_DIR`, `WEB_APP_DIR`).
 

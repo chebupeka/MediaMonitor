@@ -157,7 +157,8 @@
     if (room > Math.max(vw * 0.2, 220)) {
       // Справа есть место: сверху справа к первой строке, снизу справа ко второй. По вертикали —
       // между шапкой сайта (когда ссылка в центре экрана) и линией над колонками подвала.
-      var cols = section.querySelector('.foot-cols');
+      // Нижняя граница — блок «Скачать» и шаги установки (.inst), без него — колонки подвала
+      var cols = section.querySelector('.inst') || section.querySelector('.foot-cols');
       var floor = cols ? cols.getBoundingClientRect().top - origin.top - 24 : H - 40;
       var ceil = (first.top + last.bottom) / 2 - vh / 2 + 96;
       var y1 = first.top + first.height * 0.5, y2 = last.top + last.height * 0.55;

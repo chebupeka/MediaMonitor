@@ -8,7 +8,7 @@
 <!-- Шрифты — свои (fonts/), без внешних запросов; первые два нужны первому экрану сразу -->
 <link rel="preload" href="fonts/fira-sans-extra-condensed-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/montserrat-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=20261020-5">
+<link rel="stylesheet" href="styles.css?v=20261020-6">
 <meta name="color-scheme" content="dark light">
 <script>
   // Тема, тёплый свет и версия для слабовидящих — до отрисовки, чтобы не мигало.
@@ -322,21 +322,35 @@
     <div class="wide">
       <p class="label" data-scramble>Готовы попробовать?</p>
       <h2 id="h-inst" class="giant">
-        <!-- TODO: ссылка на архив расширения -->
-        <a href="#" data-scramble data-front="1" data-hover>Установить «Медиарадар»</a>
+        <a href="#install-steps" data-scramble data-front="1" data-hover>Установить «Медиарадар»</a>
       </h2>
+      <!-- Установка из файла: архив раздаёт сервер (/download/…, server/Dockerfile собирает его
+           из web/ командой ext:zip). В магазинах расширений пока нет — честно пишем «скоро». -->
+      <div class="inst" id="install-steps">
+        <div class="inst-get">
+          <p class="label">Установка за 4 шага</p>
+          <a class="pill pill-solid inst-btn" href="/download/mediaradar-chrome.zip" download data-hover>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg>
+            Скачать для Chrome и Яндекс Браузера
+          </a>
+          <p class="small">Архив ZIP, 0,5 МБ. Подходит и для Edge. Права администратора не нужны.</p>
+          <p class="inst-soon"><span class="dot-soon" aria-hidden="true"></span>В магазинах расширений — скоро</p>
+        </div>
+        <ol class="inst-steps">
+          <li><span class="inst-n" aria-hidden="true">01</span><span><b>Скачайте и распакуйте архив.</b> В Windows: правая кнопка по файлу → «Извлечь всё».</span></li>
+          <li><span class="inst-n" aria-hidden="true">02</span><span><b>Откройте страницу расширений.</b> Наберите в адресной строке <code>chrome://extensions</code>, в Яндекс Браузере — <code>browser://extensions</code>.</span></li>
+          <li><span class="inst-n" aria-hidden="true">03</span><span><b>Включите «Режим разработчика».</b> Переключатель — справа вверху страницы.</span></li>
+          <li><span class="inst-n" aria-hidden="true">04</span><span><b>Нажмите «Загрузить распакованное расширение»</b> и выберите папку из шага 1. Значок «Медиарадар» появится на панели браузера.</span></li>
+        </ol>
+      </div>
       <div class="foot-cols">
         <div>
-          <p class="label">Как установить</p>
-          <ol class="foot-list">
-            <li>Скачайте расширение.</li>
-            <li>Подтвердите установку в браузере — права администратора не нужны.</li>
-            <li>Закрепите значок «Медиарадар» на панели — по нему открывается боковая панель.</li>
-          </ol>
+          <p class="label">Firefox</p>
+          <p>Пока только на время: <a href="/download/mediaradar-firefox.zip" download data-hover>скачайте архив для Firefox</a>, откройте <code>about:debugging</code> → «Этот Firefox» → «Загрузить временное дополнение…» и выберите архив. Работает до перезапуска браузера. Насовсем — после подписи в каталоге Mozilla.</p>
         </div>
         <div>
           <p class="label">Где работает</p>
-          <p>Яндекс Браузер и Chrome<br>Версия [0.1]<br><a href="/app/" data-hover>Открыть веб-версию</a> — без установки, в любом браузере</p>
+          <p>Яндекс Браузер и Chrome<br>Версия 0.1.0<br><a href="/app/" data-hover>Открыть веб-версию</a> — без установки, в любом браузере</p>
         </div>
         <div>
           <p class="label">Кто сделал</p>
@@ -354,7 +368,7 @@
 
 <script src="particles.js?v=20261020-1"></script>
 <script src="ui.js?v=20261020-1"></script>
-<script src="arrows.js?v=20261020-1"></script>
+<script src="arrows.js?v=20261020-2"></script>
 <script src="prefs.js?v=20261020-1"></script>
 </body>
 </html>

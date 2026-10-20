@@ -5,6 +5,8 @@ from __future__ import annotations
 import base64
 import gzip
 import hashlib
+import io
+import zipfile
 from collections.abc import AsyncIterator
 from pathlib import Path
 
@@ -15,6 +17,7 @@ from mediamonitor.api.static import (
     CACHE_IMMUTABLE,
     StaticBundle,
     _accepted_encodings,
+    attachment_disposition,
     media_type_of,
     page_csp,
 )
@@ -30,6 +33,16 @@ APP_INDEX = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><title
 <body><div id="root"></div></body></html>"""
 APP_JS = "console.log('панель');\n" * 400
 PRECOMPRESSED = b"brotli-bytes-from-the-build"
+MANIFEST = '{"manifest_version": 3, "name": "Медиарадар"}\n' * 20
+
+
+def extension_zip(browser: str) -> bytes:
+    """Архив как у `wxt zip`: manifest.json в корне, без вложенной папки."""
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr("manifest.json", MANIFEST)
+        archive.writestr("background.js", f"// {browser}\n" * 50)
+    return buffer.getvalue()
 
 
 @pytest.fixture
@@ -42,6 +55,9 @@ def dirs(tmp_path: Path) -> tuple[Path, Path]:
     (site / "fonts" / "montserrat-400.woff2").write_bytes(b"wOF2" + bytes(300))
     (site / "README.md").write_text("# служебное", encoding="utf-8")
     (site / ".env").write_text("SECRET=1", encoding="utf-8")
+    (site / "download").mkdir()
+    for browser in ("chrome", "firefox"):
+        (site / "download" / f"mediaradar-{browser}.zip").write_bytes(extension_zip(browser))
     app = tmp_path / "app"
     (app / "assets").mkdir(parents=True)
     (app / "index.html").write_text(APP_INDEX, encoding="utf-8")
@@ -160,6 +176,52 @@ async def test_hashed_assets_cached_forever_and_precompressed(
     # «br;q=0» — brotli нельзя.
     refused = await static_client.get(path, headers={"Accept-Encoding": "br;q=0, gzip"})
     assert refused.headers["content-encoding"] == "gzip"
+
+
+async def test_extension_archives_download_as_files(static_client: httpx.AsyncClient) -> None:
+    for browser in ("chrome", "firefox"):
+        name = f"mediaradar-{browser}.zip"
+        response = await static_client.get(
+            f"/download/{name}", headers={"Accept-Encoding": "gzip, br"}
+        )
+        assert response.status_code == 200, name
+        assert response.headers["content-type"] == "application/zip"
+        assert response.headers["content-disposition"] == f'attachment; filename="{name}"'
+        assert "content-encoding" not in response.headers  # архив уже сжат
+        assert response.headers["x-content-type-options"] == "nosniff"
+        assert response.headers["cache-control"] == "no-cache"  # новая сборка — новый файл
+        assert "content-security-policy" not in response.headers  # не страница
+        with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
+            assert archive.namelist()[0] == "manifest.json"
+            assert archive.read("background.js").decode().startswith(f"// {browser}")
+        head = await static_client.head(f"/download/{name}")
+        assert head.status_code == 200
+        assert head.content == b""
+        assert head.headers["content-disposition"] == f'attachment; filename="{name}"'
+        assert int(head.headers["content-length"]) == len(response.content)
+        again = await static_client.get(
+            f"/download/{name}", headers={"If-None-Match": response.headers["etag"]}
+        )
+        assert again.status_code == 304
+    # Нет архива (сборка без Firefox или запуск без Docker) — честный 404.
+    missing = await static_client.get("/download/mediaradar-safari.zip")
+    assert missing.status_code == 404
+    assert "content-disposition" not in missing.headers
+    # Страницы и стили по-прежнему открываются в браузере, а не скачиваются.
+    assert "content-disposition" not in (await static_client.get("/")).headers
+    assert "content-disposition" not in (await static_client.get("/styles.css")).headers
+
+
+def test_attachment_disposition_names() -> None:
+    assert attachment_disposition("download/mediaradar-chrome.zip") == (
+        'attachment; filename="mediaradar-chrome.zip"'
+    )
+    russian = attachment_disposition("download/Медиарадар.zip")
+    assert russian.startswith("attachment; filename=\"download.zip\"; filename*=UTF-8''%D0%9C")
+    russian.encode("latin-1")  # заголовок передаётся в latin-1
+    assert attachment_disposition('a"b.zip') == (
+        "attachment; filename=\"download.zip\"; filename*=UTF-8''a%22b.zip"
+    )
 
 
 async def test_conditional_and_head_requests(static_client: httpx.AsyncClient) -> None:

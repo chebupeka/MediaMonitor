@@ -874,6 +874,56 @@ p { margin: 0 0 14px; color: var(--fg-2); max-width: 31em; }
 .giant a { text-decoration: none; transition: color .4s ease; }
 .giant a:hover { color: var(--gold); }
 
+/* Установка из файла: слева кнопка «Скачать», справа четыре шага */
+.inst {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 40px 6vw;
+  margin: 0 0 10vh;
+  scroll-margin-top: 96px; /* под шапкой */
+}
+.inst-get { display: flex; flex-direction: column; align-items: flex-start; }
+.pill-solid { background: var(--fg); color: var(--bg); border-color: var(--fg); gap: 12px; }
+.pill-solid:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+.pill-solid svg { width: 20px; height: 20px; flex: none; }
+.inst-btn { min-height: 60px; padding: 0 30px 0 24px; font-size: 15px; margin-bottom: 14px; }
+.inst-soon {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 0;
+  padding: 8px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--fg-2);
+}
+.dot-soon { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex: none; }
+.inst-steps { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); }
+.inst-steps li {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--fg-2);
+}
+.inst-steps b { color: var(--fg); font-weight: 600; }
+.inst-n { font-family: var(--display); font-weight: 800; font-size: 26px; line-height: 1; color: var(--gold); }
+.install code {
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-size: .92em;
+  padding: 1px 7px;
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  color: var(--fg);
+  white-space: nowrap;
+  user-select: all; /* одним щелчком выделяется адрес целиком — скопировать в адресную строку */
+}
+
 .foot-cols {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -956,10 +1006,11 @@ html:not([data-theme="light"]) .pref-warm { display: none; }
 /* Версия для слабовидящих (ГОСТ Р 52872-2019): крупный шрифт, ссылки подчёркнуты, крупный фокус,
    без точек, звёзд, стрелок, бегущих строк, «расшифровки», своего курсора и появления блоков */
 html[data-lowvision] body { font-size: 20px; line-height: 1.6; }
-html[data-lowvision] :is(p, .lead, .stat-value, .foot-list) { font-size: 20px; }
+html[data-lowvision] :is(p, .lead, .stat-value, .foot-list, .inst-steps li) { font-size: 20px; }
 html[data-lowvision] :is(.small, .label, .kicker, .menu-note, .field, .field-label, .run, .city, .stat-row,
   .stat > span, .stat-label, .export, .cap, .cmp-row, .cmp-head, .foot-cols, .foot-cols p, .foot-bottom,
-  .hdr-nav, .pill, .ghost) { font-size: 18px; }
+  .hdr-nav, .pill, .ghost, .inst-soon) { font-size: 18px; }
+html[data-lowvision] .inst-n { font-size: 32px; }
 html[data-lowvision] .kicker-n { font-size: 20px; }
 html[data-lowvision] .cities b { font-size: 32px; }
 html[data-lowvision] .logo { font-size: 26px; }
@@ -1031,6 +1082,11 @@ html[data-lowvision] .ticker-text { margin-left: 0; max-width: calc(52em + var(-
   .cmp-head > :first-child { display: none; }
   .foot-cols { grid-template-columns: minmax(0, 1fr); }
   .giant { font-size: 12vw; }
+  .inst { grid-template-columns: minmax(0, 1fr); gap: 36px; margin-bottom: 64px; }
+  .inst-btn { width: 100%; justify-content: center; text-align: center; padding: 14px 20px; }
+  .inst-steps li { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; font-size: 14px; }
+  .inst-n { font-size: 22px; }
+  .install code { white-space: normal; overflow-wrap: anywhere; }
   .foot-bottom { flex-direction: column; }
   /* Поля под кнопку нет: она прижата к углу и меньше. На первом экране её нет; пока страницу
      листают — прячется; в покое прячется, если под ней текст (ui.js: is-top, is-scrolling, is-covering) */

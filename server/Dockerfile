@@ -24,6 +24,15 @@ ARG VITE_TARGET=web
 # build:web — vite build --mode web → dist-web/ с base /app/; сервер раздаёт её на «/app/».
 RUN VITE_API_URL="$VITE_API_URL" VITE_TARGET="$VITE_TARGET" npm run build:web \
     && test -f dist-web/index.html
+# Расширение для установки из файла (сайт, раздел «Установить»): архивы на
+# /download/mediaradar-chrome.zip (Chrome, Яндекс Браузер, Edge) и mediaradar-firefox.zip.
+# Работает с сервером EXT_API_URL (по умолчанию — стенд, web/wxt.config.ts), а не с «/»:
+# у страниц расширения свой адрес chrome-extension://…, адрес сервера нужен полный.
+ARG EXT_API_URL=http://109.196.167.227:8000
+RUN VITE_API_URL="$EXT_API_URL" npm run ext:zip \
+    && VITE_API_URL="$EXT_API_URL" npm run ext:zip:firefox \
+    && mkdir -p /out/site/download \
+    && cp .output/mediaradar-chrome.zip .output/mediaradar-firefox.zip /out/site/download/
 COPY site/ /out/site/
 COPY server/scripts/precompress.mjs /tmp/precompress.mjs
 RUN mv dist-web /out/app && node /tmp/precompress.mjs /out/site /out/app

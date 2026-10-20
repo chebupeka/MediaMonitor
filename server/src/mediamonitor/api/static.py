@@ -1,6 +1,9 @@
 """Сайт-витрина и веб-версия панели с того же адреса и порта, что и API.
 
 - `/` — сайт «Медиарадар» (папка `site/`, настройка `SITE_DIR`);
+- `/download/mediaradar-chrome.zip`, `/download/mediaradar-firefox.zip` — архивы расширения
+  для установки из файла. Они лежат в папке сайта (`download/`, кладёт Dockerfile) и уходят
+  с `Content-Disposition: attachment` — браузер сохраняет файл, а не пытается его открыть;
 - `/app/` — веб-версия панели (сборка `web`: `npm run build:web` → `dist-web/`, base `/app/`,
   настройка `WEB_APP_DIR`). Адреса без файла (`/app/search`) получают `index.html` (SPA);
   адрес с расширением (`/app/assets/нет.js`) — честный 404, а не страницу вместо скрипта;
@@ -27,6 +30,7 @@ import hashlib
 import logging
 import mimetypes
 import re
+import urllib.parse
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -68,6 +72,8 @@ MEDIA_TYPES: dict[str, str] = {
     ".crx": "application/x-chrome-extension",
     ".xpi": "application/x-xpinstall",
 }
+# Что браузер должен скачать как файл, а не показать: архивы расширения (/download/…).
+DOWNLOAD_SUFFIXES = frozenset({".zip", ".crx", ".xpi"})
 # Что имеет смысл сжимать (картинки, woff2, архивы уже сжаты).
 COMPRESSIBLE = re.compile(
     r"^(text/|application/(json|javascript|manifest\+json|xml|wasm)|image/svg\+xml|font/(ttf|otf))"
@@ -152,6 +158,7 @@ class StaticFile:
     cache_control: str
     variants: dict[str, Variant]  # "identity", "br", "gzip"
     csp: str | None = None  # только у страниц
+    disposition: str | None = None  # только у файлов для скачивания (архивы расширения)
 
     def choose(self, accept_encoding: str) -> Variant:
         accepted = _accepted_encodings(accept_encoding)
@@ -181,6 +188,20 @@ def _accepted_encodings(header: str) -> set[str]:
     if "*" in result:
         result |= {"br", "gzip"}
     return result
+
+
+def attachment_disposition(path: str) -> str:
+    """`Content-Disposition` для скачивания под именем файла из пути.
+
+    Имя латиницей — как есть; с другими буквами — запасное латинское имя и `filename*` в UTF-8
+    (RFC 6266), потому что заголовок передаётся в latin-1.
+    """
+    name = Path(path).name
+    if name.isascii() and name.isprintable() and not any(ch in name for ch in '"\\;'):
+        return f'attachment; filename="{name}"'
+    suffix = Path(name).suffix
+    fallback = "download" + (suffix if suffix.isascii() else "")
+    return f"attachment; filename=\"{fallback}\"; filename*=UTF-8''{urllib.parse.quote(name)}"
 
 
 def _etag(body: bytes, suffix: str = "") -> str:
@@ -233,6 +254,11 @@ class StaticBundle:
                 cache_control=CACHE_IMMUTABLE if immutable else CACHE_REVALIDATE,
                 variants=variants,
                 csp=page_csp(body) if is_page else None,
+                disposition=(
+                    attachment_disposition(rel)
+                    if Path(rel).suffix.lower() in DOWNLOAD_SUFFIXES
+                    else None
+                ),
             )
         return bundle
 
@@ -367,6 +393,8 @@ async def _send_file(scope: Scope, send: Send, file: StaticFile) -> None:
     ]
     if variant.encoding is not None:
         headers.append((b"content-encoding", variant.encoding.encode()))
+    if file.disposition is not None:
+        headers.append((b"content-disposition", file.disposition.encode("latin-1")))
     if file.csp is not None:
         headers.append((b"content-security-policy", file.csp.encode()))
         headers += PAGE_HEADERS
