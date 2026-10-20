@@ -17,6 +17,7 @@ import httpx
 import numpy as np
 import pytest
 from mm_matching.text import split_sentences as mm_split
+from mm_matching.topic import clear_card_cache
 from openpyxl import load_workbook
 from sqlalchemy import func, select
 
@@ -466,3 +467,45 @@ async def test_search_without_embeddings_is_lexical(tmp_path: Path) -> None:
     assert first["level"] == "warning"
     assert "Модель смысла недоступна" in first["message"]
     assert "EMBEDDINGS_TOKEN" in first["message"]
+
+
+class CardCountingLlm(FakeLlm):
+    """FakeLlm, который считает отдельно запросы карточки темы."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.card_calls = 0
+
+    def chat_json(self, system: str, user: str, schema: dict[str, Any]) -> str:
+        if "verdicts" not in schema.get("properties", {}):
+            self.card_calls += 1
+        return super().chat_json(system, user, schema)
+
+
+async def test_ai_topic_card_without_embeddings(tmp_path: Path) -> None:
+    """Нейросеть есть, сервис эмбеддингов не принял токен, отката на CPU нет: карточка темы
+    от нейросети собирается без смысловой сверки «не то», поиск не падает, нейросеть
+    о карточке спрашивается один раз (стенд 20.10: поиск по теме прерывался ошибкой)."""
+    clear_card_cache()
+    local = FakeEmbedder()
+    llm = CardCountingLlm()
+
+    def factory(settings: Settings) -> FunnelMatcher:
+        remote = HttpEmbedder("http://gpu.test", "fake-berta", transport=token_rejected())
+        return make_funnel(settings, embedder=local, remote=remote, llm=llm, cpu_fallback=False)
+
+    settings = make_settings(
+        tmp_path, embeddings_url="http://gpu.test", embeddings_cpu_fallback=False
+    )
+    harness = make_app(settings, matcher_factory=factory, judge=AvailableJudge())
+    async with open_client(harness.app) as client:
+        headers = await new_workspace(client)
+        search_id, events = await run_search(client, headers)
+        assert events[-1]["event"] == "finished"
+        topic = next(e["data"]["topic"] for e in events if e["event"] == "topic")
+        selection = (await client.get(f"/api/searches/{search_id}", headers=headers)).json()
+    assert topic["madeBy"] == "ai"
+    assert "пожарная безопасность" in [f["label"].lower() for f in topic["excludes"]]
+    assert llm.card_calls == 1
+    assert not local.calls, "модель на CPU не загружалась"
+    assert selection["counts"]["total"] > 0

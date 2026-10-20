@@ -170,7 +170,16 @@ class FunnelMatcher:
         self, text: str, kind: QueryKind, meaning: str | None
     ) -> TopicUnderstanding | None:
         query = f"{text} ({meaning})" if meaning else text
-        card = await run_in_threadpool(self.core.topic_card, query, kind)
+        # Пункты «не то» от нейросети сверяются с темой по эмбеддингу. Модели смысла нет
+        # (сервис недоступен, отката на CPU нет) — сверка только по словам, поиск не падает.
+        semantic = self.embedder.available
+        core = self.core if semantic else self.make_core(self.llm_settings, semantic=False)
+        try:
+            card = await run_in_threadpool(core.topic_card, query, kind)
+        except EmbeddingsUnavailableError:
+            # Сервис упал на этой сверке. Ответ нейросети уже в кэше карточки — не спрашиваем снова.
+            core = self.make_core(self.llm_settings, semantic=False)
+            card = await run_in_threadpool(core.topic_card, query, kind)
         return card_to_contract(card)
 
     async def warmup(self) -> None:
