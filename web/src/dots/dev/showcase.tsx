@@ -179,7 +179,7 @@ function Showcase() {
   }
   return (
     <main className={styles.page}>
-      <h1 className={styles.title}>Точки: формы сайта «Стрежень» в блоке панели</h1>
+      <h1 className={styles.title}>Точки: формы сайта «Медиарадар» в блоке панели</h1>
       <div className={styles.grid}>
         {SHAPE_IDS.map((id) => (
           <Cell key={id} shape={request(id)} width={380} height={200} />

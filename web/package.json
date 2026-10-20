@@ -1,8 +1,8 @@
 {
-  "name": "mediamonitor-mockup",
+  "name": "mediaradar",
   "private": true,
   "version": "0.1.0",
-  "description": "Медиамонитор — кликабельный мокап интерфейса на демо-данных (этап 1)",
+  "description": "Медиарадар — кликабельный мокап интерфейса на демо-данных (этап 1)",
   "type": "module",
   "engines": {
     "node": ">=20.19"

@@ -763,7 +763,7 @@ function buildExport(record: SearchRecord, options?: ExportOptions, full = false
 
   return {
     searchId: record.searchId,
-    fileName: `Медиамонитор_${safeLabel}_${fileDate}_${fileTime}.xlsx`,
+    fileName: `Медиарадар_${safeLabel}_${fileDate}_${fileTime}.xlsx`,
     rowCount: rows.length,
     excludedCount: selection.counts.excluded,
     rule: appliedFilter

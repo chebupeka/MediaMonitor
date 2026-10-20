@@ -31,7 +31,7 @@ export interface ScreenMeta {
 export const SCREENS: Record<ScreenId, ScreenMeta> = {
   landing: {
     id: 'landing',
-    title: 'Медиамонитор',
+    title: 'Медиарадар',
     navLabel: 'Главная',
     group: 'home',
     owner: 'Основа',

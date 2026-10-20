@@ -43,7 +43,7 @@ interface Stored {
 }
 
 function loadStored(): Stored {
-  // По умолчанию — тёмная тема, как на сайте «Стрежень»; светлую можно выбрать в меню «Вид».
+  // По умолчанию — тёмная тема, как на сайте «Медиарадар»; светлую можно выбрать в меню «Вид».
   const fallback: Stored = { theme: 'dark', layout: 'site', dotsEnabled: true };
   try {
     const raw = window.localStorage.getItem(KEY);

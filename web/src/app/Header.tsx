@@ -10,7 +10,7 @@ import styles from './Header.module.css';
 export function Logo() {
   return (
     <span className={styles.wordmark}>
-      <span className={styles.brandName}>Медиамонитор</span>
+      <span className={styles.brandName}>Медиарадар</span>
       <span className={styles.brandDot} aria-hidden="true" />
     </span>
   );
@@ -113,7 +113,7 @@ export function Header({ compact }: { compact: boolean }) {
         className={styles.brand}
         // Главный экран расширения — «Поиск»; витрина продукта — отдельный сайт
         onClick={() => navigate('search')}
-        aria-label="Медиамонитор — к поиску"
+        aria-label="Медиарадар — к поиску"
       >
         <Logo />
       </button>

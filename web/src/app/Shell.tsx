@@ -42,7 +42,7 @@ function Footer() {
     <footer className={styles.footer}>
       <div className={styles.footerInfo}>
         <p className={styles.footerText}>
-          Медиамонитор · ВКонтакте, Одноклассники и MAX · Красноярский край · только публичные посты
+          Медиарадар · ВКонтакте, Одноклассники и MAX · Красноярский край · только публичные посты
         </p>
         <p className={styles.footerText}>Время везде — {TIME_ZONE_LABEL_FULL}</p>
       </div>
@@ -105,8 +105,7 @@ export function Shell() {
   // Заголовок окна, фокус и объявление при переходе (доступность).
   useEffect(() => {
     const meta = SCREENS[nav.screen];
-    document.title =
-      nav.screen === 'landing' ? 'Медиамонитор — мокап' : `${meta.title} — Медиамонитор`;
+    document.title = nav.screen === 'landing' ? 'Медиарадар — мокап' : `${meta.title} — Медиарадар`;
     if (firstRender.current) {
       firstRender.current = false;
       return;

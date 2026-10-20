@@ -9,7 +9,7 @@ import { defineConfig, type TargetBrowser, type UserManifest } from 'wxt';
 // `npm run ext:zip` → .output/*.zip.
 
 /**
- * Адрес сервера Медиамонитора из сборки (`VITE_API_URL` в окружении или в .env*), как его
+ * Адрес сервера Медиарадара из сборки (`VITE_API_URL` в окружении или в .env*), как его
  * понимает src/api/source.ts: только http(s), без запроса, фрагмента и логина.
  * `npm run ext:build` с `VITE_API_URL=http://127.0.0.1:8000` — расширение работает с сервером.
  */
@@ -99,7 +99,7 @@ export default defineConfig({
   // нет `browser.action` и пункта меню на значке — фон падает при запуске.
   manifestVersion: 3,
   manifest: ({ browser, mode, command }) => ({
-    name: 'Медиамонитор',
+    name: 'Медиарадар',
     description:
       'Поиск публикаций во ВКонтакте, Одноклассниках и MAX по Красноярскому краю: выделите текст новости — и увидите, где она опубликована.',
     ...browserSpecific(browser),
@@ -109,7 +109,7 @@ export default defineConfig({
     // Доступа к сайтам заранее не просим: только к серверу из сборки (serverAccess).
     permissions: ['contextMenus', 'storage', 'activeTab', 'scripting'],
     action: {
-      default_title: 'Открыть Медиамонитор',
+      default_title: 'Открыть Медиарадар',
     },
     icons: {
       16: '/icon/16.png',

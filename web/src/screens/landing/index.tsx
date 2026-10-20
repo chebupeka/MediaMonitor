@@ -44,7 +44,7 @@ const INSTALL_STEPS = [
   },
   {
     title: 'Загрузите распакованное расширение',
-    text: 'Нажмите «Загрузить распакованное» и выберите папку из первого шага. Значок Медиамонитора появится на панели браузера.',
+    text: 'Нажмите «Загрузить распакованное» и выберите папку из первого шага. Значок Медиарадара появится на панели браузера.',
   },
 ];
 
@@ -59,7 +59,7 @@ export default function LandingScreen(_props: ScreenProps<'landing'>) {
         <div className={styles.heroInner}>
           <div className={styles.heroText}>
             <div className={styles.kicker}>
-              <span>Медиамонитор · Красноярский край</span>
+              <span>Медиарадар · Красноярский край</span>
               <DemoBadge />
             </div>
             <h1 id="landing-title" className={styles.value}>
@@ -130,7 +130,7 @@ export default function LandingScreen(_props: ScreenProps<'landing'>) {
         open={installOpen}
         onOpenChange={setInstallOpen}
         title="Установить расширение"
-        description="Та же панель Медиамонитора — сбоку от любой страницы. Установка занимает 2–3 минуты."
+        description="Та же панель Медиарадара — сбоку от любой страницы. Установка занимает 2–3 минуты."
         size="md"
         footer={
           <>
