@@ -119,10 +119,17 @@ class WallMark:
     fetched_at: datetime
     # Самый старый пост, до которого дочитали (без закреплённого); None — стена прочитана вся.
     reached: datetime | None
+    # Чтение упёрлось в потолок страниц (федеральные сообщества — 1 страница): сколько страниц
+    # прочитано. Повтор с тем же потолком дал бы то же окно — берём его из кэша. None — нет.
+    capped_pages: int | None = None
 
-    def covers(self, start: datetime, now: datetime, ttl: timedelta) -> bool:
+    def covers(
+        self, start: datetime, now: datetime, ttl: timedelta, max_pages: int | None = None
+    ) -> bool:
         if ttl <= timedelta(0) or now - self.fetched_at > ttl:
             return False
+        if self.capped_pages is not None and max_pages is not None:
+            return max_pages <= self.capped_pages or self.reached is None or self.reached <= start
         return self.reached is None or self.reached <= start
 
 
@@ -577,8 +584,15 @@ class VkAdapter:
         owner = source.owner_id
         async with self._lock(owner):
             mark = self.marks.get(owner)
-            if self.cache is not None and mark and mark.covers(start, self.clock(), self.ttl):
-                return _Walk(await self.cache.load(source, start, end), capped=False)
+            if (
+                self.cache is not None
+                and mark
+                and mark.covers(start, self.clock(), self.ttl, max_pages)
+            ):
+                capped_before = mark.capped_pages is not None and (
+                    mark.reached is not None and mark.reached > start
+                )
+                return _Walk(await self.cache.load(source, start, end), capped=capped_before)
             fetched_at = self.clock()
             collected: list[RawPost] = []
             offset = 0
@@ -622,7 +636,14 @@ class VkAdapter:
             if self.cache is not None and collected:
                 try:
                     await self.cache.store(collected)
-                    self._remember(owner, WallMark(fetched_at, None if exhausted else oldest))
+                    self._remember(
+                        owner,
+                        WallMark(
+                            fetched_at,
+                            None if exhausted else oldest,
+                            pages if capped else None,
+                        ),
+                    )
                 except Exception:  # кэш — ускорение, а не условие поиска
                     log.exception("VK: не удалось записать стену %s в кэш", owner)
             elif self.cache is not None and exhausted:

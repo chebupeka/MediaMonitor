@@ -587,6 +587,42 @@ async def test_repeat_search_within_ttl_uses_cache(tmp_path: Path) -> None:
         await engine.dispose()
 
 
+async def test_repeat_search_reuses_capped_federal_wall(tmp_path: Path) -> None:
+    """Федеральная стена читается одной страницей и до начала периода не доходит: повтор того
+    же поиска в пределах VK_CACHE_MINUTES берёт её из кэша — расход VK не растёт (стенд)."""
+    engine = create_engine(f"sqlite+aiosqlite:///{tmp_path / 'cache.db'}")
+    await create_all(engine)
+    cache = DbPostCache(create_sessions(engine))
+    fake = FakeVk()
+    two_groups(fake)
+    fake.groups["ria"] = group(15755094, "РИА Новости", "ria")
+    fake.walls[-15755094] = [
+        post(-15755094, 900_000 - i, NOW - timedelta(minutes=10 * i), f"Новость {i}")
+        for i in range(500)
+    ]
+    catalog = [*CATALOG, VkTarget("ria", "РИА Новости", None, None, regional=False)]
+    clock = Clock(NOW)
+    vk = VkAdapter(
+        vk_settings(tmp_path, vk_cache_minutes=30),
+        httpx.AsyncClient(transport=httpx.MockTransport(fake.handler)),
+        cache=cache,
+        catalog=catalog,
+        sleep=no_sleep,
+        clock=clock,
+    )
+    try:
+        first, _ = await collect(vk.search(query(days=7)))
+        calls = len(fake.calls)
+        clock.now = NOW + timedelta(minutes=10)
+        again, events = await collect(vk.search(query(days=7)))
+        assert len(fake.calls) == calls
+        assert {p.ref.id for p in again} == {p.ref.id for p in first}
+        # Предел федеральной стены по-прежнему честно назван.
+        assert any(isinstance(e, Capped) for e in events)
+    finally:
+        await engine.dispose()
+
+
 # ---------------------------------------------------------------- каталог и режимы данных
 
 
