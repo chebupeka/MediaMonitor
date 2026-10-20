@@ -175,7 +175,7 @@ class PublicationRow(Base):
     id: Mapped[str] = mapped_column(String(300), primary_key=True)
     platform: Mapped[str] = mapped_column(String(8))
     owner_id: Mapped[str] = mapped_column(String(200))
-    post_id: Mapped[str] = mapped_column(String(100))
+    post_id: Mapped[str] = mapped_column(String(300))  # путь статьи сайта СМИ — длинный
     source_id: Mapped[str | None] = mapped_column(ForeignKey("platform_sources.id"))
     url: Mapped[str] = mapped_column(String(1000))
     merged_urls: Mapped[list[Any]]

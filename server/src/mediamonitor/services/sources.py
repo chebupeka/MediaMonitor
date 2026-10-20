@@ -33,10 +33,14 @@ from mediamonitor.contract import (
 )
 from mediamonitor.db.models import PlatformSourceRow, WorkspaceRow, WorkspaceSourceRow
 from mediamonitor.errors import ApiProblem, required
+from mediamonitor.media import load_media_catalog
 from mediamonitor.normalize.urls import parse_address, source_id, source_url
 from mediamonitor.timeutil import iso, iso_or_none, utcnow
 
-NOT_SUPPORTED = "Это не ссылка на группу или канал ВКонтакте, Одноклассников или MAX."
+NOT_SUPPORTED = (
+    "Это не ссылка на группу или канал ВКонтакте, Одноклассников, MAX, канал Дзена "
+    "или сайт СМИ края из каталога."
+)
 OK_MESSAGE = "Источник доступен: открытая группа, посты читаются."
 CLOSED_MESSAGE = "Группа закрыта: её посты не видны, поиск по ней невозможен."
 NOT_REGIONAL = "Пишет не только о крае: в подборку попадут посты, где упоминается край."
@@ -139,6 +143,22 @@ async def seed_catalog(session: AsyncSession, extra: Sequence[SourceInfo]) -> in
     return sum(1 for info in infos if info.in_catalog)
 
 
+def _ok_message(row: PlatformSourceRow) -> str:
+    if row.platform == "site":
+        return f"«{row.name}» доступен: сайт СМИ из каталога края, публикации читаются."
+    if row.platform == "dzen":
+        return f"«{row.name}» доступен: канал на Дзене, публикации читаются."
+    return f"«{row.name}» доступен: открытая группа, посты читаются."
+
+
+def _closed_message(row: PlatformSourceRow) -> str:
+    if row.platform == "site":
+        site = load_media_catalog().site_by_owner(row.owner_id)
+        reason = site.off_reason if site and site.off_reason else "сайт не отвечает"
+        return f"Сайт «{row.name}» сейчас не опрашивается: {reason}."
+    return f"«{row.name}» — закрытая группа: её посты не видны, искать в ней нельзя."
+
+
 # ---------------------------------------------------------------- в форме контракта
 
 
@@ -222,10 +242,11 @@ async def active_infos(
 
 async def probe(adapters: AdapterRegistry, url: str) -> SourceProbe:
     address = parse_address(url)
-    if address is None:
-        return SourceProbe("not-supported", None)
+    adapter = adapters.get(address.platform) if address else None
+    if adapter is None:
+        return SourceProbe("not-supported", None)  # не наша ссылка или площадка выключена
     try:
-        return await adapters[address.platform].probe_source(url)
+        return await adapter.probe_source(url)
     except AdapterError as error:
         raise ApiProblem("server", error.message) from error
 
@@ -243,7 +264,9 @@ async def check_url(
         owner = result.source
         if owner is not None:
             row = await upsert_source(session, owner)
-            what = "этот канал" if owner.platform == "max" else "эту группу"
+            what = {"max": "этот канал", "dzen": "этот канал", "site": "этот сайт"}.get(
+                owner.platform, "эту группу"
+            )
             return SourceCheck(
                 state="post-link",
                 message=f"Это ссылка на пост. Он опубликован в «{owner.name}» — можно проверить "
@@ -285,7 +308,7 @@ async def check_url(
     if result.state == "closed":
         return SourceCheck(
             state="closed",
-            message=f"«{row.name}» — закрытая группа: её посты не видны, искать в ней нельзя.",
+            message=_closed_message(row),
             preview=None,
             checked_at=checked_at,
         ), row
@@ -300,7 +323,7 @@ async def check_url(
         ), row
     return SourceCheck(
         state="ok",
-        message=f"«{row.name}» доступен: открытая группа, посты читаются.",
+        message=_ok_message(row),
         preview=_preview(row),
         checked_at=checked_at,
     ), row
@@ -433,11 +456,12 @@ async def recheck_sources(
     gate = asyncio.Semaphore(4)
 
     async def one(directory: PlatformSourceRow) -> SourceProbe | None:
+        adapter = adapters.get(cast(PlatformId, directory.platform))
+        if adapter is None:
+            return None  # площадка выключена на сервере
         async with gate:
             try:
-                return await adapters[cast(PlatformId, directory.platform)].probe_source(
-                    directory.url
-                )
+                return await adapter.probe_source(directory.url)
             except AdapterError:
                 return None
 
@@ -454,7 +478,12 @@ async def recheck_sources(
         elif result.state == "closed":
             directory.closed = True
             check = SourceCheck(
-                state="closed", message=CLOSED_MESSAGE, preview=None, checked_at=checked_at
+                state="closed",
+                message=_closed_message(directory)
+                if directory.platform == "site"
+                else CLOSED_MESSAGE,
+                preview=None,
+                checked_at=checked_at,
             )
         elif result.state == "ok" and result.source is not None:
             await upsert_source(session, result.source)

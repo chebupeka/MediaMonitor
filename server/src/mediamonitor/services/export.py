@@ -42,6 +42,7 @@ from mediamonitor.labels import (
     METHOD_LABEL,
     MODE_LABEL,
     PLACEMENT_TYPE_LABEL,
+    PLATFORM_ITEM_NAME,
     PLATFORM_NAME,
     QUERY_KIND_LABEL,
     RELEVANCE_LABEL,
@@ -190,7 +191,7 @@ def _row(
     p = item.publication
     return [
         number,
-        PLATFORM_NAME[p.platform],
+        PLATFORM_ITEM_NAME[p.platform],
         p.source.name,
         p.headline,
         excel_local(parse_iso(p.published_at)) if p.published_at else None,

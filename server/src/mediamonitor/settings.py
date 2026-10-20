@@ -66,6 +66,31 @@ class Settings(BaseSettings):
     # Сколько ждём одну площадку целиком, секунд; дольше — статус «не уложилась во время».
     platform_timeout_sec: float = Field(default=90.0, gt=0)
 
+    # ---------------------------------------------------------------- сайты СМИ и Дзен (ТЗ-Ф17)
+    # Дополнительные площадки из каталога СМИ края (data/krai-media.json). live — опрашивать
+    # в момент поиска (стенд в РФ: из-за рубежа сайты края не открываются); fixtures —
+    # записанные образцы ответов (разработка, тесты); off — площадка выключена. Дзен —
+    # серая зона правил, как OK: выключается DZEN_SOURCE=off. От DATA_SOURCE не зависят.
+    sites_source: Literal["live", "fixtures", "off"] = "live"
+    dzen_source: Literal["live", "fixtures", "off"] = "live"
+    # Вежливость: не чаще одного запроса в N секунд на сайт (Дзен — один сайт) и не больше
+    # SOURCES_PER_IP запросов одновременно к одному серверу (42 сайта стоят на одном).
+    sources_min_interval_sec: float = Field(default=1.0, ge=0)
+    sources_per_ip: int = Field(default=4, ge=1, le=16)
+    sources_request_timeout_sec: float = Field(default=10.0, gt=0)
+    # Короткий кэш ответов лент и каналов: повтор поиска не ходит на сайты заново (Р7).
+    sources_cache_sec: float = Field(default=600.0, ge=0)
+    sources_max_bytes: int = Field(default=4_000_000, ge=10_000)
+    # User-Agent запросов к сайтам; пусто — «Mediaradar/<версия> (…; +<адрес стенда>)».
+    sources_user_agent: str | None = None
+    # Сайты: срок на все сайты, сколько страниц статей открыть на сайт и на весь поиск.
+    sites_deadline_sec: float = Field(default=50.0, gt=0)
+    sites_articles_per_site: int = Field(default=4, ge=0)
+    sites_max_articles: int = Field(default=40, ge=0)
+    # Дзен: срок на все каналы и сколько страниц ленты канала листать (20 публикаций в каждой).
+    dzen_deadline_sec: float = Field(default=60.0, gt=0)
+    dzen_max_pages: int = Field(default=3, ge=1, le=10)
+
     # ---------------------------------------------------------------- нейросеть (Р5–Р6)
     # Адрес Ollama на другом компьютере, например http://10.0.0.5:11434.
     # Не задан — смысловая проверка недоступна, спорные получают «не проверено ИИ».
@@ -175,6 +200,13 @@ class Settings(BaseSettings):
     @classmethod
     def _blank_secret_is_none(cls, value: object) -> object:
         """Пустая строка в .env — «ключ не задан», а не пустой ключ."""
+        if value is None or (isinstance(value, str) and not value.strip()):
+            return None
+        return value
+
+    @field_validator("sources_user_agent", mode="before")
+    @classmethod
+    def _blank_agent_is_none(cls, value: object) -> object:
         if value is None or (isinstance(value, str) and not value.strip()):
             return None
         return value

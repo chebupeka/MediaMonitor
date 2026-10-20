@@ -100,8 +100,11 @@ async def exclude_source(
 
 
 async def _fetch(adapters: AdapterRegistry, ref: PostRef) -> RawPost | None:
+    adapter = adapters.get(ref.platform)
+    if adapter is None:
+        raise ApiProblem("invalid", "Эта площадка сейчас выключена на сервере.")
     try:
-        return await adapters[ref.platform].fetch_post(ref)
+        return await adapter.fetch_post(ref)
     except AdapterError as error:
         raise ApiProblem("server", error.message) from error
 
@@ -115,7 +118,17 @@ async def add_by_url(
 ) -> ResultItem:
     ref = parse_post_url(url)
     if ref is None:
-        raise ApiProblem("invalid", "Это не ссылка на пост ВКонтакте, Одноклассников или MAX.")
+        raise ApiProblem(
+            "invalid",
+            "Это не ссылка на пост ВКонтакте, Одноклассников, MAX, Дзена или статью сайта СМИ "
+            "края.",
+        )
+    raw: RawPost | None = None
+    if not ref.owner_id:
+        # В ссылке на публикацию Дзена нет владельца: ключ узнаём со страницы публикации.
+        raw = await _fetch(adapters, ref)
+        if raw is not None:
+            ref = raw.ref
     existing = await session.get(SearchItemRow, (search.id, ref.id))
     if existing is not None:
         if not existing.excluded:
@@ -124,7 +137,8 @@ async def add_by_url(
         existing.excluded_at = None
         await session.flush()
     else:
-        raw = await _fetch(adapters, ref)
+        if raw is None:
+            raw = await _fetch(adapters, ref)
         post = normalize(raw, split) if raw is not None else None
         if post is None:
             raise ApiProblem(
@@ -195,9 +209,12 @@ async def recheck_links(
 
     async def check(pub: PublicationRow) -> str:
         ref = PostRef(cast(PlatformId, pub.platform), pub.owner_id, pub.post_id)
+        adapter = adapters.get(ref.platform)
+        if adapter is None:
+            return "not-checked"  # площадка выключена на сервере
         async with gate:
             try:
-                found = await adapters[ref.platform].fetch_post(ref)
+                found = await adapter.fetch_post(ref)
             except AdapterError:
                 return "not-checked"
         return "ok" if found is not None else "deleted"

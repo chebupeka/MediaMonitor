@@ -1,0 +1,77 @@
+{
+  "$comment": "Записанные образцы ответов для SITES_SOURCE/DZEN_SOURCE=fixtures и тестов (adapters/replay.py). Разметка и структура — как в живых ответах 20.10.2026 (сайты — с сервера команды в РФ, Дзен — с ноутбука), тексты свои. Адрес не из списка — 404.",
+  "sites": [
+    "vtruda.ru",
+    "kvgazeta.ru",
+    "angarka.info",
+    "enisey.tv"
+  ],
+  "channels": [
+    "647edcf397f79c2656d02daf",
+    "611c742476e1862f7f85ab3a"
+  ],
+  "responses": [
+    {
+      "url": "https://www.vtruda.ru/rss/",
+      "file": "vtruda-rss.xml",
+      "type": "application/rss+xml; charset=UTF-8"
+    },
+    {
+      "url": "https://vtruda.ru/news/medvedi-ne-ukhodyat/",
+      "file": "vtruda-article-medvedi.html"
+    },
+    {
+      "url": "https://vtruda.ru/news/medved-za-okolitsey/",
+      "file": "vtruda-article-okolitsa.html"
+    },
+    {
+      "prefix": "https://www.vtruda.ru/search/?q=",
+      "file": "vtruda-search.html"
+    },
+    {
+      "url": "https://www.kvgazeta.ru/rss/",
+      "file": "kvgazeta-rss.xml",
+      "type": "application/rss+xml; charset=UTF-8"
+    },
+    {
+      "prefix": "https://www.kvgazeta.ru/search/?q=",
+      "file": "kvgazeta-search.html"
+    },
+    {
+      "url": "https://angarka.info/news/",
+      "file": "angarka-news.html"
+    },
+    {
+      "prefix": "https://angarka.info/search/?q=",
+      "file": "angarka-search.html"
+    },
+    {
+      "url": "https://angarka.info/news/eskrou-schyet-pomozhet-voplotit-mechtu-o-svoyem-dome/",
+      "file": "angarka-article-eskrou.html"
+    },
+    {
+      "url": "https://www.enisey.tv/rss.xml",
+      "file": "enisey-rss.xml",
+      "type": "text/xml; charset=UTF-8"
+    },
+    {
+      "url": "https://dzen.ru/api/web/v1/channel?channel_name=vtruda&country_code=ru&lang=ru&referrer_place=layout",
+      "file": "dzen-vtruda.json",
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "prefix": "https://dzen.ru/api/web/v1/channel-more?channel_name=vtruda",
+      "file": "dzen-vtruda-more.json",
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "https://dzen.ru/api/web/v1/channel?channel_id=611c742476e1862f7f85ab3a&country_code=ru&lang=ru&referrer_place=layout",
+      "file": "dzen-angarka.json",
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "https://dzen.ru/a/aTdzMedvedi01aBc",
+      "file": "dzen-article-medvedi.html"
+    }
+  ]
+}

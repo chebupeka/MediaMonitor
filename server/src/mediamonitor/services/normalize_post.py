@@ -29,8 +29,19 @@ _OWNER = {
     "vk": re.compile(r"^-?\d{1,20}$"),
     "ok": re.compile(r"^\d{1,20}$"),
     "max": re.compile(r"^[a-z0-9_.\-]{1,100}$"),
+    # Домен сайта в ASCII без www; id издателя Дзена.
+    "site": re.compile(r"^[a-z0-9.\-]{1,200}$"),
+    "dzen": re.compile(r"^[a-z0-9]{6,64}$"),
 }
-_POST = re.compile(r"^\d{1,20}$")
+_NUMBER = re.compile(r"^\d{1,20}$")
+_POST = {
+    "vk": _NUMBER,
+    "ok": _NUMBER,
+    "max": _NUMBER,
+    # Путь статьи без первого «/»: news/batka-ataman/.
+    "site": re.compile(r"^(?!.*\.\.)[A-Za-z0-9._~%\-]+(?:/[A-Za-z0-9._~%\-]+)*/?$"),
+    "dzen": re.compile(r"^[ab]-[A-Za-z0-9_\-]{6,64}$"),
+}
 
 
 @dataclass(frozen=True)
@@ -66,7 +77,11 @@ def normalize(
 ) -> NormPost | None:
     """None — пост с некорректным ключом (такой ссылке верить нельзя, в выдачу не идёт)."""
     ref = raw.ref
-    if not _OWNER[ref.platform].match(ref.owner_id) or not _POST.match(ref.post_id):
+    if (
+        not _OWNER[ref.platform].match(ref.owner_id)
+        or not _POST[ref.platform].match(ref.post_id)
+        or len(ref.id) > 300  # столбец publications.id
+    ):
         log.warning("Пропущен пост с некорректным ключом: %s", ref.platform)
         return None
     url = post_url(ref)

@@ -1,0 +1,75 @@
+{
+ "clientDefinition": {},
+ "isNewApi": true,
+ "feedData": {
+  "rid": "3785792931.1336.1792486195155.13243",
+  "items": [
+   {
+    "id": "-1",
+    "type": "channel_long_video_floor",
+    "title": "Видео"
+   },
+   {
+    "id": "6ad0a49c1bcbe32a98c5b001",
+    "type": "article",
+    "itemId": "aTdzBogSpas01AaA",
+    "itemType": "native",
+    "title": "Богучанские спасатели провели учения",
+    "text": "На Ангаре отработали спасение людей с плавучей техники. В учениях участвовали спасатели и добровольцы.",
+    "sourceId": "611c742476e1862f7f85ab3a",
+    "shareLink": "https://dzen.ru/a/aTdzBogSpas01AaA",
+    "link": "https://dzen.ru/a/aTdzBogSpas01AaA?feed_exp=ordinary_feed&from=channel&integration=site_desktop&place=layout",
+    "isPromoPublication": false,
+    "timeToReadSeconds": 40,
+    "publicationDate": "1792036800",
+    "image": {
+     "src": "https://avatars.dzeninfra.ru/get-zen_doc/1/pub_6ad0a49c1bcbe32a98c5b001/smart_crop_516x290"
+    },
+    "socialInfo": {
+     "commentsEnabled": true,
+     "commentCount": 0,
+     "avatarUrls": []
+    },
+    "version": "newApi",
+    "views": 12
+   },
+   {
+    "id": "6ad0a49c1bcbe32a98c5b002",
+    "type": "article",
+    "itemId": "aTdzDomEskr01BbB",
+    "itemType": "native",
+    "title": "Как защитить деньги, если строите дом",
+    "text": "Эскроу-счёт защищает семью: банк переведёт деньги строителю только после того, как дом построен и принят. Рассказываем, как подать заявку.",
+    "sourceId": "611c742476e1862f7f85ab3a",
+    "shareLink": "https://dzen.ru/a/aTdzDomEskr01BbB",
+    "link": "https://dzen.ru/a/aTdzDomEskr01BbB?feed_exp=ordinary_feed&from=channel&integration=site_desktop&place=layout",
+    "isPromoPublication": false,
+    "timeToReadSeconds": 40,
+    "publicationDate": "1792400400",
+    "image": {
+     "src": "https://avatars.dzeninfra.ru/get-zen_doc/1/pub_6ad0a49c1bcbe32a98c5b002/smart_crop_516x290"
+    },
+    "socialInfo": {
+     "commentsEnabled": true,
+     "commentCount": 0,
+     "avatarUrls": []
+    },
+    "version": "newApi",
+    "views": 9
+   }
+  ],
+  "ad_items": [],
+  "isNewApi": true
+ },
+ "channel": {
+  "status": "ok",
+  "source": {
+   "id": "2646461040013477267",
+   "publisher_id": "611c742476e1862f7f85ab3a",
+   "type": "publisher",
+   "title": "Ангарская правда",
+   "subscribers": 158,
+   "feed_share_link": "https://dzen.ru/id/611c742476e1862f7f85ab3a"
+  }
+ }
+}

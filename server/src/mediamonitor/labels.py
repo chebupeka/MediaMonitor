@@ -20,8 +20,22 @@ from mediamonitor.contract import (
 )
 from mediamonitor.timeutil import krsk_today, to_krsk
 
-PLATFORM_NAME: dict[PlatformId, str] = {"vk": "ВКонтакте", "ok": "Одноклассники", "max": "MAX"}
-PLATFORM_SHORT: dict[PlatformId, str] = {"vk": "VK", "ok": "OK", "max": "MAX"}
+PLATFORM_NAME: dict[PlatformId, str] = {
+    "vk": "ВКонтакте",
+    "ok": "Одноклассники",
+    "max": "MAX",
+    "site": "Сайты СМИ",
+    "dzen": "Дзен",
+}
+PLATFORM_SHORT: dict[PlatformId, str] = {
+    "vk": "VK",
+    "ok": "OK",
+    "max": "MAX",
+    "site": "Сайты",
+    "dzen": "Дзен",
+}
+# Одна запись выгрузки: «Сайт СМИ», а не «Сайты СМИ» (колонка «Площадка» в XLSX).
+PLATFORM_ITEM_NAME: dict[PlatformId, str] = {**PLATFORM_NAME, "site": "Сайт СМИ"}
 
 RELEVANCE_LABEL: dict[Relevance, str] = {
     "direct": "Прямо",
