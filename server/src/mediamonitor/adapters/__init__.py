@@ -18,6 +18,8 @@ def build_adapters(
 ) -> AdapterRegistry:
     """Адаптеры по настройке DATA_SOURCE: fixtures — записанные примеры, live — площадки.
 
+    DATA_SOURCE_MAX=live включает настоящий MAX (MaxStat) и при DATA_SOURCE=fixtures.
+
     `budget` — суточный и месячный предел вызовов платных площадок (НТ-6): настоящие
     адаптеры списывают из него каждый вызов. Записанные примеры площадок не вызывают.
     """
@@ -30,12 +32,16 @@ def build_adapters(
     store = FixtureStore.load(shift_to_now=settings.fixture_shift_to_now)
     failures = parse_failures(settings.fixture_failures)
     delay = settings.fixture_step_delay_ms / 1000
-    return {
+    registry: AdapterRegistry = {
         platform: FixtureAdapter(
             platform, store, failure=failures.get(platform), step_delay_sec=delay
         )
         for platform in PLATFORM_ORDER
     }
+    # DATA_SOURCE_MAX=live — настоящий MAX (MaxStat) при записанных примерах остальных.
+    if settings.data_source_max == "live":
+        registry["max"] = MaxAdapter(settings, client, budget)
+    return registry
 
 
 __all__ = ["AdapterRegistry", "FixtureAdapter", "FixtureStore", "PlatformAdapter", "build_adapters"]
