@@ -474,7 +474,9 @@ async def test_fetch_post_by_link_id(tmp_path: Path) -> None:
     found = await max_adapter.fetch_post(PostRef("max", "channel_demox", "AaFX-JoMRWE"))
     assert found is not None
     assert found.text == "Речные маршруты закрывают на ледостав."
-    assert meter.spent[0] == 1
+    # Пост — 1 кредит; название канала по кредиту не запрашивается.
+    assert meter.spent == [1]
+    assert found.source.name == "max.ru/channel_demox"
     # Удалён — None; нет в индексе (404) — None; чужой канал в ссылке — None.
     assert await max_adapter.fetch_post(PostRef("max", "eniseytv", "AaFX6wlMIlc")) is None
     assert await max_adapter.fetch_post(PostRef("max", "eniseytv", "AaFYK3M0MWo")) is None

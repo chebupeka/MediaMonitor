@@ -582,7 +582,7 @@ class MaxAdapter:
             yield cap
 
     async def fetch_post(self, ref: PostRef) -> RawPost | None:
-        """Пост по ключу через MaxStat (1 кредит; свежий из поиска — из кэша)."""
+        """Пост по ключу через MaxStat: 1 кредит, свежий из поиска — из кэша без платы."""
         self._token()
         number = maxstat_post_id(ref.post_id)
         if ref.platform != "max" or number is None:
@@ -598,7 +598,9 @@ class MaxAdapter:
         parsed = _parse_post(item)
         if parsed is None or parsed[0].owner_id != ref.owner_id.lower():
             return None
-        source = await self._channel(parsed[1], parsed[0].owner_id, [1])
+        # Канал — только из каталога и кэша: перепроверка ссылок подборки не тратит кредиты
+        # на названия каналов (иначе по кредиту на каждый новый канал).
+        source = await self._channel(parsed[1], parsed[0].owner_id, [0])
         return _raw_post(item, parsed[0], source)
 
     async def probe_source(self, url: str) -> SourceProbe:
