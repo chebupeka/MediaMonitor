@@ -2,17 +2,19 @@
   "method": "setExcluded",
   "schema": "SelectionCounts",
   "value": {
-    "total": 39,
+    "total": 43,
     "excluded": 1,
     "byRelevance": {
-      "direct": 24,
-      "indirect": 9,
+      "direct": 27,
+      "indirect": 10,
       "disputed": 6
     },
     "byPlatform": {
       "vk": 26,
       "ok": 7,
-      "max": 6
+      "max": 6,
+      "site": 3,
+      "dzen": 1
     },
     "byPlacementType": {
       "verbatim": 2,

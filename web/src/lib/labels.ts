@@ -21,20 +21,52 @@ import { formatNumber } from './format';
 
 export interface PlatformMeta {
   id: PlatformId;
-  /** «ВКонтакте» */
+  /** «ВКонтакте», «Сайты СМИ» */
   name: string;
-  /** «VK» */
+  /** «VK», «Сайты» */
   short: string;
+  /** Одна публикация — для строки выгрузки: «ВКонтакте», «Сайт СМИ» */
+  itemName: string;
   /** CSS-переменная цвета площадки */
   colorVar: string;
 }
 
-export const PLATFORM_ORDER: readonly PlatformId[] = ['vk', 'ok', 'max'];
+/**
+ * Порядок площадок: обязательные по ТЗ (VK, OK, MAX), затем дополнительные — сайты СМИ
+ * края и их каналы на Дзене. Какие из них включены на сервере — `StartState.platforms`.
+ */
+export const PLATFORM_ORDER: readonly PlatformId[] = ['vk', 'ok', 'max', 'site', 'dzen'];
 
 export const PLATFORMS: Record<PlatformId, PlatformMeta> = {
-  vk: { id: 'vk', name: 'ВКонтакте', short: 'VK', colorVar: 'var(--color-vk)' },
-  ok: { id: 'ok', name: 'Одноклассники', short: 'OK', colorVar: 'var(--color-ok)' },
-  max: { id: 'max', name: 'MAX', short: 'MAX', colorVar: 'var(--color-max)' },
+  vk: {
+    id: 'vk',
+    name: 'ВКонтакте',
+    short: 'VK',
+    itemName: 'ВКонтакте',
+    colorVar: 'var(--color-vk)',
+  },
+  ok: {
+    id: 'ok',
+    name: 'Одноклассники',
+    short: 'OK',
+    itemName: 'Одноклассники',
+    colorVar: 'var(--color-ok)',
+  },
+  max: { id: 'max', name: 'MAX', short: 'MAX', itemName: 'MAX', colorVar: 'var(--color-max)' },
+  site: {
+    id: 'site',
+    name: 'Сайты СМИ',
+    short: 'Сайты',
+    itemName: 'Сайт СМИ',
+    colorVar: 'var(--color-site)',
+  },
+  dzen: {
+    id: 'dzen',
+    name: 'Дзен',
+    short: 'Дзен',
+    itemName: 'Дзен',
+    colorVar: 'var(--color-dzen)',
+  },
 };
 
 // ---------------------------------------------------------------- метки и методы
@@ -156,7 +188,8 @@ export const TIME_RELIABILITY_LABEL: Record<TimeReliability, string | null> = {
 
 export const TIME_RELIABILITY_HINT: Record<TimeReliability, string | null> = {
   exact: null,
-  approximate: 'MAX не отдаёт время публикации: оно вычислено по номеру поста',
+  approximate:
+    'Площадка не отдала точное время, оно вычислено: у MAX — по номеру поста, у сайта СМИ известна только дата из поиска по сайту',
   unknown: 'Площадка не отдала дату. Попадание в период проверить нельзя',
 };
 
@@ -191,6 +224,15 @@ export interface StatusView {
   retry: boolean;
 }
 
+/** Единица хода поиска по источникам: «Проверено 12 из 43 сайтов». */
+const SOURCE_UNIT: Record<PlatformId, string> = {
+  vk: 'групп и каналов',
+  ok: 'групп и каналов',
+  max: 'групп и каналов',
+  site: 'сайтов',
+  dzen: 'каналов',
+};
+
 /** Как показать статус площадки (полный набор, НТ-3). */
 export function platformStatusView(status: PlatformStatus): StatusView {
   const { progress, problem } = status;
@@ -207,7 +249,7 @@ export function platformStatusView(status: PlatformStatus): StatusView {
         text: progress && progress.total > 0 ? `ищем: ${progressText}` : 'ищем',
         detail: progress
           ? progress.unit === 'sources'
-            ? `Проверено ${progressText} групп и каналов`
+            ? `Проверено ${progressText} ${SOURCE_UNIT[status.platform]}`
             : `Просмотрено ${progressText} страниц поиска`
           : null,
         retry: false,

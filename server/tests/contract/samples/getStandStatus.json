@@ -2,7 +2,7 @@
   "method": "getStandStatus",
   "schema": "StandStatus",
   "value": {
-    "checkedAt": "2026-10-19T14:33:11+07:00",
+    "checkedAt": "2026-10-19T14:33:15+07:00",
     "overall": "ok",
     "platforms": [
       {
@@ -17,7 +17,7 @@
           "unit": "вызовов в месяц",
           "resetsAt": "2026-11-01T00:00:00+07:00"
         },
-        "lastSuccessAt": "2026-10-19T14:32:11+07:00"
+        "lastSuccessAt": "2026-10-19T14:32:15+07:00"
       },
       {
         "platform": "ok",
@@ -26,7 +26,7 @@
         "via": "Веб-поиск Одноклассников",
         "freshness": null,
         "quota": null,
-        "lastSuccessAt": "2026-10-19T14:31:11+07:00"
+        "lastSuccessAt": "2026-10-19T14:31:15+07:00"
       },
       {
         "platform": "max",
@@ -43,7 +43,25 @@
           "unit": "кредитов",
           "resetsAt": null
         },
-        "lastSuccessAt": "2026-10-19T14:30:11+07:00"
+        "lastSuccessAt": "2026-10-19T14:30:15+07:00"
+      },
+      {
+        "platform": "site",
+        "state": "ok",
+        "message": "Работает. Подключено 43 сайта из 48: 5 не опрашиваются.",
+        "via": "Ленты RSS, разделы новостей и поиск на сайтах СМИ края",
+        "freshness": null,
+        "quota": null,
+        "lastSuccessAt": "2026-10-19T14:29:15+07:00"
+      },
+      {
+        "platform": "dzen",
+        "state": "ok",
+        "message": "Работает. Каналы 25 редакций края.",
+        "via": "Страницы каналов редакций на Дзене",
+        "freshness": null,
+        "quota": null,
+        "lastSuccessAt": "2026-10-19T14:28:15+07:00"
       }
     ],
     "ai": {
@@ -64,12 +82,12 @@
     },
     "events": [
       {
-        "at": "2026-10-19T13:58:11+07:00",
+        "at": "2026-10-19T13:58:15+07:00",
         "level": "info",
         "message": "Нейросеть прогрета после перезапуска сервера."
       },
       {
-        "at": "2026-10-19T13:57:11+07:00",
+        "at": "2026-10-19T13:57:15+07:00",
         "level": "info",
         "message": "Сервер перезапущен, версия 0.1.0-mockup."
       }

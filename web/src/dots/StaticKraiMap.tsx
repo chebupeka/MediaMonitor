@@ -120,7 +120,8 @@ function geometry(): Geometry {
   return cache;
 }
 
-const PLATFORM_COLOR: Record<PlatformId, string> = {
+/** Облака и точки — только у VK, OK, MAX; у сайтов СМИ и Дзена цвета на карте нет. */
+const PLATFORM_COLOR: Readonly<Partial<Record<PlatformId, string>>> = {
   vk: 'var(--color-vk)',
   ok: 'var(--color-ok)',
   max: 'var(--color-max)',

@@ -322,6 +322,7 @@ def platform_status(
         freshness=adapter.description.freshness if adapter else None,
         cap=PlatformCap.model_validate(run.cap) if run.cap else None,
         updated_at=iso_or_none(run.updated_at),
+        note=adapter.description.note if adapter else None,
     )
 
 

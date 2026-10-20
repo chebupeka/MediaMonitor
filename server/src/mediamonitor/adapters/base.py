@@ -177,6 +177,14 @@ class AdapterDescription:
     freshness: DataFreshness | None = None
     quota: QuotaInfo | None = None
     tags: list[str] = field(default_factory=list)
+    # Постоянная оговорка о покрытии («Подключено 43 сайта из 48: …») — в статус площадки.
+    note: str | None = None
+
+
+class CatalogProvider(Protocol):
+    """Адаптер со своим каталогом краевых источников (сайты СМИ, каналы Дзена)."""
+
+    def catalog_sources(self) -> list[SourceInfo]: ...
 
 
 class PlatformAdapter(Protocol):

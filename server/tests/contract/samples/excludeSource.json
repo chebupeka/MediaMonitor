@@ -7,17 +7,19 @@
       "vk:-100107_90314"
     ],
     "counts": {
-      "total": 37,
+      "total": 41,
       "excluded": 3,
       "byRelevance": {
-        "direct": 22,
-        "indirect": 9,
+        "direct": 25,
+        "indirect": 10,
         "disputed": 6
       },
       "byPlatform": {
         "vk": 24,
         "ok": 7,
-        "max": 6
+        "max": 6,
+        "site": 3,
+        "dzen": 1
       },
       "byPlacementType": {
         "verbatim": 2,

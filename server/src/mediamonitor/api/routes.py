@@ -75,7 +75,7 @@ from mediamonitor.services.events import encode_sse, heartbeat_or_event, is_term
 from mediamonitor.services.export import build_preview, build_xlsx, export_items, file_name
 from mediamonitor.services.selection import build_selection
 from mediamonitor.services.spread import build_spread
-from mediamonitor.services.stand import stand_status
+from mediamonitor.services.stand import platform_infos, stand_status
 from mediamonitor.timeutil import krsk_today, utcnow
 
 router = APIRouter(prefix="/api")
@@ -116,7 +116,23 @@ async def workspace_tx(
 
 
 def _data_note(ctx: AppContext) -> str:
-    return FIXTURE_DATA_NOTE if ctx.settings.data_source == "fixtures" else LIVE_DATA_NOTE
+    base = FIXTURE_DATA_NOTE if ctx.settings.data_source == "fixtures" else LIVE_DATA_NOTE
+    media = {"site": ctx.settings.sites_source, "dzen": ctx.settings.dzen_source}
+    shown = {p: mode for p, mode in media.items() if p in ctx.adapters and mode != "off"}
+    if not shown:
+        return base
+    # Сайты СМИ и Дзен включаются отдельно от VK, OK, MAX — говорим про каждую часть.
+    names = {"site": "сайты СМИ", "dzen": "Дзен"}
+    live = [names[p] for p, mode in shown.items() if mode == "live"]
+    recorded = [names[p] for p, mode in shown.items() if mode == "fixtures"]
+    parts = [f"VK, OK и MAX: {base[0].lower()}{base[1:]}"]
+    if live:
+        what = " и ".join(live)
+        parts.append(f"{what[0].upper()}{what[1:]}: получены с публичных страниц в момент поиска.")
+    if recorded:
+        what = " и ".join(recorded)
+        parts.append(f"{what[0].upper()}{what[1:]}: записанные образцы ответов.")
+    return " ".join(parts)
 
 
 # ---------------------------------------------------------------- старт и запрос
@@ -149,6 +165,7 @@ async def get_start_state(ctx: Ctx, key: WorkspaceKey = None) -> StartState:
         example_query="Например: безопасность дорожного движения",
         default_period=preset_period("7d", krsk_today()),
         region=KRASNOYARSK_KRAI,
+        platforms=platform_infos(ctx),
     )
 
 

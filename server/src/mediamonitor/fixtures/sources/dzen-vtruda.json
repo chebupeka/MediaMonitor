@@ -1,0 +1,136 @@
+{
+ "clientDefinition": {},
+ "isNewApi": true,
+ "feedData": {
+  "rid": "3785792931.1336.1792486195155.13243",
+  "items": [
+   {
+    "id": "6ad72930f9c4b3533a4d5369",
+    "type": "article",
+    "itemId": "aTdzEskrou01QwEr",
+    "itemType": "native",
+    "title": "Эскроу-счёт поможет воплотить мечту о своём доме",
+    "text": "Жители Красноярского края могут построить частный дом с использованием эскроу-счёта. Деньги на счёте хранятся в банке и переходят к подрядчику только после того, как дом построен и принят. Так семья защищена от недобросовестных строителей.",
+    "sourceId": "647edcf397f79c2656d02daf",
+    "shareLink": "https://dzen.ru/a/aTdzEskrou01QwEr",
+    "link": "https://dzen.ru/a/aTdzEskrou01QwEr?feed_exp=ordinary_feed&from=channel&integration=site_desktop&place=layout",
+    "isPromoPublication": false,
+    "timeToReadSeconds": 40,
+    "publicationDate": "1792393200",
+    "image": {
+     "src": "https://avatars.dzeninfra.ru/get-zen_doc/1/pub_6ad72930f9c4b3533a4d5369/smart_crop_516x290"
+    },
+    "socialInfo": {
+     "commentsEnabled": true,
+     "commentCount": 0,
+     "avatarUrls": []
+    },
+    "version": "newApi",
+    "views": 30
+   },
+   {
+    "id": "17522652720167549",
+    "type": "suites_carousel",
+    "title": "Подборки автора"
+   },
+   {
+    "id": "6ad18de2a82a603e7d1838c8",
+    "type": "article",
+    "itemId": "aTdzMedvedi01aBc",
+    "itemType": "native",
+    "title": "Медведи: карантин и новые меры",
+    "text": "В Минусинском округе медведи продолжают выходить к домам. Охотнадзор рассказал, какие меры примут этой осенью и что делать, если зверь пришёл к огороду...",
+    "sourceId": "647edcf397f79c2656d02daf",
+    "shareLink": "https://dzen.ru/a/aTdzMedvedi01aBc",
+    "link": "https://dzen.ru/a/aTdzMedvedi01aBc?feed_exp=ordinary_feed&from=channel&integration=site_desktop&place=layout",
+    "isPromoPublication": false,
+    "timeToReadSeconds": 40,
+    "publicationDate": "1792299600",
+    "image": {
+     "src": "https://avatars.dzeninfra.ru/get-zen_doc/1/pub_6ad18de2a82a603e7d1838c8/smart_crop_516x290"
+    },
+    "socialInfo": {
+     "commentsEnabled": true,
+     "commentCount": 0,
+     "likesCount": 1,
+     "avatarUrls": []
+    },
+    "version": "newApi",
+    "views": 46
+   },
+   {
+    "publisher_id": "647edcf397f79c2656d02daf",
+    "publication_id": "brief:bTdzPerehod01xYz",
+    "id": "-690550802708067137",
+    "type": "brief",
+    "title": "",
+    "text": "",
+    "share_link": "https://dzen.ru/b/bTdzPerehod01xYz",
+    "publication_date": "1792204200",
+    "items": [
+     {
+      "type": "image",
+      "image": {
+       "id": "img1"
+      }
+     }
+    ],
+    "rich_text": {
+     "length": 94,
+     "json": [
+      {
+       "type": "text",
+       "data": "Водители, будьте внимательны: у школ Минусинска обновили переходы и поставили новые светофоры."
+      }
+     ]
+    },
+    "socialInfo": {
+     "commentsEnabled": true,
+     "commentCount": 0,
+     "avatarUrls": []
+    },
+    "views": 7
+   },
+   {
+    "id": "6ad0a49c1bcbe32a98c5a3b6",
+    "type": "article",
+    "itemId": "aTdzTochka01RoST",
+    "itemType": "native",
+    "title": "В селе Городок открылась «Точка роста»",
+    "text": "В школе села Городок открылся центр «Точка роста» с лабораториями физики и биологии.",
+    "sourceId": "647edcf397f79c2656d02daf",
+    "shareLink": "https://dzen.ru/a/aTdzTochka01RoST",
+    "link": "https://dzen.ru/a/aTdzTochka01RoST?feed_exp=ordinary_feed&from=channel&integration=site_desktop&place=layout",
+    "isPromoPublication": false,
+    "timeToReadSeconds": 40,
+    "publicationDate": "1791946800",
+    "image": {
+     "src": "https://avatars.dzeninfra.ru/get-zen_doc/1/pub_6ad0a49c1bcbe32a98c5a3b6/smart_crop_516x290"
+    },
+    "socialInfo": {
+     "commentsEnabled": true,
+     "commentCount": 0,
+     "avatarUrls": []
+    },
+    "version": "newApi",
+    "views": 14
+   }
+  ],
+  "ad_items": [],
+  "isNewApi": true,
+  "more": {
+   "link": "https://dzen.ru/api/web/v1/channel-more?channel_name=vtruda&sort_type=regular&country_code=ru&next_page_id=articles%2F1828941992899737570%2F1791936000000&lang=ru"
+  }
+ },
+ "channel": {
+  "status": "ok",
+  "source": {
+   "id": "2646461040013477267",
+   "publisher_id": "647edcf397f79c2656d02daf",
+   "type": "publisher",
+   "title": "О Сибири с любовью!",
+   "subscribers": 2823,
+   "feed_share_link": "https://dzen.ru/vtruda"
+  }
+ }
+}

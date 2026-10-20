@@ -128,10 +128,13 @@ async def test_closed_group_in_list_is_partial(harness: Harness, client: httpx.A
 
     headers = await new_workspace(client)
     catalog = (await client.get("/api/catalog", headers=headers)).json()
-    vk = [c["id"] for c in catalog if c["platform"] == "vk"][:5]
+    # Группы записанных примеров (в каталоге есть и настоящие сообщества края из таблицы).
+    store = FixtureStore.load()
+    recorded = {f"{s.platform}:{s.owner_id}" for s in store.sources.values()}
+    vk = [c["id"] for c in catalog if c["platform"] == "vk" and c["id"] in recorded][:5]
     await client.post("/api/sources/from-catalog", json={"ids": vk}, headers=headers)
     # Группа была открыта, когда её добавили, и закрылась потом.
-    closed = FixtureStore.load().sources["vk-boguchany"]
+    closed = store.sources["vk-boguchany"]
     async with harness.app.state.ctx.sessions.begin() as session:
         workspace = await find_workspace(session, headers["X-Workspace-Key"])
         assert workspace is not None

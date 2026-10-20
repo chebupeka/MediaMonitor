@@ -270,5 +270,7 @@ async def test_every_endpoint_matches_contract(client: httpx.AsyncClient) -> Non
         "statuses[].cap.",
         "statuses[].progress.",
         "statuses[].problem.",
+        # Оговорка о покрытии — только у сайтов СМИ и Дзена.
+        "statuses[].note",
     )
     assert {p for p in fake_paths if not p.startswith(optional)} <= server_paths

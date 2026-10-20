@@ -15,10 +15,13 @@ import psutil
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from mediamonitor.adapters import enabled_platforms
 from mediamonitor.contract import (
     PLATFORM_ORDER,
+    REQUIRED_PLATFORMS,
     HealthState,
     PlatformId,
+    PlatformInfo,
     StandAi,
     StandEvent,
     StandMemory,
@@ -27,6 +30,7 @@ from mediamonitor.contract import (
     StandStatus,
 )
 from mediamonitor.db.models import PlatformRunRow, StandEventRow
+from mediamonitor.labels import PLATFORM_NAME, PLATFORM_SHORT
 from mediamonitor.services.context import AppContext
 from mediamonitor.timeutil import iso, iso_or_none, utcnow
 
@@ -53,13 +57,41 @@ def _memory() -> StandMemory:
     )
 
 
+_OFF_VIA: dict[PlatformId, str] = {
+    "site": "Ленты RSS и поиск на сайтах СМИ края",
+    "dzen": "Страницы каналов редакций края на Дзене",
+}
+
+
+def platform_infos(ctx: AppContext) -> list[PlatformInfo]:
+    """Все площадки продукта: обязательные и дополнительные, включённые на сервере и нет."""
+    result = []
+    for platform in PLATFORM_ORDER:
+        adapter = ctx.adapters.get(platform)
+        result.append(
+            PlatformInfo(
+                id=platform,
+                name=PLATFORM_NAME[platform],
+                short=PLATFORM_SHORT[platform],
+                required=platform in REQUIRED_PLATFORMS,
+                enabled=adapter is not None,
+                via=adapter.description.via if adapter else _OFF_VIA.get(platform, ""),
+                note=adapter.description.note
+                if adapter
+                else "Выключена на этом сервере: по ней не ищем.",
+            )
+        )
+    return result
+
+
 async def stand_status(ctx: AppContext) -> StandStatus:
-    healths = await asyncio.gather(*(ctx.adapters[p].health() for p in PLATFORM_ORDER))
+    order = enabled_platforms(ctx.adapters)
+    healths = await asyncio.gather(*(ctx.adapters[p].health() for p in order))
     ai_status = await ctx.judge.status()
     stats = ctx.judge.stats
     async with ctx.sessions() as session:
         platforms = []
-        for platform, health in zip(PLATFORM_ORDER, healths, strict=True):
+        for platform, health in zip(order, healths, strict=True):
             adapter = ctx.adapters[platform]
             platforms.append(
                 StandPlatform(

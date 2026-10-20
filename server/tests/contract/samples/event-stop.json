@@ -5,7 +5,7 @@
     {
       "type": "started",
       "conditions": {
-        "searchId": "s-mvfmnfck-3",
+        "searchId": "s-mvgikpzi-3",
         "text": "Енисей",
         "label": "Енисей (река)",
         "kind": "event",
@@ -24,10 +24,12 @@
         "platforms": [
           "vk",
           "ok",
-          "max"
+          "max",
+          "site",
+          "dzen"
         ],
         "meaningLabel": "Река Енисей",
-        "startedAt": "2026-10-19T14:32:21+07:00",
+        "startedAt": "2026-10-19T14:32:23+07:00",
         "finishedAt": null,
         "repeatOf": null
       },
@@ -64,6 +66,28 @@
           },
           "cap": null,
           "updatedAt": null
+        },
+        {
+          "platform": "site",
+          "state": "waiting",
+          "found": 0,
+          "progress": null,
+          "problem": null,
+          "freshness": null,
+          "cap": null,
+          "updatedAt": null,
+          "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+        },
+        {
+          "platform": "dzen",
+          "state": "waiting",
+          "found": 0,
+          "progress": null,
+          "problem": null,
+          "freshness": null,
+          "cap": null,
+          "updatedAt": null,
+          "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
         }
       ]
     },
@@ -195,11 +219,49 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 1,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 1,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "stopped",
       "selection": {
-        "searchId": "s-mvfmnfck-3",
+        "searchId": "s-mvgikpzi-3",
         "conditions": {
-          "searchId": "s-mvfmnfck-3",
+          "searchId": "s-mvgikpzi-3",
           "text": "Енисей",
           "label": "Енисей (река)",
           "kind": "event",
@@ -218,11 +280,13 @@
           "platforms": [
             "vk",
             "ok",
-            "max"
+            "max",
+            "site",
+            "dzen"
           ],
           "meaningLabel": "Река Енисей",
-          "startedAt": "2026-10-19T14:32:21+07:00",
-          "finishedAt": "2026-10-19T14:32:22+07:00",
+          "startedAt": "2026-10-19T14:32:23+07:00",
+          "finishedAt": "2026-10-19T14:32:24+07:00",
           "repeatOf": null
         },
         "statuses": [
@@ -270,6 +334,36 @@
             },
             "cap": null,
             "updatedAt": null
+          },
+          {
+            "platform": "site",
+            "state": "stopped",
+            "found": 0,
+            "progress": {
+              "done": 1,
+              "total": 43,
+              "unit": "sources"
+            },
+            "problem": null,
+            "freshness": null,
+            "cap": null,
+            "updatedAt": null,
+            "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+          },
+          {
+            "platform": "dzen",
+            "state": "stopped",
+            "found": 0,
+            "progress": {
+              "done": 1,
+              "total": 25,
+              "unit": "sources"
+            },
+            "problem": null,
+            "freshness": null,
+            "cap": null,
+            "updatedAt": null,
+            "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
           }
         ],
         "items": [],
@@ -285,7 +379,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           },
           "byPlacementType": {
             "verbatim": 0,

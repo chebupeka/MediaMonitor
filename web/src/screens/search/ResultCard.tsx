@@ -65,7 +65,7 @@ export function ResultCard({ item, onToggleExcluded }: ResultCardProps) {
         </span>
       </CardHeader>
       <CardMeta>
-        {PLATFORMS[pub.platform].name} · {formatPublishedAt(pub)}
+        {PLATFORMS[pub.platform].itemName} · {formatPublishedAt(pub)}
         {region ? ` · ${region}` : ''}
       </CardMeta>
       <CardBody>

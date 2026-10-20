@@ -3,9 +3,9 @@
   "schema": "RecentSearch[]",
   "value": [
     {
-      "searchId": "s-mvfmnszt-6",
+      "searchId": "s-mvgil52t-6",
       "conditions": {
-        "searchId": "s-mvfmnszt-6",
+        "searchId": "s-mvgil52t-6",
         "text": "ДТП",
         "label": "Безопасность дорожного движения",
         "kind": "topic",
@@ -24,15 +24,17 @@
         "platforms": [
           "vk",
           "ok",
-          "max"
+          "max",
+          "site",
+          "dzen"
         ],
         "meaningLabel": null,
-        "startedAt": "2026-10-19T14:32:39+07:00",
-        "finishedAt": "2026-10-19T14:32:52+07:00",
+        "startedAt": "2026-10-19T14:32:42+07:00",
+        "finishedAt": "2026-10-19T14:32:56+07:00",
         "repeatOf": null
       },
-      "total": 40,
-      "statusSummary": "VK ✓ 27 · OK ✓ 7 · MAX ✓ 6",
+      "total": 44,
+      "statusSummary": "VK ✓ 27 · OK ✓ 7 · MAX ✓ 6 · Сайты ✓ 3 · Дзен ✓ 1",
       "request": {
         "text": "ДТП",
         "period": {
@@ -44,9 +46,9 @@
       }
     },
     {
-      "searchId": "s-mvfmnnqg-5",
+      "searchId": "s-mvgikze5-5",
       "conditions": {
-        "searchId": "s-mvfmnnqg-5",
+        "searchId": "s-mvgikze5-5",
         "text": "ДТП",
         "label": "Безопасность дорожного движения",
         "kind": "topic",
@@ -65,15 +67,17 @@
         "platforms": [
           "vk",
           "ok",
-          "max"
+          "max",
+          "site",
+          "dzen"
         ],
         "meaningLabel": null,
-        "startedAt": "2026-10-19T14:32:32+07:00",
-        "finishedAt": "2026-10-19T14:32:39+07:00",
+        "startedAt": "2026-10-19T14:32:35+07:00",
+        "finishedAt": "2026-10-19T14:32:42+07:00",
         "repeatOf": null
       },
-      "total": 40,
-      "statusSummary": "VK ✓ 27 · OK ✓ 7 · MAX ✓ 6",
+      "total": 44,
+      "statusSummary": "VK ✓ 27 · OK ✓ 7 · MAX ✓ 6 · Сайты ✓ 3 · Дзен ✓ 1",
       "request": {
         "text": "ДТП",
         "period": {
@@ -85,9 +89,9 @@
       }
     },
     {
-      "searchId": "s-mvfmng20-4",
+      "searchId": "s-mvgikqoz-4",
       "conditions": {
-        "searchId": "s-mvfmng20-4",
+        "searchId": "s-mvgikqoz-4",
         "text": "ДТП",
         "label": "Безопасность дорожного движения",
         "kind": "topic",
@@ -106,15 +110,17 @@
         "platforms": [
           "vk",
           "ok",
-          "max"
+          "max",
+          "site",
+          "dzen"
         ],
         "meaningLabel": null,
-        "startedAt": "2026-10-19T14:32:22+07:00",
-        "finishedAt": "2026-10-19T14:32:32+07:00",
+        "startedAt": "2026-10-19T14:32:24+07:00",
+        "finishedAt": "2026-10-19T14:32:35+07:00",
         "repeatOf": null
       },
-      "total": 40,
-      "statusSummary": "VK частично: 39 из 40 · OK ✓ 7 · MAX ✓ 6",
+      "total": 44,
+      "statusSummary": "VK частично: 39 из 40 · OK ✓ 7 · MAX ✓ 6 · Сайты ✓ 3 · Дзен ✓ 1",
       "request": {
         "text": "ДТП",
         "period": {
@@ -126,9 +132,9 @@
       }
     },
     {
-      "searchId": "s-mvfmnfck-3",
+      "searchId": "s-mvgikpzi-3",
       "conditions": {
-        "searchId": "s-mvfmnfck-3",
+        "searchId": "s-mvgikpzi-3",
         "text": "Енисей",
         "label": "Енисей (река)",
         "kind": "event",
@@ -147,15 +153,17 @@
         "platforms": [
           "vk",
           "ok",
-          "max"
+          "max",
+          "site",
+          "dzen"
         ],
         "meaningLabel": "Река Енисей",
-        "startedAt": "2026-10-19T14:32:21+07:00",
-        "finishedAt": "2026-10-19T14:32:22+07:00",
+        "startedAt": "2026-10-19T14:32:23+07:00",
+        "finishedAt": "2026-10-19T14:32:24+07:00",
         "repeatOf": null
       },
       "total": 0,
-      "statusSummary": "VK остановлено: 2 из 40 · OK остановлено: 1 из 18 · MAX остановлено: 0 из 12",
+      "statusSummary": "VK остановлено: 2 из 40 · OK остановлено: 1 из 18 · MAX остановлено: 0 из 12 · Сайты остановлено: 1 из 43 · Дзен остановлено: 1 из 25",
       "request": {
         "text": "Енисей",
         "period": {
@@ -168,9 +176,9 @@
       }
     },
     {
-      "searchId": "s-mvfmn9ny-2",
+      "searchId": "s-mvgikjvh-2",
       "conditions": {
-        "searchId": "s-mvfmn9ny-2",
+        "searchId": "s-mvgikjvh-2",
         "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
         "label": "Новая школа в Норильске",
         "kind": "news-text",
@@ -189,15 +197,17 @@
         "platforms": [
           "vk",
           "ok",
-          "max"
+          "max",
+          "site",
+          "dzen"
         ],
         "meaningLabel": null,
-        "startedAt": "2026-10-19T14:32:14+07:00",
-        "finishedAt": "2026-10-19T14:32:21+07:00",
+        "startedAt": "2026-10-19T14:32:15+07:00",
+        "finishedAt": "2026-10-19T14:32:22+07:00",
         "repeatOf": null
       },
-      "total": 17,
-      "statusSummary": "VK ✓ 10 · OK ✓ 4 · MAX ✓ 3",
+      "total": 24,
+      "statusSummary": "VK ✓ 10 · OK ✓ 4 · MAX ✓ 3 · Сайты ✓ 5 · Дзен ✓ 2",
       "request": {
         "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
         "period": {
@@ -209,9 +219,9 @@
       }
     },
     {
-      "searchId": "s-mvfmn0w7-1",
+      "searchId": "s-mvgikad6-1",
       "conditions": {
-        "searchId": "s-mvfmn0w7-1",
+        "searchId": "s-mvgikad6-1",
         "text": "Безопасность дорожного движения",
         "label": "Безопасность дорожного движения",
         "kind": "topic",
@@ -230,15 +240,17 @@
         "platforms": [
           "vk",
           "ok",
-          "max"
+          "max",
+          "site",
+          "dzen"
         ],
         "meaningLabel": null,
         "startedAt": "2026-10-19T14:32:03+07:00",
-        "finishedAt": "2026-10-19T14:32:09+07:00",
+        "finishedAt": "2026-10-19T14:32:10+07:00",
         "repeatOf": null
       },
-      "total": 40,
-      "statusSummary": "VK ✓ 27 · OK ✓ 7 · MAX ✓ 6",
+      "total": 44,
+      "statusSummary": "VK ✓ 27 · OK ✓ 7 · MAX ✓ 6 · Сайты ✓ 3 · Дзен ✓ 1",
       "request": {
         "text": "Безопасность дорожного движения",
         "period": {
@@ -271,15 +283,17 @@
         "platforms": [
           "vk",
           "ok",
-          "max"
+          "max",
+          "site",
+          "dzen"
         ],
         "meaningLabel": null,
         "startedAt": "2026-10-18T16:20:00+07:00",
         "finishedAt": "2026-10-18T16:21:00+07:00",
         "repeatOf": null
       },
-      "total": 33,
-      "statusSummary": "VK ✓ 21 · OK ✓ 7 · MAX ✓ 5",
+      "total": 37,
+      "statusSummary": "VK ✓ 21 · OK ✓ 7 · MAX ✓ 5 · Сайты ✓ 3 · Дзен ✓ 1",
       "request": {
         "text": "Безопасность дорожного движения",
         "period": {
@@ -312,15 +326,17 @@
         "platforms": [
           "vk",
           "ok",
-          "max"
+          "max",
+          "site",
+          "dzen"
         ],
         "meaningLabel": null,
         "startedAt": "2026-10-16T18:05:00+07:00",
         "finishedAt": "2026-10-16T18:06:00+07:00",
         "repeatOf": null
       },
-      "total": 15,
-      "statusSummary": "VK ✓ 9 · OK ✓ 4 · MAX ✓ 2",
+      "total": 22,
+      "statusSummary": "VK ✓ 9 · OK ✓ 4 · MAX ✓ 2 · Сайты ✓ 5 · Дзен ✓ 2",
       "request": {
         "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
         "period": {
@@ -353,7 +369,9 @@
         "platforms": [
           "vk",
           "ok",
-          "max"
+          "max",
+          "site",
+          "dzen"
         ],
         "meaningLabel": "Река Енисей",
         "startedAt": "2026-10-15T11:40:00+07:00",
@@ -361,7 +379,7 @@
         "repeatOf": null
       },
       "total": 4,
-      "statusSummary": "VK ✓ 2 · OK ✓ 1 · MAX ✓ 1",
+      "statusSummary": "VK ✓ 2 · OK ✓ 1 · MAX ✓ 1 · Сайты ничего не найдено · Дзен ничего не найдено",
       "request": {
         "text": "Енисей",
         "period": {
@@ -395,7 +413,9 @@
         "platforms": [
           "vk",
           "ok",
-          "max"
+          "max",
+          "site",
+          "dzen"
         ],
         "meaningLabel": null,
         "startedAt": "2026-10-14T09:10:00+07:00",

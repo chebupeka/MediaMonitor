@@ -5,7 +5,7 @@
     {
       "type": "started",
       "conditions": {
-        "searchId": "s-mvfmn9ny-2",
+        "searchId": "s-mvgikjvh-2",
         "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
         "label": "Новая школа в Норильске",
         "kind": "news-text",
@@ -24,10 +24,12 @@
         "platforms": [
           "vk",
           "ok",
-          "max"
+          "max",
+          "site",
+          "dzen"
         ],
         "meaningLabel": null,
-        "startedAt": "2026-10-19T14:32:14+07:00",
+        "startedAt": "2026-10-19T14:32:15+07:00",
         "finishedAt": null,
         "repeatOf": null
       },
@@ -64,6 +66,28 @@
           },
           "cap": null,
           "updatedAt": null
+        },
+        {
+          "platform": "site",
+          "state": "waiting",
+          "found": 0,
+          "progress": null,
+          "problem": null,
+          "freshness": null,
+          "cap": null,
+          "updatedAt": null,
+          "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+        },
+        {
+          "platform": "dzen",
+          "state": "waiting",
+          "found": 0,
+          "progress": null,
+          "problem": null,
+          "freshness": null,
+          "cap": null,
+          "updatedAt": null,
+          "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
         }
       ]
     },
@@ -193,6 +217,44 @@
     {
       "type": "platform",
       "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 1,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 1,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
         "platform": "vk",
         "state": "searching",
         "found": 1,
@@ -244,6 +306,44 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 3,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 3,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
       },
       "currentSource": null
     },
@@ -301,7 +401,7 @@
             "hasMedia": false,
             "views": 4480,
             "reactions": 256,
-            "fetchedAt": "2026-10-19T14:32:15+07:00",
+            "fetchedAt": "2026-10-19T14:32:16+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -349,7 +449,7 @@
             "words": 31,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
+            "checkedAt": "2026-10-19T14:32:16+07:00"
           }
         }
       ],
@@ -365,7 +465,9 @@
         "byPlatform": {
           "vk": 1,
           "ok": 0,
-          "max": 0
+          "max": 0,
+          "site": 0,
+          "dzen": 0
         },
         "byPlacementType": {
           "verbatim": 0,
@@ -438,6 +540,44 @@
     {
       "type": "platform",
       "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 5,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 4,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
         "platform": "vk",
         "state": "searching",
         "found": 2,
@@ -489,6 +629,44 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 7,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 6,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
       },
       "currentSource": null
     },
@@ -546,7 +724,7 @@
             "hasMedia": false,
             "views": 2900,
             "reactions": 208,
-            "fetchedAt": "2026-10-19T14:32:16+07:00",
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -596,7 +774,7 @@
             "words": 25,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
+            "checkedAt": "2026-10-19T14:32:17+07:00"
           }
         },
         {
@@ -655,7 +833,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 64,
-            "fetchedAt": "2026-10-19T14:32:16+07:00",
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -705,14 +883,110 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 3,
+          "arrival": 3
+        },
+        {
+          "id": "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+          "publication": {
+            "id": "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+            "key": {
+              "platform": "site",
+              "ownerId": "kvgazeta.ru",
+              "postId": "news/v-krae/severyane-poluchili-novuyu-shkolu/"
+            },
+            "platform": "site",
+            "source": {
+              "id": "site:kvgazeta.ru",
+              "platform": "site",
+              "name": "Канские ведомости",
+              "url": "https://kvgazeta.ru/",
+              "type": "media",
+              "district": "Канский муниципальный округ",
+              "subscribers": null,
+              "inMySources": false,
+              "regional": true
+            },
+            "url": "https://kvgazeta.ru/news/v-krae/severyane-poluchili-novuyu-shkolu/",
+            "mergedUrls": [],
+            "title": "Северяне получили новую школу",
+            "headline": "Северяне получили новую школу",
+            "headlineFrom": "title",
+            "text": "В Норильске открылась школа, которую строили два года по краевой программе строительства школ. Она рассчитана на 1 100 учеников, в здании есть бассейн и два спортивных зала. Учиться в новом здании дети начнут 20 октября.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 94
+              },
+              {
+                "index": 1,
+                "start": 95,
+                "end": 173
+              },
+              {
+                "index": 2,
+                "start": 174,
+                "end": 220
+              }
+            ],
+            "publishedAt": "2026-10-16T09:10:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 520,
+            "reactions": null,
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 220,
+            "text": "В Норильске открылась школа, которую строили два года по краевой программе строительства школ. Она рассчитана на 1 100 учеников, в здании есть бассейн и два спортивных зала. Учиться в новом здании дети начнут 20 октября.",
+            "cutStart": false,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 54,
+                "end": 93
+              }
+            ],
+            "basis": "release-match",
+            "note": "Пересказ: совпадают место, дата и участники; подсвечены дословные фразы релиза"
+          },
+          "placementType": "retold",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.08,
+            "fragmentIds": []
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 4,
           "aiCheck": {
             "model": "demo",
-            "textHash": "def79c9c0c5fc46f0da77013e975fa47fdfaed0f5bfd3d71fb547d0b705d7061",
-            "words": 40,
-            "level": "unlikely",
-            "score": 0.08,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
+            "textHash": "2c1f00d69e749c95767f6602959ada68755a219effa525c9934cf2c4cff2cfba",
+            "words": 35,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:17+07:00"
           }
         }
       ],
@@ -722,6 +996,7 @@
           "title": "Релиз «Новая школа в Норильске»",
           "kind": "release",
           "itemIds": [
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
             "vk:-100113_71533",
             "ok:5600108_40790"
           ],
@@ -729,33 +1004,37 @@
           "countsByPlatform": {
             "vk": 1,
             "ok": 1,
-            "max": 0
+            "max": 0,
+            "site": 1,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 0,
             "shortened": 1,
-            "retold": 1,
+            "retold": 2,
             "repost": 0
           }
         }
       ],
       "counts": {
-        "total": 3,
+        "total": 4,
         "excluded": 0,
         "byRelevance": {
-          "direct": 2,
+          "direct": 3,
           "indirect": 1,
           "disputed": 0
         },
         "byPlatform": {
           "vk": 2,
           "ok": 1,
-          "max": 0
+          "max": 0,
+          "site": 1,
+          "dzen": 0
         },
         "byPlacementType": {
           "verbatim": 0,
           "shortened": 1,
-          "retold": 1,
+          "retold": 2,
           "repost": 0
         },
         "new": 0,
@@ -817,6 +1096,44 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 9,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 7,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
       },
       "currentSource": null
     },
@@ -902,7 +1219,7 @@
             "hasMedia": false,
             "views": 2400,
             "reactions": 116,
-            "fetchedAt": "2026-10-19T14:32:16+07:00",
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -962,15 +1279,7 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 4,
-          "aiCheck": {
-            "model": "demo",
-            "textHash": "396fa028575eb721c32970244ce99f4b93dd362f796924e54d88d8b541c3a4ec",
-            "words": 78,
-            "level": "unlikely",
-            "score": 0.15,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
-          }
+          "arrival": 5
         },
         {
           "id": "max:portal_2236",
@@ -1018,7 +1327,7 @@
             "hasMedia": false,
             "views": 4900,
             "reactions": 224,
-            "fetchedAt": "2026-10-19T14:32:16+07:00",
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1061,14 +1370,14 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 5,
+          "arrival": 6,
           "aiCheck": {
             "model": "demo",
             "textHash": "50b9b3bfbc60b8a47540567d2bef940f3b694f43bef80b13769bd5b100150ee0",
             "words": 19,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
+            "checkedAt": "2026-10-19T14:32:17+07:00"
           }
         }
       ],
@@ -1080,6 +1389,7 @@
           "itemIds": [
             "max:portal_2236",
             "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
             "vk:-100113_71533",
             "ok:5600108_40790"
           ],
@@ -1087,33 +1397,37 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 1
+            "max": 1,
+            "site": 1,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 0,
             "shortened": 1,
-            "retold": 2,
+            "retold": 3,
             "repost": 1
           }
         }
       ],
       "counts": {
-        "total": 5,
+        "total": 6,
         "excluded": 0,
         "byRelevance": {
-          "direct": 4,
+          "direct": 5,
           "indirect": 1,
           "disputed": 0
         },
         "byPlatform": {
           "vk": 3,
           "ok": 1,
-          "max": 1
+          "max": 1,
+          "site": 1,
+          "dzen": 0
         },
         "byPlacementType": {
           "verbatim": 0,
           "shortened": 1,
-          "retold": 2,
+          "retold": 3,
           "repost": 1
         },
         "new": 0,
@@ -1175,6 +1489,44 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 11,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 9,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
       },
       "currentSource": null
     },
@@ -1252,7 +1604,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 124,
-            "fetchedAt": "2026-10-19T14:32:16+07:00",
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1312,14 +1664,122 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 6,
+          "arrival": 7
+        },
+        {
+          "id": "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+          "publication": {
+            "id": "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+            "key": {
+              "platform": "dzen",
+              "ownerId": "652e006f4d4ed96c76dbd65c",
+              "postId": "a-Zf3kLq8WmN1sYt6c"
+            },
+            "platform": "dzen",
+            "source": {
+              "id": "dzen:652e006f4d4ed96c76dbd65c",
+              "platform": "dzen",
+              "name": "Рабочий",
+              "url": "https://dzen.ru/snknews",
+              "type": "media",
+              "district": "Сосновоборск",
+              "subscribers": 6006,
+              "inMySources": false,
+              "regional": true
+            },
+            "url": "https://dzen.ru/a/Zf3kLq8WmN1sYt6c",
+            "mergedUrls": [],
+            "title": "Новая школа на 1 100 мест открылась в Норильске",
+            "headline": "Новая школа на 1 100 мест открылась в Норильске",
+            "headlineFrom": "title",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 183
+              },
+              {
+                "index": 3,
+                "start": 184,
+                "end": 259
+              }
+            ],
+            "publishedAt": "2026-10-15T12:20:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 1200,
+            "reactions": 24,
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 183,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nПервые уроки в новом здании пройдут 20 октября.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 259
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "shortened",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.5,
+            "fragmentIds": [
+              "p1",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 8,
           "aiCheck": {
             "model": "demo",
-            "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
-            "words": 74,
-            "level": "unlikely",
-            "score": 0.12,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
+            "textHash": "633f3779d67b7ed482c7a1824a5d58855f227be9e85134771ecc24829ead24a3",
+            "words": 39,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:17+07:00"
           }
         }
       ],
@@ -1330,8 +1790,10 @@
           "kind": "release",
           "itemIds": [
             "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
             "ok:5600104_17802",
             "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
             "vk:-100113_71533",
             "ok:5600108_40790"
           ],
@@ -1339,33 +1801,37 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 2,
-            "max": 1
+            "max": 1,
+            "site": 1,
+            "dzen": 1
           },
           "countsByType": {
             "verbatim": 1,
-            "shortened": 1,
-            "retold": 2,
+            "shortened": 2,
+            "retold": 3,
             "repost": 1
           }
         }
       ],
       "counts": {
-        "total": 6,
+        "total": 8,
         "excluded": 0,
         "byRelevance": {
-          "direct": 5,
+          "direct": 7,
           "indirect": 1,
           "disputed": 0
         },
         "byPlatform": {
           "vk": 3,
           "ok": 2,
-          "max": 1
+          "max": 1,
+          "site": 1,
+          "dzen": 1
         },
         "byPlacementType": {
           "verbatim": 1,
-          "shortened": 1,
-          "retold": 2,
+          "shortened": 2,
+          "retold": 3,
           "repost": 1
         },
         "new": 0,
@@ -1431,6 +1897,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 13,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 10,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -1489,7 +1993,7 @@
             "hasMedia": false,
             "views": 3100,
             "reactions": 92,
-            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "fetchedAt": "2026-10-19T14:32:18+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1539,14 +2043,14 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 7,
+          "arrival": 9,
           "aiCheck": {
             "model": "demo",
             "textHash": "633f3779d67b7ed482c7a1824a5d58855f227be9e85134771ecc24829ead24a3",
             "words": 39,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
+            "checkedAt": "2026-10-19T14:32:17+07:00"
           }
         }
       ],
@@ -1557,9 +2061,11 @@
           "kind": "release",
           "itemIds": [
             "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
             "vk:-100112_26710",
             "ok:5600104_17802",
             "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
             "vk:-100113_71533",
             "ok:5600108_40790"
           ],
@@ -1567,33 +2073,37 @@
           "countsByPlatform": {
             "vk": 3,
             "ok": 2,
-            "max": 1
+            "max": 1,
+            "site": 1,
+            "dzen": 1
           },
           "countsByType": {
             "verbatim": 1,
-            "shortened": 2,
-            "retold": 2,
+            "shortened": 3,
+            "retold": 3,
             "repost": 1
           }
         }
       ],
       "counts": {
-        "total": 7,
+        "total": 9,
         "excluded": 0,
         "byRelevance": {
-          "direct": 6,
+          "direct": 8,
           "indirect": 1,
           "disputed": 0
         },
         "byPlatform": {
           "vk": 4,
           "ok": 2,
-          "max": 1
+          "max": 1,
+          "site": 1,
+          "dzen": 1
         },
         "byPlacementType": {
           "verbatim": 1,
-          "shortened": 2,
-          "retold": 2,
+          "shortened": 3,
+          "retold": 3,
           "repost": 1
         },
         "new": 0,
@@ -1661,6 +2171,239 @@
     {
       "type": "platform",
       "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 15,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 12,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+          "publication": {
+            "id": "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "key": {
+              "platform": "site",
+              "ownerId": "zaren.ru",
+              "postId": "news/kray/v-norilske-otkrylas-novaya-shkola/"
+            },
+            "platform": "site",
+            "source": {
+              "id": "site:zaren.ru",
+              "platform": "site",
+              "name": "Заря Енисея",
+              "url": "https://zaren.ru/",
+              "type": "media",
+              "district": "Лесосибирск",
+              "subscribers": null,
+              "inMySources": false,
+              "regional": true
+            },
+            "url": "https://zaren.ru/news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "mergedUrls": [],
+            "title": "В Норильске открылась новая школа",
+            "headline": "В Норильске открылась новая школа",
+            "headlineFrom": "title",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              },
+              {
+                "index": 4,
+                "start": 269,
+                "end": 392
+              },
+              {
+                "index": 5,
+                "start": 394,
+                "end": 441
+              },
+              {
+                "index": 6,
+                "start": 442,
+                "end": 517
+              }
+            ],
+            "publishedAt": "2026-10-15T15:20:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": null,
+            "reactions": null,
+            "fetchedAt": "2026-10-19T14:32:18+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              },
+              {
+                "start": 269,
+                "end": 392
+              },
+              {
+                "start": 394,
+                "end": 517
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "verbatim",
+          "isOriginal": false,
+          "citation": {
+            "share": 1,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p3",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 10
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+            "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 3,
+            "ok": 2,
+            "max": 1,
+            "site": 2,
+            "dzen": 1
+          },
+          "countsByType": {
+            "verbatim": 2,
+            "shortened": 3,
+            "retold": 3,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 10,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 9,
+          "indirect": 1,
+          "disputed": 0
+        },
+        "byPlatform": {
+          "vk": 4,
+          "ok": 2,
+          "max": 1,
+          "site": 2,
+          "dzen": 1
+        },
+        "byPlacementType": {
+          "verbatim": 2,
+          "shortened": 3,
+          "retold": 3,
+          "repost": 1
+        },
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
         "platform": "vk",
         "state": "searching",
         "found": 5,
@@ -1712,6 +2455,44 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 17,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 14,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
       },
       "currentSource": null
     },
@@ -1774,7 +2555,7 @@
             "hasMedia": false,
             "views": 5500,
             "reactions": 148,
-            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "fetchedAt": "2026-10-19T14:32:18+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1825,15 +2606,7 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 8,
-          "aiCheck": {
-            "model": "demo",
-            "textHash": "dcbca97f4d510415f7fc961a8709fc2ee8f6d809f3b0e2c45c566c2741ada61d",
-            "words": 47,
-            "level": "signs",
-            "score": 0.71,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
-          }
+          "arrival": 11
         },
         {
           "id": "ok:5600102_9011",
@@ -1906,7 +2679,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 72,
-            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "fetchedAt": "2026-10-19T14:32:18+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1966,14 +2739,186 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 9,
+          "arrival": 12
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+            "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 4,
+            "ok": 3,
+            "max": 1,
+            "site": 2,
+            "dzen": 1
+          },
+          "countsByType": {
+            "verbatim": 3,
+            "shortened": 3,
+            "retold": 4,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 12,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 11,
+          "indirect": 1,
+          "disputed": 0
+        },
+        "byPlatform": {
+          "vk": 5,
+          "ok": 3,
+          "max": 1,
+          "site": 2,
+          "dzen": 1
+        },
+        "byPlacementType": {
+          "verbatim": 3,
+          "shortened": 3,
+          "retold": 4,
+          "repost": 1
+        },
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
+      }
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "ok:5600108_40790",
+          "publication": {
+            "id": "ok:5600108_40790",
+            "key": {
+              "platform": "ok",
+              "ownerId": "5600108",
+              "postId": "40790"
+            },
+            "platform": "ok",
+            "source": {
+              "id": "ok-kansk",
+              "platform": "ok",
+              "name": "Канск и Канский район",
+              "url": "https://ok.ru/group/5600108",
+              "type": "community",
+              "district": "Канск",
+              "subscribers": 16000,
+              "inMySources": false,
+              "regional": true
+            },
+            "url": "https://ok.ru/group/5600108/topic/40790",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске открылась новая школа на 1 100 мест.",
+            "headlineFrom": "text",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              }
+            ],
+            "publishedAt": "2026-10-16T15:40:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": null,
+            "reactions": 64,
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "shortened",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.52,
+            "fragmentIds": [
+              "p1",
+              "p2"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 3,
           "aiCheck": {
             "model": "demo",
-            "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
-            "words": 74,
+            "textHash": "def79c9c0c5fc46f0da77013e975fa47fdfaed0f5bfd3d71fb547d0b705d7061",
+            "words": 40,
             "level": "unlikely",
-            "score": 0.12,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
+            "score": 0.08,
+            "checkedAt": "2026-10-19T14:32:18+07:00"
           }
         }
       ],
@@ -1986,9 +2931,12 @@
             "ok:5600102_9011",
             "vk:-100105_45601",
             "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
             "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
             "ok:5600104_17802",
             "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
             "vk:-100113_71533",
             "ok:5600108_40790"
           ],
@@ -1996,38 +2944,255 @@
           "countsByPlatform": {
             "vk": 4,
             "ok": 3,
-            "max": 1
+            "max": 1,
+            "site": 2,
+            "dzen": 1
           },
           "countsByType": {
-            "verbatim": 2,
-            "shortened": 2,
-            "retold": 3,
+            "verbatim": 3,
+            "shortened": 3,
+            "retold": 4,
             "repost": 1
           }
         }
       ],
       "counts": {
-        "total": 9,
+        "total": 12,
         "excluded": 0,
         "byRelevance": {
-          "direct": 8,
+          "direct": 11,
           "indirect": 1,
           "disputed": 0
         },
         "byPlatform": {
           "vk": 5,
           "ok": 3,
-          "max": 1
+          "max": 1,
+          "site": 2,
+          "dzen": 1
         },
         "byPlacementType": {
-          "verbatim": 2,
-          "shortened": 2,
-          "retold": 3,
+          "verbatim": 3,
+          "shortened": 3,
+          "retold": 4,
           "repost": 1
         },
         "new": 0,
         "aiLikely": 0,
-        "aiSigns": 1
+        "aiSigns": 0
+      }
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100109_22140",
+          "publication": {
+            "id": "vk:-100109_22140",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100109",
+              "postId": "22140"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-kansk",
+              "platform": "vk",
+              "name": "Канск сегодня",
+              "url": "https://vk.com/demo_kansk",
+              "type": "media",
+              "district": "Канск",
+              "subscribers": 29000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100109_22140",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "Хорошие новости из Заполярья.",
+            "headlineFrom": "text",
+            "text": "Хорошие новости из Заполярья.\n\nВ Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 29
+              },
+              {
+                "index": 1,
+                "start": 31,
+                "end": 79
+              },
+              {
+                "index": 2,
+                "start": 80,
+                "end": 165
+              },
+              {
+                "index": 3,
+                "start": 167,
+                "end": 244
+              },
+              {
+                "index": 4,
+                "start": 245,
+                "end": 298
+              },
+              {
+                "index": 5,
+                "start": 300,
+                "end": 423
+              },
+              {
+                "index": 6,
+                "start": 425,
+                "end": 472
+              },
+              {
+                "index": 7,
+                "start": 473,
+                "end": 548
+              }
+            ],
+            "publishedAt": "2026-10-16T08:55:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": {
+              "sourceName": "Телеканал края",
+              "url": "https://vk.com/wall-100101_88015"
+            },
+            "hasMedia": false,
+            "views": 2400,
+            "reactions": 116,
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 31,
+            "end": 244,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": true,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 1,
+            "ranges": [
+              {
+                "start": 31,
+                "end": 165
+              },
+              {
+                "start": 167,
+                "end": 298
+              },
+              {
+                "start": 300,
+                "end": 423
+              },
+              {
+                "start": 425,
+                "end": 548
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "repost",
+          "isOriginal": false,
+          "citation": {
+            "share": 1,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p3",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 5,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "396fa028575eb721c32970244ce99f4b93dd362f796924e54d88d8b541c3a4ec",
+            "words": 78,
+            "level": "unlikely",
+            "score": 0.15,
+            "checkedAt": "2026-10-19T14:32:18+07:00"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+            "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 4,
+            "ok": 3,
+            "max": 1,
+            "site": 2,
+            "dzen": 1
+          },
+          "countsByType": {
+            "verbatim": 3,
+            "shortened": 3,
+            "retold": 4,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 12,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 11,
+          "indirect": 1,
+          "disputed": 0
+        },
+        "byPlatform": {
+          "vk": 5,
+          "ok": 3,
+          "max": 1,
+          "site": 2,
+          "dzen": 1
+        },
+        "byPlacementType": {
+          "verbatim": 3,
+          "shortened": 3,
+          "retold": 4,
+          "repost": 1
+        },
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
       }
     },
     {
@@ -2084,6 +3249,44 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 19,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 15,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
       },
       "currentSource": null
     },
@@ -2156,7 +3359,7 @@
             "hasMedia": false,
             "views": 7200,
             "reactions": 256,
-            "fetchedAt": "2026-10-19T14:32:18+07:00",
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2211,14 +3414,212 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 10,
+          "arrival": 13
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+            "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 5,
+            "ok": 3,
+            "max": 1,
+            "site": 2,
+            "dzen": 1
+          },
+          "countsByType": {
+            "verbatim": 3,
+            "shortened": 4,
+            "retold": 4,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 13,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 12,
+          "indirect": 1,
+          "disputed": 0
+        },
+        "byPlatform": {
+          "vk": 6,
+          "ok": 3,
+          "max": 1,
+          "site": 2,
+          "dzen": 1
+        },
+        "byPlacementType": {
+          "verbatim": 3,
+          "shortened": 4,
+          "retold": 4,
+          "repost": 1
+        },
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
+      }
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "ok:5600104_17802",
+          "publication": {
+            "id": "ok:5600104_17802",
+            "key": {
+              "platform": "ok",
+              "ownerId": "5600104",
+              "postId": "17802"
+            },
+            "platform": "ok",
+            "source": {
+              "id": "ok-krasnoyarye",
+              "platform": "ok",
+              "name": "Новости Красноярья",
+              "url": "https://ok.ru/group/5600104",
+              "type": "media",
+              "district": "весь край",
+              "subscribers": 31000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://ok.ru/group/5600104/topic/17802",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске открылась новая школа на 1 100 мест.",
+            "headlineFrom": "text",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              },
+              {
+                "index": 4,
+                "start": 269,
+                "end": 392
+              },
+              {
+                "index": 5,
+                "start": 394,
+                "end": 441
+              },
+              {
+                "index": 6,
+                "start": 442,
+                "end": 517
+              }
+            ],
+            "publishedAt": "2026-10-15T17:20:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": null,
+            "reactions": 124,
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              },
+              {
+                "start": 269,
+                "end": 392
+              },
+              {
+                "start": 394,
+                "end": 517
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "verbatim",
+          "isOriginal": false,
+          "citation": {
+            "share": 1,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p3",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 7,
           "aiCheck": {
             "model": "demo",
-            "textHash": "1f4e415d11bca9cc8c65cacf23bf62f1454c91a99d952b24ed5f0d683ad513c1",
-            "words": 57,
+            "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+            "words": 74,
             "level": "unlikely",
-            "score": 0.1,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
+            "score": 0.12,
+            "checkedAt": "2026-10-19T14:32:19+07:00"
           }
         }
       ],
@@ -2232,9 +3633,12 @@
             "ok:5600102_9011",
             "vk:-100105_45601",
             "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
             "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
             "ok:5600104_17802",
             "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
             "vk:-100113_71533",
             "ok:5600108_40790"
           ],
@@ -2242,38 +3646,42 @@
           "countsByPlatform": {
             "vk": 5,
             "ok": 3,
-            "max": 1
+            "max": 1,
+            "site": 2,
+            "dzen": 1
           },
           "countsByType": {
-            "verbatim": 2,
-            "shortened": 3,
-            "retold": 3,
+            "verbatim": 3,
+            "shortened": 4,
+            "retold": 4,
             "repost": 1
           }
         }
       ],
       "counts": {
-        "total": 10,
+        "total": 13,
         "excluded": 0,
         "byRelevance": {
-          "direct": 9,
+          "direct": 12,
           "indirect": 1,
           "disputed": 0
         },
         "byPlatform": {
           "vk": 6,
           "ok": 3,
-          "max": 1
+          "max": 1,
+          "site": 2,
+          "dzen": 1
         },
         "byPlacementType": {
-          "verbatim": 2,
-          "shortened": 3,
-          "retold": 3,
+          "verbatim": 3,
+          "shortened": 4,
+          "retold": 4,
           "repost": 1
         },
         "new": 0,
         "aiLikely": 0,
-        "aiSigns": 1
+        "aiSigns": 0
       }
     },
     {
@@ -2334,6 +3742,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 21,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 17,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -2382,7 +3828,7 @@
             "hasMedia": false,
             "views": 1470,
             "reactions": 84,
-            "fetchedAt": "2026-10-19T14:32:18+07:00",
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2422,14 +3868,241 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 11,
+          "arrival": 14,
           "aiCheck": {
             "model": "demo",
             "textHash": "e63ebd658f0594e2b2f6b22a276806133b7aad9ccd7d70b5027ffd4ed83ba4ca",
             "words": 18,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
+            "checkedAt": "2026-10-19T14:32:19+07:00"
+          }
+        },
+        {
+          "id": "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+          "publication": {
+            "id": "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+            "key": {
+              "platform": "site",
+              "ownerId": "vtruda.ru",
+              "postId": "news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/"
+            },
+            "platform": "site",
+            "source": {
+              "id": "site:vtruda.ru",
+              "platform": "site",
+              "name": "Власть труда",
+              "url": "https://vtruda.ru/",
+              "type": "media",
+              "district": "Минусинский муниципальный округ",
+              "subscribers": null,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vtruda.ru/news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+            "mergedUrls": [],
+            "title": "В Норильске построили школу на 1 100 мест",
+            "headline": "В Норильске построили школу на 1 100 мест",
+            "headlineFrom": "title",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              },
+              {
+                "index": 4,
+                "start": 269,
+                "end": 316
+              },
+              {
+                "index": 5,
+                "start": 317,
+                "end": 392
+              }
+            ],
+            "publishedAt": "2026-10-15T10:40:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 640,
+            "reactions": null,
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              },
+              {
+                "start": 269,
+                "end": 392
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "shortened",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.76,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 15
+        },
+        {
+          "id": "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
+          "publication": {
+            "id": "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
+            "key": {
+              "platform": "dzen",
+              "ownerId": "5a94ca3757906aae1fea2b45",
+              "postId": "a-ZQx7mK2pRvT9bW4n"
+            },
+            "platform": "dzen",
+            "source": {
+              "id": "dzen:5a94ca3757906aae1fea2b45",
+              "platform": "dzen",
+              "name": "Енисей",
+              "url": "https://dzen.ru/enisey",
+              "type": "media",
+              "district": "весь край",
+              "subscribers": 2177,
+              "inMySources": false,
+              "regional": true
+            },
+            "url": "https://dzen.ru/a/ZQx7mK2pRvT9bW4n",
+            "mergedUrls": [],
+            "title": "В Норильске открыли школу на 1 100 мест",
+            "headline": "В Норильске открыли школу на 1 100 мест",
+            "headlineFrom": "title",
+            "text": "В Норильске начала работу новая школа на 1 100 мест. В министерстве образования края её называют самой большой в Заполярье за последние тридцать лет. Уроки в новом здании начнутся 20 октября.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 52
+              },
+              {
+                "index": 1,
+                "start": 53,
+                "end": 149
+              },
+              {
+                "index": 2,
+                "start": 150,
+                "end": 191
+              }
+            ],
+            "publishedAt": "2026-10-14T13:40:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 2900,
+            "reactions": 9,
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 191,
+            "text": "В Норильске начала работу новая школа на 1 100 мест. В министерстве образования края её называют самой большой в Заполярье за последние тридцать лет. Уроки в новом здании начнутся 20 октября.",
+            "cutStart": false,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 32,
+                "end": 51
+              }
+            ],
+            "basis": "release-match",
+            "note": "Пересказ: совпадают место, дата и участники; подсвечены дословные фразы релиза"
+          },
+          "placementType": "retold",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.04,
+            "fragmentIds": []
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 16,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "2f79fc4915b45dd09e4e41758fa605708db11d123a769ac2cf95ddee3a4364ec",
+            "words": 31,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:19+07:00"
           }
         }
       ],
@@ -2439,13 +4112,18 @@
           "title": "Релиз «Новая школа в Норильске»",
           "kind": "release",
           "itemIds": [
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
             "vk:-100103_64388",
             "ok:5600102_9011",
             "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
             "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
             "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
             "ok:5600104_17802",
             "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
             "vk:-100113_71533",
             "ok:5600108_40790"
           ],
@@ -2453,38 +4131,250 @@
           "countsByPlatform": {
             "vk": 5,
             "ok": 3,
-            "max": 1
+            "max": 1,
+            "site": 3,
+            "dzen": 2
           },
           "countsByType": {
-            "verbatim": 2,
-            "shortened": 3,
-            "retold": 3,
+            "verbatim": 3,
+            "shortened": 5,
+            "retold": 5,
             "repost": 1
           }
         }
       ],
       "counts": {
-        "total": 11,
+        "total": 16,
         "excluded": 0,
         "byRelevance": {
-          "direct": 9,
+          "direct": 14,
           "indirect": 1,
           "disputed": 1
         },
         "byPlatform": {
           "vk": 6,
           "ok": 3,
-          "max": 2
+          "max": 2,
+          "site": 3,
+          "dzen": 2
         },
         "byPlacementType": {
-          "verbatim": 2,
-          "shortened": 3,
-          "retold": 3,
+          "verbatim": 3,
+          "shortened": 5,
+          "retold": 5,
           "repost": 1
         },
         "new": 0,
         "aiLikely": 0,
-        "aiSigns": 1
+        "aiSigns": 0
+      }
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+          "publication": {
+            "id": "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "key": {
+              "platform": "site",
+              "ownerId": "zaren.ru",
+              "postId": "news/kray/v-norilske-otkrylas-novaya-shkola/"
+            },
+            "platform": "site",
+            "source": {
+              "id": "site:zaren.ru",
+              "platform": "site",
+              "name": "Заря Енисея",
+              "url": "https://zaren.ru/",
+              "type": "media",
+              "district": "Лесосибирск",
+              "subscribers": null,
+              "inMySources": false,
+              "regional": true
+            },
+            "url": "https://zaren.ru/news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "mergedUrls": [],
+            "title": "В Норильске открылась новая школа",
+            "headline": "В Норильске открылась новая школа",
+            "headlineFrom": "title",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              },
+              {
+                "index": 4,
+                "start": 269,
+                "end": 392
+              },
+              {
+                "index": 5,
+                "start": 394,
+                "end": 441
+              },
+              {
+                "index": 6,
+                "start": 442,
+                "end": 517
+              }
+            ],
+            "publishedAt": "2026-10-15T15:20:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": null,
+            "reactions": null,
+            "fetchedAt": "2026-10-19T14:32:18+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              },
+              {
+                "start": 269,
+                "end": 392
+              },
+              {
+                "start": 394,
+                "end": 517
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "verbatim",
+          "isOriginal": false,
+          "citation": {
+            "share": 1,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p3",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 10,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+            "words": 74,
+            "level": "unlikely",
+            "score": 0.12,
+            "checkedAt": "2026-10-19T14:32:19+07:00"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+            "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+            "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 5,
+            "ok": 3,
+            "max": 1,
+            "site": 3,
+            "dzen": 2
+          },
+          "countsByType": {
+            "verbatim": 3,
+            "shortened": 5,
+            "retold": 5,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 16,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 14,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 6,
+          "ok": 3,
+          "max": 2,
+          "site": 3,
+          "dzen": 2
+        },
+        "byPlacementType": {
+          "verbatim": 3,
+          "shortened": 5,
+          "retold": 5,
+          "repost": 1
+        },
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
       }
     },
     {
@@ -2541,6 +4431,44 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 23,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 18,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
       },
       "currentSource": null
     },
@@ -2603,7 +4531,7 @@
             "hasMedia": false,
             "views": 9800,
             "reactions": 164,
-            "fetchedAt": "2026-10-19T14:32:18+07:00",
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2651,15 +4579,7 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 12,
-          "aiCheck": {
-            "model": "demo",
-            "textHash": "e38a3f4955b220225b22af75ef179ad8eab13ed99a38081b028ad26de9d76180",
-            "words": 40,
-            "level": "unlikely",
-            "score": 0.21,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
-          }
+          "arrival": 17
         }
       ],
       "groups": [
@@ -2668,14 +4588,19 @@
           "title": "Релиз «Новая школа в Норильске»",
           "kind": "release",
           "itemIds": [
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
             "vk:-100114_70120",
             "vk:-100103_64388",
             "ok:5600102_9011",
             "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
             "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
             "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
             "ok:5600104_17802",
             "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
             "vk:-100113_71533",
             "ok:5600108_40790"
           ],
@@ -2683,38 +4608,42 @@
           "countsByPlatform": {
             "vk": 6,
             "ok": 3,
-            "max": 1
+            "max": 1,
+            "site": 3,
+            "dzen": 2
           },
           "countsByType": {
-            "verbatim": 2,
-            "shortened": 3,
-            "retold": 4,
+            "verbatim": 3,
+            "shortened": 5,
+            "retold": 6,
             "repost": 1
           }
         }
       ],
       "counts": {
-        "total": 12,
+        "total": 17,
         "excluded": 0,
         "byRelevance": {
-          "direct": 10,
+          "direct": 15,
           "indirect": 1,
           "disputed": 1
         },
         "byPlatform": {
           "vk": 7,
           "ok": 3,
-          "max": 2
+          "max": 2,
+          "site": 3,
+          "dzen": 2
         },
         "byPlacementType": {
-          "verbatim": 2,
-          "shortened": 3,
-          "retold": 4,
+          "verbatim": 3,
+          "shortened": 5,
+          "retold": 6,
           "repost": 1
         },
         "new": 0,
         "aiLikely": 0,
-        "aiSigns": 1
+        "aiSigns": 0
       }
     },
     {
@@ -2771,6 +4700,44 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 25,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 20,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
       },
       "currentSource": null
     },
@@ -2848,6 +4815,333 @@
             "hasMedia": false,
             "views": null,
             "reactions": 380,
+            "fetchedAt": "2026-10-19T14:32:20+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              },
+              {
+                "start": 269,
+                "end": 392
+              },
+              {
+                "start": 394,
+                "end": 517
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "verbatim",
+          "isOriginal": false,
+          "citation": {
+            "share": 1,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p3",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 18,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+            "words": 74,
+            "level": "unlikely",
+            "score": 0.12,
+            "checkedAt": "2026-10-19T14:32:19+07:00"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "ok:5600101_30377",
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
+            "vk:-100114_70120",
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+            "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+            "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 6,
+            "ok": 4,
+            "max": 1,
+            "site": 3,
+            "dzen": 2
+          },
+          "countsByType": {
+            "verbatim": 4,
+            "shortened": 5,
+            "retold": 6,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 18,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 16,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 7,
+          "ok": 4,
+          "max": 2,
+          "site": 3,
+          "dzen": 2
+        },
+        "byPlacementType": {
+          "verbatim": 4,
+          "shortened": 5,
+          "retold": 6,
+          "repost": 1
+        },
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
+      }
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100105_45601",
+          "publication": {
+            "id": "vk:-100105_45601",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100105",
+              "postId": "45601"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-minobr",
+              "platform": "vk",
+              "name": "Министерство образования края",
+              "url": "https://vk.com/demo_minobr",
+              "type": "authority",
+              "district": "весь край",
+              "subscribers": 37000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100105_45601",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске начала работу новая школа — самая большая в Заполярье за тридцать лет.",
+            "headlineFrom": "text",
+            "text": "В Норильске начала работу новая школа — самая большая в Заполярье за тридцать лет. Её построили за два года по краевой программе строительства школ. В здании 48 классов, бассейн и лаборатория робототехники. Учебный год в новом здании начнётся 20 октября, а записать ребёнка можно через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 82
+              },
+              {
+                "index": 1,
+                "start": 83,
+                "end": 148
+              },
+              {
+                "index": 2,
+                "start": 149,
+                "end": 206
+              },
+              {
+                "index": 3,
+                "start": 207,
+                "end": 302
+              }
+            ],
+            "publishedAt": "2026-10-15T09:20:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 5500,
+            "reactions": 148,
+            "fetchedAt": "2026-10-19T14:32:18+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 83,
+            "end": 302,
+            "text": "Её построили за два года по краевой программе строительства школ. В здании 48 классов, бассейн и лаборатория робототехники. Учебный год в новом здании начнётся 20 октября, а записать ребёнка можно через портал госуслуг.",
+            "cutStart": true,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 1,
+            "ranges": [
+              {
+                "start": 108,
+                "end": 147
+              },
+              {
+                "start": 158,
+                "end": 168
+              },
+              {
+                "start": 170,
+                "end": 205
+              }
+            ],
+            "basis": "release-match",
+            "note": "Пересказ: совпадают место, дата и участники; подсвечены дословные фразы релиза"
+          },
+          "placementType": "retold",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.16,
+            "fragmentIds": []
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 11,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "dcbca97f4d510415f7fc961a8709fc2ee8f6d809f3b0e2c45c566c2741ada61d",
+            "words": 47,
+            "level": "signs",
+            "score": 0.71,
+            "checkedAt": "2026-10-19T14:32:20+07:00"
+          }
+        },
+        {
+          "id": "ok:5600102_9011",
+          "publication": {
+            "id": "ok:5600102_9011",
+            "key": {
+              "platform": "ok",
+              "ownerId": "5600102",
+              "postId": "9011"
+            },
+            "platform": "ok",
+            "source": {
+              "id": "ok-gazeta-taimyr",
+              "platform": "ok",
+              "name": "Районная газета Таймыра",
+              "url": "https://ok.ru/group/5600102",
+              "type": "media",
+              "district": "Таймырский район",
+              "subscribers": 18000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://ok.ru/group/5600102/topic/9011",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске открылась новая школа на 1 100 мест.",
+            "headlineFrom": "text",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              },
+              {
+                "index": 4,
+                "start": 269,
+                "end": 392
+              },
+              {
+                "index": 5,
+                "start": 394,
+                "end": 441
+              },
+              {
+                "index": 6,
+                "start": 442,
+                "end": 517
+              }
+            ],
+            "publishedAt": "2026-10-14T18:45:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": null,
+            "reactions": 72,
             "fetchedAt": "2026-10-19T14:32:18+07:00",
             "linkCheck": {
               "state": "not-checked",
@@ -2908,14 +5202,14 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 13,
+          "arrival": 12,
           "aiCheck": {
             "model": "demo",
             "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
             "words": 74,
             "level": "unlikely",
             "score": 0.12,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
+            "checkedAt": "2026-10-19T14:32:19+07:00"
           }
         }
       ],
@@ -2926,14 +5220,19 @@
           "kind": "release",
           "itemIds": [
             "ok:5600101_30377",
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
             "vk:-100114_70120",
             "vk:-100103_64388",
             "ok:5600102_9011",
             "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
             "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
             "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
             "ok:5600104_17802",
             "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
             "vk:-100113_71533",
             "ok:5600108_40790"
           ],
@@ -2941,33 +5240,37 @@
           "countsByPlatform": {
             "vk": 6,
             "ok": 4,
-            "max": 1
+            "max": 1,
+            "site": 3,
+            "dzen": 2
           },
           "countsByType": {
-            "verbatim": 3,
-            "shortened": 3,
-            "retold": 4,
+            "verbatim": 4,
+            "shortened": 5,
+            "retold": 6,
             "repost": 1
           }
         }
       ],
       "counts": {
-        "total": 13,
+        "total": 18,
         "excluded": 0,
         "byRelevance": {
-          "direct": 11,
+          "direct": 16,
           "indirect": 1,
           "disputed": 1
         },
         "byPlatform": {
           "vk": 7,
           "ok": 4,
-          "max": 2
+          "max": 2,
+          "site": 3,
+          "dzen": 2
         },
         "byPlacementType": {
-          "verbatim": 3,
-          "shortened": 3,
-          "retold": 4,
+          "verbatim": 4,
+          "shortened": 5,
+          "retold": 6,
           "repost": 1
         },
         "new": 0,
@@ -3033,6 +5336,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 27,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 21,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -3091,7 +5432,7 @@
             "hasMedia": false,
             "views": 21700,
             "reactions": 1272,
-            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "fetchedAt": "2026-10-19T14:32:20+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3138,14 +5479,207 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 14,
+          "arrival": 19
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100102_77122",
+            "ok:5600101_30377",
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
+            "vk:-100114_70120",
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+            "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+            "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 7,
+            "ok": 4,
+            "max": 1,
+            "site": 3,
+            "dzen": 2
+          },
+          "countsByType": {
+            "verbatim": 4,
+            "shortened": 5,
+            "retold": 7,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 19,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 17,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 8,
+          "ok": 4,
+          "max": 2,
+          "site": 3,
+          "dzen": 2
+        },
+        "byPlacementType": {
+          "verbatim": 4,
+          "shortened": 5,
+          "retold": 7,
+          "repost": 1
+        },
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 1
+      }
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+          "publication": {
+            "id": "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+            "key": {
+              "platform": "site",
+              "ownerId": "vtruda.ru",
+              "postId": "news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/"
+            },
+            "platform": "site",
+            "source": {
+              "id": "site:vtruda.ru",
+              "platform": "site",
+              "name": "Власть труда",
+              "url": "https://vtruda.ru/",
+              "type": "media",
+              "district": "Минусинский муниципальный округ",
+              "subscribers": null,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vtruda.ru/news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+            "mergedUrls": [],
+            "title": "В Норильске построили школу на 1 100 мест",
+            "headline": "В Норильске построили школу на 1 100 мест",
+            "headlineFrom": "title",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              },
+              {
+                "index": 4,
+                "start": 269,
+                "end": 316
+              },
+              {
+                "index": 5,
+                "start": 317,
+                "end": 392
+              }
+            ],
+            "publishedAt": "2026-10-15T10:40:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 640,
+            "reactions": null,
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              },
+              {
+                "start": 269,
+                "end": 392
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "shortened",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.76,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 15,
           "aiCheck": {
             "model": "demo",
-            "textHash": "01cf5947af39f440a5689175f1f5e18d49570214268258d72902bc9e0e81bcef",
-            "words": 43,
-            "level": "likely-ai",
-            "score": 0.93,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
+            "textHash": "1f4e415d11bca9cc8c65cacf23bf62f1454c91a99d952b24ed5f0d683ad513c1",
+            "words": 57,
+            "level": "unlikely",
+            "score": 0.1,
+            "checkedAt": "2026-10-19T14:32:20+07:00"
           }
         }
       ],
@@ -3157,14 +5691,19 @@
           "itemIds": [
             "vk:-100102_77122",
             "ok:5600101_30377",
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
             "vk:-100114_70120",
             "vk:-100103_64388",
             "ok:5600102_9011",
             "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
             "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
             "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
             "ok:5600104_17802",
             "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
             "vk:-100113_71533",
             "ok:5600108_40790"
           ],
@@ -3172,37 +5711,242 @@
           "countsByPlatform": {
             "vk": 7,
             "ok": 4,
-            "max": 1
+            "max": 1,
+            "site": 3,
+            "dzen": 2
           },
           "countsByType": {
-            "verbatim": 3,
-            "shortened": 3,
-            "retold": 5,
+            "verbatim": 4,
+            "shortened": 5,
+            "retold": 7,
             "repost": 1
           }
         }
       ],
       "counts": {
-        "total": 14,
+        "total": 19,
         "excluded": 0,
         "byRelevance": {
-          "direct": 12,
+          "direct": 17,
           "indirect": 1,
           "disputed": 1
         },
         "byPlatform": {
           "vk": 8,
           "ok": 4,
-          "max": 2
+          "max": 2,
+          "site": 3,
+          "dzen": 2
         },
         "byPlacementType": {
-          "verbatim": 3,
-          "shortened": 3,
-          "retold": 5,
+          "verbatim": 4,
+          "shortened": 5,
+          "retold": 7,
           "repost": 1
         },
         "new": 0,
-        "aiLikely": 1,
+        "aiLikely": 0,
+        "aiSigns": 1
+      }
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100103_64388",
+          "publication": {
+            "id": "vk:-100103_64388",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100103",
+              "postId": "64388"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-portal-norilsk",
+              "platform": "vk",
+              "name": "Городской портал Норильска",
+              "url": "https://vk.com/demo_portal_norilsk",
+              "type": "media",
+              "district": "Норильск",
+              "subscribers": 64000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100103_64388",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "В Норильске открылась новая школа на 1 100 мест.",
+            "headlineFrom": "text",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              },
+              {
+                "index": 4,
+                "start": 269,
+                "end": 316
+              },
+              {
+                "index": 5,
+                "start": 317,
+                "end": 392
+              }
+            ],
+            "publishedAt": "2026-10-14T16:10:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 7200,
+            "reactions": 256,
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              },
+              {
+                "start": 269,
+                "end": 392
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "shortened",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.76,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 13,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "1f4e415d11bca9cc8c65cacf23bf62f1454c91a99d952b24ed5f0d683ad513c1",
+            "words": 57,
+            "level": "unlikely",
+            "score": 0.1,
+            "checkedAt": "2026-10-19T14:32:20+07:00"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100102_77122",
+            "ok:5600101_30377",
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
+            "vk:-100114_70120",
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+            "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+            "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 7,
+            "ok": 4,
+            "max": 1,
+            "site": 3,
+            "dzen": 2
+          },
+          "countsByType": {
+            "verbatim": 4,
+            "shortened": 5,
+            "retold": 7,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 19,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 17,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 8,
+          "ok": 4,
+          "max": 2,
+          "site": 3,
+          "dzen": 2
+        },
+        "byPlacementType": {
+          "verbatim": 4,
+          "shortened": 5,
+          "retold": 7,
+          "repost": 1
+        },
+        "new": 0,
+        "aiLikely": 0,
         "aiSigns": 1
       }
     },
@@ -3234,7 +5978,7 @@
         "problem": null,
         "freshness": null,
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:19+07:00"
+        "updatedAt": "2026-10-19T14:32:20+07:00"
       },
       "currentSource": null
     },
@@ -3256,6 +6000,44 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 4,
+        "progress": {
+          "done": 29,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 23,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
       },
       "currentSource": null
     },
@@ -3338,7 +6120,7 @@
             "hasMedia": false,
             "views": 18400,
             "reactions": 848,
-            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "fetchedAt": "2026-10-19T14:32:20+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3398,15 +6180,125 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 15,
+          "arrival": 20,
           "aiCheck": {
             "model": "demo",
             "textHash": "396fa028575eb721c32970244ce99f4b93dd362f796924e54d88d8b541c3a4ec",
             "words": 78,
             "level": "unlikely",
             "score": 0.15,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
+            "checkedAt": "2026-10-19T14:32:18+07:00"
           }
+        },
+        {
+          "id": "site:enisey.tv_news/post-58213/",
+          "publication": {
+            "id": "site:enisey.tv_news/post-58213/",
+            "key": {
+              "platform": "site",
+              "ownerId": "enisey.tv",
+              "postId": "news/post-58213/"
+            },
+            "platform": "site",
+            "source": {
+              "id": "site:enisey.tv",
+              "platform": "site",
+              "name": "Енисей",
+              "url": "https://www.enisey.tv/",
+              "type": "media",
+              "district": "весь край",
+              "subscribers": null,
+              "inMySources": false,
+              "regional": true
+            },
+            "url": "https://www.enisey.tv/news/post-58213/",
+            "mergedUrls": [],
+            "title": "Самая большая школа Заполярья за тридцать лет открылась в Норильске",
+            "headline": "Самая большая школа Заполярья за тридцать лет открылась в Норильске",
+            "headlineFrom": "title",
+            "text": "В Норильске в районе Оганер открылась новая школа на 1 100 учеников. Здание возвели за два года, в нём 48 классов, бассейн и лаборатория робототехники. Из Талнаха детей будет возить школьный автобус. Первые уроки в новом здании пройдут 20 октября.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 68
+              },
+              {
+                "index": 1,
+                "start": 69,
+                "end": 151
+              },
+              {
+                "index": 2,
+                "start": 152,
+                "end": 199
+              },
+              {
+                "index": 3,
+                "start": 200,
+                "end": 247
+              }
+            ],
+            "publishedAt": "2026-10-14T13:05:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 4300,
+            "reactions": null,
+            "fetchedAt": "2026-10-19T14:32:20+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск",
+              "Талнах"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 199,
+            "text": "В Норильске в районе Оганер открылась новая школа на 1 100 учеников. Здание возвели за два года, в нём 48 классов, бассейн и лаборатория робототехники. Из Талнаха детей будет возить школьный автобус.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 12,
+                "end": 27
+              },
+              {
+                "start": 103,
+                "end": 113
+              },
+              {
+                "start": 200,
+                "end": 246
+              }
+            ],
+            "basis": "release-match",
+            "note": "Пересказ: совпадают место, дата и участники; подсвечены дословные фразы релиза"
+          },
+          "placementType": "retold",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.14,
+            "fragmentIds": []
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 21
         }
       ],
       "groups": [
@@ -3418,14 +6310,20 @@
             "vk:-100101_88015",
             "vk:-100102_77122",
             "ok:5600101_30377",
+            "site:enisey.tv_news/post-58213/",
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
             "vk:-100114_70120",
             "vk:-100103_64388",
             "ok:5600102_9011",
             "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
             "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
             "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
             "ok:5600104_17802",
             "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
             "vk:-100113_71533",
             "ok:5600108_40790"
           ],
@@ -3433,37 +6331,41 @@
           "countsByPlatform": {
             "vk": 8,
             "ok": 4,
-            "max": 1
+            "max": 1,
+            "site": 4,
+            "dzen": 2
           },
           "countsByType": {
-            "verbatim": 4,
-            "shortened": 3,
-            "retold": 5,
+            "verbatim": 5,
+            "shortened": 5,
+            "retold": 8,
             "repost": 1
           }
         }
       ],
       "counts": {
-        "total": 15,
+        "total": 21,
         "excluded": 0,
         "byRelevance": {
-          "direct": 13,
+          "direct": 19,
           "indirect": 1,
           "disputed": 1
         },
         "byPlatform": {
           "vk": 9,
           "ok": 4,
-          "max": 2
+          "max": 2,
+          "site": 4,
+          "dzen": 2
         },
         "byPlacementType": {
-          "verbatim": 4,
-          "shortened": 3,
-          "retold": 5,
+          "verbatim": 5,
+          "shortened": 5,
+          "retold": 8,
           "repost": 1
         },
         "new": 0,
-        "aiLikely": 1,
+        "aiLikely": 0,
         "aiSigns": 1
       }
     },
@@ -3503,6 +6405,40 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 4,
+        "progress": {
+          "done": 31,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "found",
+        "found": 2,
+        "progress": null,
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:20+07:00",
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
       },
       "currentSource": null
     },
@@ -3580,7 +6516,7 @@
             "hasMedia": false,
             "views": 2300,
             "reactions": 48,
-            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "fetchedAt": "2026-10-19T14:32:20+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3640,14 +6576,14 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 16,
+          "arrival": 22,
           "aiCheck": {
             "model": "demo",
             "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
             "words": 74,
             "level": "unlikely",
             "score": 0.12,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
+            "checkedAt": "2026-10-19T14:32:19+07:00"
           }
         }
       ],
@@ -3661,14 +6597,20 @@
             "max:press_3301",
             "vk:-100102_77122",
             "ok:5600101_30377",
+            "site:enisey.tv_news/post-58213/",
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
             "vk:-100114_70120",
             "vk:-100103_64388",
             "ok:5600102_9011",
             "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
             "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
             "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
             "ok:5600104_17802",
             "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
             "vk:-100113_71533",
             "ok:5600108_40790"
           ],
@@ -3676,37 +6618,228 @@
           "countsByPlatform": {
             "vk": 8,
             "ok": 4,
-            "max": 2
+            "max": 2,
+            "site": 4,
+            "dzen": 2
           },
           "countsByType": {
-            "verbatim": 5,
-            "shortened": 3,
-            "retold": 5,
+            "verbatim": 6,
+            "shortened": 5,
+            "retold": 8,
             "repost": 1
           }
         }
       ],
       "counts": {
-        "total": 16,
+        "total": 22,
         "excluded": 0,
         "byRelevance": {
-          "direct": 14,
+          "direct": 20,
           "indirect": 1,
           "disputed": 1
         },
         "byPlatform": {
           "vk": 9,
           "ok": 4,
-          "max": 3
+          "max": 3,
+          "site": 4,
+          "dzen": 2
         },
         "byPlacementType": {
-          "verbatim": 5,
-          "shortened": 3,
-          "retold": 5,
+          "verbatim": 6,
+          "shortened": 5,
+          "retold": 8,
           "repost": 1
         },
         "new": 0,
-        "aiLikely": 1,
+        "aiLikely": 0,
+        "aiSigns": 1
+      }
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100114_70120",
+          "publication": {
+            "id": "vk:-100114_70120",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100114",
+              "postId": "70120"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-adm-norilsk",
+              "platform": "vk",
+              "name": "Администрация Норильска",
+              "url": "https://vk.com/demo_adm_norilsk",
+              "type": "municipal",
+              "district": "Норильск",
+              "subscribers": 41000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100114_70120",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "Сегодня в Норильске открыли новую школу в районе Оганер.",
+            "headlineFrom": "text",
+            "text": "Сегодня в Норильске открыли новую школу в районе Оганер. В ней смогут учиться 1 100 ребят: для них подготовили 48 классов, бассейн и два спортзала. Ученики из Талнаха будут добираться на школьном автобусе. Ждём всех на первых уроках 20 октября!",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 56
+              },
+              {
+                "index": 1,
+                "start": 57,
+                "end": 147
+              },
+              {
+                "index": 2,
+                "start": 148,
+                "end": 205
+              },
+              {
+                "index": 3,
+                "start": 206,
+                "end": 244
+              }
+            ],
+            "publishedAt": "2026-10-14T14:30:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 9800,
+            "reactions": 164,
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск",
+              "Талнах"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 205,
+            "text": "Сегодня в Норильске открыли новую школу в районе Оганер. В ней смогут учиться 1 100 ребят: для них подготовили 48 классов, бассейн и два спортзала. Ученики из Талнаха будут добираться на школьном автобусе.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 40,
+                "end": 55
+              },
+              {
+                "start": 111,
+                "end": 121
+              }
+            ],
+            "basis": "release-match",
+            "note": "Пересказ: совпадают место, дата и участники; подсвечены дословные фразы релиза"
+          },
+          "placementType": "retold",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.05,
+            "fragmentIds": []
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 17,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "e38a3f4955b220225b22af75ef179ad8eab13ed99a38081b028ad26de9d76180",
+            "words": 40,
+            "level": "unlikely",
+            "score": 0.21,
+            "checkedAt": "2026-10-19T14:32:21+07:00"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100101_88015",
+            "max:press_3301",
+            "vk:-100102_77122",
+            "ok:5600101_30377",
+            "site:enisey.tv_news/post-58213/",
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
+            "vk:-100114_70120",
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+            "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+            "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": null,
+          "countsByPlatform": {
+            "vk": 8,
+            "ok": 4,
+            "max": 2,
+            "site": 4,
+            "dzen": 2
+          },
+          "countsByType": {
+            "verbatim": 6,
+            "shortened": 5,
+            "retold": 8,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 22,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 20,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 9,
+          "ok": 4,
+          "max": 3,
+          "site": 4,
+          "dzen": 2
+        },
+        "byPlacementType": {
+          "verbatim": 6,
+          "shortened": 5,
+          "retold": 8,
+          "repost": 1
+        },
+        "new": 0,
+        "aiLikely": 0,
         "aiSigns": 1
       }
     },
@@ -3746,6 +6879,25 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 4,
+        "progress": {
+          "done": 33,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
       },
       "currentSource": null
     },
@@ -3823,7 +6975,7 @@
             "hasMedia": false,
             "views": 6100,
             "reactions": 192,
-            "fetchedAt": "2026-10-19T14:32:20+07:00",
+            "fetchedAt": "2026-10-19T14:32:21+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3883,14 +7035,14 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 17,
+          "arrival": 23,
           "aiCheck": {
             "model": "demo",
             "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
             "words": 74,
             "level": "unlikely",
             "score": 0.12,
-            "checkedAt": "2026-10-19T14:32:14+07:00"
+            "checkedAt": "2026-10-19T14:32:19+07:00"
           }
         }
       ],
@@ -3905,14 +7057,20 @@
             "max:press_3301",
             "vk:-100102_77122",
             "ok:5600101_30377",
+            "site:enisey.tv_news/post-58213/",
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
             "vk:-100114_70120",
             "vk:-100103_64388",
             "ok:5600102_9011",
             "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
             "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
             "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
             "ok:5600104_17802",
             "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
             "vk:-100113_71533",
             "ok:5600108_40790"
           ],
@@ -3920,37 +7078,41 @@
           "countsByPlatform": {
             "vk": 9,
             "ok": 4,
-            "max": 2
+            "max": 2,
+            "site": 4,
+            "dzen": 2
           },
           "countsByType": {
-            "verbatim": 6,
-            "shortened": 3,
-            "retold": 5,
+            "verbatim": 7,
+            "shortened": 5,
+            "retold": 8,
             "repost": 1
           }
         }
       ],
       "counts": {
-        "total": 17,
+        "total": 23,
         "excluded": 0,
         "byRelevance": {
-          "direct": 15,
+          "direct": 21,
           "indirect": 1,
           "disputed": 1
         },
         "byPlatform": {
           "vk": 10,
           "ok": 4,
-          "max": 3
+          "max": 3,
+          "site": 4,
+          "dzen": 2
         },
         "byPlacementType": {
-          "verbatim": 6,
-          "shortened": 3,
-          "retold": 5,
+          "verbatim": 7,
+          "shortened": 5,
+          "retold": 8,
           "repost": 1
         },
         "new": 0,
-        "aiLikely": 1,
+        "aiLikely": 0,
         "aiSigns": 1
       }
     },
@@ -3964,7 +7126,7 @@
         "problem": null,
         "freshness": null,
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:20+07:00"
+        "updatedAt": "2026-10-19T14:32:21+07:00"
       },
       "currentSource": null
     },
@@ -3992,6 +7154,212 @@
     {
       "type": "platform",
       "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 4,
+        "progress": {
+          "done": 35,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "vk:-100102_77122",
+          "publication": {
+            "id": "vk:-100102_77122",
+            "key": {
+              "platform": "vk",
+              "ownerId": "-100102",
+              "postId": "77122"
+            },
+            "platform": "vk",
+            "source": {
+              "id": "vk-portal-krsk",
+              "platform": "vk",
+              "name": "Городской портал Красноярска",
+              "url": "https://vk.com/demo_portal_krsk",
+              "type": "media",
+              "district": "Красноярск",
+              "subscribers": 318000,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vk.com/wall-100102_77122",
+            "mergedUrls": [],
+            "title": null,
+            "headline": "Новая школа на 1 100 учеников заработала в Норильске.",
+            "headlineFrom": "text",
+            "text": "Новая школа на 1 100 учеников заработала в Норильске. В здании есть бассейн, два спортзала и лаборатория робототехники. В министерстве образования края подчеркнули, что это самая большая школа, построенная в Заполярье за последние тридцать лет. Первые уроки в новом здании пройдут 20 октября.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 53
+              },
+              {
+                "index": 1,
+                "start": 54,
+                "end": 119
+              },
+              {
+                "index": 2,
+                "start": 120,
+                "end": 244
+              },
+              {
+                "index": 3,
+                "start": 245,
+                "end": 292
+              }
+            ],
+            "publishedAt": "2026-10-14T12:15:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 21700,
+            "reactions": 1272,
+            "fetchedAt": "2026-10-19T14:32:20+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 120,
+            "end": 292,
+            "text": "В министерстве образования края подчеркнули, что это самая большая школа, построенная в Заполярье за последние тридцать лет. Первые уроки в новом здании пройдут 20 октября.",
+            "cutStart": true,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 2,
+            "ranges": [
+              {
+                "start": 173,
+                "end": 243
+              },
+              {
+                "start": 245,
+                "end": 291
+              }
+            ],
+            "basis": "release-match",
+            "note": "Пересказ: совпадают место, дата и участники; подсвечены дословные фразы релиза"
+          },
+          "placementType": "retold",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.23,
+            "fragmentIds": []
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 19,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "01cf5947af39f440a5689175f1f5e18d49570214268258d72902bc9e0e81bcef",
+            "words": 43,
+            "level": "likely-ai",
+            "score": 0.93,
+            "checkedAt": "2026-10-19T14:32:21+07:00"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100104_60210",
+            "vk:-100101_88015",
+            "max:press_3301",
+            "vk:-100102_77122",
+            "ok:5600101_30377",
+            "site:enisey.tv_news/post-58213/",
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
+            "vk:-100114_70120",
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+            "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+            "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": "vk:-100104_60210",
+          "countsByPlatform": {
+            "vk": 9,
+            "ok": 4,
+            "max": 2,
+            "site": 4,
+            "dzen": 2
+          },
+          "countsByType": {
+            "verbatim": 7,
+            "shortened": 5,
+            "retold": 8,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 23,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 21,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 10,
+          "ok": 4,
+          "max": 3,
+          "site": 4,
+          "dzen": 2
+        },
+        "byPlacementType": {
+          "verbatim": 7,
+          "shortened": 5,
+          "retold": 8,
+          "repost": 1
+        },
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
         "platform": "max",
         "state": "searching",
         "found": 3,
@@ -4013,6 +7381,241 @@
     {
       "type": "platform",
       "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 5,
+        "progress": {
+          "done": 37,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "site:severokrai.ru_news/obrazovanie/v-norilske-otkrylas-novaya-shkola-na-1-100-mest/",
+          "publication": {
+            "id": "site:severokrai.ru_news/obrazovanie/v-norilske-otkrylas-novaya-shkola-na-1-100-mest/",
+            "key": {
+              "platform": "site",
+              "ownerId": "severokrai.ru",
+              "postId": "news/obrazovanie/v-norilske-otkrylas-novaya-shkola-na-1-100-mest/"
+            },
+            "platform": "site",
+            "source": {
+              "id": "site:severokrai.ru",
+              "platform": "site",
+              "name": "Заполярье",
+              "url": "https://severokrai.ru/",
+              "type": "media",
+              "district": "Норильск",
+              "subscribers": null,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://severokrai.ru/news/obrazovanie/v-norilske-otkrylas-novaya-shkola-na-1-100-mest/",
+            "mergedUrls": [],
+            "title": "В Норильске открылась новая школа на 1 100 мест",
+            "headline": "В Норильске открылась новая школа на 1 100 мест",
+            "headlineFrom": "title",
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 48
+              },
+              {
+                "index": 1,
+                "start": 49,
+                "end": 134
+              },
+              {
+                "index": 2,
+                "start": 136,
+                "end": 213
+              },
+              {
+                "index": 3,
+                "start": 214,
+                "end": 267
+              },
+              {
+                "index": 4,
+                "start": 269,
+                "end": 392
+              },
+              {
+                "index": 5,
+                "start": 394,
+                "end": 441
+              },
+              {
+                "index": 6,
+                "start": 442,
+                "end": 517
+              }
+            ],
+            "publishedAt": "2026-10-14T11:30:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 1850,
+            "reactions": null,
+            "fetchedAt": "2026-10-19T14:32:21+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "copy",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 213,
+            "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 134
+              },
+              {
+                "start": 136,
+                "end": 267
+              },
+              {
+                "start": 269,
+                "end": 392
+              },
+              {
+                "start": 394,
+                "end": 517
+              }
+            ],
+            "basis": "release-match",
+            "note": "Подсвечен текст, совпавший с релизом"
+          },
+          "placementType": "verbatim",
+          "isOriginal": false,
+          "citation": {
+            "share": 1,
+            "fragmentIds": [
+              "p1",
+              "p2",
+              "p3",
+              "p4"
+            ]
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 24,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+            "words": 74,
+            "level": "unlikely",
+            "score": 0.12,
+            "checkedAt": "2026-10-19T14:32:19+07:00"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100104_60210",
+            "vk:-100101_88015",
+            "max:press_3301",
+            "site:severokrai.ru_news/obrazovanie/v-norilske-otkrylas-novaya-shkola-na-1-100-mest/",
+            "vk:-100102_77122",
+            "ok:5600101_30377",
+            "site:enisey.tv_news/post-58213/",
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
+            "vk:-100114_70120",
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+            "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+            "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": "vk:-100104_60210",
+          "countsByPlatform": {
+            "vk": 9,
+            "ok": 4,
+            "max": 2,
+            "site": 5,
+            "dzen": 2
+          },
+          "countsByType": {
+            "verbatim": 8,
+            "shortened": 5,
+            "retold": 8,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 24,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 22,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 10,
+          "ok": 4,
+          "max": 3,
+          "site": 5,
+          "dzen": 2
+        },
+        "byPlacementType": {
+          "verbatim": 8,
+          "shortened": 5,
+          "retold": 8,
+          "repost": 1
+        },
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
         "platform": "max",
         "state": "found",
         "found": 3,
@@ -4023,16 +7626,262 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:21+07:00"
+        "updatedAt": "2026-10-19T14:32:22+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 5,
+        "progress": {
+          "done": 39,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "items",
+      "items": [
+        {
+          "id": "site:enisey.tv_news/post-58213/",
+          "publication": {
+            "id": "site:enisey.tv_news/post-58213/",
+            "key": {
+              "platform": "site",
+              "ownerId": "enisey.tv",
+              "postId": "news/post-58213/"
+            },
+            "platform": "site",
+            "source": {
+              "id": "site:enisey.tv",
+              "platform": "site",
+              "name": "Енисей",
+              "url": "https://www.enisey.tv/",
+              "type": "media",
+              "district": "весь край",
+              "subscribers": null,
+              "inMySources": false,
+              "regional": true
+            },
+            "url": "https://www.enisey.tv/news/post-58213/",
+            "mergedUrls": [],
+            "title": "Самая большая школа Заполярья за тридцать лет открылась в Норильске",
+            "headline": "Самая большая школа Заполярья за тридцать лет открылась в Норильске",
+            "headlineFrom": "title",
+            "text": "В Норильске в районе Оганер открылась новая школа на 1 100 учеников. Здание возвели за два года, в нём 48 классов, бассейн и лаборатория робототехники. Из Талнаха детей будет возить школьный автобус. Первые уроки в новом здании пройдут 20 октября.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 68
+              },
+              {
+                "index": 1,
+                "start": 69,
+                "end": 151
+              },
+              {
+                "index": 2,
+                "start": 152,
+                "end": 199
+              },
+              {
+                "index": 3,
+                "start": 200,
+                "end": 247
+              }
+            ],
+            "publishedAt": "2026-10-14T13:05:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 4300,
+            "reactions": null,
+            "fetchedAt": "2026-10-19T14:32:20+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск",
+              "Талнах"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 199,
+            "text": "В Норильске в районе Оганер открылась новая школа на 1 100 учеников. Здание возвели за два года, в нём 48 классов, бассейн и лаборатория робототехники. Из Талнаха детей будет возить школьный автобус.",
+            "cutStart": false,
+            "cutEnd": true
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 12,
+                "end": 27
+              },
+              {
+                "start": 103,
+                "end": 113
+              },
+              {
+                "start": 200,
+                "end": 246
+              }
+            ],
+            "basis": "release-match",
+            "note": "Пересказ: совпадают место, дата и участники; подсвечены дословные фразы релиза"
+          },
+          "placementType": "retold",
+          "isOriginal": false,
+          "citation": {
+            "share": 0.14,
+            "fragmentIds": []
+          },
+          "groupId": "g-release-school",
+          "excluded": false,
+          "isNew": false,
+          "arrival": 21,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "44033ee63f39a7b862638733e9bf631abd969d238091ad8a6a3fadd27dca46c9",
+            "words": 40,
+            "level": "unlikely",
+            "score": 0.27,
+            "checkedAt": "2026-10-19T14:32:22+07:00"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "id": "g-release-school",
+          "title": "Релиз «Новая школа в Норильске»",
+          "kind": "release",
+          "itemIds": [
+            "vk:-100104_60210",
+            "vk:-100101_88015",
+            "max:press_3301",
+            "site:severokrai.ru_news/obrazovanie/v-norilske-otkrylas-novaya-shkola-na-1-100-mest/",
+            "vk:-100102_77122",
+            "ok:5600101_30377",
+            "site:enisey.tv_news/post-58213/",
+            "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
+            "vk:-100114_70120",
+            "vk:-100103_64388",
+            "ok:5600102_9011",
+            "vk:-100105_45601",
+            "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+            "max:portal_2236",
+            "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+            "vk:-100112_26710",
+            "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+            "ok:5600104_17802",
+            "vk:-100109_22140",
+            "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+            "vk:-100113_71533",
+            "ok:5600108_40790"
+          ],
+          "originalItemId": "vk:-100104_60210",
+          "countsByPlatform": {
+            "vk": 9,
+            "ok": 4,
+            "max": 2,
+            "site": 5,
+            "dzen": 2
+          },
+          "countsByType": {
+            "verbatim": 8,
+            "shortened": 5,
+            "retold": 8,
+            "repost": 1
+          }
+        }
+      ],
+      "counts": {
+        "total": 24,
+        "excluded": 0,
+        "byRelevance": {
+          "direct": 22,
+          "indirect": 1,
+          "disputed": 1
+        },
+        "byPlatform": {
+          "vk": 10,
+          "ok": 4,
+          "max": 3,
+          "site": 5,
+          "dzen": 2
+        },
+        "byPlacementType": {
+          "verbatim": 8,
+          "shortened": 5,
+          "retold": 8,
+          "repost": 1
+        },
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
+      }
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 5,
+        "progress": {
+          "done": 41,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "found",
+        "found": 5,
+        "progress": null,
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:22+07:00",
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
       },
       "currentSource": null
     },
     {
       "type": "finished",
       "selection": {
-        "searchId": "s-mvfmn9ny-2",
+        "searchId": "s-mvgikjvh-2",
         "conditions": {
-          "searchId": "s-mvfmn9ny-2",
+          "searchId": "s-mvgikjvh-2",
           "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
           "label": "Новая школа в Норильске",
           "kind": "news-text",
@@ -4051,11 +7900,13 @@
           "platforms": [
             "vk",
             "ok",
-            "max"
+            "max",
+            "site",
+            "dzen"
           ],
           "meaningLabel": null,
-          "startedAt": "2026-10-19T14:32:14+07:00",
-          "finishedAt": "2026-10-19T14:32:21+07:00",
+          "startedAt": "2026-10-19T14:32:15+07:00",
+          "finishedAt": "2026-10-19T14:32:22+07:00",
           "repeatOf": null
         },
         "statuses": [
@@ -4067,7 +7918,7 @@
             "problem": null,
             "freshness": null,
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:20+07:00"
+            "updatedAt": "2026-10-19T14:32:21+07:00"
           },
           {
             "platform": "ok",
@@ -4077,7 +7928,7 @@
             "problem": null,
             "freshness": null,
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:19+07:00"
+            "updatedAt": "2026-10-19T14:32:20+07:00"
           },
           {
             "platform": "max",
@@ -4090,7 +7941,29 @@
               "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
             },
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:21+07:00"
+            "updatedAt": "2026-10-19T14:32:22+07:00"
+          },
+          {
+            "platform": "site",
+            "state": "found",
+            "found": 5,
+            "progress": null,
+            "problem": null,
+            "freshness": null,
+            "cap": null,
+            "updatedAt": "2026-10-19T14:32:22+07:00",
+            "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+          },
+          {
+            "platform": "dzen",
+            "state": "found",
+            "found": 2,
+            "progress": null,
+            "problem": null,
+            "freshness": null,
+            "cap": null,
+            "updatedAt": "2026-10-19T14:32:20+07:00",
+            "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
           }
         ],
         "items": [
@@ -4145,7 +8018,7 @@
               "hasMedia": false,
               "views": 4480,
               "reactions": 256,
-              "fetchedAt": "2026-10-19T14:32:15+07:00",
+              "fetchedAt": "2026-10-19T14:32:16+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -4193,7 +8066,7 @@
               "words": 31,
               "level": "too-short",
               "score": null,
-              "checkedAt": "2026-10-19T14:32:14+07:00"
+              "checkedAt": "2026-10-19T14:32:16+07:00"
             }
           },
           {
@@ -4247,7 +8120,7 @@
               "hasMedia": false,
               "views": 2900,
               "reactions": 208,
-              "fetchedAt": "2026-10-19T14:32:16+07:00",
+              "fetchedAt": "2026-10-19T14:32:17+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -4297,7 +8170,7 @@
               "words": 25,
               "level": "too-short",
               "score": null,
-              "checkedAt": "2026-10-19T14:32:14+07:00"
+              "checkedAt": "2026-10-19T14:32:17+07:00"
             }
           },
           {
@@ -4356,7 +8229,7 @@
               "hasMedia": false,
               "views": null,
               "reactions": 64,
-              "fetchedAt": "2026-10-19T14:32:16+07:00",
+              "fetchedAt": "2026-10-19T14:32:17+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -4413,7 +8286,7 @@
               "words": 40,
               "level": "unlikely",
               "score": 0.08,
-              "checkedAt": "2026-10-19T14:32:14+07:00"
+              "checkedAt": "2026-10-19T14:32:18+07:00"
             }
           }
         ],
@@ -4426,16 +8299,23 @@
               "vk:-100104_60210",
               "vk:-100101_88015",
               "max:press_3301",
+              "site:severokrai.ru_news/obrazovanie/v-norilske-otkrylas-novaya-shkola-na-1-100-mest/",
               "vk:-100102_77122",
               "ok:5600101_30377",
+              "site:enisey.tv_news/post-58213/",
+              "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
               "vk:-100114_70120",
               "vk:-100103_64388",
               "ok:5600102_9011",
               "vk:-100105_45601",
+              "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
               "max:portal_2236",
+              "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
               "vk:-100112_26710",
+              "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
               "ok:5600104_17802",
               "vk:-100109_22140",
+              "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
               "vk:-100113_71533",
               "ok:5600108_40790"
             ],
@@ -4443,33 +8323,37 @@
             "countsByPlatform": {
               "vk": 9,
               "ok": 4,
-              "max": 2
+              "max": 2,
+              "site": 5,
+              "dzen": 2
             },
             "countsByType": {
-              "verbatim": 6,
-              "shortened": 3,
-              "retold": 5,
+              "verbatim": 8,
+              "shortened": 5,
+              "retold": 8,
               "repost": 1
             }
           }
         ],
         "counts": {
-          "total": 17,
+          "total": 24,
           "excluded": 0,
           "byRelevance": {
-            "direct": 15,
+            "direct": 22,
             "indirect": 1,
             "disputed": 1
           },
           "byPlatform": {
             "vk": 10,
             "ok": 4,
-            "max": 3
+            "max": 3,
+            "site": 5,
+            "dzen": 2
           },
           "byPlacementType": {
-            "verbatim": 6,
-            "shortened": 3,
-            "retold": 5,
+            "verbatim": 8,
+            "shortened": 5,
+            "retold": 8,
             "repost": 1
           },
           "new": 0,

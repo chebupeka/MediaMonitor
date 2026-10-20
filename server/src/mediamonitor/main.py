@@ -17,6 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 
 from mediamonitor.adapters import AdapterRegistry, FixtureAdapter, build_adapters
+from mediamonitor.adapters.base import SourceInfo
 from mediamonitor.ai.judge import AiJudge, build_judge
 from mediamonitor.aicheck import AiCheckService, AiDetector, build_detector
 from mediamonitor.api.middleware import (
@@ -112,9 +113,14 @@ def create_app(
             started_at=utcnow(),
         )
         ctx.runner = SearchRunner(ctx)
-        extra = [
-            s for a in adapters.values() if isinstance(a, FixtureAdapter) for s in a.store.catalog()
-        ]
+        extra: list[SourceInfo] = []
+        for adapter in adapters.values():
+            if isinstance(adapter, FixtureAdapter):
+                extra += adapter.store.catalog()
+            provider = getattr(adapter, "catalog_sources", None)
+            if callable(provider):
+                # Сайты СМИ и каналы Дзена из каталога края — только включённых площадок.
+                extra += provider()
         async with sessions.begin() as session:
             catalog_size = await seed_catalog(
                 session, list({(s.platform, s.owner_id): s for s in extra}.values())
@@ -123,6 +129,7 @@ def create_app(
                 session,
                 "info",
                 f"Сервер запущен, версия {settings.app_version}; данные: {settings.data_source}; "
+                f"сайты СМИ: {settings.sites_source}; Дзен: {settings.dzen_source}; "
                 f"каталог края: {catalog_size} источников.",
             )
         await ctx.ai_checks.load_identity()
@@ -146,6 +153,10 @@ def create_app(
                     task.cancel()
             await ctx.runner.shutdown()
             await ctx.ai_checks.aclose()
+            for adapter in adapters.values():
+                close = getattr(adapter, "aclose", None)
+                if callable(close):
+                    await close()
             await http.aclose()
             await engine.dispose()
 
@@ -153,7 +164,7 @@ def create_app(
     app = FastAPI(
         title="Медиамонитор — API",
         version=settings.app_version,
-        description="Поиск публикаций VK, OK и MAX по Красноярскому краю. "
+        description="Поиск публикаций VK, OK, MAX, сайтов СМИ и Дзена по Красноярскому краю. "
         "Контракт: web/src/api/types.ts.",
         lifespan=lifespan,
         docs_url=None if production else "/docs",

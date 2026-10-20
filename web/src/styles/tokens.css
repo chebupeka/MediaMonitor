@@ -201,13 +201,19 @@
   --color-mark-bg: #5a4510;
   --color-mark-ink: #fff1cc;
 
-  /* Площадки (те же цвета на графиках и в точках) */
+  /* Площадки (те же цвета на графиках и в точках). Сайты СМИ — фиолетовый, Дзен — малиновый:
+     отличимы от VK, OK, MAX и между собой; контраст к фону во всех темах — как у соседних,
+     не ниже 5 : 1 */
   --color-vk: #3884ff;
   --color-ok: #ff7f33;
   --color-max: #2edb8c;
+  --color-site: #a77bff;
+  --color-dzen: #ff5c9d;
   --color-vk-bg: #13213a;
   --color-ok-bg: #33200f;
   --color-max-bg: #0f2c20;
+  --color-site-bg: #221a3a;
+  --color-dzen-bg: #3a1526;
 
   /* Как на сайте */
   --color-outline: var(--color-ink);
@@ -320,9 +326,13 @@
   --color-vk: #1e56c4;
   --color-ok: #b24a0a;
   --color-max: #0b7548;
+  --color-site: #7a3db8;
+  --color-dzen: #b0256a;
   --color-vk-bg: #dee5f4;
   --color-ok-bg: #f4e2d6;
   --color-max-bg: #d8eadf;
+  --color-site-bg: #e7def4;
+  --color-dzen-bg: #f4dde8;
 
   --glow: 0;
 
@@ -417,9 +427,13 @@
   --color-vk: #38508c;
   --color-ok: #a6470b;
   --color-max: #2c6a3c;
+  --color-site: #74418f;
+  --color-dzen: #9c2f5c;
   --color-vk-bg: #e2ddd9;
   --color-ok-bg: #f1dccc;
   --color-max-bg: #dbe4d3;
+  --color-site-bg: #e5dae3;
+  --color-dzen-bg: #efd8da;
 
   --color-cursor-ring-bg: rgb(54 72 122 / 0.08);
   --color-cursor-ring-line: rgb(54 72 122 / 0.55);
@@ -502,9 +516,13 @@
   --color-vk: #6fa6ff;
   --color-ok: #ff9a5c;
   --color-max: #3df2a0;
+  --color-site: #b99bff;
+  --color-dzen: #ff7fb5;
   --color-vk-bg: #000000;
   --color-ok-bg: #000000;
   --color-max-bg: #000000;
+  --color-site-bg: #000000;
+  --color-dzen-bg: #000000;
 
   --glow: 0;
   --dots: off; /* точки и звёзды выключены */
@@ -586,9 +604,13 @@
   --color-vk: #0040c0;
   --color-ok: #a33a00;
   --color-max: #005a30;
+  --color-site: #5a1fb0;
+  --color-dzen: #a0144f;
   --color-vk-bg: #ffffff;
   --color-ok-bg: #ffffff;
   --color-max-bg: #ffffff;
+  --color-site-bg: #ffffff;
+  --color-dzen-bg: #ffffff;
 
   color-scheme: light;
 }

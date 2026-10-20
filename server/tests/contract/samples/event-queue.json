@@ -15,7 +15,7 @@
     {
       "type": "started",
       "conditions": {
-        "searchId": "s-mvfmnszt-6",
+        "searchId": "s-mvgil52t-6",
         "text": "ДТП",
         "label": "Безопасность дорожного движения",
         "kind": "topic",
@@ -34,10 +34,12 @@
         "platforms": [
           "vk",
           "ok",
-          "max"
+          "max",
+          "site",
+          "dzen"
         ],
         "meaningLabel": null,
-        "startedAt": "2026-10-19T14:32:39+07:00",
+        "startedAt": "2026-10-19T14:32:42+07:00",
         "finishedAt": null,
         "repeatOf": null
       },
@@ -74,6 +76,28 @@
           },
           "cap": null,
           "updatedAt": null
+        },
+        {
+          "platform": "site",
+          "state": "waiting",
+          "found": 0,
+          "progress": null,
+          "problem": null,
+          "freshness": null,
+          "cap": null,
+          "updatedAt": null,
+          "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+        },
+        {
+          "platform": "dzen",
+          "state": "waiting",
+          "found": 0,
+          "progress": null,
+          "problem": null,
+          "freshness": null,
+          "cap": null,
+          "updatedAt": null,
+          "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
         }
       ]
     },
@@ -213,6 +237,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 1,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 1,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -266,7 +328,7 @@
             "hasMedia": false,
             "views": 29300,
             "reactions": 1272,
-            "fetchedAt": "2026-10-19T14:32:46+07:00",
+            "fetchedAt": "2026-10-19T14:32:49+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -313,7 +375,7 @@
             "words": 28,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:04+07:00"
           }
         }
       ],
@@ -329,7 +391,9 @@
         "byPlatform": {
           "vk": 1,
           "ok": 0,
-          "max": 0
+          "max": 0,
+          "site": 0,
+          "dzen": 0
         },
         "byPlacementType": {
           "verbatim": 0,
@@ -400,6 +464,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 3,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 3,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -456,7 +558,7 @@
             "hasMedia": false,
             "views": 12300,
             "reactions": 140,
-            "fetchedAt": "2026-10-19T14:32:46+07:00",
+            "fetchedAt": "2026-10-19T14:32:49+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -503,7 +605,7 @@
             "words": 29,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:04+07:00"
           }
         },
         {
@@ -557,7 +659,7 @@
             "hasMedia": false,
             "views": 41200,
             "reactions": 655,
-            "fetchedAt": "2026-10-19T14:32:46+07:00",
+            "fetchedAt": "2026-10-19T14:32:49+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -604,7 +706,7 @@
             "words": 29,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:04+07:00"
           }
         },
         {
@@ -653,7 +755,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 380,
-            "fetchedAt": "2026-10-19T14:32:46+07:00",
+            "fetchedAt": "2026-10-19T14:32:49+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -698,7 +800,7 @@
             "words": 24,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:04+07:00"
           }
         }
       ],
@@ -714,7 +816,9 @@
           "countsByPlatform": {
             "vk": 0,
             "ok": 1,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 0,
@@ -735,7 +839,9 @@
         "byPlatform": {
           "vk": 3,
           "ok": 1,
-          "max": 0
+          "max": 0,
+          "site": 0,
+          "dzen": 0
         },
         "byPlacementType": {
           "verbatim": 0,
@@ -806,6 +912,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 5,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 4,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -862,7 +1006,7 @@
             "hasMedia": false,
             "views": 7900,
             "reactions": 164,
-            "fetchedAt": "2026-10-19T14:32:46+07:00",
+            "fetchedAt": "2026-10-19T14:32:50+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -909,7 +1053,7 @@
             "words": 29,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:04+07:00"
           }
         },
         {
@@ -958,7 +1102,7 @@
             "hasMedia": false,
             "views": 8600,
             "reactions": 224,
-            "fetchedAt": "2026-10-19T14:32:46+07:00",
+            "fetchedAt": "2026-10-19T14:32:50+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1005,7 +1149,7 @@
             "words": 19,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:04+07:00"
           }
         }
       ],
@@ -1021,7 +1165,9 @@
           "countsByPlatform": {
             "vk": 0,
             "ok": 1,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 0,
@@ -1042,7 +1188,9 @@
         "byPlatform": {
           "vk": 4,
           "ok": 1,
-          "max": 1
+          "max": 1,
+          "site": 0,
+          "dzen": 0
         },
         "byPlacementType": {
           "verbatim": 0,
@@ -1113,6 +1261,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 7,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 6,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -1171,7 +1357,7 @@
             "hasMedia": false,
             "views": 34900,
             "reactions": 512,
-            "fetchedAt": "2026-10-19T14:32:47+07:00",
+            "fetchedAt": "2026-10-19T14:32:50+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1216,7 +1402,7 @@
             "words": 44,
             "level": "unlikely",
             "score": 0.31,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:06+07:00"
           }
         },
         {
@@ -1275,7 +1461,7 @@
             "hasMedia": false,
             "views": 21400,
             "reactions": 388,
-            "fetchedAt": "2026-10-19T14:32:47+07:00",
+            "fetchedAt": "2026-10-19T14:32:50+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1320,7 +1506,7 @@
             "words": 44,
             "level": "unlikely",
             "score": 0.31,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:06+07:00"
           }
         },
         {
@@ -1374,7 +1560,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 64,
-            "fetchedAt": "2026-10-19T14:32:47+07:00",
+            "fetchedAt": "2026-10-19T14:32:50+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1421,7 +1607,7 @@
             "words": 23,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:04+07:00"
           }
         }
       ],
@@ -1439,7 +1625,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -1460,7 +1648,9 @@
         "byPlatform": {
           "vk": 6,
           "ok": 2,
-          "max": 1
+          "max": 1,
+          "site": 0,
+          "dzen": 0
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -1531,6 +1721,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 9,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 7,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -1584,7 +1812,7 @@
             "hasMedia": false,
             "views": 23000,
             "reactions": 410,
-            "fetchedAt": "2026-10-19T14:32:47+07:00",
+            "fetchedAt": "2026-10-19T14:32:50+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1629,7 +1857,7 @@
             "words": 24,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:05+07:00"
           }
         }
       ],
@@ -1647,7 +1875,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -1668,7 +1898,9 @@
         "byPlatform": {
           "vk": 7,
           "ok": 2,
-          "max": 1
+          "max": 1,
+          "site": 0,
+          "dzen": 0
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -1739,6 +1971,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 11,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 9,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -1792,7 +2062,7 @@
             "hasMedia": false,
             "views": 3360,
             "reactions": 192,
-            "fetchedAt": "2026-10-19T14:32:47+07:00",
+            "fetchedAt": "2026-10-19T14:32:51+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1837,7 +2107,7 @@
             "words": 31,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:05+07:00"
           }
         },
         {
@@ -1891,7 +2161,7 @@
             "hasMedia": false,
             "views": 4480,
             "reactions": 256,
-            "fetchedAt": "2026-10-19T14:32:47+07:00",
+            "fetchedAt": "2026-10-19T14:32:51+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1939,7 +2209,7 @@
             "words": 22,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:05+07:00"
           }
         },
         {
@@ -1988,7 +2258,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 104,
-            "fetchedAt": "2026-10-19T14:32:47+07:00",
+            "fetchedAt": "2026-10-19T14:32:51+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2035,7 +2305,7 @@
             "words": 23,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:05+07:00"
           }
         }
       ],
@@ -2053,7 +2323,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -2064,17 +2336,19 @@
         }
       ],
       "counts": {
-        "total": 14,
+        "total": 15,
         "excluded": 0,
         "byRelevance": {
-          "direct": 9,
+          "direct": 10,
           "indirect": 4,
           "disputed": 1
         },
         "byPlatform": {
           "vk": 9,
           "ok": 3,
-          "max": 2
+          "max": 2,
+          "site": 1,
+          "dzen": 0
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -2145,6 +2419,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 13,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 10,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -2198,7 +2510,7 @@
             "hasMedia": false,
             "views": 6800,
             "reactions": 95,
-            "fetchedAt": "2026-10-19T14:32:48+07:00",
+            "fetchedAt": "2026-10-19T14:32:51+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2238,14 +2550,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 15,
+          "arrival": 16,
           "aiCheck": {
             "model": "demo",
             "textHash": "15e29e7c4a33e6e7dd4457cca06803898c2358c966554639ecc8307dc0c0cee3",
             "words": 31,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:05+07:00"
           }
         }
       ],
@@ -2263,7 +2575,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -2274,17 +2588,19 @@
         }
       ],
       "counts": {
-        "total": 15,
+        "total": 16,
         "excluded": 0,
         "byRelevance": {
-          "direct": 10,
+          "direct": 11,
           "indirect": 4,
           "disputed": 1
         },
         "byPlatform": {
           "vk": 10,
           "ok": 3,
-          "max": 2
+          "max": 2,
+          "site": 1,
+          "dzen": 0
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -2355,6 +2671,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 15,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 12,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -2413,7 +2767,7 @@
             "hasMedia": false,
             "views": 18400,
             "reactions": 312,
-            "fetchedAt": "2026-10-19T14:32:48+07:00",
+            "fetchedAt": "2026-10-19T14:32:51+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2453,14 +2807,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 16,
+          "arrival": 17,
           "aiCheck": {
             "model": "demo",
             "textHash": "dc7ff1a26444e81f1aac356dda312391ddc5e72a309c4994804153707b28b248",
             "words": 33,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:06+07:00"
           }
         },
         {
@@ -2524,7 +2878,7 @@
             "hasMedia": false,
             "views": 52000,
             "reactions": 870,
-            "fetchedAt": "2026-10-19T14:32:48+07:00",
+            "fetchedAt": "2026-10-19T14:32:51+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2564,14 +2918,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 17,
+          "arrival": 18,
           "aiCheck": {
             "model": "demo",
             "textHash": "3e5866aa184c3474f5dfd88d85f44061e37177ee295c1486538080b5ab015249",
             "words": 47,
             "level": "signs",
             "score": 0.66,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:07+07:00"
           }
         },
         {
@@ -2620,7 +2974,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 124,
-            "fetchedAt": "2026-10-19T14:32:48+07:00",
+            "fetchedAt": "2026-10-19T14:32:51+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2660,14 +3014,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 18,
+          "arrival": 19,
           "aiCheck": {
             "model": "demo",
             "textHash": "3fa4ef628f80fb5e8fe793f880ef9f25bd37555a66be6fbb2279b6f8d1da34b5",
             "words": 19,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:06+07:00"
           }
         }
       ],
@@ -2685,7 +3039,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -2696,17 +3052,19 @@
         }
       ],
       "counts": {
-        "total": 18,
+        "total": 20,
         "excluded": 0,
         "byRelevance": {
-          "direct": 12,
+          "direct": 14,
           "indirect": 5,
           "disputed": 1
         },
         "byPlatform": {
           "vk": 12,
           "ok": 4,
-          "max": 2
+          "max": 2,
+          "site": 1,
+          "dzen": 1
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -2777,6 +3135,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 17,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 14,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -2830,7 +3226,7 @@
             "hasMedia": false,
             "views": 1890,
             "reactions": 108,
-            "fetchedAt": "2026-10-19T14:32:48+07:00",
+            "fetchedAt": "2026-10-19T14:32:52+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2870,14 +3266,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 19,
+          "arrival": 21,
           "aiCheck": {
             "model": "demo",
             "textHash": "8a02a0fa0da6ec9fd913d30b10a504da12197d98c18129c4a9405d18cc8f807a",
             "words": 26,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:06+07:00"
           }
         },
         {
@@ -2926,7 +3322,7 @@
             "hasMedia": false,
             "views": 3900,
             "reactions": 68,
-            "fetchedAt": "2026-10-19T14:32:48+07:00",
+            "fetchedAt": "2026-10-19T14:32:52+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2964,14 +3360,14 @@
           "groupId": "g-peshehod",
           "excluded": false,
           "isNew": false,
-          "arrival": 20,
+          "arrival": 22,
           "aiCheck": {
             "model": "demo",
             "textHash": "895194db9ffa6f71da8f860a364b446955f9869914b2fd34d58d33e9c8828891",
             "words": 23,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:06+07:00"
           }
         }
       ],
@@ -2990,7 +3386,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 1
+            "max": 1,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -3001,17 +3399,19 @@
         }
       ],
       "counts": {
-        "total": 20,
+        "total": 22,
         "excluded": 0,
         "byRelevance": {
-          "direct": 13,
+          "direct": 15,
           "indirect": 6,
           "disputed": 1
         },
         "byPlatform": {
           "vk": 13,
           "ok": 4,
-          "max": 3
+          "max": 3,
+          "site": 1,
+          "dzen": 1
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -3082,6 +3482,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 19,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 15,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -3130,7 +3568,7 @@
             "hasMedia": false,
             "views": 96000,
             "reactions": 1450,
-            "fetchedAt": "2026-10-19T14:32:49+07:00",
+            "fetchedAt": "2026-10-19T14:32:52+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3170,14 +3608,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 21,
+          "arrival": 23,
           "aiCheck": {
             "model": "demo",
             "textHash": "5580cdb276c938b1a61662122f69f1486c7d521c115e1ba41b49223cde293918",
             "words": 23,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:06+07:00"
           }
         },
         {
@@ -3231,7 +3669,7 @@
             "hasMedia": false,
             "views": 5200,
             "reactions": 164,
-            "fetchedAt": "2026-10-19T14:32:49+07:00",
+            "fetchedAt": "2026-10-19T14:32:52+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3271,14 +3709,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 22,
+          "arrival": 24,
           "aiCheck": {
             "model": "demo",
             "textHash": "f2a0ca21b55bc4d4e4f48f2ebd8c112ecc946f78882f5cf35a14bae9610664fe",
             "words": 34,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:06+07:00"
           }
         },
         {
@@ -3332,7 +3770,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 28,
-            "fetchedAt": "2026-10-19T14:32:49+07:00",
+            "fetchedAt": "2026-10-19T14:32:52+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3372,14 +3810,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 23,
+          "arrival": 25,
           "aiCheck": {
             "model": "demo",
             "textHash": "e0ea2cbdb9fb3482b7d8067f0febac98b1a82142f2368fa82eef42a1ae7df17b",
             "words": 26,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:06+07:00"
           }
         }
       ],
@@ -3398,7 +3836,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 1
+            "max": 1,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -3409,17 +3849,19 @@
         }
       ],
       "counts": {
-        "total": 23,
+        "total": 25,
         "excluded": 0,
         "byRelevance": {
-          "direct": 15,
+          "direct": 17,
           "indirect": 6,
           "disputed": 2
         },
         "byPlatform": {
           "vk": 15,
           "ok": 5,
-          "max": 3
+          "max": 3,
+          "site": 1,
+          "dzen": 1
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -3490,6 +3932,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 21,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 17,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -3527,7 +4007,7 @@
             "hasMedia": true,
             "views": 38700,
             "reactions": 920,
-            "fetchedAt": "2026-10-19T14:32:49+07:00",
+            "fetchedAt": "2026-10-19T14:32:52+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3549,7 +4029,7 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 24
+          "arrival": 26
         },
         {
           "id": "vk:-100112_26605",
@@ -3602,7 +4082,7 @@
             "hasMedia": false,
             "views": 1610,
             "reactions": 92,
-            "fetchedAt": "2026-10-19T14:32:49+07:00",
+            "fetchedAt": "2026-10-19T14:32:52+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3642,14 +4122,116 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 25,
+          "arrival": 27,
           "aiCheck": {
             "model": "demo",
             "textHash": "d12ec162a7851bf1f91ff0a0232d81456d82585418789c352381776f577904e3",
             "words": 22,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:06+07:00"
+          }
+        },
+        {
+          "id": "site:severokrai.ru_news/gorod/dorogu-na-talnakh-zakryvali-iz-za-meteli/",
+          "publication": {
+            "id": "site:severokrai.ru_news/gorod/dorogu-na-talnakh-zakryvali-iz-za-meteli/",
+            "key": {
+              "platform": "site",
+              "ownerId": "severokrai.ru",
+              "postId": "news/gorod/dorogu-na-talnakh-zakryvali-iz-za-meteli/"
+            },
+            "platform": "site",
+            "source": {
+              "id": "site:severokrai.ru",
+              "platform": "site",
+              "name": "Заполярье",
+              "url": "https://severokrai.ru/",
+              "type": "media",
+              "district": "Норильск",
+              "subscribers": null,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://severokrai.ru/news/gorod/dorogu-na-talnakh-zakryvali-iz-za-meteli/",
+            "mergedUrls": [],
+            "title": "Дорогу на Талнах закрывали из-за метели",
+            "headline": "Дорогу на Талнах закрывали из-за метели",
+            "headlineFrom": "title",
+            "text": "Ночью из-за сильной метели перекрывали автодорогу Норильск — Талнах. Движение открыли утром, когда дорожники расчистили заносы. Водителей просят следить за сообщениями о закрытии трасс перед выездом.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 68
+              },
+              {
+                "index": 1,
+                "start": 69,
+                "end": 127
+              },
+              {
+                "index": 2,
+                "start": 128,
+                "end": 199
+              }
+            ],
+            "publishedAt": "2026-10-15T08:20:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 2400,
+            "reactions": null,
+            "fetchedAt": "2026-10-19T14:32:52+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "indirect",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Норильск",
+              "Талнах"
+            ]
+          },
+          "excerpt": {
+            "start": 0,
+            "end": 199,
+            "text": "Ночью из-за сильной метели перекрывали автодорогу Норильск — Талнах. Движение открыли утром, когда дорожники расчистили заносы. Водителей просят следить за сообщениями о закрытии трасс перед выездом.",
+            "cutStart": false,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 0,
+            "ranges": [
+              {
+                "start": 0,
+                "end": 68
+              }
+            ],
+            "basis": "semantic",
+            "note": null
+          },
+          "placementType": null,
+          "isOriginal": false,
+          "citation": null,
+          "groupId": null,
+          "excluded": false,
+          "isNew": false,
+          "arrival": 28,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "064c04438f26aaa02ba676b7020adb021cf7018cfa1c76a1631238060aa18962",
+            "words": 26,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:06+07:00"
           }
         }
       ],
@@ -3668,7 +4250,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 1
+            "max": 1,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -3679,17 +4263,19 @@
         }
       ],
       "counts": {
-        "total": 25,
+        "total": 28,
         "excluded": 0,
         "byRelevance": {
-          "direct": 15,
-          "indirect": 6,
+          "direct": 17,
+          "indirect": 7,
           "disputed": 4
         },
         "byPlatform": {
           "vk": 17,
           "ok": 5,
-          "max": 3
+          "max": 3,
+          "site": 2,
+          "dzen": 1
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -3760,6 +4346,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 23,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 18,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -3813,7 +4437,7 @@
             "hasMedia": false,
             "views": 2310,
             "reactions": 132,
-            "fetchedAt": "2026-10-19T14:32:49+07:00",
+            "fetchedAt": "2026-10-19T14:32:52+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3853,14 +4477,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 26,
+          "arrival": 29,
           "aiCheck": {
             "model": "demo",
             "textHash": "75c6b70a503e4218cac904e38ec4d67e5d2695275e87f73b498e7d1b5305f2d5",
             "words": 28,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:07+07:00"
           }
         },
         {
@@ -3914,7 +4538,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 88,
-            "fetchedAt": "2026-10-19T14:32:49+07:00",
+            "fetchedAt": "2026-10-19T14:32:52+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3954,14 +4578,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 27,
+          "arrival": 30,
           "aiCheck": {
             "model": "demo",
             "textHash": "db20e3ca22288726ef9e33cd5b38d7e5531295ea0f4497368990ec840fb1889a",
             "words": 27,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:07+07:00"
           }
         },
         {
@@ -4015,7 +4639,7 @@
             "hasMedia": false,
             "views": 4100,
             "reactions": 48,
-            "fetchedAt": "2026-10-19T14:32:49+07:00",
+            "fetchedAt": "2026-10-19T14:32:52+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -4053,14 +4677,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 28,
+          "arrival": 31,
           "aiCheck": {
             "model": "demo",
             "textHash": "a49847feae25967d31ec3e8227069d11dc1dce1f4641f2b99483a8b76c9ac8c0",
             "words": 32,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:07+07:00"
           }
         }
       ],
@@ -4079,7 +4703,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 1
+            "max": 1,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -4090,17 +4716,19 @@
         }
       ],
       "counts": {
-        "total": 28,
+        "total": 31,
         "excluded": 0,
         "byRelevance": {
-          "direct": 17,
-          "indirect": 7,
+          "direct": 19,
+          "indirect": 8,
           "disputed": 4
         },
         "byPlatform": {
           "vk": 18,
           "ok": 6,
-          "max": 4
+          "max": 4,
+          "site": 2,
+          "dzen": 1
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -4171,6 +4799,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 25,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 20,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -4224,7 +4890,7 @@
             "hasMedia": false,
             "views": 1050,
             "reactions": 60,
-            "fetchedAt": "2026-10-19T14:32:50+07:00",
+            "fetchedAt": "2026-10-19T14:32:53+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -4264,14 +4930,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 29,
+          "arrival": 32,
           "aiCheck": {
             "model": "demo",
             "textHash": "a3ff41c3859468038c170ffa166af19f013c9c76865288159618b216e5e61d55",
             "words": 22,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:07+07:00"
           }
         },
         {
@@ -4325,7 +4991,7 @@
             "hasMedia": false,
             "views": 9100,
             "reactions": 240,
-            "fetchedAt": "2026-10-19T14:32:50+07:00",
+            "fetchedAt": "2026-10-19T14:32:53+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -4365,14 +5031,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 30,
+          "arrival": 33,
           "aiCheck": {
             "model": "demo",
             "textHash": "bf91a0cd5d49374d81a627df5c760ac05bf50384e469597b2b2f86ae2bd598b6",
             "words": 42,
             "level": "unlikely",
             "score": 0.419,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:08+07:00"
           }
         }
       ],
@@ -4391,7 +5057,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 1
+            "max": 1,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -4402,17 +5070,19 @@
         }
       ],
       "counts": {
-        "total": 30,
+        "total": 33,
         "excluded": 0,
         "byRelevance": {
-          "direct": 19,
-          "indirect": 7,
+          "direct": 21,
+          "indirect": 8,
           "disputed": 4
         },
         "byPlatform": {
           "vk": 20,
           "ok": 6,
-          "max": 4
+          "max": 4,
+          "site": 2,
+          "dzen": 1
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -4483,6 +5153,44 @@
       "currentSource": null
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 27,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 21,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      },
+      "currentSource": null
+    },
+    {
       "type": "items",
       "items": [
         {
@@ -4536,7 +5244,7 @@
             "hasMedia": false,
             "views": 2590,
             "reactions": 148,
-            "fetchedAt": "2026-10-19T14:32:50+07:00",
+            "fetchedAt": "2026-10-19T14:32:53+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -4574,14 +5282,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 31,
+          "arrival": 34,
           "aiCheck": {
             "model": "demo",
             "textHash": "95a7b03ee1afd0123251aff854510f792fe9c85f4ff7a58a3d2e58cfbd20c175",
             "words": 26,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:07+07:00"
           }
         },
         {
@@ -4635,7 +5343,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 72,
-            "fetchedAt": "2026-10-19T14:32:50+07:00",
+            "fetchedAt": "2026-10-19T14:32:53+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -4675,14 +5383,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 32,
+          "arrival": 35,
           "aiCheck": {
             "model": "demo",
             "textHash": "4c48f070b8a04059ab0e00bf06faee116c9f6f109e549ad2792d6c4d032ba352",
             "words": 27,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:07+07:00"
           }
         }
       ],
@@ -4701,7 +5409,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 1
+            "max": 1,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -4712,17 +5422,19 @@
         }
       ],
       "counts": {
-        "total": 32,
+        "total": 35,
         "excluded": 0,
         "byRelevance": {
-          "direct": 20,
-          "indirect": 7,
+          "direct": 22,
+          "indirect": 8,
           "disputed": 5
         },
         "byPlatform": {
           "vk": 21,
           "ok": 7,
-          "max": 4
+          "max": 4,
+          "site": 2,
+          "dzen": 1
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -4763,7 +5475,7 @@
         "problem": null,
         "freshness": null,
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:50+07:00"
+        "updatedAt": "2026-10-19T14:32:53+07:00"
       },
       "currentSource": null
     },
@@ -4785,6 +5497,44 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 29,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "searching",
+        "found": 1,
+        "progress": {
+          "done": 23,
+          "total": 25,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
       },
       "currentSource": null
     },
@@ -4852,7 +5602,7 @@
             "hasMedia": false,
             "views": 1260,
             "reactions": 72,
-            "fetchedAt": "2026-10-19T14:32:50+07:00",
+            "fetchedAt": "2026-10-19T14:32:53+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -4892,14 +5642,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 33,
+          "arrival": 36,
           "aiCheck": {
             "model": "demo",
             "textHash": "70a0b3ec07a0cd8e3e5e5d45625e921784d205bac3eddf6fa4256d4962aceb45",
             "words": 58,
             "level": "likely-ai",
             "score": 0.9,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:09+07:00"
           }
         },
         {
@@ -4953,7 +5703,7 @@
             "hasMedia": false,
             "views": 840,
             "reactions": 48,
-            "fetchedAt": "2026-10-19T14:32:50+07:00",
+            "fetchedAt": "2026-10-19T14:32:53+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -4993,14 +5743,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 34,
+          "arrival": 37,
           "aiCheck": {
             "model": "demo",
             "textHash": "1ea0e4c283def433449296812524b5b55006f9c22c4b3231ae6a8fa44df6ea8d",
             "words": 29,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:08+07:00"
           }
         },
         {
@@ -5054,7 +5804,7 @@
             "hasMedia": false,
             "views": 9700,
             "reactions": 136,
-            "fetchedAt": "2026-10-19T14:32:50+07:00",
+            "fetchedAt": "2026-10-19T14:32:53+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -5094,14 +5844,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 35,
+          "arrival": 38,
           "aiCheck": {
             "model": "demo",
             "textHash": "32e376b48bcc089126a2148afa55425cf3234cab74054d4b1bd02bc52b20a5cf",
             "words": 30,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:08+07:00"
           }
         }
       ],
@@ -5120,7 +5870,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 1
+            "max": 1,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -5131,17 +5883,19 @@
         }
       ],
       "counts": {
-        "total": 35,
+        "total": 38,
         "excluded": 0,
         "byRelevance": {
-          "direct": 23,
-          "indirect": 7,
+          "direct": 25,
+          "indirect": 8,
           "disputed": 5
         },
         "byPlatform": {
           "vk": 23,
           "ok": 7,
-          "max": 5
+          "max": 5,
+          "site": 2,
+          "dzen": 1
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -5190,6 +5944,40 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 2,
+        "progress": {
+          "done": 31,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "dzen",
+        "state": "found",
+        "found": 1,
+        "progress": null,
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:54+07:00",
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
       },
       "currentSource": null
     },
@@ -5247,7 +6035,7 @@
             "hasMedia": false,
             "views": 14800,
             "reactions": 848,
-            "fetchedAt": "2026-10-19T14:32:51+07:00",
+            "fetchedAt": "2026-10-19T14:32:54+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -5288,14 +6076,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 36,
+          "arrival": 39,
           "aiCheck": {
             "model": "demo",
             "textHash": "9961501c0cd6fcd920d7c7ec5fbce3c4ce9e6d38cc4828ef043383a70b7707f3",
             "words": 29,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:08+07:00"
           }
         }
       ],
@@ -5314,7 +6102,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 1
+            "max": 1,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -5325,17 +6115,19 @@
         }
       ],
       "counts": {
-        "total": 36,
+        "total": 39,
         "excluded": 0,
         "byRelevance": {
-          "direct": 24,
-          "indirect": 7,
+          "direct": 26,
+          "indirect": 8,
           "disputed": 5
         },
         "byPlatform": {
           "vk": 24,
           "ok": 7,
-          "max": 5
+          "max": 5,
+          "site": 2,
+          "dzen": 1
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -5384,6 +6176,25 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 33,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
       },
       "currentSource": null
     },
@@ -5441,7 +6252,7 @@
             "hasMedia": false,
             "views": 686,
             "reactions": 39,
-            "fetchedAt": "2026-10-19T14:32:51+07:00",
+            "fetchedAt": "2026-10-19T14:32:54+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -5481,14 +6292,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 37,
+          "arrival": 40,
           "aiCheck": {
             "model": "demo",
             "textHash": "eb13e9cc6c317846233b39b046eb1e57de3af981b03224c9b184a2318d25b36c",
             "words": 25,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:08+07:00"
           }
         },
         {
@@ -5542,7 +6353,7 @@
             "hasMedia": false,
             "views": 2870,
             "reactions": 164,
-            "fetchedAt": "2026-10-19T14:32:51+07:00",
+            "fetchedAt": "2026-10-19T14:32:54+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -5582,14 +6393,115 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 38,
+          "arrival": 41,
           "aiCheck": {
             "model": "demo",
             "textHash": "12716d567899aa7792871b0baec00cf4dffc16d3f295f6a68e1be4f3087631a7",
             "words": 31,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:08+07:00"
+          }
+        },
+        {
+          "id": "site:vtruda.ru_news/gorod/u-tsentralnogo-rynka-postavyat-svetofor/",
+          "publication": {
+            "id": "site:vtruda.ru_news/gorod/u-tsentralnogo-rynka-postavyat-svetofor/",
+            "key": {
+              "platform": "site",
+              "ownerId": "vtruda.ru",
+              "postId": "news/gorod/u-tsentralnogo-rynka-postavyat-svetofor/"
+            },
+            "platform": "site",
+            "source": {
+              "id": "site:vtruda.ru",
+              "platform": "site",
+              "name": "Власть труда",
+              "url": "https://vtruda.ru/",
+              "type": "media",
+              "district": "Минусинский муниципальный округ",
+              "subscribers": null,
+              "inMySources": true,
+              "regional": true
+            },
+            "url": "https://vtruda.ru/news/gorod/u-tsentralnogo-rynka-postavyat-svetofor/",
+            "mergedUrls": [],
+            "title": "В Минусинске у центрального рынка поставят светофор",
+            "headline": "В Минусинске у центрального рынка поставят светофор",
+            "headlineFrom": "title",
+            "text": "В Минусинске на перекрёстке у центрального рынка установят светофор. Жители жаловались, что переходить дорогу здесь опасно: за год на перекрёстке сбили трёх пешеходов. Светофор заработает до конца ноября.",
+            "sentences": [
+              {
+                "index": 0,
+                "start": 0,
+                "end": 68
+              },
+              {
+                "index": 1,
+                "start": 69,
+                "end": 167
+              },
+              {
+                "index": 2,
+                "start": 168,
+                "end": 204
+              }
+            ],
+            "publishedAt": "2026-10-13T09:30:00+07:00",
+            "timeReliability": "exact",
+            "edited": false,
+            "repostOf": null,
+            "hasMedia": false,
+            "views": 780,
+            "reactions": null,
+            "fetchedAt": "2026-10-19T14:32:54+07:00",
+            "linkCheck": {
+              "state": "not-checked",
+              "checkedAt": null
+            }
+          },
+          "relevance": "direct",
+          "method": "semantic",
+          "methodNote": null,
+          "regionReason": {
+            "regionalSource": true,
+            "inMySources": false,
+            "places": [
+              "Минусинск"
+            ]
+          },
+          "excerpt": {
+            "start": 69,
+            "end": 204,
+            "text": "Жители жаловались, что переходить дорогу здесь опасно: за год на перекрёстке сбили трёх пешеходов. Светофор заработает до конца ноября.",
+            "cutStart": true,
+            "cutEnd": false
+          },
+          "evidence": {
+            "sentenceIndex": 1,
+            "ranges": [
+              {
+                "start": 69,
+                "end": 167
+              }
+            ],
+            "basis": "semantic",
+            "note": null
+          },
+          "placementType": null,
+          "isOriginal": false,
+          "citation": null,
+          "groupId": null,
+          "excluded": false,
+          "isNew": false,
+          "arrival": 42,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "ef2dd8fc6c8d6140e2564cf56b9af01833b0cdd1aa866aef87e63e599c9bcacc",
+            "words": 28,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:08+07:00"
           }
         }
       ],
@@ -5608,7 +6520,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 1
+            "max": 1,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -5619,17 +6533,19 @@
         }
       ],
       "counts": {
-        "total": 38,
+        "total": 42,
         "excluded": 0,
         "byRelevance": {
-          "direct": 24,
-          "indirect": 8,
+          "direct": 27,
+          "indirect": 9,
           "disputed": 6
         },
         "byPlatform": {
           "vk": 26,
           "ok": 7,
-          "max": 5
+          "max": 5,
+          "site": 3,
+          "dzen": 1
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -5652,7 +6568,7 @@
         "problem": null,
         "freshness": null,
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:51+07:00"
+        "updatedAt": "2026-10-19T14:32:54+07:00"
       },
       "currentSource": null
     },
@@ -5674,6 +6590,25 @@
         },
         "cap": null,
         "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 35,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
       },
       "currentSource": null
     },
@@ -5731,7 +6666,7 @@
             "hasMedia": false,
             "views": 567,
             "reactions": 32,
-            "fetchedAt": "2026-10-19T14:32:51+07:00",
+            "fetchedAt": "2026-10-19T14:32:54+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -5772,14 +6707,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 39,
+          "arrival": 43,
           "aiCheck": {
             "model": "demo",
             "textHash": "fcda19defddf0c71659cc40ceca32ec12c4a809af0b43de8a4d6175f2dc5bf19",
             "words": 25,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:09+07:00"
           }
         },
         {
@@ -5833,7 +6768,7 @@
             "hasMedia": false,
             "views": 11200,
             "reactions": 84,
-            "fetchedAt": "2026-10-19T14:32:51+07:00",
+            "fetchedAt": "2026-10-19T14:32:54+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -5874,14 +6809,14 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 40,
+          "arrival": 44,
           "aiCheck": {
             "model": "demo",
             "textHash": "186d0f5812101caca1081eecc86d9fdad424b19d8cbb19dc18a54b9e654c2ecf",
             "words": 19,
             "level": "too-short",
             "score": null,
-            "checkedAt": "2026-10-19T14:32:03+07:00"
+            "checkedAt": "2026-10-19T14:32:09+07:00"
           }
         }
       ],
@@ -5900,7 +6835,9 @@
           "countsByPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 1
+            "max": 1,
+            "site": 0,
+            "dzen": 0
           },
           "countsByType": {
             "verbatim": 2,
@@ -5911,17 +6848,19 @@
         }
       ],
       "counts": {
-        "total": 40,
+        "total": 44,
         "excluded": 0,
         "byRelevance": {
-          "direct": 24,
-          "indirect": 10,
+          "direct": 27,
+          "indirect": 11,
           "disputed": 6
         },
         "byPlatform": {
           "vk": 27,
           "ok": 7,
-          "max": 6
+          "max": 6,
+          "site": 3,
+          "dzen": 1
         },
         "byPlacementType": {
           "verbatim": 2,
@@ -5958,6 +6897,25 @@
     {
       "type": "platform",
       "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 37,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
         "platform": "max",
         "state": "found",
         "found": 6,
@@ -5968,16 +6926,69 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:52+07:00"
+        "updatedAt": "2026-10-19T14:32:55+07:00"
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 39,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "searching",
+        "found": 3,
+        "progress": {
+          "done": 41,
+          "total": 43,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null,
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "site",
+        "state": "found",
+        "found": 3,
+        "progress": null,
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": "2026-10-19T14:32:56+07:00",
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
       },
       "currentSource": null
     },
     {
       "type": "finished",
       "selection": {
-        "searchId": "s-mvfmnszt-6",
+        "searchId": "s-mvgil52t-6",
         "conditions": {
-          "searchId": "s-mvfmnszt-6",
+          "searchId": "s-mvgil52t-6",
           "text": "ДТП",
           "label": "Безопасность дорожного движения",
           "kind": "topic",
@@ -5996,11 +7007,13 @@
           "platforms": [
             "vk",
             "ok",
-            "max"
+            "max",
+            "site",
+            "dzen"
           ],
           "meaningLabel": null,
-          "startedAt": "2026-10-19T14:32:39+07:00",
-          "finishedAt": "2026-10-19T14:32:52+07:00",
+          "startedAt": "2026-10-19T14:32:42+07:00",
+          "finishedAt": "2026-10-19T14:32:56+07:00",
           "repeatOf": null
         },
         "statuses": [
@@ -6012,7 +7025,7 @@
             "problem": null,
             "freshness": null,
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:51+07:00"
+            "updatedAt": "2026-10-19T14:32:54+07:00"
           },
           {
             "platform": "ok",
@@ -6022,7 +7035,7 @@
             "problem": null,
             "freshness": null,
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:50+07:00"
+            "updatedAt": "2026-10-19T14:32:53+07:00"
           },
           {
             "platform": "max",
@@ -6035,7 +7048,29 @@
               "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
             },
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:52+07:00"
+            "updatedAt": "2026-10-19T14:32:55+07:00"
+          },
+          {
+            "platform": "site",
+            "state": "found",
+            "found": 3,
+            "progress": null,
+            "problem": null,
+            "freshness": null,
+            "cap": null,
+            "updatedAt": "2026-10-19T14:32:56+07:00",
+            "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+          },
+          {
+            "platform": "dzen",
+            "state": "found",
+            "found": 1,
+            "progress": null,
+            "problem": null,
+            "freshness": null,
+            "cap": null,
+            "updatedAt": "2026-10-19T14:32:54+07:00",
+            "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
           }
         ],
         "items": [
@@ -6090,7 +7125,7 @@
               "hasMedia": false,
               "views": 29300,
               "reactions": 1272,
-              "fetchedAt": "2026-10-19T14:32:46+07:00",
+              "fetchedAt": "2026-10-19T14:32:49+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -6137,7 +7172,7 @@
               "words": 28,
               "level": "too-short",
               "score": null,
-              "checkedAt": "2026-10-19T14:32:03+07:00"
+              "checkedAt": "2026-10-19T14:32:04+07:00"
             }
           },
           {
@@ -6194,7 +7229,7 @@
               "hasMedia": false,
               "views": 12300,
               "reactions": 140,
-              "fetchedAt": "2026-10-19T14:32:46+07:00",
+              "fetchedAt": "2026-10-19T14:32:49+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -6241,7 +7276,7 @@
               "words": 29,
               "level": "too-short",
               "score": null,
-              "checkedAt": "2026-10-19T14:32:03+07:00"
+              "checkedAt": "2026-10-19T14:32:04+07:00"
             }
           },
           {
@@ -6295,7 +7330,7 @@
               "hasMedia": false,
               "views": 41200,
               "reactions": 655,
-              "fetchedAt": "2026-10-19T14:32:46+07:00",
+              "fetchedAt": "2026-10-19T14:32:49+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -6342,7 +7377,7 @@
               "words": 29,
               "level": "too-short",
               "score": null,
-              "checkedAt": "2026-10-19T14:32:03+07:00"
+              "checkedAt": "2026-10-19T14:32:04+07:00"
             }
           }
         ],
@@ -6361,7 +7396,9 @@
             "countsByPlatform": {
               "vk": 2,
               "ok": 1,
-              "max": 1
+              "max": 1,
+              "site": 0,
+              "dzen": 0
             },
             "countsByType": {
               "verbatim": 2,
@@ -6372,17 +7409,19 @@
           }
         ],
         "counts": {
-          "total": 40,
+          "total": 44,
           "excluded": 0,
           "byRelevance": {
-            "direct": 24,
-            "indirect": 10,
+            "direct": 27,
+            "indirect": 11,
             "disputed": 6
           },
           "byPlatform": {
             "vk": 27,
             "ok": 7,
-            "max": 6
+            "max": 6,
+            "site": 3,
+            "dzen": 1
           },
           "byPlacementType": {
             "verbatim": 2,

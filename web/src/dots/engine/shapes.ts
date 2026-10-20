@@ -25,7 +25,7 @@ import {
   YENISEI as YENISEI_LONLAT,
   type LonLat,
 } from '../krai-geo';
-import type { DotsCityCount, DotsPlatformState } from '../types';
+import type { CloudPlatform, DotsCityCount, DotsPlatformState } from '../types';
 
 /* ---------- Палитра ---------- */
 
@@ -461,10 +461,10 @@ function listening(): Part[] {
   ];
 }
 
-export type PlatformStates = Readonly<Record<PlatformId, DotsPlatformState>>;
+export type PlatformStates = Readonly<Record<CloudPlatform, DotsPlatformState>>;
 
 /** Облака площадок: [площадка, цвет, x, y] — как на сайте. */
-const CLOUDS: readonly (readonly [PlatformId, number, number, number])[] = [
+const CLOUDS: readonly (readonly [CloudPlatform, number, number, number])[] = [
   ['vk', VK, -1.05, 0.72],
   ['ok', OK, -1.28, 0.0],
   ['max', MAX, -1.05, -0.72],
@@ -479,7 +479,7 @@ const TARGETS = ['Красноярск', 'Норильск', 'Канск', 'Ач
 function clouds(states: PlatformStates): Part[] {
   const MS = 0.72;
   const MX = 0.82;
-  const colorOf = (p: PlatformId, color: number): number =>
+  const colorOf = (p: CloudPlatform, color: number): number =>
     states[p] === 'failed' ? GREY : states[p] === 'idle' ? DIM : color;
   const map = mapParts({
     s: MS,
@@ -588,7 +588,9 @@ function found(known: readonly (readonly [string, number])[]): Part[] {
   return parts;
 }
 
-const PLATFORM_COLOR: Readonly<Record<PlatformId, number>> = { vk: VK, ok: OK, max: MAX };
+/** Цвета опор по площадкам; у сайтов СМИ и Дзена своего цвета в точках нет — белый. */
+const PLATFORM_COLOR: Readonly<Partial<Record<PlatformId, number>>> = { vk: VK, ok: OK, max: MAX };
+const placementColor = (p: PlatformId): number => PLATFORM_COLOR[p] ?? WHITE;
 /** Пример сайта: 15 размещений, 9 / 4 / 2 */
 // prettier-ignore
 const EXAMPLE_PLACEMENTS: readonly PlatformId[] = [
@@ -622,7 +624,7 @@ function spread(placements: readonly PlatformId[] | undefined): Part[] {
       x: SX + Math.cos(a) * ring * STEP,
       z: Math.sin(a) * ring * STEP,
       h: 0.12 + (i % 4) * 0.07,
-      c: PLATFORM_COLOR[p],
+      c: placementColor(p),
     };
   });
   const parts: Part[] = [
@@ -1137,7 +1139,7 @@ export interface ShapeRequest {
   data?: ShapeData;
 }
 
-const PLATFORMS: readonly PlatformId[] = ['vk', 'ok', 'max'];
+const PLATFORMS: readonly CloudPlatform[] = ['vk', 'ok', 'max'];
 
 /** Состояния облаков: у `searching` по умолчанию все ищут, у `failure` — как на сайте, сбой MAX. */
 function statesFor(req: ShapeRequest): PlatformStates {

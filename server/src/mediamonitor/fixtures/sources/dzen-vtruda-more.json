@@ -1,0 +1,55 @@
+{
+ "rid": "3785792931.1336.1792486195155.13244",
+ "items": [
+  {
+   "id": "6acd0a49c1bcbe32a98c5a01",
+   "type": "article",
+   "itemId": "aTdzOldOne01ZzZz",
+   "itemType": "native",
+   "title": "Сентябрьский субботник на набережной",
+   "text": "Жители Минусинска вышли на субботник на набережной Протоки.",
+   "sourceId": "647edcf397f79c2656d02daf",
+   "shareLink": "https://dzen.ru/a/aTdzOldOne01ZzZz",
+   "link": "https://dzen.ru/a/aTdzOldOne01ZzZz?feed_exp=ordinary_feed&from=channel&integration=site_desktop&place=layout",
+   "isPromoPublication": false,
+   "timeToReadSeconds": 40,
+   "publicationDate": "1791172800",
+   "image": {
+    "src": "https://avatars.dzeninfra.ru/get-zen_doc/1/pub_6acd0a49c1bcbe32a98c5a01/smart_crop_516x290"
+   },
+   "socialInfo": {
+    "commentsEnabled": true,
+    "commentCount": 0,
+    "avatarUrls": []
+   },
+   "version": "newApi",
+   "views": 21
+  },
+  {
+   "id": "6acd0a49c1bcbe32a98c5a02",
+   "type": "article",
+   "itemId": "aTdzOldTwo01YyYy",
+   "itemType": "native",
+   "title": "Как город готовится к отопительному сезону",
+   "text": "Коммунальники проверили котельные и тепловые сети.",
+   "sourceId": "647edcf397f79c2656d02daf",
+   "shareLink": "https://dzen.ru/a/aTdzOldTwo01YyYy",
+   "link": "https://dzen.ru/a/aTdzOldTwo01YyYy?feed_exp=ordinary_feed&from=channel&integration=site_desktop&place=layout",
+   "isPromoPublication": false,
+   "timeToReadSeconds": 40,
+   "publicationDate": "1790586000",
+   "image": {
+    "src": "https://avatars.dzeninfra.ru/get-zen_doc/1/pub_6acd0a49c1bcbe32a98c5a02/smart_crop_516x290"
+   },
+   "socialInfo": {
+    "commentsEnabled": true,
+    "commentCount": 0,
+    "avatarUrls": []
+   },
+   "version": "newApi",
+   "views": 18
+  }
+ ],
+ "ad_items": [],
+ "isNewApi": true
+}

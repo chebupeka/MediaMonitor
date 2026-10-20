@@ -31,6 +31,7 @@ from typing import Any
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from mediamonitor.adapters import enabled_platforms
 from mediamonitor.adapters.base import (
     AdapterError,
     AdapterQuery,
@@ -117,6 +118,15 @@ INTERRUPTED = {
 }
 PROGRESS_EVENT_INTERVAL = 0.25
 MAX_CUT_EXAMPLES = 6
+
+
+def _subject(platform: PlatformId, *, genitive: bool = False) -> str:
+    """Название площадки в сообщении: «ответ сайтов СМИ», «ответ ВКонтакте»."""
+    if platform == "site":
+        return "сайтов СМИ" if genitive else "Сайты СМИ"
+    if platform == "dzen" and genitive:
+        return "Дзена"
+    return PLATFORM_NAME[platform]
 
 
 def busy_message(label: str) -> str:
@@ -326,7 +336,12 @@ class SearchRunner:
                 "invalid",
                 "Период длиннее 6 месяцев: на открытом стенде так искать нельзя. Сократите период.",
             )
-        platforms: list[PlatformId] = list(dict.fromkeys(request.platforms or ("vk", "ok", "max")))
+        # По умолчанию — все площадки этого сервера; выключенные из запроса молча убираем.
+        available = enabled_platforms(self.ctx.adapters)
+        wanted = request.platforms or available
+        platforms = [p for p in available if p in wanted]
+        if not platforms:
+            raise ApiProblem("invalid", "Выбранные площадки на этом сервере выключены.")
 
         async with self.ctx.sessions.begin() as session:
             await self._ensure_free(session, workspace.id)
@@ -519,6 +534,8 @@ class SearchRunner:
             conditions = SearchConditions.model_validate(search.conditions)
             if platform not in conditions.platforms:
                 raise ApiProblem("invalid", "Эта площадка не участвовала в поиске.")
+            if platform not in self.ctx.adapters:
+                raise ApiProblem("invalid", "Эта площадка сейчас выключена на сервере.")
             run = await session.get(PlatformRunRow, (search_id, platform))
             run = required(run, "run")
             run.state = "waiting"
@@ -697,7 +714,10 @@ class SearchRunner:
             final = "error"
             problem = {
                 "code": "timeout",
-                "message": f"{name} не уложился во время. Найденное сохранено — повторите "
+                "message": f"{_subject(platform)} не уложились во время. Найденное сохранено — "
+                "повторите поиск по площадке."
+                if platform == "site"
+                else f"{name} не уложился во время. Найденное сохранено — повторите "
                 "поиск по площадке.",
                 "retryable": True,
             }
@@ -708,7 +728,8 @@ class SearchRunner:
             final = "error"
             problem = {
                 "code": "bad-response",
-                "message": f"Ответ {name} не удалось обработать. Это ошибка, "
+                "message": f"Ответ {_subject(platform, genitive=True)} не удалось обработать. "
+                "Это ошибка, "
                 "а не «ничего не найдено» — "
                 "повторите позже.",
                 "retryable": True,
@@ -1066,7 +1087,8 @@ class SearchRunner:
                 final = "partial"
                 problem = problem or {
                     "code": "bad-response",
-                    "message": f"Часть ответа {PLATFORM_NAME[platform]} не удалось обработать: "
+                    "message": f"Часть ответа {_subject(platform, genitive=True)} не удалось "
+                    "обработать: "
                     "найденное сохранено, повторите поиск по площадке.",
                     "retryable": True,
                 }

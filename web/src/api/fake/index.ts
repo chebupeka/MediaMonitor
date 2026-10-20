@@ -78,6 +78,7 @@ import {
   adoptRecord,
   attachFakeSearch,
   computeCounts,
+  emptyByPlatform,
   getRecord,
   retryFakePlatform,
   snapshot,
@@ -90,8 +91,11 @@ import {
 import { analyze, presetPeriod, topicFor } from './query';
 import { getDemoState, subscribeDemo } from './scenario';
 import {
+  SITE_DOMAINS,
   SOURCE_SEEDS,
   catalogSources,
+  platformInfo,
+  platformVia,
   postOwner,
   seedById,
   sourceUrl,
@@ -135,11 +139,18 @@ const clone = <T>(value: T): T => structuredClone(value);
 
 // ---------------------------------------------------------------- источники
 
-const CHECK_OK: Omit<SourceCheck, 'checkedAt'> = {
-  state: 'ok',
-  message: 'Источник доступен: открытая группа, посты читаются.',
-  preview: null,
+/** «Источник доступен» — своими словами для каждой площадки. */
+const OK_MESSAGE: Record<PlatformId, string> = {
+  vk: 'Источник доступен: открытая группа, посты читаются.',
+  ok: 'Источник доступен: открытая группа, посты читаются.',
+  max: 'Источник доступен: открытая группа, посты читаются.',
+  site: 'Сайт доступен: статьи читаются из ленты RSS или раздела новостей.',
+  dzen: 'Канал доступен: публикации читаются со страницы канала.',
 };
+
+function checkOk(platform: PlatformId): Omit<SourceCheck, 'checkedAt'> {
+  return { state: 'ok', message: OK_MESSAGE[platform], preview: null };
+}
 
 function sourceFromSeed(seed: SourceSeed, origin: Source['origin'], addedAt: string): Source {
   return {
@@ -153,7 +164,7 @@ function sourceFromSeed(seed: SourceSeed, origin: Source['origin'], addedAt: str
           preview: null,
           checkedAt: at('2026-10-19 08:00'),
         }
-      : { ...CHECK_OK, checkedAt: at('2026-10-19 08:00') },
+      : { ...checkOk(seed.platform), checkedAt: at('2026-10-19 08:00') },
   };
 }
 
@@ -178,7 +189,7 @@ function myIds(): Set<string> {
 }
 
 function myNamesByPlatform(): Record<PlatformId, string[]> {
-  const result: Record<PlatformId, string[]> = { vk: [], ok: [], max: [] };
+  const result: Record<PlatformId, string[]> = { vk: [], ok: [], max: [], site: [], dzen: [] };
   for (const s of mySources.values()) result[s.platform].push(s.name);
   return result;
 }
@@ -189,6 +200,16 @@ interface ParsedUrl {
   slug: string;
 }
 
+/** Площадка по адресу. Сайт — только из каталога СМИ края; прочие сайты не поддерживаются. */
+function platformOf(normalized: string): PlatformId | null {
+  if (normalized.startsWith('vk.com/')) return 'vk';
+  if (normalized.startsWith('ok.ru/')) return 'ok';
+  if (normalized.startsWith('max.ru/')) return 'max';
+  if (normalized.startsWith('dzen.ru/')) return 'dzen';
+  const host = normalized.split('/')[0] ?? '';
+  return SITE_DOMAINS.includes(host) ? 'site' : null;
+}
+
 function parseUrl(raw: string): ParsedUrl {
   const normalized = raw
     .trim()
@@ -196,22 +217,31 @@ function parseUrl(raw: string): ParsedUrl {
     .replace(/^https?:\/\//u, '')
     .replace(/^(www\.|m\.)/u, '')
     .replace(/^vk\.ru\//u, 'vk.com/')
+    .replace(/^zen\.yandex\.ru\//u, 'dzen.ru/')
     .replace(/[?#].*$/u, '')
     .replace(/\/+$/u, '');
-  const platform: PlatformId | null = normalized.startsWith('vk.com/')
-    ? 'vk'
-    : normalized.startsWith('ok.ru/')
-      ? 'ok'
-      : normalized.startsWith('max.ru/')
-        ? 'max'
-        : null;
+  const platform = platformOf(normalized);
   const slug = normalized.split('/').slice(1).join('/');
   return { platform, normalized, slug };
 }
 
 function seedByUrl(parsed: ParsedUrl): SourceSeed | undefined {
-  return SOURCE_SEEDS.find((seed) => parseUrl(sourceUrl(seed)).normalized === parsed.normalized);
+  return SOURCE_SEEDS.find(
+    (seed) =>
+      parseUrl(sourceUrl(seed)).normalized === parsed.normalized ||
+      // канал Дзена открывают и по нику, и по id издателя
+      (seed.platform === 'dzen' && parsed.normalized === `dzen.ru/id/${seed.ownerId}`),
+  );
 }
+
+/** Как назвать источник площадки в подсказке: «эту группу», «этот сайт». */
+const SOURCE_ACCUSATIVE: Record<PlatformId, string> = {
+  vk: 'эту группу',
+  ok: 'эту группу',
+  max: 'этот канал',
+  site: 'этот сайт',
+  dzen: 'этот канал',
+};
 
 function guessType(slug: string): SourceType {
   if (/adm|admin|gorod/u.test(slug)) return 'municipal';
@@ -234,10 +264,12 @@ function previewOf(seed: SourceSeed): NonNullable<SourceCheck['preview']> {
 function checkUrl(url: string): SourceCheck {
   const checkedAt = nowIso();
   const parsed = parseUrl(url);
-  if (!parsed.platform || parsed.slug.length === 0) {
+  // У сайта СМИ адрес источника — сам домен, у остальных площадок нужен путь к группе.
+  if (!parsed.platform || (parsed.platform !== 'site' && parsed.slug.length === 0)) {
     return {
       state: 'not-supported',
-      message: 'Это не ссылка на группу или канал ВКонтакте, Одноклассников или MAX.',
+      message:
+        'Это не ссылка на группу или канал ВКонтакте, Одноклассников, MAX, Дзена и не сайт из каталога СМИ края.',
       preview: null,
       checkedAt,
     };
@@ -246,10 +278,13 @@ function checkUrl(url: string): SourceCheck {
   const post = postOwner(url);
   if (post.isPost) {
     const owner = post.seed;
+    const isArticle = owner?.platform === 'site';
     return {
       state: 'post-link',
       message: owner
-        ? `Это ссылка на пост. Он опубликован в «${owner.name}» — можно проверить и добавить ${owner.platform === 'max' ? 'этот канал' : 'эту группу'}.`
+        ? isArticle
+          ? `Это ссылка на статью. Она опубликована на сайте «${owner.name}» — можно проверить и добавить ${SOURCE_ACCUSATIVE[owner.platform]}.`
+          : `Это ссылка на пост. Он опубликован в «${owner.name}» — можно проверить и добавить ${SOURCE_ACCUSATIVE[owner.platform]}.`
         : 'Это ссылка на пост, а не на группу. Откройте группу или канал, где он вышел, и скопируйте их адрес.',
       preview: owner && !owner.closed ? previewOf(owner) : null,
       checkedAt,
@@ -286,7 +321,12 @@ function checkUrl(url: string): SourceCheck {
     }
     return {
       state: 'ok',
-      message: `«${seed.name}» доступен: открытая группа, посты читаются.`,
+      message:
+        seed.platform === 'site'
+          ? `Сайт «${seed.name}» доступен: статьи читаются из ленты RSS или раздела новостей.`
+          : seed.platform === 'dzen'
+            ? `Канал «${seed.name}» на Дзене доступен: публикации читаются со страницы канала.`
+            : `«${seed.name}» доступен: открытая группа, посты читаются.`,
       preview,
       checkedAt,
     };
@@ -307,13 +347,13 @@ function checkUrl(url: string): SourceCheck {
       checkedAt,
     };
   }
-  const label = parsed.slug.replace(/^(club|public|group\/)/u, '');
+  const label = parsed.slug.replace(/^(club|public|group\/|id\/)/u, '');
   return {
     state: 'ok',
-    message: 'Источник доступен: открытая группа, посты читаются.',
+    message: OK_MESSAGE[parsed.platform],
     preview: {
       platform: parsed.platform,
-      name: `Сообщество «${label}»`,
+      name: parsed.platform === 'dzen' ? `Канал «${label}» на Дзене` : `Сообщество «${label}»`,
       url: `https://${parsed.normalized}`,
       subscribers: 1_000 + ((label.length * 1_337) % 40_000),
       lastPostAt: at('2026-10-18 17:05'),
@@ -406,22 +446,22 @@ function seededRecent(): RecentSearch[] {
     {
       searchId: bdd.searchId,
       conditions: bdd,
-      total: 33,
-      statusSummary: 'VK ✓ 21 · OK ✓ 7 · MAX ✓ 5',
+      total: 37,
+      statusSummary: 'VK ✓ 21 · OK ✓ 7 · MAX ✓ 5 · Сайты ✓ 3 · Дзен ✓ 1',
       request: toRequest(bdd),
     },
     {
       searchId: school.searchId,
       conditions: school,
-      total: 15,
-      statusSummary: 'VK ✓ 9 · OK ✓ 4 · MAX ✓ 2',
+      total: 22,
+      statusSummary: 'VK ✓ 9 · OK ✓ 4 · MAX ✓ 2 · Сайты ✓ 5 · Дзен ✓ 2',
       request: toRequest(school),
     },
     {
       searchId: river.searchId,
       conditions: river,
       total: 4,
-      statusSummary: 'VK ✓ 2 · OK ✓ 1 · MAX ✓ 1',
+      statusSummary: 'VK ✓ 2 · OK ✓ 1 · MAX ✓ 1 · Сайты ничего не найдено · Дзен ничего не найдено',
       request: toRequest(river, 'river'),
     },
     {
@@ -571,7 +611,7 @@ function waveOf(items: ResultItem[], bucketMs: number): WavePoint[] {
   const last = floor(Math.max(...times));
   const points: WavePoint[] = [];
   for (let t = first; t <= last; t += bucketMs) {
-    points.push({ start: toKrskIso(t), count: 0, byPlatform: { vk: 0, ok: 0, max: 0 } });
+    points.push({ start: toKrskIso(t), count: 0, byPlatform: emptyByPlatform() });
   }
   dated.forEach((item, idx) => {
     const time = times[idx] ?? 0;
@@ -611,7 +651,10 @@ function buildSpread(record: SearchRecord, groupId?: string): SpreadReport {
   if (original.publication.timeReliability === 'approximate') {
     notes.push({
       code: 'approximate-time',
-      message: 'Время приблизительное: MAX не отдаёт время, оно вычислено по номеру поста.',
+      message:
+        original.publication.platform === 'site'
+          ? 'Время приблизительное: у статьи сайта известна только дата из поиска по сайту.'
+          : 'Время приблизительное: MAX не отдаёт время, оно вычислено по номеру поста.',
     });
   }
   if (original.publication.edited)
@@ -622,7 +665,7 @@ function buildSpread(record: SearchRecord, groupId?: string): SpreadReport {
   const subsKnown = [...sources.values()].filter((v): v is number => v !== null);
   const viewsKnown = members.map((m) => m.publication.views).filter((v): v is number => v !== null);
 
-  const byPlatform = { vk: 0, ok: 0, max: 0 };
+  const byPlatform = emptyByPlatform();
   const byType = { verbatim: 0, shortened: 0, retold: 0, repost: 0 };
   for (const m of members) {
     byPlatform[m.publication.platform] += 1;
@@ -679,7 +722,7 @@ function buildSpread(record: SearchRecord, groupId?: string): SpreadReport {
       withData: viewsKnown.length,
       of: members.length,
       howCounted:
-        'Сумма просмотров по данным площадок. Одноклассники не отдают просмотры: по ним «нет данных», а не ноль.',
+        'Сумма просмотров по данным площадок. Одноклассники и часть сайтов СМИ не отдают просмотры: по ним «нет данных», а не ноль.',
     },
     wave: { hourly: waveOf(members, 3600_000), daily: waveOf(members, 86400_000) },
     placements,
@@ -739,7 +782,7 @@ function buildExport(record: SearchRecord, options?: ExportOptions, full = false
     const p = item.publication;
     return [
       index + 1,
-      PLATFORMS[p.platform].name,
+      PLATFORMS[p.platform].itemName,
       safeCell(p.source.name),
       safeCell(p.headline),
       formatPublishedAt(p),
@@ -804,7 +847,11 @@ function buildExport(record: SearchRecord, options?: ExportOptions, full = false
           ),
         },
         { label: 'Время', value: TIME_ZONE_LABEL_FULL },
-        { label: 'Данные', value: 'Демонстрационные (мокап). Источники вымышлены.' },
+        {
+          label: 'Данные',
+          value:
+            'Демонстрационные (мокап). Группы и каналы VK, OK, MAX вымышлены; сайты СМИ и каналы Дзена — настоящие редакции края, публикации придуманы.',
+        },
       ],
     },
     publications: { name: 'Публикации', columns, rows: table, totalRows: rows.length },
@@ -864,7 +911,7 @@ function standStatus(): StandStatus {
         platform: 'vk',
         state: maxDown ? 'degraded' : 'ok',
         message: maxDown ? 'Работает. 1 группа из демо-списка закрыта.' : 'Работает.',
-        via: 'VK API (сервисный ключ)',
+        via: platformVia('vk'),
         freshness: null,
         quota: {
           used: 3_412,
@@ -878,7 +925,7 @@ function standStatus(): StandStatus {
         platform: 'ok',
         state: 'ok',
         message: 'Работает.',
-        via: 'Веб-поиск Одноклассников',
+        via: platformVia('ok'),
         freshness: null,
         quota: null,
         lastSuccessAt: ago(2),
@@ -887,7 +934,7 @@ function standStatus(): StandStatus {
         platform: 'max',
         state: maxDown ? (maxFailure === 'rate-limited' ? 'degraded' : 'down') : 'ok',
         message: maxMessage,
-        via: 'Сторонний индекс MaxStat + проверка ссылок на max.ru',
+        via: platformVia('max'),
         freshness: maxFreshness,
         quota: {
           used: maxDown && maxFailure === 'quota-exhausted' ? 1_000 : 388,
@@ -896,6 +943,24 @@ function standStatus(): StandStatus {
           resetsAt: maxDown && maxFailure === 'quota-exhausted' ? at('2026-10-20 00:00') : null,
         },
         lastSuccessAt: maxDown ? ago(27) : ago(3),
+      },
+      {
+        platform: 'site',
+        state: 'ok',
+        message: 'Работает. Подключено 43 сайта из 48: 5 не опрашиваются.',
+        via: platformVia('site'),
+        freshness: null,
+        quota: null,
+        lastSuccessAt: ago(4),
+      },
+      {
+        platform: 'dzen',
+        state: 'ok',
+        message: 'Работает. Каналы 25 редакций края.',
+        via: platformVia('dzen'),
+        freshness: null,
+        quota: null,
+        lastSuccessAt: ago(5),
       },
     ],
     ai: {
@@ -999,7 +1064,7 @@ function buildImportPreview(fileName: string): ImportPreview {
     row: 7,
     value: 'https://example.ru/news',
     title: 'Сайт новостей',
-    outcome: { kind: 'skip', reason: 'Ссылка на сайт, а не на группу' },
+    outcome: { kind: 'skip', reason: 'Сайт не из каталога СМИ края: такие сайты не опрашиваем' },
   });
   const sixth = fresh[5];
   rows.push(sixth ? addRow(8, sixth, 0) : emptyRow(8));
@@ -1185,7 +1250,7 @@ function recheckAll(): SourcesRecheckReport {
             preview: null,
             checkedAt,
           }
-        : { ...CHECK_OK, checkedAt };
+        : { ...checkOk(source.platform), checkedAt };
     mySources.set(id, { ...source, check });
     if (check.state !== 'ok') {
       problems.push({
@@ -1259,6 +1324,7 @@ export function createFakeApi(): MonitorApi {
             name: 'Красноярский край',
             timeZone: 'Asia/Krasnoyarsk',
           },
+          platforms: platformInfo(),
         };
       }),
 
@@ -1351,7 +1417,10 @@ export function createFakeApi(): MonitorApi {
       withRecord(900, searchId, (record): ResultItem => {
         const parsed = parseUrl(url);
         if (!parsed.platform)
-          throw apiError('invalid', 'Это не ссылка на пост ВКонтакте, Одноклассников или MAX.');
+          throw apiError(
+            'invalid',
+            'Это не ссылка на пост ВКонтакте, Одноклассников, MAX, Дзена или статью сайта СМИ края.',
+          );
         const all = [
           ...record.dataset.items,
           ...record.dataset.spare,

@@ -24,7 +24,7 @@ from fastapi import FastAPI
 from mediamonitor.adapters import AdapterRegistry, FixtureAdapter, FixtureStore
 from mediamonitor.adapters.fixture import FailureMode
 from mediamonitor.ai.judge import AiJudge, NullJudge
-from mediamonitor.contract import PLATFORM_ORDER, PlatformId
+from mediamonitor.contract import REQUIRED_PLATFORMS, PlatformId
 from mediamonitor.main import DetectorFactory, JudgeFactory, MatcherFactory, create_app
 from mediamonitor.settings import Settings
 
@@ -101,7 +101,7 @@ def make_app(
             failure=(failures or {}).get(p),
             step_delay_sec=step_delay_sec,
         )
-        for p in PLATFORM_ORDER
+        for p in REQUIRED_PLATFORMS
     }
 
     def adapter_factory(_: Settings, __: httpx.AsyncClient) -> AdapterRegistry:

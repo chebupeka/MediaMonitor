@@ -26,7 +26,10 @@ import { cx } from './cx';
 export interface StatusLineProps {
   /** Условия ВЫПОЛНЕННОГО поиска (НТ-1), не текущие значения полей */
   conditions: SearchConditions;
-  /** Статусы площадок; недостающие площадки показываются как «ожидает» */
+  /**
+   * Статусы площадок. Показываются площадки из `conditions.platforms` (пусто — все);
+   * недостающие среди них — как «ожидает»
+   */
   statuses: readonly PlatformStatus[];
   /** «Найдено N» без исключённых; `null` — не показывать */
   total?: number | null;
@@ -85,7 +88,11 @@ export function StatusLine({
   className,
 }: StatusLineProps) {
   const byPlatform = new Map(statuses.map((s) => [s.platform, s]));
-  const full = PLATFORM_ORDER.map((p) => byPlatform.get(p) ?? placeholder(p));
+  // Только площадки этого поиска: выключенная на сервере не висит «ожидает».
+  const requested = new Set(conditions.platforms);
+  const shown =
+    requested.size > 0 ? PLATFORM_ORDER.filter((p) => requested.has(p)) : PLATFORM_ORDER;
+  const full = shown.map((p) => byPlatform.get(p) ?? placeholder(p));
   const notes = full.flatMap((s) => {
     const view = platformStatusView(s);
     const fresh = freshnessView(s);
@@ -112,6 +119,10 @@ export function StatusLine({
         text: fresh.detail,
         tone: 'info',
       });
+    }
+    // Постоянная оговорка о покрытии: «Подключено 43 сайта из 48: …»
+    if (s.note && !running) {
+      lines.push({ key: `${s.platform}-n`, platform: s.platform, text: s.note, tone: 'info' });
     }
     return lines;
   });

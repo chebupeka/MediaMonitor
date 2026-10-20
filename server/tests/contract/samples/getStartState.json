@@ -3,7 +3,7 @@
   "schema": "StartState",
   "value": {
     "firstRun": false,
-    "sourcesCount": 22,
+    "sourcesCount": 25,
     "defaultMode": "everywhere",
     "exampleQuery": "Например: безопасность дорожного движения",
     "defaultPeriod": {
@@ -15,6 +15,53 @@
       "id": "krasnoyarsk-krai",
       "name": "Красноярский край",
       "timeZone": "Asia/Krasnoyarsk"
-    }
+    },
+    "platforms": [
+      {
+        "id": "vk",
+        "name": "ВКонтакте",
+        "short": "VK",
+        "required": true,
+        "enabled": true,
+        "via": "VK API (сервисный ключ)",
+        "note": null
+      },
+      {
+        "id": "ok",
+        "name": "Одноклассники",
+        "short": "OK",
+        "required": true,
+        "enabled": true,
+        "via": "веб-поиск Одноклассников",
+        "note": null
+      },
+      {
+        "id": "max",
+        "name": "MAX",
+        "short": "MAX",
+        "required": true,
+        "enabled": true,
+        "via": "сторонний индекс MaxStat + проверка ссылок на max.ru",
+        "note": null
+      },
+      {
+        "id": "site",
+        "name": "Сайты СМИ",
+        "short": "Сайты",
+        "required": false,
+        "enabled": true,
+        "via": "ленты RSS, разделы новостей и поиск на сайтах СМИ края",
+        "note": "Подключено 43 сайта из 48. Не опрашиваются: «Ачинская газета» и «Маяк Севера» — сайт не открывается; «Наш Красноярский край» — пока не подключён: другой движок сайта; «Огни Енисея» — лента закрыта в robots.txt; «Сельский труженик» — сайт заброшен, последние новости — 2021 год."
+      },
+      {
+        "id": "dzen",
+        "name": "Дзен",
+        "short": "Дзен",
+        "required": false,
+        "enabled": true,
+        "via": "страницы каналов редакций на Дзене",
+        "note": "Каналы 25 редакций края, данные — с публичных страниц каналов. Правила Дзена запрещают копировать контент без разрешения (п. 5.1) — серая зона, как у Одноклассников."
+      }
+    ]
   }
 }

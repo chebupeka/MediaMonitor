@@ -19,7 +19,10 @@ import { at } from './clock';
 import { alternatePostUrls, postUrl, seedById, toSourceRef } from './sources';
 
 export interface PostSpec {
-  /** Номер поста у владельца */
+  /**
+   * Номер поста у владельца. Сайт СМИ — путь статьи без первого `/` (`news/…/`);
+   * Дзен — `a-<id>` (статья) или `b-<id>` (пост)
+   */
   n: string;
   /** id источника из sources.ts */
   src: string;
@@ -182,10 +185,13 @@ export function buildItem(spec: PostSpec): DemoItem {
       : seed.platform === 'ok'
         ? null
         : Math.round((seed.subscribers ?? 10_000) * 0.07);
+  // Сайты СМИ реакций не отдают: «нет данных», а не ноль.
   const reactions =
     spec.reactions !== undefined
       ? spec.reactions
-      : Math.round((seed.subscribers ?? 10_000) * 0.004);
+      : seed.platform === 'site'
+        ? null
+        : Math.round((seed.subscribers ?? 10_000) * 0.004);
 
   const ownerKey = seed.platform === 'vk' ? `-${seed.ownerId}` : seed.ownerId;
   const id = `${seed.platform}:${ownerKey}_${spec.n}`;

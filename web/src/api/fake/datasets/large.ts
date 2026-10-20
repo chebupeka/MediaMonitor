@@ -1,7 +1,7 @@
 /**
  * Набор 4. 500 результатов для проверки большого объёма (К26, SC-16). Записи
  * собираются детерминированно из шаблонов по теме БДД: одинаковые при каждом запуске.
- * У Одноклассников — потолок выдачи площадки.
+ * У Одноклассников — потолок выдачи площадки. Около 15 % записей — сайты СМИ и Дзен.
  */
 import type { PlatformId, Relevance, SelectionMethod } from '../../types';
 import { buildItem, type PostSpec } from '../build';
@@ -110,13 +110,23 @@ export const LARGE_COUNT = 500;
 /** Потолок выдачи Одноклассников в демо */
 export const OK_CAP = 100;
 
+/** Номер статьи Дзена в демо: 16 знаков, как у настоящих адресов `dzen.ru/a/…`. */
+function dzenId(r: () => number): string {
+  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789';
+  return Array.from({ length: 16 }, () => alphabet[Math.floor(r() * alphabet.length)]).join('');
+}
+
 export function buildLarge(): Dataset {
   const r = rng(2026);
+  // Отдельный поток для сайтов СМИ и Дзена: выбор VK / OK / MAX остаётся прежним.
+  const extra = rng(4242);
   const sources = SOURCE_SEEDS.filter((s) => s.regional && !s.closed);
   const byPlatform: Record<PlatformId, typeof sources> = {
     vk: sources.filter((s) => s.platform === 'vk'),
     ok: sources.filter((s) => s.platform === 'ok'),
     max: sources.filter((s) => s.platform === 'max'),
+    site: sources.filter((s) => s.platform === 'site'),
+    dzen: sources.filter((s) => s.platform === 'dzen'),
   };
   const specs: PostSpec[] = [];
   let okCount = 0;
@@ -127,6 +137,12 @@ export function buildLarge(): Dataset {
     if (platform === 'ok') {
       if (okCount >= OK_CAP) platform = 'vk';
       else okCount += 1;
+    }
+    // Часть записей «ВКонтакте» — статьи сайтов СМИ и каналов Дзена (~10 % и ~5 % всех).
+    if (platform === 'vk') {
+      const e = extra();
+      if (e < 0.17) platform = 'site';
+      else if (e < 0.26) platform = 'dzen';
     }
     const src = pick(byPlatform[platform], r);
     const relRoll = r();
@@ -151,10 +167,18 @@ export function buildLarge(): Dataset {
     const atValue = undated
       ? null
       : `2026-10-${String(day).padStart(2, '0')} ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+    // Сайт СМИ — путь статьи; Дзен — `a-<id>`. У статей есть заголовок.
+    const n =
+      platform === 'site'
+        ? `news/${700_000 + i}/`
+        : platform === 'dzen'
+          ? `a-${dzenId(extra)}`
+          : String(700_000 + i);
     specs.push({
-      n: String(700_000 + i),
+      n,
       src: src.id,
       at: atValue,
+      ...(platform === 'site' || platform === 'dzen' ? { title: lead.replace(/\.$/u, '') } : {}),
       text: [lead, tail],
       ev: 0,
       rel,

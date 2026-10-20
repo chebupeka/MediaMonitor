@@ -55,8 +55,10 @@ class ApiModel(BaseModel):
 
 IsoDateTime = str
 IsoDate = str
-PlatformId = Literal["vk", "ok", "max"]
-PLATFORM_ORDER: tuple[PlatformId, ...] = ("vk", "ok", "max")
+PlatformId = Literal["vk", "ok", "max", "site", "dzen"]
+PLATFORM_ORDER: tuple[PlatformId, ...] = ("vk", "ok", "max", "site", "dzen")
+# Обязательные площадки ТЗ (ТЗ-Ф18); сайты СМИ края и Дзен — дополнительные (ТЗ-Ф17).
+REQUIRED_PLATFORMS: tuple[PlatformId, ...] = ("vk", "ok", "max")
 QueryKind = Literal["topic", "event", "news-text"]
 SearchMode = Literal["my-sources", "everywhere"]
 PeriodPreset = Literal["today", "24h", "7d", "30d", "custom"]
@@ -279,6 +281,20 @@ class PlatformStatus(ApiModel):
     freshness: DataFreshness | None
     cap: PlatformCap | None
     updated_at: IsoDateTime | None
+    # Постоянная оговорка о покрытии: «Подключено 43 сайта из 48: …».
+    note: str | None = absent()
+
+
+class PlatformInfo(ApiModel):
+    """Площадка, как её описывает сервер: интерфейс не держит список жёстко."""
+
+    id: PlatformId
+    name: str
+    short: str
+    required: bool
+    enabled: bool
+    via: str
+    note: str | None
 
 
 # ============================================================================
@@ -430,6 +446,7 @@ class StartState(ApiModel):
     example_query: str
     default_period: Period
     region: Region
+    platforms: list[PlatformInfo]
 
 
 # ============================================================================
@@ -578,6 +595,8 @@ class ByPlatform(ApiModel):
     vk: int = 0
     ok: int = 0
     max: int = 0
+    site: int = 0
+    dzen: int = 0
 
     def add(self, platform: PlatformId, value: int = 1) -> None:
         setattr(self, platform, getattr(self, platform) + value)
