@@ -99,8 +99,9 @@ class Settings(BaseSettings):
 
     # ---------------------------------------------------------------- проверка текста на ИИ
     # auto — сервис детектора на компьютере с видеокартой, если задан AI_DETECT_URL; без него
-    # на записанных примерах (DATA_SOURCE=fixtures) — демо-оценка из хеша текста, на живых
-    # данных — выключено («проверка недоступна»): ложная метка — это обвинение.
+    # при разработке на записанных примерах (DATA_SOURCE=fixtures, ENVIRONMENT не production) —
+    # демо-оценка из хеша текста, иначе выключено («проверка недоступна»): ложная метка — это
+    # обвинение. Демо на стенде — только явно: AI_DETECT_PROVIDER=fixture.
     ai_detect_provider: Literal["auto", "gigacheck", "fixture", "off"] = "auto"
     # Сервис детектора (gpu-node), тот же токен EMBEDDINGS_TOKEN.
     ai_detect_url: str | None = None
@@ -181,7 +182,11 @@ class Settings(BaseSettings):
             return self.ai_detect_provider
         if self.ai_detect_url:
             return "gigacheck"
-        return "fixture" if self.data_source == "fixtures" else "off"
+        # Демо-оценка из хеша — только для разработки на записанных примерах: на стенде её
+        # легко принять за настоящую (правый клик по живому тексту), поэтому там — явно.
+        if self.data_source == "fixtures" and self.environment != "production":
+            return "fixture"
+        return "off"
 
     @property
     def cors_origin_list(self) -> list[str]:

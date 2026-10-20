@@ -25,7 +25,9 @@
         "retold": 0,
         "repost": 0
       },
-      "new": 0
+      "new": 0,
+      "aiLikely": 1,
+      "aiSigns": 1
     }
   }
 }

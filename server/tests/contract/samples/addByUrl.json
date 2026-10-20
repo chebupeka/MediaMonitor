@@ -47,10 +47,10 @@
       "hasMedia": false,
       "views": 4060,
       "reactions": 232,
-      "fetchedAt": "2026-10-19T14:32:12+07:00",
+      "fetchedAt": "2026-10-19T14:32:11+07:00",
       "linkCheck": {
         "state": "ok",
-        "checkedAt": "2026-10-19T14:32:14+07:00"
+        "checkedAt": "2026-10-19T14:32:13+07:00"
       }
     },
     "relevance": "direct",
@@ -85,6 +85,14 @@
     "groupId": null,
     "excluded": false,
     "isNew": false,
-    "arrival": 41
+    "arrival": 41,
+    "aiCheck": {
+      "model": "demo",
+      "textHash": "1f92e340ac6156d79d8f6cf6b6cd448913a4ab63b76f53cb5f1856fa3c439e0d",
+      "words": 15,
+      "level": "too-short",
+      "score": null,
+      "checkedAt": "2026-10-19T14:32:11+07:00"
+    }
   }
 }

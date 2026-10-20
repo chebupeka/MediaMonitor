@@ -2,7 +2,7 @@
   "method": "getSpread",
   "schema": "SpreadReport",
   "value": {
-    "searchId": "s-mvfj66u6-2",
+    "searchId": "s-mvfmn9ny-2",
     "groupId": "g-release-school",
     "title": "Новая школа в Норильске",
     "release": {
@@ -604,7 +604,15 @@
         "placementType": "verbatim",
         "isOriginal": true,
         "citationShare": 1,
-        "url": "https://vk.com/wall-100104_60210"
+        "url": "https://vk.com/wall-100104_60210",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+          "words": 74,
+          "level": "unlikely",
+          "score": 0.12,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       },
       {
         "itemId": "vk:-100101_88015",
@@ -617,7 +625,15 @@
         "placementType": "verbatim",
         "isOriginal": false,
         "citationShare": 1,
-        "url": "https://vk.com/wall-100101_88015"
+        "url": "https://vk.com/wall-100101_88015",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "396fa028575eb721c32970244ce99f4b93dd362f796924e54d88d8b541c3a4ec",
+          "words": 78,
+          "level": "unlikely",
+          "score": 0.15,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       },
       {
         "itemId": "max:press_3301",
@@ -630,7 +646,15 @@
         "placementType": "verbatim",
         "isOriginal": false,
         "citationShare": 1,
-        "url": "https://max.ru/demo_press_kanal/3301"
+        "url": "https://max.ru/demo_press_kanal/3301",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+          "words": 74,
+          "level": "unlikely",
+          "score": 0.12,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       },
       {
         "itemId": "vk:-100102_77122",
@@ -643,7 +667,15 @@
         "placementType": "retold",
         "isOriginal": false,
         "citationShare": 0.23,
-        "url": "https://vk.com/wall-100102_77122"
+        "url": "https://vk.com/wall-100102_77122",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "01cf5947af39f440a5689175f1f5e18d49570214268258d72902bc9e0e81bcef",
+          "words": 43,
+          "level": "likely-ai",
+          "score": 0.93,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       },
       {
         "itemId": "ok:5600101_30377",
@@ -656,7 +688,15 @@
         "placementType": "verbatim",
         "isOriginal": false,
         "citationShare": 1,
-        "url": "https://ok.ru/group/5600101/topic/30377"
+        "url": "https://ok.ru/group/5600101/topic/30377",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+          "words": 74,
+          "level": "unlikely",
+          "score": 0.12,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       },
       {
         "itemId": "vk:-100114_70120",
@@ -669,7 +709,15 @@
         "placementType": "retold",
         "isOriginal": false,
         "citationShare": 0.05,
-        "url": "https://vk.com/wall-100114_70120"
+        "url": "https://vk.com/wall-100114_70120",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "e38a3f4955b220225b22af75ef179ad8eab13ed99a38081b028ad26de9d76180",
+          "words": 40,
+          "level": "unlikely",
+          "score": 0.21,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       },
       {
         "itemId": "vk:-100103_64388",
@@ -682,7 +730,15 @@
         "placementType": "shortened",
         "isOriginal": false,
         "citationShare": 0.76,
-        "url": "https://vk.com/wall-100103_64388"
+        "url": "https://vk.com/wall-100103_64388",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "1f4e415d11bca9cc8c65cacf23bf62f1454c91a99d952b24ed5f0d683ad513c1",
+          "words": 57,
+          "level": "unlikely",
+          "score": 0.1,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       },
       {
         "itemId": "ok:5600102_9011",
@@ -695,7 +751,15 @@
         "placementType": "verbatim",
         "isOriginal": false,
         "citationShare": 1,
-        "url": "https://ok.ru/group/5600102/topic/9011"
+        "url": "https://ok.ru/group/5600102/topic/9011",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+          "words": 74,
+          "level": "unlikely",
+          "score": 0.12,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       },
       {
         "itemId": "vk:-100105_45601",
@@ -708,7 +772,15 @@
         "placementType": "retold",
         "isOriginal": false,
         "citationShare": 0.16,
-        "url": "https://vk.com/wall-100105_45601"
+        "url": "https://vk.com/wall-100105_45601",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "dcbca97f4d510415f7fc961a8709fc2ee8f6d809f3b0e2c45c566c2741ada61d",
+          "words": 47,
+          "level": "signs",
+          "score": 0.71,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       },
       {
         "itemId": "max:portal_2236",
@@ -721,7 +793,15 @@
         "placementType": "retold",
         "isOriginal": false,
         "citationShare": 0.04,
-        "url": "https://max.ru/demo_portal_kanal/2236"
+        "url": "https://max.ru/demo_portal_kanal/2236",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "50b9b3bfbc60b8a47540567d2bef940f3b694f43bef80b13769bd5b100150ee0",
+          "words": 19,
+          "level": "too-short",
+          "score": null,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       },
       {
         "itemId": "vk:-100112_26710",
@@ -734,7 +814,15 @@
         "placementType": "shortened",
         "isOriginal": false,
         "citationShare": 0.5,
-        "url": "https://vk.com/wall-100112_26710"
+        "url": "https://vk.com/wall-100112_26710",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "633f3779d67b7ed482c7a1824a5d58855f227be9e85134771ecc24829ead24a3",
+          "words": 39,
+          "level": "too-short",
+          "score": null,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       },
       {
         "itemId": "ok:5600104_17802",
@@ -747,7 +835,15 @@
         "placementType": "verbatim",
         "isOriginal": false,
         "citationShare": 1,
-        "url": "https://ok.ru/group/5600104/topic/17802"
+        "url": "https://ok.ru/group/5600104/topic/17802",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+          "words": 74,
+          "level": "unlikely",
+          "score": 0.12,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       },
       {
         "itemId": "vk:-100109_22140",
@@ -760,7 +856,15 @@
         "placementType": "repost",
         "isOriginal": false,
         "citationShare": 1,
-        "url": "https://vk.com/wall-100109_22140"
+        "url": "https://vk.com/wall-100109_22140",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "396fa028575eb721c32970244ce99f4b93dd362f796924e54d88d8b541c3a4ec",
+          "words": 78,
+          "level": "unlikely",
+          "score": 0.15,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       },
       {
         "itemId": "vk:-100113_71533",
@@ -773,7 +877,15 @@
         "placementType": "retold",
         "isOriginal": false,
         "citationShare": 0.15,
-        "url": "https://vk.com/wall-100113_71533"
+        "url": "https://vk.com/wall-100113_71533",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "313534cef35769daa1ad51fb45995e927fdc4eb59b8b4b3a6371557f5182106b",
+          "words": 25,
+          "level": "too-short",
+          "score": null,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       },
       {
         "itemId": "ok:5600108_40790",
@@ -786,9 +898,21 @@
         "placementType": "shortened",
         "isOriginal": false,
         "citationShare": 0.52,
-        "url": "https://ok.ru/group/5600108/topic/40790"
+        "url": "https://ok.ru/group/5600108/topic/40790",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "def79c9c0c5fc46f0da77013e975fa47fdfaed0f5bfd3d71fb547d0b705d7061",
+          "words": 40,
+          "level": "unlikely",
+          "score": 0.08,
+          "checkedAt": "2026-10-19T14:32:14+07:00"
+        }
       }
     ],
-    "computedAt": "2026-10-19T14:32:22+07:00"
+    "aiRetold": {
+      "likelyAi": 1,
+      "retold": 5
+    },
+    "computedAt": "2026-10-19T14:32:21+07:00"
   }
 }

@@ -3,9 +3,9 @@
   "schema": "RecentSearch[]",
   "value": [
     {
-      "searchId": "s-mvfj6q6b-6",
+      "searchId": "s-mvfmnszt-6",
       "conditions": {
-        "searchId": "s-mvfj6q6b-6",
+        "searchId": "s-mvfmnszt-6",
         "text": "ДТП",
         "label": "Безопасность дорожного движения",
         "kind": "topic",
@@ -27,8 +27,8 @@
           "max"
         ],
         "meaningLabel": null,
-        "startedAt": "2026-10-19T14:32:40+07:00",
-        "finishedAt": "2026-10-19T14:32:53+07:00",
+        "startedAt": "2026-10-19T14:32:39+07:00",
+        "finishedAt": "2026-10-19T14:32:52+07:00",
         "repeatOf": null
       },
       "total": 40,
@@ -44,9 +44,9 @@
       }
     },
     {
-      "searchId": "s-mvfj6kzg-5",
+      "searchId": "s-mvfmnnqg-5",
       "conditions": {
-        "searchId": "s-mvfj6kzg-5",
+        "searchId": "s-mvfmnnqg-5",
         "text": "ДТП",
         "label": "Безопасность дорожного движения",
         "kind": "topic",
@@ -68,8 +68,8 @@
           "max"
         ],
         "meaningLabel": null,
-        "startedAt": "2026-10-19T14:32:33+07:00",
-        "finishedAt": "2026-10-19T14:32:40+07:00",
+        "startedAt": "2026-10-19T14:32:32+07:00",
+        "finishedAt": "2026-10-19T14:32:39+07:00",
         "repeatOf": null
       },
       "total": 40,
@@ -85,9 +85,9 @@
       }
     },
     {
-      "searchId": "s-mvfj6dbi-4",
+      "searchId": "s-mvfmng20-4",
       "conditions": {
-        "searchId": "s-mvfj6dbi-4",
+        "searchId": "s-mvfmng20-4",
         "text": "ДТП",
         "label": "Безопасность дорожного движения",
         "kind": "topic",
@@ -109,8 +109,8 @@
           "max"
         ],
         "meaningLabel": null,
-        "startedAt": "2026-10-19T14:32:23+07:00",
-        "finishedAt": "2026-10-19T14:32:33+07:00",
+        "startedAt": "2026-10-19T14:32:22+07:00",
+        "finishedAt": "2026-10-19T14:32:32+07:00",
         "repeatOf": null
       },
       "total": 40,
@@ -126,9 +126,9 @@
       }
     },
     {
-      "searchId": "s-mvfj6cm9-3",
+      "searchId": "s-mvfmnfck-3",
       "conditions": {
-        "searchId": "s-mvfj6cm9-3",
+        "searchId": "s-mvfmnfck-3",
         "text": "Енисей",
         "label": "Енисей (река)",
         "kind": "event",
@@ -150,12 +150,12 @@
           "max"
         ],
         "meaningLabel": "Река Енисей",
-        "startedAt": "2026-10-19T14:32:22+07:00",
-        "finishedAt": "2026-10-19T14:32:23+07:00",
+        "startedAt": "2026-10-19T14:32:21+07:00",
+        "finishedAt": "2026-10-19T14:32:22+07:00",
         "repeatOf": null
       },
       "total": 0,
-      "statusSummary": "VK остановлено: 0 из 40 · OK остановлено: 0 из 18 · MAX остановлено: 0 из 12",
+      "statusSummary": "VK остановлено: 2 из 40 · OK остановлено: 1 из 18 · MAX остановлено: 0 из 12",
       "request": {
         "text": "Енисей",
         "period": {
@@ -168,9 +168,9 @@
       }
     },
     {
-      "searchId": "s-mvfj66u6-2",
+      "searchId": "s-mvfmn9ny-2",
       "conditions": {
-        "searchId": "s-mvfj66u6-2",
+        "searchId": "s-mvfmn9ny-2",
         "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
         "label": "Новая школа в Норильске",
         "kind": "news-text",
@@ -192,8 +192,8 @@
           "max"
         ],
         "meaningLabel": null,
-        "startedAt": "2026-10-19T14:32:15+07:00",
-        "finishedAt": "2026-10-19T14:32:22+07:00",
+        "startedAt": "2026-10-19T14:32:14+07:00",
+        "finishedAt": "2026-10-19T14:32:21+07:00",
         "repeatOf": null
       },
       "total": 17,
@@ -209,9 +209,9 @@
       }
     },
     {
-      "searchId": "s-mvfj5xlc-1",
+      "searchId": "s-mvfmn0w7-1",
       "conditions": {
-        "searchId": "s-mvfj5xlc-1",
+        "searchId": "s-mvfmn0w7-1",
         "text": "Безопасность дорожного движения",
         "label": "Безопасность дорожного движения",
         "kind": "topic",
@@ -234,7 +234,7 @@
         ],
         "meaningLabel": null,
         "startedAt": "2026-10-19T14:32:03+07:00",
-        "finishedAt": "2026-10-19T14:32:10+07:00",
+        "finishedAt": "2026-10-19T14:32:09+07:00",
         "repeatOf": null
       },
       "total": 40,

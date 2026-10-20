@@ -1404,9 +1404,8 @@ export function createFakeApi(): MonitorApi {
       }),
 
     checkAiText: (text: string) =>
-      call(
-        1100,
-        (): AiCheck => demoAiCheck(text, { modelDown: getDemoState().scenario === 'ai-down' }),
+      call(1100, (): AiCheck =>
+        demoAiCheck(text, { modelDown: getDemoState().scenario === 'ai-down' }),
       ),
 
     getSpread: (searchId: string, groupId?: string) =>

@@ -5,7 +5,7 @@
     {
       "type": "started",
       "conditions": {
-        "searchId": "s-mvfj6cm9-3",
+        "searchId": "s-mvfmnfck-3",
         "text": "Енисей",
         "label": "Енисей (река)",
         "kind": "event",
@@ -27,7 +27,7 @@
           "max"
         ],
         "meaningLabel": "Река Енисей",
-        "startedAt": "2026-10-19T14:32:22+07:00",
+        "startedAt": "2026-10-19T14:32:21+07:00",
         "finishedAt": null,
         "repeatOf": null
       },
@@ -138,11 +138,68 @@
       }
     },
     {
+      "type": "platform",
+      "status": {
+        "platform": "vk",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 2,
+          "total": 40,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "ok",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 1,
+          "total": 18,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": null,
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
+      "type": "platform",
+      "status": {
+        "platform": "max",
+        "state": "searching",
+        "found": 0,
+        "progress": {
+          "done": 0,
+          "total": 12,
+          "unit": "sources"
+        },
+        "problem": null,
+        "freshness": {
+          "delayHours": 24,
+          "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
+        },
+        "cap": null,
+        "updatedAt": null
+      },
+      "currentSource": null
+    },
+    {
       "type": "stopped",
       "selection": {
-        "searchId": "s-mvfj6cm9-3",
+        "searchId": "s-mvfmnfck-3",
         "conditions": {
-          "searchId": "s-mvfj6cm9-3",
+          "searchId": "s-mvfmnfck-3",
           "text": "Енисей",
           "label": "Енисей (река)",
           "kind": "event",
@@ -164,8 +221,8 @@
             "max"
           ],
           "meaningLabel": "Река Енисей",
-          "startedAt": "2026-10-19T14:32:22+07:00",
-          "finishedAt": "2026-10-19T14:32:23+07:00",
+          "startedAt": "2026-10-19T14:32:21+07:00",
+          "finishedAt": "2026-10-19T14:32:22+07:00",
           "repeatOf": null
         },
         "statuses": [
@@ -174,7 +231,7 @@
             "state": "stopped",
             "found": 0,
             "progress": {
-              "done": 0,
+              "done": 2,
               "total": 40,
               "unit": "sources"
             },
@@ -188,7 +245,7 @@
             "state": "stopped",
             "found": 0,
             "progress": {
-              "done": 0,
+              "done": 1,
               "total": 18,
               "unit": "sources"
             },
@@ -236,7 +293,9 @@
             "retold": 0,
             "repost": 0
           },
-          "new": 0
+          "new": 0,
+          "aiLikely": 0,
+          "aiSigns": 0
         },
         "topic": {
           "summary": "Река Енисей: завершение навигации, северный завоз, ледостав и переправы.",

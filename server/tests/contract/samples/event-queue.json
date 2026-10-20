@@ -15,7 +15,7 @@
     {
       "type": "started",
       "conditions": {
-        "searchId": "s-mvfj6q6b-6",
+        "searchId": "s-mvfmnszt-6",
         "text": "ДТП",
         "label": "Безопасность дорожного движения",
         "kind": "topic",
@@ -37,7 +37,7 @@
           "max"
         ],
         "meaningLabel": null,
-        "startedAt": "2026-10-19T14:32:40+07:00",
+        "startedAt": "2026-10-19T14:32:39+07:00",
         "finishedAt": null,
         "repeatOf": null
       },
@@ -266,7 +266,7 @@
             "hasMedia": false,
             "views": 29300,
             "reactions": 1272,
-            "fetchedAt": "2026-10-19T14:32:47+07:00",
+            "fetchedAt": "2026-10-19T14:32:46+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -306,7 +306,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 1
+          "arrival": 1,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "c07f94f33855df4493c9f3c373de8b6e4cbc606bec80a2b0ce755290396f552b",
+            "words": 28,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [],
@@ -329,7 +337,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
       }
     },
     {
@@ -446,7 +456,7 @@
             "hasMedia": false,
             "views": 12300,
             "reactions": 140,
-            "fetchedAt": "2026-10-19T14:32:47+07:00",
+            "fetchedAt": "2026-10-19T14:32:46+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -486,7 +496,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 2
+          "arrival": 2,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "a6d19edaa3652eb399f5908c9e201fac393490782246dab587aa8b280fbeba5a",
+            "words": 29,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "vk:-100101_88102",
@@ -539,7 +557,7 @@
             "hasMedia": false,
             "views": 41200,
             "reactions": 655,
-            "fetchedAt": "2026-10-19T14:32:47+07:00",
+            "fetchedAt": "2026-10-19T14:32:46+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -579,7 +597,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 3
+          "arrival": 3,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "a6d19edaa3652eb399f5908c9e201fac393490782246dab587aa8b280fbeba5a",
+            "words": 29,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "ok:5600101_30418",
@@ -627,7 +653,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 380,
-            "fetchedAt": "2026-10-19T14:32:47+07:00",
+            "fetchedAt": "2026-10-19T14:32:46+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -665,7 +691,15 @@
           "groupId": "g-peshehod",
           "excluded": false,
           "isNew": false,
-          "arrival": 4
+          "arrival": 4,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "1dc3783fc1d0aac67a81de20d884ccdeca125bb839e096a9894b2b2ff0e12f4c",
+            "words": 24,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -709,7 +743,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
       }
     },
     {
@@ -826,7 +862,7 @@
             "hasMedia": false,
             "views": 7900,
             "reactions": 164,
-            "fetchedAt": "2026-10-19T14:32:47+07:00",
+            "fetchedAt": "2026-10-19T14:32:46+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -866,7 +902,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 5
+          "arrival": 5,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "4dbdf873156396b25bd9ddc161d3bcbfe168c0aa9618b2f44b6c23c6f15da86f",
+            "words": 29,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "max:portal_2210",
@@ -914,7 +958,7 @@
             "hasMedia": false,
             "views": 8600,
             "reactions": 224,
-            "fetchedAt": "2026-10-19T14:32:47+07:00",
+            "fetchedAt": "2026-10-19T14:32:46+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -954,7 +998,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 6
+          "arrival": 6,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "57af10964b352dace9512df743c36f5218e28e167d40b895a288b705e669558d",
+            "words": 19,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -998,7 +1050,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
       }
     },
     {
@@ -1117,7 +1171,7 @@
             "hasMedia": false,
             "views": 34900,
             "reactions": 512,
-            "fetchedAt": "2026-10-19T14:32:48+07:00",
+            "fetchedAt": "2026-10-19T14:32:47+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1155,7 +1209,15 @@
           "groupId": "g-peshehod",
           "excluded": false,
           "isNew": false,
-          "arrival": 7
+          "arrival": 7,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "ee1475c2f447effa3a6e1c870c0d52457c41738c0e1b58b0f7b2b903eb3aec69",
+            "words": 44,
+            "level": "unlikely",
+            "score": 0.31,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "vk:-100106_58211",
@@ -1213,7 +1275,7 @@
             "hasMedia": false,
             "views": 21400,
             "reactions": 388,
-            "fetchedAt": "2026-10-19T14:32:48+07:00",
+            "fetchedAt": "2026-10-19T14:32:47+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1251,7 +1313,15 @@
           "groupId": "g-peshehod",
           "excluded": false,
           "isNew": false,
-          "arrival": 8
+          "arrival": 8,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "ee1475c2f447effa3a6e1c870c0d52457c41738c0e1b58b0f7b2b903eb3aec69",
+            "words": 44,
+            "level": "unlikely",
+            "score": 0.31,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "ok:5600108_40712",
@@ -1304,7 +1374,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 64,
-            "fetchedAt": "2026-10-19T14:32:48+07:00",
+            "fetchedAt": "2026-10-19T14:32:47+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1344,7 +1414,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 9
+          "arrival": 9,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "c1bde0616799dca60345d4d3f4e0799e4cef9387c8bd578190c639fc526bb237",
+            "words": 23,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -1390,7 +1468,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
       }
     },
     {
@@ -1504,7 +1584,7 @@
             "hasMedia": false,
             "views": 23000,
             "reactions": 410,
-            "fetchedAt": "2026-10-19T14:32:48+07:00",
+            "fetchedAt": "2026-10-19T14:32:47+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1542,7 +1622,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 10
+          "arrival": 10,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "6f6260ad9cdf4621e8db18295f2dfc281a56c0e520edf73c67992d16a8ee1b61",
+            "words": 24,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -1588,7 +1676,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
       }
     },
     {
@@ -1702,7 +1792,7 @@
             "hasMedia": false,
             "views": 3360,
             "reactions": 192,
-            "fetchedAt": "2026-10-19T14:32:48+07:00",
+            "fetchedAt": "2026-10-19T14:32:47+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1740,7 +1830,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 11
+          "arrival": 11,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "edf535d0b34c89bff96d71450b1d3172f8d082db9664e2318a5c7320f1ec4825",
+            "words": 31,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "vk:-100103_64410",
@@ -1793,7 +1891,7 @@
             "hasMedia": false,
             "views": 4480,
             "reactions": 256,
-            "fetchedAt": "2026-10-19T14:32:48+07:00",
+            "fetchedAt": "2026-10-19T14:32:47+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1834,7 +1932,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 12
+          "arrival": 12,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "bc19bb701d91c978bec6d0b37a6eff7b2ac423227c547f11e796e6563f6909f2",
+            "words": 22,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "ok:5600107_20117",
@@ -1882,7 +1988,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 104,
-            "fetchedAt": "2026-10-19T14:32:48+07:00",
+            "fetchedAt": "2026-10-19T14:32:47+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1922,7 +2028,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 13
+          "arrival": 13,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "467e8bb8f475ca0179a27bf0e0be78aa834b6c739196f851756f55bda6a9957a",
+            "words": 23,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -1968,7 +2082,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
       }
     },
     {
@@ -2122,7 +2238,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 15
+          "arrival": 15,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "15e29e7c4a33e6e7dd4457cca06803898c2358c966554639ecc8307dc0c0cee3",
+            "words": 31,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -2168,7 +2292,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
       }
     },
     {
@@ -2287,7 +2413,7 @@
             "hasMedia": false,
             "views": 18400,
             "reactions": 312,
-            "fetchedAt": "2026-10-19T14:32:49+07:00",
+            "fetchedAt": "2026-10-19T14:32:48+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2327,7 +2453,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 16
+          "arrival": 16,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "dc7ff1a26444e81f1aac356dda312391ddc5e72a309c4994804153707b28b248",
+            "words": 33,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "vk:-100201_7310",
@@ -2355,7 +2489,7 @@
             "title": null,
             "headline": "В Сибири растёт число ДТП с участием электросамокатов.",
             "headlineFrom": "text",
-            "text": "В Сибири растёт число ДТП с участием электросамокатов. Только в Красноярске за сезон их произошло больше 60. Эксперты предлагают ограничить скорость прокатных самокатов в центре городов.",
+            "text": "В Сибири растёт число ДТП с участием электросамокатов. Только в Красноярске за сезон их произошло больше 60. Эксперты предлагают ограничить скорость прокатных самокатов в центре городов. По их мнению, это позволит снизить число травм среди пешеходов и самих пользователей. Окончательное решение остаётся за муниципалитетами и операторами проката.",
             "sentences": [
               {
                 "index": 0,
@@ -2371,6 +2505,16 @@
                 "index": 2,
                 "start": 109,
                 "end": 186
+              },
+              {
+                "index": 3,
+                "start": 187,
+                "end": 272
+              },
+              {
+                "index": 4,
+                "start": 273,
+                "end": 346
               }
             ],
             "publishedAt": "2026-10-14T13:00:00+07:00",
@@ -2380,7 +2524,7 @@
             "hasMedia": false,
             "views": 52000,
             "reactions": 870,
-            "fetchedAt": "2026-10-19T14:32:49+07:00",
+            "fetchedAt": "2026-10-19T14:32:48+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2398,10 +2542,10 @@
           },
           "excerpt": {
             "start": 55,
-            "end": 186,
-            "text": "Только в Красноярске за сезон их произошло больше 60. Эксперты предлагают ограничить скорость прокатных самокатов в центре городов.",
+            "end": 272,
+            "text": "Только в Красноярске за сезон их произошло больше 60. Эксперты предлагают ограничить скорость прокатных самокатов в центре городов. По их мнению, это позволит снизить число травм среди пешеходов и самих пользователей.",
             "cutStart": true,
-            "cutEnd": false
+            "cutEnd": true
           },
           "evidence": {
             "sentenceIndex": 1,
@@ -2420,7 +2564,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 17
+          "arrival": 17,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "3e5866aa184c3474f5dfd88d85f44061e37177ee295c1486538080b5ab015249",
+            "words": 47,
+            "level": "signs",
+            "score": 0.66,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "ok:5600104_17730",
@@ -2468,7 +2620,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 124,
-            "fetchedAt": "2026-10-19T14:32:49+07:00",
+            "fetchedAt": "2026-10-19T14:32:48+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2508,7 +2660,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 18
+          "arrival": 18,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "3fa4ef628f80fb5e8fe793f880ef9f25bd37555a66be6fbb2279b6f8d1da34b5",
+            "words": 19,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -2554,7 +2714,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 1
       }
     },
     {
@@ -2668,7 +2830,7 @@
             "hasMedia": false,
             "views": 1890,
             "reactions": 108,
-            "fetchedAt": "2026-10-19T14:32:49+07:00",
+            "fetchedAt": "2026-10-19T14:32:48+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2708,7 +2870,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 19
+          "arrival": 19,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "8a02a0fa0da6ec9fd913d30b10a504da12197d98c18129c4a9405d18cc8f807a",
+            "words": 26,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "max:dorogi_1842",
@@ -2756,7 +2926,7 @@
             "hasMedia": false,
             "views": 3900,
             "reactions": 68,
-            "fetchedAt": "2026-10-19T14:32:49+07:00",
+            "fetchedAt": "2026-10-19T14:32:48+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2794,7 +2964,15 @@
           "groupId": "g-peshehod",
           "excluded": false,
           "isNew": false,
-          "arrival": 20
+          "arrival": 20,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "895194db9ffa6f71da8f860a364b446955f9869914b2fd34d58d33e9c8828891",
+            "words": 23,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -2841,7 +3019,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 1
       }
     },
     {
@@ -2990,7 +3170,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 21
+          "arrival": 21,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "5580cdb276c938b1a61662122f69f1486c7d521c115e1ba41b49223cde293918",
+            "words": 23,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "vk:-100108_33019",
@@ -3083,7 +3271,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 22
+          "arrival": 22,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "f2a0ca21b55bc4d4e4f48f2ebd8c112ecc946f78882f5cf35a14bae9610664fe",
+            "words": 34,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "ok:5600103_12455",
@@ -3176,7 +3372,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 23
+          "arrival": 23,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "e0ea2cbdb9fb3482b7d8067f0febac98b1a82142f2368fa82eef42a1ae7df17b",
+            "words": 26,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -3223,7 +3427,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 1
       }
     },
     {
@@ -3321,7 +3527,7 @@
             "hasMedia": true,
             "views": 38700,
             "reactions": 920,
-            "fetchedAt": "2026-10-19T14:32:50+07:00",
+            "fetchedAt": "2026-10-19T14:32:49+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3396,7 +3602,7 @@
             "hasMedia": false,
             "views": 1610,
             "reactions": 92,
-            "fetchedAt": "2026-10-19T14:32:50+07:00",
+            "fetchedAt": "2026-10-19T14:32:49+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3436,7 +3642,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 25
+          "arrival": 25,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "d12ec162a7851bf1f91ff0a0232d81456d82585418789c352381776f577904e3",
+            "words": 22,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -3483,7 +3697,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 1
       }
     },
     {
@@ -3597,7 +3813,7 @@
             "hasMedia": false,
             "views": 2310,
             "reactions": 132,
-            "fetchedAt": "2026-10-19T14:32:50+07:00",
+            "fetchedAt": "2026-10-19T14:32:49+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3637,7 +3853,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 26
+          "arrival": 26,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "75c6b70a503e4218cac904e38ec4d67e5d2695275e87f73b498e7d1b5305f2d5",
+            "words": 28,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "ok:5600105_30552",
@@ -3690,7 +3914,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 88,
-            "fetchedAt": "2026-10-19T14:32:50+07:00",
+            "fetchedAt": "2026-10-19T14:32:49+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3730,7 +3954,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 27
+          "arrival": 27,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "db20e3ca22288726ef9e33cd5b38d7e5531295ea0f4497368990ec840fb1889a",
+            "words": 27,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "max:press_3390",
@@ -3783,7 +4015,7 @@
             "hasMedia": false,
             "views": 4100,
             "reactions": 48,
-            "fetchedAt": "2026-10-19T14:32:50+07:00",
+            "fetchedAt": "2026-10-19T14:32:49+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3821,7 +4053,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 28
+          "arrival": 28,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "a49847feae25967d31ec3e8227069d11dc1dce1f4641f2b99483a8b76c9ac8c0",
+            "words": 32,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -3868,7 +4108,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 1
       }
     },
     {
@@ -4022,7 +4264,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 29
+          "arrival": 29,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "a3ff41c3859468038c170ffa166af19f013c9c76865288159618b216e5e61d55",
+            "words": 22,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "vk:-100113_71420",
@@ -4115,7 +4365,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 30
+          "arrival": 30,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "bf91a0cd5d49374d81a627df5c760ac05bf50384e469597b2b2f86ae2bd598b6",
+            "words": 42,
+            "level": "unlikely",
+            "score": 0.419,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -4162,7 +4420,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 1
       }
     },
     {
@@ -4276,7 +4536,7 @@
             "hasMedia": false,
             "views": 2590,
             "reactions": 148,
-            "fetchedAt": "2026-10-19T14:32:51+07:00",
+            "fetchedAt": "2026-10-19T14:32:50+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -4314,7 +4574,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 31
+          "arrival": 31,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "95a7b03ee1afd0123251aff854510f792fe9c85f4ff7a58a3d2e58cfbd20c175",
+            "words": 26,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "ok:5600102_9045",
@@ -4367,7 +4635,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 72,
-            "fetchedAt": "2026-10-19T14:32:51+07:00",
+            "fetchedAt": "2026-10-19T14:32:50+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -4407,7 +4675,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 32
+          "arrival": 32,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "4c48f070b8a04059ab0e00bf06faee116c9f6f109e549ad2792d6c4d032ba352",
+            "words": 27,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -4454,7 +4730,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 1
       }
     },
     {
@@ -4485,7 +4763,7 @@
         "problem": null,
         "freshness": null,
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:51+07:00"
+        "updatedAt": "2026-10-19T14:32:50+07:00"
       },
       "currentSource": null
     },
@@ -4539,7 +4817,7 @@
             "title": null,
             "headline": "В Лесосибирске с начала года произошло 46 ДТП, в которых пострадали 58 человек.",
             "headlineFrom": "text",
-            "text": "В Лесосибирске с начала года произошло 46 ДТП, в которых пострадали 58 человек. Чаще всего аварии случаются из-за превышения скорости и выезда на встречную полосу. Госавтоинспекция усилит контроль на улицах Победы и Белинского.",
+            "text": "В Лесосибирске с начала года произошло 46 ДТП, в которых пострадали 58 человек. Чаще всего аварии случаются из-за превышения скорости и выезда на встречную полосу. Госавтоинспекция усилит контроль на улицах Победы и Белинского. Безопасность на дорогах — это общая ответственность водителей, пешеходов и служб города. Соблюдение скоростного режима и внимательность за рулём помогают сохранить жизни и здоровье горожан.",
             "sentences": [
               {
                 "index": 0,
@@ -4555,6 +4833,16 @@
                 "index": 2,
                 "start": 164,
                 "end": 227
+              },
+              {
+                "index": 3,
+                "start": 228,
+                "end": 316
+              },
+              {
+                "index": 4,
+                "start": 317,
+                "end": 417
               }
             ],
             "publishedAt": "2026-10-06T10:20:00+07:00",
@@ -4564,7 +4852,7 @@
             "hasMedia": false,
             "views": 1260,
             "reactions": 72,
-            "fetchedAt": "2026-10-19T14:32:51+07:00",
+            "fetchedAt": "2026-10-19T14:32:50+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -4585,7 +4873,7 @@
             "end": 227,
             "text": "В Лесосибирске с начала года произошло 46 ДТП, в которых пострадали 58 человек. Чаще всего аварии случаются из-за превышения скорости и выезда на встречную полосу. Госавтоинспекция усилит контроль на улицах Победы и Белинского.",
             "cutStart": false,
-            "cutEnd": false
+            "cutEnd": true
           },
           "evidence": {
             "sentenceIndex": 0,
@@ -4604,7 +4892,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 33
+          "arrival": 33,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "70a0b3ec07a0cd8e3e5e5d45625e921784d205bac3eddf6fa4256d4962aceb45",
+            "words": 58,
+            "level": "likely-ai",
+            "score": 0.9,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "vk:-100116_15530",
@@ -4657,7 +4953,7 @@
             "hasMedia": false,
             "views": 840,
             "reactions": 48,
-            "fetchedAt": "2026-10-19T14:32:51+07:00",
+            "fetchedAt": "2026-10-19T14:32:50+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -4697,7 +4993,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 34
+          "arrival": 34,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "1ea0e4c283def433449296812524b5b55006f9c22c4b3231ae6a8fa44df6ea8d",
+            "words": 29,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "max:tv_4471",
@@ -4750,7 +5054,7 @@
             "hasMedia": false,
             "views": 9700,
             "reactions": 136,
-            "fetchedAt": "2026-10-19T14:32:51+07:00",
+            "fetchedAt": "2026-10-19T14:32:50+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -4790,7 +5094,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 35
+          "arrival": 35,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "32e376b48bcc089126a2148afa55425cf3234cab74054d4b1bd02bc52b20a5cf",
+            "words": 30,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -4837,7 +5149,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
       }
     },
     {
@@ -4974,7 +5288,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 36
+          "arrival": 36,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "9961501c0cd6fcd920d7c7ec5fbce3c4ce9e6d38cc4828ef043383a70b7707f3",
+            "words": 29,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -5021,7 +5343,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
       }
     },
     {
@@ -5117,7 +5441,7 @@
             "hasMedia": false,
             "views": 686,
             "reactions": 39,
-            "fetchedAt": "2026-10-19T14:32:52+07:00",
+            "fetchedAt": "2026-10-19T14:32:51+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -5157,7 +5481,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 37
+          "arrival": 37,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "eb13e9cc6c317846233b39b046eb1e57de3af981b03224c9b184a2318d25b36c",
+            "words": 25,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "vk:-100114_70013",
@@ -5210,7 +5542,7 @@
             "hasMedia": false,
             "views": 2870,
             "reactions": 164,
-            "fetchedAt": "2026-10-19T14:32:52+07:00",
+            "fetchedAt": "2026-10-19T14:32:51+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -5250,7 +5582,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 38
+          "arrival": 38,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "12716d567899aa7792871b0baec00cf4dffc16d3f295f6a68e1be4f3087631a7",
+            "words": 31,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -5297,7 +5637,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
       }
     },
     {
@@ -5310,7 +5652,7 @@
         "problem": null,
         "freshness": null,
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:52+07:00"
+        "updatedAt": "2026-10-19T14:32:51+07:00"
       },
       "currentSource": null
     },
@@ -5389,7 +5731,7 @@
             "hasMedia": false,
             "views": 567,
             "reactions": 32,
-            "fetchedAt": "2026-10-19T14:32:52+07:00",
+            "fetchedAt": "2026-10-19T14:32:51+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -5430,7 +5772,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 39
+          "arrival": 39,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "fcda19defddf0c71659cc40ceca32ec12c4a809af0b43de8a4d6175f2dc5bf19",
+            "words": 25,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         },
         {
           "id": "max:norilsk_5108",
@@ -5483,7 +5833,7 @@
             "hasMedia": false,
             "views": 11200,
             "reactions": 84,
-            "fetchedAt": "2026-10-19T14:32:52+07:00",
+            "fetchedAt": "2026-10-19T14:32:51+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -5524,7 +5874,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 40
+          "arrival": 40,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "186d0f5812101caca1081eecc86d9fdad424b19d8cbb19dc18a54b9e654c2ecf",
+            "words": 19,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -5571,7 +5929,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
       }
     },
     {
@@ -5608,16 +5968,16 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:53+07:00"
+        "updatedAt": "2026-10-19T14:32:52+07:00"
       },
       "currentSource": null
     },
     {
       "type": "finished",
       "selection": {
-        "searchId": "s-mvfj6q6b-6",
+        "searchId": "s-mvfmnszt-6",
         "conditions": {
-          "searchId": "s-mvfj6q6b-6",
+          "searchId": "s-mvfmnszt-6",
           "text": "ДТП",
           "label": "Безопасность дорожного движения",
           "kind": "topic",
@@ -5639,8 +5999,8 @@
             "max"
           ],
           "meaningLabel": null,
-          "startedAt": "2026-10-19T14:32:40+07:00",
-          "finishedAt": "2026-10-19T14:32:53+07:00",
+          "startedAt": "2026-10-19T14:32:39+07:00",
+          "finishedAt": "2026-10-19T14:32:52+07:00",
           "repeatOf": null
         },
         "statuses": [
@@ -5652,7 +6012,7 @@
             "problem": null,
             "freshness": null,
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:52+07:00"
+            "updatedAt": "2026-10-19T14:32:51+07:00"
           },
           {
             "platform": "ok",
@@ -5662,7 +6022,7 @@
             "problem": null,
             "freshness": null,
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:51+07:00"
+            "updatedAt": "2026-10-19T14:32:50+07:00"
           },
           {
             "platform": "max",
@@ -5675,7 +6035,7 @@
               "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
             },
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:53+07:00"
+            "updatedAt": "2026-10-19T14:32:52+07:00"
           }
         ],
         "items": [
@@ -5730,7 +6090,7 @@
               "hasMedia": false,
               "views": 29300,
               "reactions": 1272,
-              "fetchedAt": "2026-10-19T14:32:47+07:00",
+              "fetchedAt": "2026-10-19T14:32:46+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -5770,7 +6130,15 @@
             "groupId": null,
             "excluded": false,
             "isNew": false,
-            "arrival": 1
+            "arrival": 1,
+            "aiCheck": {
+              "model": "demo",
+              "textHash": "c07f94f33855df4493c9f3c373de8b6e4cbc606bec80a2b0ce755290396f552b",
+              "words": 28,
+              "level": "too-short",
+              "score": null,
+              "checkedAt": "2026-10-19T14:32:03+07:00"
+            }
           },
           {
             "id": "vk:-100107_88140",
@@ -5826,7 +6194,7 @@
               "hasMedia": false,
               "views": 12300,
               "reactions": 140,
-              "fetchedAt": "2026-10-19T14:32:47+07:00",
+              "fetchedAt": "2026-10-19T14:32:46+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -5866,7 +6234,15 @@
             "groupId": null,
             "excluded": false,
             "isNew": false,
-            "arrival": 2
+            "arrival": 2,
+            "aiCheck": {
+              "model": "demo",
+              "textHash": "a6d19edaa3652eb399f5908c9e201fac393490782246dab587aa8b280fbeba5a",
+              "words": 29,
+              "level": "too-short",
+              "score": null,
+              "checkedAt": "2026-10-19T14:32:03+07:00"
+            }
           },
           {
             "id": "vk:-100101_88102",
@@ -5919,7 +6295,7 @@
               "hasMedia": false,
               "views": 41200,
               "reactions": 655,
-              "fetchedAt": "2026-10-19T14:32:47+07:00",
+              "fetchedAt": "2026-10-19T14:32:46+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -5959,7 +6335,15 @@
             "groupId": null,
             "excluded": false,
             "isNew": false,
-            "arrival": 3
+            "arrival": 3,
+            "aiCheck": {
+              "model": "demo",
+              "textHash": "a6d19edaa3652eb399f5908c9e201fac393490782246dab587aa8b280fbeba5a",
+              "words": 29,
+              "level": "too-short",
+              "score": null,
+              "checkedAt": "2026-10-19T14:32:03+07:00"
+            }
           }
         ],
         "groups": [
@@ -6006,7 +6390,9 @@
             "retold": 0,
             "repost": 0
           },
-          "new": 0
+          "new": 0,
+          "aiLikely": 1,
+          "aiSigns": 1
         },
         "topic": {
           "summary": "Публикации о безопасности на дорогах края: ДТП, пешеходы и переходы, дети на дорогах, проверки водителей, состояние дорог зимой.",

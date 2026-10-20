@@ -18,6 +18,7 @@ import pytest
 from jsonschema import Draft7Validator
 
 from mediamonitor.contract import (
+    AiCheck,
     ApiError,
     QueryAnalysis,
     Selection,
@@ -70,6 +71,7 @@ def test_schema_has_all_contract_types() -> None:
         "SpreadReport",
         "StandStatus",
         "ImportPreview",
+        "AiCheck",
     ):
         assert name in names
 
@@ -95,6 +97,8 @@ def test_fake_samples_match_schema(sample: Path) -> None:
         (QueryAnalysis, "analyzeQuery-hints"),
         (TopicUnderstanding, "understandTopic"),
         (ApiError, "error-not-found"),
+        (AiCheck, "checkAiText"),
+        (AiCheck, "checkAiText-short"),
     ],
 )
 def test_pydantic_models_round_trip_fake_samples(model: Any, sample: str) -> None:
@@ -195,6 +199,9 @@ async def test_every_endpoint_matches_contract(client: httpx.AsyncClient) -> Non
     link = await call("WorkspaceLink", "GET", "/api/workspace/link")
     await call("Workspace", "POST", "/api/workspace/open", json={"key": link["url"]})
     await call("StandStatus", "GET", "/api/stand")
+    long_text = " ".join(["Слово"] * 45)
+    await call("AiCheck", "POST", "/api/ai-check", json={"text": long_text})
+    await call("AiCheck", "POST", "/api/ai-check", json={"text": "Мало слов для оценки."})
 
     search_id, events = await run_search(client, headers, mode="my-sources")
     for event in events:

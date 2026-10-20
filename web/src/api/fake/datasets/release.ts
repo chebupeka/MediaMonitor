@@ -288,7 +288,9 @@ function toPostSpec(p: PlacementSpec): PostSpec {
 }
 
 /** Заданные оценки проверки на ИИ (имитация): исходный и копии — «не похоже», пересказы — все уровни. */
-export const RELEASE_AI_SCORES: readonly [string, number][] = aiScoresOf(PLACEMENTS.map(toPostSpec));
+export const RELEASE_AI_SCORES: readonly [string, number][] = aiScoresOf(
+  PLACEMENTS.map(toPostSpec),
+);
 
 function placementText(n: string): string {
   const placement = PLACEMENTS.find((p) => p.n === n);

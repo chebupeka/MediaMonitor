@@ -285,6 +285,8 @@ try {
   keep('openWorkspace', 'Workspace', await api.openWorkspace(link.key));
   keep('listRecent', 'RecentSearch[]', await api.listRecent());
   keep('getStandStatus', 'StandStatus', await api.getStandStatus());
+  keep('checkAiText', 'AiCheck', await api.checkAiText(release.RELEASE_SOURCE_TEXT));
+  keep('checkAiText-short', 'AiCheck', await api.checkAiText('Короткий текст: меньше сорока слов.'));
   try {
     await api.getSelection('no-such-search');
   } catch (error) {
@@ -297,6 +299,13 @@ try {
     write(samplesDir, `${sample.name}.json`, { method: sample.name, schema: sample.schema, value: sample.value });
   }
   console.log(`Образцы имитации: ${samples.length} → ${samplesDir}`);
+
+  // Тест-векторы нормализации текста для проверки на ИИ (web/src/lib/ai-normalize.ts):
+  // сервер сверяет с ними свою нормализацию, хеш и число слов (tests/test_ai_check.py).
+  const normalize = await load('/src/lib/ai-normalize.ts');
+  const vectorsPath = resolve(samplesDir, '..', 'ai-normalize-vectors.json');
+  writeFileSync(vectorsPath, `${JSON.stringify(normalize.AI_NORMALIZE_VECTORS, null, 2)}\n`, 'utf8');
+  console.log(`Тест-векторы нормализации: ${normalize.AI_NORMALIZE_VECTORS.length} → ${vectorsPath}`);
   }
 } finally {
   await vite.close();

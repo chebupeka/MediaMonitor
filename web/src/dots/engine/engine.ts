@@ -54,6 +54,8 @@ const DATA_SPACING = 3.6;
 const CACHE_LIMIT = 24;
 /** Поворот формы за мышью (как на сайте) */
 const MOUSE_YAW = 0.25;
+/** Прямоугольник «поток невидим» за пределами холста — то есть нигде */
+const NO_HIDE = new Float32Array([9, 9, 9.1, 9.1]);
 
 export interface EngineOptions {
   /** Число точек (бюджет) */
@@ -165,13 +167,17 @@ export class DotsEngine {
   private box: Box | null = null;
   private flowEl: Element | null = null;
   private flowBox: Box | null = null;
+  // Текст над полем, сквозь который поток не идёт (невидим над ним, проявляется у поля)
+  private coverEl: Element | null = null;
+  private coverBox: Box | null = null;
   private boxDirty = true;
   private flowObserver: ResizeObserver | null = null;
   // Массивы для uniform-ов — один раз, без мусора в кадре
   private readonly uA = new Float32Array(4);
   private readonly uB = new Float32Array(4);
-  private readonly gA = new Float32Array(2);
-  private readonly gB = new Float32Array(2);
+  private readonly gA = new Float32Array(3);
+  private readonly gB = new Float32Array(3);
+  private readonly hide = new Float32Array(4);
   private readonly pSrc = [0, 0];
   private readonly pEnd = [0, 0];
 
@@ -360,15 +366,18 @@ export class DotsEngine {
   }
 
   /**
-   * Поле ввода, к которому течёт поток формы «система слушает» (null — поток как в модели).
-   * Его место запоминается при прокрутке и изменении размеров, не в кадре.
+   * Поле ввода, к которому течёт поток формы «система слушает» (null — поток как в модели),
+   * и текст над полем (cover), сквозь который поток не идёт: над ним поток невидим и
+   * проявляется у самого поля. Места запоминаются при прокрутке и изменении размеров.
    */
-  setTarget(el: Element | null): void {
-    if (el === this.flowEl) return;
+  setTarget(el: Element | null, cover: Element | null = null): void {
+    if (el === this.flowEl && cover === this.coverEl) return;
     this.flowObserver?.disconnect();
     this.flowObserver = null;
     this.flowEl = el;
     this.flowBox = null;
+    this.coverEl = el ? cover : null;
+    this.coverBox = null;
     this.boxDirty = true;
     if (el && typeof ResizeObserver !== 'undefined') {
       this.flowObserver = new ResizeObserver(() => {
@@ -376,6 +385,7 @@ export class DotsEngine {
         this.start();
       });
       this.flowObserver.observe(el);
+      if (this.coverEl) this.flowObserver.observe(this.coverEl);
     }
     this.start();
   }
@@ -389,6 +399,23 @@ export class DotsEngine {
       const t = this.flowEl.getBoundingClientRect();
       this.flowBox = { left: t.left, top: t.top, right: t.right, bottom: t.bottom };
     } else this.flowBox = null;
+    if (this.coverEl?.isConnected) {
+      const c = this.coverEl.getBoundingClientRect();
+      this.coverBox = { left: c.left, top: c.top, right: c.right, bottom: c.bottom };
+    } else this.coverBox = null;
+  }
+
+  /** Где поток невидим — текст над полем, в координатах холста; null — нигде. */
+  private hideRect(id: ShapeId): Float32Array | null {
+    const b = this.box;
+    const c = this.coverBox;
+    if (!META[id].tail || !b || !c || this.W === 0 || this.H === 0) return null;
+    const m = 12; // запас вокруг текста, CSS-пиксели
+    this.hide[0] = ((c.left - m - b.left) / this.W) * 2 - 1;
+    this.hide[1] = 1 - ((c.bottom + 4 - b.top) / this.H) * 2;
+    this.hide[2] = ((c.right + m - b.left) / this.W) * 2 - 1;
+    this.hide[3] = 1 - ((c.top - m - b.top) / this.H) * 2;
+    return this.hide;
   }
 
   /**
@@ -555,10 +582,12 @@ export class DotsEngine {
   private aim(id: ShapeId, X: Float32Array, tilt: number, out: Float32Array): Float32Array {
     out[0] = 0;
     out[1] = 0;
+    out[2] = 0;
     const tail = META[id].tail;
     const b = this.box;
     const t = this.flowBox;
     if (!tail || !b || !t || this.W === 0 || this.H === 0) return out;
+    out[2] = 1;
     const W = this.W;
     const H = this.H;
     this.project(tail.src, X, tilt, W / H, this.pSrc);
@@ -728,8 +757,10 @@ export class DotsEngine {
       const uB = this.xf(idB, time, W, H, this.uB);
       gl.uniform4fv(P.u.uA ?? null, uA);
       gl.uniform4fv(P.u.uB ?? null, uB);
-      gl.uniform2fv(P.u.uTgtA ?? null, this.aim(idA, uA, tilt, this.gA));
-      gl.uniform2fv(P.u.uTgtB ?? null, this.aim(idB, uB, tilt, this.gB));
+      gl.uniform3fv(P.u.uTgtA ?? null, this.aim(idA, uA, tilt, this.gA));
+      gl.uniform3fv(P.u.uTgtB ?? null, this.aim(idB, uB, tilt, this.gB));
+      gl.uniform4fv(P.u.uHide ?? null, this.hideRect(idA) ?? this.hideRect(idB) ?? NO_HIDE);
+      gl.uniform2f(P.u.uHideSoft ?? null, (22 / W) * 2, (10 / H) * 2);
       gl.uniform2f(P.u.uShift ?? null, 0, 0);
       gl.uniform2f(P.u.uFade ?? null, 0, 0);
       gl.uniform2f(P.u.uMouse ?? null, still ? 9 : mouse.nx, still ? 9 : mouse.ny);
@@ -778,6 +809,7 @@ export class DotsEngine {
     this.flowObserver?.disconnect();
     this.flowObserver = null;
     this.flowEl = null;
+    this.coverEl = null;
     const gl = this.gl;
     if (!gl.isContextLost()) {
       for (const v of this.buffers.values()) gl.deleteBuffer(v.buf);

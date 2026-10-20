@@ -17,6 +17,7 @@ npm run lint           # ESLint: typescript-eslint, react-hooks, jsx-a11y; 0 п�
 npm run format         # Prettier
 npm run build          # обычная сборка в dist/
 npm run build:single   # всё в один файл dist/index.html (его публикуем для команды)
+npm run check:ai       # проверка на ИИ: один текст — один результат везде (scripts/check-ai.mjs)
 ```
 
 `dist/index.html` после `build:single` открывается двойным щелчком, без сервера.
@@ -70,6 +71,7 @@ web/
       landing/             Л. Лендинг (заготовка «Основы»)
       search/              П1–П3, П7        → Э-Поиск
       spread/              П4               → Э-Распространение
+      ai-check/            проверка текста на ИИ, метка AiMark → Э-ИИ-интерфейс
       sources/             П5               → Э-Источники
       recent/              П6               → Э-Источники
       how/                 П8               → Э-Источники
@@ -158,6 +160,7 @@ import type { ResultItem, Selection } from '@/api/types';
 | старт           | `getStartState()` — первый запуск, пример запроса, период по умолчанию (НТ-14)                                                                                                                   |
 | запрос          | `analyzeQuery(text)` — подсказки и уточнение (НТ-21, П14, НТ-26); `understandTopic(text, {meaningId, correction})` — «как система поняла тему»                                                   |
 | поиск           | `startSearch(request)` → `SearchRun` (поток событий); `stopSearch`; `retryPlatform(searchId, platform)`; `getSelection`; `setExcluded`; `excludeSource`; `addByUrl` (П8); `recheckLinks` (НТ-19) |
+| проверка на ИИ  | `checkAiText(text)` → `AiCheck`; то же у `ResultItem.aiCheck`, `SpreadPlacement.aiCheck` (нормализация — `lib/ai-normalize.ts`)                                                                  |
 | распространение | `getSpread(searchId, groupId?)` (Р10, П1, П4–П6)                                                                                                                                                 |
 | выгрузка        | `getExportPreview(searchId, {onlyRelevance?})` — лист «Сводка» и строки (НТ-11, НТ-20)                                                                                                           |
 | источники       | `listSources`, `checkSource(url)`, `addSource`, `updateSource`, `removeSource`, `restoreSource`, `importSources(file)`, `getCatalog`, `addFromCatalog`                                           |

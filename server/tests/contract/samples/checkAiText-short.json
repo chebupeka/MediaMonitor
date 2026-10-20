@@ -1,0 +1,12 @@
+{
+  "method": "checkAiText-short",
+  "schema": "AiCheck",
+  "value": {
+    "model": "demo",
+    "textHash": "c9c523eef79ec9b459375d85c622ff8566bcbff1cf8d779c4d85aa1f35d70727",
+    "words": 5,
+    "level": "too-short",
+    "score": null,
+    "checkedAt": "2026-10-19T14:33:14+07:00"
+  }
+}

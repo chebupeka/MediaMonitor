@@ -98,8 +98,19 @@ class PreparedText:
     words: int
 
 
-@lru_cache(maxsize=4096)
-def prepare(text: str) -> PreparedText:
-    """Нормализация, хеш и слова одним вызовом (подборка зовёт её на каждом шаге)."""
+def _prepare(text: str) -> PreparedText:
     normalized = normalize_text(text)
     return PreparedText(text=normalized, hash=text_hash(normalized), words=count_words(normalized))
+
+
+# Подборка зовёт `prepare` для каждой записи на каждом шаге — короткие тексты (а это почти
+# все посты) запоминаем; длинные не держим в памяти, их нормализация дешевле риска.
+_CACHED_MAX_CHARS = 5_000
+_prepare_cached = lru_cache(maxsize=2048)(_prepare)
+
+
+def prepare(text: str) -> PreparedText:
+    """Нормализация, хеш и слова одним вызовом."""
+    if len(text) > _CACHED_MAX_CHARS:
+        return _prepare(text)
+    return _prepare_cached(text)

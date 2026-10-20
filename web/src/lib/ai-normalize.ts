@@ -29,6 +29,7 @@ const INVISIBLE = /[\u200B-\u200D\uFEFF\u00AD]/gu;
  * (`\s` в JavaScript отличается: в нём нет U+001C–U+001F и U+0085.)
  */
 const WHITESPACE =
+  // eslint-disable-next-line no-control-regex -- U+001C–U+001F пробельные в Python: как на сервере
   /[\t\n\v\f\r\u001C-\u001F \u0085\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]+/gu;
 
 /** Нормализовать текст перед проверкой на ИИ. */

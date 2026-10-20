@@ -19,7 +19,7 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:27+07:00"
+        "updatedAt": "2026-10-19T14:32:26+07:00"
       },
       "currentSource": null
     },
@@ -40,7 +40,7 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:27+07:00"
+        "updatedAt": "2026-10-19T14:32:26+07:00"
       },
       "currentSource": null
     },
@@ -93,7 +93,7 @@
             "hasMedia": false,
             "views": 3900,
             "reactions": 68,
-            "fetchedAt": "2026-10-19T14:32:30+07:00",
+            "fetchedAt": "2026-10-19T14:32:29+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -131,7 +131,15 @@
           "groupId": "g-peshehod",
           "excluded": false,
           "isNew": false,
-          "arrival": 37
+          "arrival": 37,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "895194db9ffa6f71da8f860a364b446955f9869914b2fd34d58d33e9c8828891",
+            "words": 23,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -178,7 +186,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
       }
     },
     {
@@ -198,7 +208,7 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:27+07:00"
+        "updatedAt": "2026-10-19T14:32:26+07:00"
       },
       "currentSource": null
     },
@@ -219,7 +229,7 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:27+07:00"
+        "updatedAt": "2026-10-19T14:32:26+07:00"
       },
       "currentSource": null
     },
@@ -240,7 +250,7 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:27+07:00"
+        "updatedAt": "2026-10-19T14:32:26+07:00"
       },
       "currentSource": null
     },
@@ -298,7 +308,7 @@
             "hasMedia": false,
             "views": 4100,
             "reactions": 48,
-            "fetchedAt": "2026-10-19T14:32:31+07:00",
+            "fetchedAt": "2026-10-19T14:32:30+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -336,7 +346,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 38
+          "arrival": 38,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "a49847feae25967d31ec3e8227069d11dc1dce1f4641f2b99483a8b76c9ac8c0",
+            "words": 32,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -383,7 +401,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
       }
     },
     {
@@ -403,7 +423,7 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:27+07:00"
+        "updatedAt": "2026-10-19T14:32:26+07:00"
       },
       "currentSource": null
     },
@@ -424,7 +444,7 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:27+07:00"
+        "updatedAt": "2026-10-19T14:32:26+07:00"
       },
       "currentSource": null
     },
@@ -482,7 +502,7 @@
             "hasMedia": false,
             "views": 9700,
             "reactions": 136,
-            "fetchedAt": "2026-10-19T14:32:31+07:00",
+            "fetchedAt": "2026-10-19T14:32:30+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -522,7 +542,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 39
+          "arrival": 39,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "32e376b48bcc089126a2148afa55425cf3234cab74054d4b1bd02bc52b20a5cf",
+            "words": 30,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -569,7 +597,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
       }
     },
     {
@@ -589,7 +619,7 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:27+07:00"
+        "updatedAt": "2026-10-19T14:32:26+07:00"
       },
       "currentSource": null
     },
@@ -610,7 +640,7 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:27+07:00"
+        "updatedAt": "2026-10-19T14:32:26+07:00"
       },
       "currentSource": null
     },
@@ -631,7 +661,7 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:27+07:00"
+        "updatedAt": "2026-10-19T14:32:26+07:00"
       },
       "currentSource": null
     },
@@ -689,7 +719,7 @@
             "hasMedia": false,
             "views": 11200,
             "reactions": 84,
-            "fetchedAt": "2026-10-19T14:32:32+07:00",
+            "fetchedAt": "2026-10-19T14:32:31+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -730,7 +760,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 40
+          "arrival": 40,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "186d0f5812101caca1081eecc86d9fdad424b19d8cbb19dc18a54b9e654c2ecf",
+            "words": 19,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:03+07:00"
+          }
         }
       ],
       "groups": [
@@ -777,7 +815,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
       }
     },
     {
@@ -797,7 +837,7 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:27+07:00"
+        "updatedAt": "2026-10-19T14:32:26+07:00"
       },
       "currentSource": null
     },
@@ -818,7 +858,7 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:27+07:00"
+        "updatedAt": "2026-10-19T14:32:26+07:00"
       },
       "currentSource": null
     },
@@ -835,16 +875,16 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:33+07:00"
+        "updatedAt": "2026-10-19T14:32:32+07:00"
       },
       "currentSource": null
     },
     {
       "type": "finished",
       "selection": {
-        "searchId": "s-mvfj6dbi-4",
+        "searchId": "s-mvfmng20-4",
         "conditions": {
-          "searchId": "s-mvfj6dbi-4",
+          "searchId": "s-mvfmng20-4",
           "text": "ДТП",
           "label": "Безопасность дорожного движения",
           "kind": "topic",
@@ -866,8 +906,8 @@
             "max"
           ],
           "meaningLabel": null,
-          "startedAt": "2026-10-19T14:32:23+07:00",
-          "finishedAt": "2026-10-19T14:32:33+07:00",
+          "startedAt": "2026-10-19T14:32:22+07:00",
+          "finishedAt": "2026-10-19T14:32:32+07:00",
           "repeatOf": null
         },
         "statuses": [
@@ -887,7 +927,7 @@
             },
             "freshness": null,
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:29+07:00"
+            "updatedAt": "2026-10-19T14:32:28+07:00"
           },
           {
             "platform": "ok",
@@ -897,7 +937,7 @@
             "problem": null,
             "freshness": null,
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:28+07:00"
+            "updatedAt": "2026-10-19T14:32:27+07:00"
           },
           {
             "platform": "max",
@@ -910,7 +950,7 @@
               "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
             },
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:33+07:00"
+            "updatedAt": "2026-10-19T14:32:32+07:00"
           }
         ],
         "items": [
@@ -965,7 +1005,7 @@
               "hasMedia": false,
               "views": 29300,
               "reactions": 1272,
-              "fetchedAt": "2026-10-19T14:32:24+07:00",
+              "fetchedAt": "2026-10-19T14:32:23+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -1005,7 +1045,15 @@
             "groupId": null,
             "excluded": false,
             "isNew": false,
-            "arrival": 1
+            "arrival": 1,
+            "aiCheck": {
+              "model": "demo",
+              "textHash": "c07f94f33855df4493c9f3c373de8b6e4cbc606bec80a2b0ce755290396f552b",
+              "words": 28,
+              "level": "too-short",
+              "score": null,
+              "checkedAt": "2026-10-19T14:32:03+07:00"
+            }
           },
           {
             "id": "vk:-100107_88140",
@@ -1061,7 +1109,7 @@
               "hasMedia": false,
               "views": 12300,
               "reactions": 140,
-              "fetchedAt": "2026-10-19T14:32:24+07:00",
+              "fetchedAt": "2026-10-19T14:32:23+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -1101,7 +1149,15 @@
             "groupId": null,
             "excluded": false,
             "isNew": false,
-            "arrival": 2
+            "arrival": 2,
+            "aiCheck": {
+              "model": "demo",
+              "textHash": "a6d19edaa3652eb399f5908c9e201fac393490782246dab587aa8b280fbeba5a",
+              "words": 29,
+              "level": "too-short",
+              "score": null,
+              "checkedAt": "2026-10-19T14:32:03+07:00"
+            }
           },
           {
             "id": "vk:-100101_88102",
@@ -1154,7 +1210,7 @@
               "hasMedia": false,
               "views": 41200,
               "reactions": 655,
-              "fetchedAt": "2026-10-19T14:32:24+07:00",
+              "fetchedAt": "2026-10-19T14:32:23+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -1194,7 +1250,15 @@
             "groupId": null,
             "excluded": false,
             "isNew": false,
-            "arrival": 3
+            "arrival": 3,
+            "aiCheck": {
+              "model": "demo",
+              "textHash": "a6d19edaa3652eb399f5908c9e201fac393490782246dab587aa8b280fbeba5a",
+              "words": 29,
+              "level": "too-short",
+              "score": null,
+              "checkedAt": "2026-10-19T14:32:03+07:00"
+            }
           }
         ],
         "groups": [
@@ -1241,7 +1305,9 @@
             "retold": 0,
             "repost": 0
           },
-          "new": 0
+          "new": 0,
+          "aiLikely": 1,
+          "aiSigns": 1
         },
         "topic": {
           "summary": "Публикации о безопасности на дорогах края: ДТП, пешеходы и переходы, дети на дорогах, проверки водителей, состояние дорог зимой.",

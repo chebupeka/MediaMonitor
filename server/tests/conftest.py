@@ -25,7 +25,7 @@ from mediamonitor.adapters import AdapterRegistry, FixtureAdapter, FixtureStore
 from mediamonitor.adapters.fixture import FailureMode
 from mediamonitor.ai.judge import AiJudge, NullJudge
 from mediamonitor.contract import PLATFORM_ORDER, PlatformId
-from mediamonitor.main import JudgeFactory, MatcherFactory, create_app
+from mediamonitor.main import DetectorFactory, JudgeFactory, MatcherFactory, create_app
 from mediamonitor.settings import Settings
 
 if sys.platform == "win32":
@@ -61,6 +61,7 @@ def make_settings(tmp_path: Path, **overrides: Any) -> Settings:
         "rate_limit_per_minute": 100_000,
         "search_rate_limit_per_minute": 10_000,
         "workspace_rate_limit_per_minute": 10_000,
+        "ai_check_rate_limit_per_minute": 10_000,
         "public_app_url": "https://monitor.example/",
         # Большинство тестов — на простой заглушке отбора (быстро и предсказуемо);
         # воронка «Э-Отбор» — в test_funnel.py с лёгкой моделью смысла.
@@ -87,6 +88,7 @@ def make_app(
     judge: AiJudge | None = None,
     judge_factory: JudgeFactory | None = None,
     matcher_factory: MatcherFactory | None = None,
+    detector_factory: DetectorFactory | None = None,
     step_delay_sec: float = 0.0,
     store: FixtureStore | None = None,
 ) -> Harness:
@@ -111,6 +113,7 @@ def make_app(
         adapter_factory=adapter_factory,
         judge_factory=judge_factory or default_judge_factory,
         matcher_factory=matcher_factory,
+        detector_factory=detector_factory,
     )
     return Harness(app=app, adapters=adapters)
 

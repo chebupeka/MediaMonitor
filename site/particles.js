@@ -526,9 +526,13 @@
     'uniform vec2 uMouse;',
     'uniform vec3 uPal[8];',
     // «Система слушает»: на сколько сдвинуть конец потока, чтобы он упёрся в поле ввода
-    // (в координатах экрана; для формы «откуда» и формы «куда», у остальных форм — 0)
-    'uniform vec2 uTgtA;',
-    'uniform vec2 uTgtB;',
+    // (xy — в координатах экрана; z = 1 — у формы есть поток к полю; у остальных форм — 0)
+    'uniform vec3 uTgtA;',
+    'uniform vec3 uTgtB;',
+    // Над колонкой текста выше поля поток невидим (узкий экран: поток идёт сверху сквозь
+    // заголовок) — прямоугольник x0, y0, x1, y1 на экране и мягкость его краёв
+    'uniform vec4 uHide;',
+    'uniform vec2 uHideSoft;',
     // Повтор формы во всю ширину (мост): сдвиг модели «откуда» (x) и «куда» (y) на целое число
     // периодов; uFade — повтор принадлежит форме «откуда» (x = 1) или «куда» (y = 1):
     // он проявляется вместе с ней и не удваивает точки соседней формы
@@ -566,7 +570,12 @@
     '  float z = 3.4 - min(p.z, 2.2);',
     '  vec2 q = vec2(p.x / uAspect, p.y) * (2.2 / z);',
     // поток изгибается к полю ввода: начало остаётся у облака, конец упирается в поле
-    '  q += mix(along(aFrom.w) * uTgtA, along(aTo.w) * uTgtB, e);',
+    '  q += mix(along(aFrom.w) * uTgtA.xy, along(aTo.w) * uTgtB.xy, e);',
+    // точка потока над текстом — гаснет, у поля ввода проявляется снова
+    '  float tail = mix(step(0.0005, along(aFrom.w)) * uTgtA.z, step(0.0005, along(aTo.w)) * uTgtB.z, e);',
+    '  float hx = smoothstep(uHide.x - uHideSoft.x, uHide.x + uHideSoft.x, q.x) * (1.0 - smoothstep(uHide.z - uHideSoft.x, uHide.z + uHideSoft.x, q.x));',
+    '  float hy = smoothstep(uHide.y - uHideSoft.y, uHide.y + uHideSoft.y, q.y) * (1.0 - smoothstep(uHide.w - uHideSoft.y, uHide.w + uHideSoft.y, q.y));',
+    '  float shown = 1.0 - tail * hx * hy;',
     '  vec2 dm = (q - uMouse) * vec2(uAspect, 1.0);',
     '  float dl = length(dm);',
     '  q += dm / (dl + 1e-4) * 0.05 * smoothstep(0.28, 0.0, dl) * vec2(1.0 / uAspect, 1.0);',
@@ -577,7 +586,7 @@
     '  if (d > 0.965) col = mix(col, vec3(0.93, 0.95, 1.0), 0.7);',
     '  vCol = col;',
     '  vAlpha = uAlpha * mix(la.a, lb.a, e) * clamp(1.7 - z * 0.27, 0.25, 1.0) * (1.0 - uIntro * 0.5);',
-    '  vAlpha *= mix(1.0, 1.0 - e, uFade.x) * mix(1.0, e, uFade.y);',
+    '  vAlpha *= mix(1.0, 1.0 - e, uFade.x) * mix(1.0, e, uFade.y) * shown;',
     '}'
   ].join('\n');
 
@@ -721,11 +730,22 @@
     var vh = window.innerHeight, top = window.scrollY;
     anchors = Array.prototype.map.call(document.querySelectorAll('[data-shape]'), function (el) {
       var r = el.getBoundingClientRect(), t = el.querySelector('[data-flow-target]');
+      var tgt = t ? docBox(t) : null, col = t && t.closest('.col');
+      var hide = null;
+      // Узкий экран: колонка текста во всю ширину, и поток к полю шёл бы сквозь заголовок и
+      // абзац. Над ними (от верха колонки до поля) поток невидим и проявляется у самого поля.
+      if (tgt && col && window.innerWidth < 900) {
+        var cb = docBox(col);
+        var prev = t.previousElementSibling; // текст прямо над полем: поток проявляется под ним
+        hide = { x0: cb.x0 - 12, x1: cb.x1 + 12, y0: cb.y0 - 12, y1: prev ? docBox(prev).y1 + 4 : tgt.y0 - 14 };
+        if (hide.y1 <= hide.y0) hide = null;
+      }
       return {
         shape: el.getAttribute('data-shape'),
         place: el.getAttribute('data-place') || 'center',
         c: r.top + top + Math.min(r.height, vh * 1.4) / 2 - vh / 2,
-        tgt: t ? docBox(t) : null // куда течёт поток формы (поле ввода «Запрос»)
+        tgt: tgt, // куда течёт поток формы (поле ввода «Запрос»)
+        hide: hide // где поток невидим (текст над полем на узком экране)
       };
     }).filter(function (a) { return META[a.shape]; });
   }
@@ -802,9 +822,10 @@
   // где поле сейчас на экране. Цель — точка поля, ближайшая к облаку (внутри скругления).
   var pSrc = [0, 0], pEnd = [0, 0];
   function aim(anchor, X, tilt, out) {
-    out[0] = 0; out[1] = 0;
+    out[0] = 0; out[1] = 0; out[2] = 0;
     var tail = META[anchor.shape].tail, b = anchor.tgt;
     if (!tail || !b) return out;
+    out[2] = 1;
     project(tail.src, X, tilt, pSrc);
     project(tail.end, X, tilt, pEnd);
     var r = (b.y1 - b.y0) * 0.3;
@@ -836,7 +857,18 @@
   gl.useProgram(S.p);
   gl.uniform1f(S.u.uAlpha, 1);
 
-  var uA = new Float32Array(4), uB = new Float32Array(4), gA = new Float32Array(2), gB = new Float32Array(2);
+  var uA = new Float32Array(4), uB = new Float32Array(4), gA = new Float32Array(3), gB = new Float32Array(3);
+  var hideRect = new Float32Array(4), NO_HIDE = new Float32Array([9, 9, 9.1, 9.1]);
+  // Прямоугольник, где поток невидим, — в координатах экрана (по запомненной прокрутке)
+  function hideOf(anchor) {
+    var h = anchor.hide;
+    if (!h || !META[anchor.shape].tail) return null;
+    hideRect[0] = h.x0 / W * 2 - 1;
+    hideRect[1] = 1 - (h.y1 - scrollTop) / H * 2;
+    hideRect[2] = h.x1 / W * 2 - 1;
+    hideRect[3] = 1 - (h.y0 - scrollTop) / H * 2;
+    return hideRect;
+  }
 
   function frame(now) {
     requestAnimationFrame(frame);
@@ -879,8 +911,10 @@
       gl.uniform1f(P.u.uTilt, tilt);
       gl.uniform4fv(P.u.uA, uA);
       gl.uniform4fv(P.u.uB, uB);
-      gl.uniform2fv(P.u.uTgtA, aim(tl.a, uA, tilt, gA));
-      gl.uniform2fv(P.u.uTgtB, aim(tl.b, uB, tilt, gB));
+      gl.uniform3fv(P.u.uTgtA, aim(tl.a, uA, tilt, gA));
+      gl.uniform3fv(P.u.uTgtB, aim(tl.b, uB, tilt, gB));
+      gl.uniform4fv(P.u.uHide, hideOf(tl.a) || hideOf(tl.b) || NO_HIDE);
+      gl.uniform2f(P.u.uHideSoft, 22 / W * 2, 10 / H * 2);
       gl.uniform2f(P.u.uMouse, mouse.nx, mouse.ny);
       gl.uniform2f(P.u.uShift, 0, 0);
       gl.uniform2f(P.u.uFade, 0, 0);

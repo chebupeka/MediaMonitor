@@ -18,7 +18,7 @@ import type {
   TopicUnderstanding,
 } from '../types';
 import { PLATFORM_ORDER } from '@/lib/labels';
-import { demoAiCheck } from './ai';
+import { demoAiCheck, immediateAiCheck } from './ai';
 import { dayEndMs, dayStartMs, demoNowMs, nowIso } from './clock';
 import type { DemoItem } from './build';
 import { setConnection } from './connection';
@@ -263,14 +263,16 @@ function decorate(
     if (item.evidence && item.evidence.basis === 'ai')
       item.evidence = { ...item.evidence, basis: 'semantic' };
   }
-  withAiCheck(item, aiDown);
+  // Проверка на ИИ — при выдаче записи (releaseUpTo) и фоном, как на сервере.
+  delete item.aiCheck;
   return item;
 }
 
 /**
- * Проверка текста поста на ИИ — тот же метод и кэш, что у отдельной проверки (fake/ai.ts).
- * Пост без текста не проверяем. «Нейросеть недоступна» — детектор на той же машине с
- * видеокартой, что и GigaChat, поэтому тоже недоступен.
+ * Проверка текста поста на ИИ сразу — тот же метод и кэш, что у отдельной проверки
+ * (fake/ai.ts). Для «добавить по ссылке» и для снимка, где оценка не успела. Пост без текста
+ * не проверяем. «Нейросеть недоступна» — детектор на той же машине с видеокартой, что и
+ * GigaChat, поэтому тоже недоступен.
  */
 export function withAiCheck(item: ResultItem, modelDown: boolean): ResultItem {
   const text = item.publication.text;
@@ -392,6 +394,8 @@ interface Runner {
   buffering: boolean;
   pending: ResultItem[];
   closedGroup: boolean;
+  /** Записи, тексты которых ждут фоновой проверки на ИИ (у них пока нет `aiCheck`). */
+  aiWaiting: Set<ResultItem>;
 }
 
 function sourceNameFor(runner: Runner, platform: PlatformId, done: number): string | null {
@@ -415,7 +419,8 @@ function emitPlatform(runner: Runner, platform: PlatformId): void {
 function emitItems(runner: Runner, fresh: ResultItem[]): void {
   if (fresh.length === 0) return;
   if (runner.buffering) {
-    runner.pending.push(...fresh);
+    // Та же запись могла ждать и с оценкой на ИИ — в очереди она одна.
+    for (const item of fresh) if (!runner.pending.includes(item)) runner.pending.push(item);
     return;
   }
   const { record } = runner;
@@ -439,10 +444,56 @@ function releaseUpTo(runner: Runner, plan: PlatformPlan, done: number): ResultIt
     runner.record.arrival += 1;
     item.arrival = runner.record.arrival;
     item.publication.fetchedAt = nowIso();
+    attachImmediateAi(runner, item);
     runner.record.items.push(item);
     fresh.push(item);
   }
   return fresh;
+}
+
+// ---------------------------------------------------------------- проверка на ИИ фоном
+
+/** Задержка фоновой проверки на ИИ — как у детектора на машине с видеокартой. */
+const AI_DELAY_MS = { normal: 1100, slow: 3200 } as const;
+
+/**
+ * Как на сервере: короткие, уже проверенные и «недоступна» — сразу; остальные уходят в
+ * поток без `aiCheck` и ждут фоновой проверки.
+ */
+function attachImmediateAi(runner: Runner, item: ResultItem): void {
+  const text = item.publication.text;
+  delete item.aiCheck;
+  if (text === null) return;
+  const result = immediateAiCheck(text, { modelDown: !runner.record.aiAvailable });
+  if (result) item.aiCheck = result;
+  else runner.aiWaiting.add(item);
+}
+
+/** Оценить тексты фоном и прислать эти же записи ещё раз — уже с оценкой. */
+function scheduleAi(runner: Runner, fresh: readonly ResultItem[]): void {
+  const batch = fresh.filter((item) => runner.aiWaiting.has(item));
+  if (batch.length === 0) return;
+  const ms = runner.ctx.demo.scenario === 'slow' ? AI_DELAY_MS.slow : AI_DELAY_MS.normal;
+  setTimeout(
+    () => {
+      const done = batch.filter((item) => runner.aiWaiting.delete(item));
+      for (const item of done) checkNow(runner, item);
+      // Поиск уже закончен — оценки остались в записи и будут в подборке.
+      if (done.length > 0 && !runner.run.closed) emitItems(runner, done);
+    },
+    ms + Math.round(Math.random() * ms * 0.5),
+  );
+}
+
+function checkNow(runner: Runner, item: ResultItem): void {
+  const text = item.publication.text;
+  if (text !== null) item.aiCheck = demoAiCheck(text, { modelDown: !runner.record.aiAvailable });
+}
+
+/** Перед итогом сервер ждёт фоновую проверку (AI_DETECT_FINISH_WAIT_SEC): досчитываем. */
+function drainAi(runner: Runner): void {
+  for (const item of runner.aiWaiting) checkNow(runner, item);
+  runner.aiWaiting.clear();
 }
 
 function finishPlatform(runner: Runner, plan: PlatformPlan): void {
@@ -496,6 +547,7 @@ function tick(runner: Runner): void {
   }
 
   emitItems(runner, fresh);
+  scheduleAi(runner, fresh);
 
   // Обрыв связи (сценарий «Нет связи»): поиск продолжается на сервере (НТ-23).
   if (runner.ctx.demo.scenario === 'offline' && !record.connectionDropped) {
@@ -545,6 +597,7 @@ function schedule(runner: Runner): void {
 
 function complete(runner: Runner): void {
   const { record } = runner;
+  drainAi(runner);
   record.phase = 'done';
   record.conditions.finishedAt = nowIso();
   runner.timer = null;
@@ -697,6 +750,7 @@ export function startFakeSearch(request: SearchRequest, ctx: SearchContext): Fak
     timer: null,
     buffering: false,
     pending: [],
+    aiWaiting: new Set(),
     closedGroup:
       scenario === 'max-down' &&
       (request.mode === 'everywhere' || ctx.mySourceIds.has('vk-boguchany')),
@@ -777,6 +831,7 @@ export function retryFakePlatform(
     timer: null,
     buffering: false,
     pending: [],
+    aiWaiting: new Set(),
     closedGroup: false,
   };
   run.onStop(() => stopRunner(runner));
@@ -828,7 +883,7 @@ export function adoptRecord(
     conditions: { ...selection.conditions },
     dataset,
     plans,
-    // Снимок прежней версии мокапа мог прийти без проверки на ИИ — досчитываем тем же методом.
+    // Оценка на ИИ не успела к снимку (поиск остановили) — «досчиталась», как на сервере.
     items: selection.items.map((i) => {
       const item = structuredClone(i);
       return item.aiCheck ? item : withAiCheck(item, !selection.aiAvailable);

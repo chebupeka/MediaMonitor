@@ -42,8 +42,10 @@ export async function boot(layout: 'panel' | 'site'): Promise<void> {
   installExtensionHost(layout);
   const pending = await takePendingSelection().catch(() => null);
 
-  const hints = new URLSearchParams({ screen: 'search', layout });
-  // С запросом экран «Поиск» сразу запускает поиск (src/app/App.tsx).
+  // «Проверить текст на ИИ» открывает экран проверки, остальное — «Поиск».
+  const screen = pending?.action === 'ai-check' ? 'ai-check' : 'search';
+  const hints = new URLSearchParams({ screen, layout });
+  // С текстом экран сразу запускает поиск или проверку (src/app/App.tsx).
   if (pending) hints.set('q', pending.text);
   window.history.replaceState(null, '', `${window.location.pathname}?${hints.toString()}`);
 

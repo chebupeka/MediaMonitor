@@ -1,0 +1,12 @@
+{
+  "method": "checkAiText",
+  "schema": "AiCheck",
+  "value": {
+    "model": "demo",
+    "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+    "words": 74,
+    "level": "unlikely",
+    "score": 0.12,
+    "checkedAt": "2026-10-19T14:32:14+07:00"
+  }
+}

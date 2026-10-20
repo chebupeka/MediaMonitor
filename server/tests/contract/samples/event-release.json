@@ -5,7 +5,7 @@
     {
       "type": "started",
       "conditions": {
-        "searchId": "s-mvfj66u6-2",
+        "searchId": "s-mvfmn9ny-2",
         "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
         "label": "Новая школа в Норильске",
         "kind": "news-text",
@@ -27,7 +27,7 @@
           "max"
         ],
         "meaningLabel": null,
-        "startedAt": "2026-10-19T14:32:15+07:00",
+        "startedAt": "2026-10-19T14:32:14+07:00",
         "finishedAt": null,
         "repeatOf": null
       },
@@ -301,7 +301,7 @@
             "hasMedia": false,
             "views": 4480,
             "reactions": 256,
-            "fetchedAt": "2026-10-19T14:32:16+07:00",
+            "fetchedAt": "2026-10-19T14:32:15+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -342,7 +342,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 1
+          "arrival": 1,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "7863f59072bc0da2ea46c6c70d1893124b65ec1fe7bfd49ffd5003024a4fcba3",
+            "words": 31,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         }
       ],
       "groups": [],
@@ -365,7 +373,9 @@
           "retold": 0,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
       }
     },
     {
@@ -536,7 +546,7 @@
             "hasMedia": false,
             "views": 2900,
             "reactions": 208,
-            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "fetchedAt": "2026-10-19T14:32:16+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -579,7 +589,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 2
+          "arrival": 2,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "313534cef35769daa1ad51fb45995e927fdc4eb59b8b4b3a6371557f5182106b",
+            "words": 25,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         },
         {
           "id": "ok:5600108_40790",
@@ -637,7 +655,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 64,
-            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "fetchedAt": "2026-10-19T14:32:16+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -687,7 +705,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 3
+          "arrival": 3,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "def79c9c0c5fc46f0da77013e975fa47fdfaed0f5bfd3d71fb547d0b705d7061",
+            "words": 40,
+            "level": "unlikely",
+            "score": 0.08,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         }
       ],
       "groups": [
@@ -732,7 +758,9 @@
           "retold": 1,
           "repost": 0
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
       }
     },
     {
@@ -874,7 +902,7 @@
             "hasMedia": false,
             "views": 2400,
             "reactions": 116,
-            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "fetchedAt": "2026-10-19T14:32:16+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -934,7 +962,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 4
+          "arrival": 4,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "396fa028575eb721c32970244ce99f4b93dd362f796924e54d88d8b541c3a4ec",
+            "words": 78,
+            "level": "unlikely",
+            "score": 0.15,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         },
         {
           "id": "max:portal_2236",
@@ -982,7 +1018,7 @@
             "hasMedia": false,
             "views": 4900,
             "reactions": 224,
-            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "fetchedAt": "2026-10-19T14:32:16+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1025,7 +1061,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 5
+          "arrival": 5,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "50b9b3bfbc60b8a47540567d2bef940f3b694f43bef80b13769bd5b100150ee0",
+            "words": 19,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         }
       ],
       "groups": [
@@ -1072,7 +1116,9 @@
           "retold": 2,
           "repost": 1
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
       }
     },
     {
@@ -1206,7 +1252,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 124,
-            "fetchedAt": "2026-10-19T14:32:17+07:00",
+            "fetchedAt": "2026-10-19T14:32:16+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1266,7 +1312,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 6
+          "arrival": 6,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+            "words": 74,
+            "level": "unlikely",
+            "score": 0.12,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         }
       ],
       "groups": [
@@ -1314,7 +1368,9 @@
           "retold": 2,
           "repost": 1
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
       }
     },
     {
@@ -1433,7 +1489,7 @@
             "hasMedia": false,
             "views": 3100,
             "reactions": 92,
-            "fetchedAt": "2026-10-19T14:32:18+07:00",
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1483,7 +1539,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 7
+          "arrival": 7,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "633f3779d67b7ed482c7a1824a5d58855f227be9e85134771ecc24829ead24a3",
+            "words": 39,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         }
       ],
       "groups": [
@@ -1532,7 +1596,9 @@
           "retold": 2,
           "repost": 1
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 0
       }
     },
     {
@@ -1678,7 +1744,7 @@
             "title": null,
             "headline": "В Норильске начала работу новая школа — самая большая в Заполярье за тридцать лет.",
             "headlineFrom": "text",
-            "text": "В Норильске начала работу новая школа — самая большая в Заполярье за тридцать лет. Её построили за два года по краевой программе строительства школ. В здании 48 классов, бассейн и лаборатория робототехники.",
+            "text": "В Норильске начала работу новая школа — самая большая в Заполярье за тридцать лет. Её построили за два года по краевой программе строительства школ. В здании 48 классов, бассейн и лаборатория робототехники. Учебный год в новом здании начнётся 20 октября, а записать ребёнка можно через портал госуслуг.",
             "sentences": [
               {
                 "index": 0,
@@ -1694,6 +1760,11 @@
                 "index": 2,
                 "start": 149,
                 "end": 206
+              },
+              {
+                "index": 3,
+                "start": 207,
+                "end": 302
               }
             ],
             "publishedAt": "2026-10-15T09:20:00+07:00",
@@ -1703,7 +1774,7 @@
             "hasMedia": false,
             "views": 5500,
             "reactions": 148,
-            "fetchedAt": "2026-10-19T14:32:18+07:00",
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1721,8 +1792,8 @@
           },
           "excerpt": {
             "start": 83,
-            "end": 206,
-            "text": "Её построили за два года по краевой программе строительства школ. В здании 48 классов, бассейн и лаборатория робототехники.",
+            "end": 302,
+            "text": "Её построили за два года по краевой программе строительства школ. В здании 48 классов, бассейн и лаборатория робототехники. Учебный год в новом здании начнётся 20 октября, а записать ребёнка можно через портал госуслуг.",
             "cutStart": true,
             "cutEnd": false
           },
@@ -1754,7 +1825,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 8
+          "arrival": 8,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "dcbca97f4d510415f7fc961a8709fc2ee8f6d809f3b0e2c45c566c2741ada61d",
+            "words": 47,
+            "level": "signs",
+            "score": 0.71,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         },
         {
           "id": "ok:5600102_9011",
@@ -1827,7 +1906,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 72,
-            "fetchedAt": "2026-10-19T14:32:18+07:00",
+            "fetchedAt": "2026-10-19T14:32:17+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -1887,7 +1966,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 9
+          "arrival": 9,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+            "words": 74,
+            "level": "unlikely",
+            "score": 0.12,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         }
       ],
       "groups": [
@@ -1938,7 +2025,9 @@
           "retold": 3,
           "repost": 1
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 1
       }
     },
     {
@@ -2067,7 +2156,7 @@
             "hasMedia": false,
             "views": 7200,
             "reactions": 256,
-            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "fetchedAt": "2026-10-19T14:32:18+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2122,7 +2211,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 10
+          "arrival": 10,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "1f4e415d11bca9cc8c65cacf23bf62f1454c91a99d952b24ed5f0d683ad513c1",
+            "words": 57,
+            "level": "unlikely",
+            "score": 0.1,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         }
       ],
       "groups": [
@@ -2174,7 +2271,9 @@
           "retold": 3,
           "repost": 1
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 1
       }
     },
     {
@@ -2283,7 +2382,7 @@
             "hasMedia": false,
             "views": 1470,
             "reactions": 84,
-            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "fetchedAt": "2026-10-19T14:32:18+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2323,7 +2422,15 @@
           "groupId": null,
           "excluded": false,
           "isNew": false,
-          "arrival": 11
+          "arrival": 11,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "e63ebd658f0594e2b2f6b22a276806133b7aad9ccd7d70b5027ffd4ed83ba4ca",
+            "words": 18,
+            "level": "too-short",
+            "score": null,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         }
       ],
       "groups": [
@@ -2375,7 +2482,9 @@
           "retold": 3,
           "repost": 1
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 1
       }
     },
     {
@@ -2494,7 +2603,7 @@
             "hasMedia": false,
             "views": 9800,
             "reactions": 164,
-            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "fetchedAt": "2026-10-19T14:32:18+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2542,7 +2651,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 12
+          "arrival": 12,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "e38a3f4955b220225b22af75ef179ad8eab13ed99a38081b028ad26de9d76180",
+            "words": 40,
+            "level": "unlikely",
+            "score": 0.21,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         }
       ],
       "groups": [
@@ -2595,7 +2712,9 @@
           "retold": 4,
           "repost": 1
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 1
       }
     },
     {
@@ -2729,7 +2848,7 @@
             "hasMedia": false,
             "views": null,
             "reactions": 380,
-            "fetchedAt": "2026-10-19T14:32:19+07:00",
+            "fetchedAt": "2026-10-19T14:32:18+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -2789,7 +2908,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 13
+          "arrival": 13,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+            "words": 74,
+            "level": "unlikely",
+            "score": 0.12,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         }
       ],
       "groups": [
@@ -2843,7 +2970,9 @@
           "retold": 4,
           "repost": 1
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 0,
+        "aiSigns": 1
       }
     },
     {
@@ -2962,7 +3091,7 @@
             "hasMedia": false,
             "views": 21700,
             "reactions": 1272,
-            "fetchedAt": "2026-10-19T14:32:20+07:00",
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3009,7 +3138,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 14
+          "arrival": 14,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "01cf5947af39f440a5689175f1f5e18d49570214268258d72902bc9e0e81bcef",
+            "words": 43,
+            "level": "likely-ai",
+            "score": 0.93,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         }
       ],
       "groups": [
@@ -3064,7 +3201,9 @@
           "retold": 5,
           "repost": 1
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
       }
     },
     {
@@ -3095,7 +3234,7 @@
         "problem": null,
         "freshness": null,
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:20+07:00"
+        "updatedAt": "2026-10-19T14:32:19+07:00"
       },
       "currentSource": null
     },
@@ -3199,7 +3338,7 @@
             "hasMedia": false,
             "views": 18400,
             "reactions": 848,
-            "fetchedAt": "2026-10-19T14:32:20+07:00",
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3259,7 +3398,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 15
+          "arrival": 15,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "396fa028575eb721c32970244ce99f4b93dd362f796924e54d88d8b541c3a4ec",
+            "words": 78,
+            "level": "unlikely",
+            "score": 0.15,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         }
       ],
       "groups": [
@@ -3315,7 +3462,9 @@
           "retold": 5,
           "repost": 1
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
       }
     },
     {
@@ -3431,7 +3580,7 @@
             "hasMedia": false,
             "views": 2300,
             "reactions": 48,
-            "fetchedAt": "2026-10-19T14:32:20+07:00",
+            "fetchedAt": "2026-10-19T14:32:19+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3491,7 +3640,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 16
+          "arrival": 16,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+            "words": 74,
+            "level": "unlikely",
+            "score": 0.12,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         }
       ],
       "groups": [
@@ -3548,7 +3705,9 @@
           "retold": 5,
           "repost": 1
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
       }
     },
     {
@@ -3664,7 +3823,7 @@
             "hasMedia": false,
             "views": 6100,
             "reactions": 192,
-            "fetchedAt": "2026-10-19T14:32:21+07:00",
+            "fetchedAt": "2026-10-19T14:32:20+07:00",
             "linkCheck": {
               "state": "not-checked",
               "checkedAt": null
@@ -3724,7 +3883,15 @@
           "groupId": "g-release-school",
           "excluded": false,
           "isNew": false,
-          "arrival": 17
+          "arrival": 17,
+          "aiCheck": {
+            "model": "demo",
+            "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+            "words": 74,
+            "level": "unlikely",
+            "score": 0.12,
+            "checkedAt": "2026-10-19T14:32:14+07:00"
+          }
         }
       ],
       "groups": [
@@ -3782,7 +3949,9 @@
           "retold": 5,
           "repost": 1
         },
-        "new": 0
+        "new": 0,
+        "aiLikely": 1,
+        "aiSigns": 1
       }
     },
     {
@@ -3795,7 +3964,7 @@
         "problem": null,
         "freshness": null,
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:21+07:00"
+        "updatedAt": "2026-10-19T14:32:20+07:00"
       },
       "currentSource": null
     },
@@ -3854,16 +4023,16 @@
           "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
         },
         "cap": null,
-        "updatedAt": "2026-10-19T14:32:22+07:00"
+        "updatedAt": "2026-10-19T14:32:21+07:00"
       },
       "currentSource": null
     },
     {
       "type": "finished",
       "selection": {
-        "searchId": "s-mvfj66u6-2",
+        "searchId": "s-mvfmn9ny-2",
         "conditions": {
-          "searchId": "s-mvfj66u6-2",
+          "searchId": "s-mvfmn9ny-2",
           "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.\n\nВ школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.\n\n«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.\n\nПервые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
           "label": "Новая школа в Норильске",
           "kind": "news-text",
@@ -3885,8 +4054,8 @@
             "max"
           ],
           "meaningLabel": null,
-          "startedAt": "2026-10-19T14:32:15+07:00",
-          "finishedAt": "2026-10-19T14:32:22+07:00",
+          "startedAt": "2026-10-19T14:32:14+07:00",
+          "finishedAt": "2026-10-19T14:32:21+07:00",
           "repeatOf": null
         },
         "statuses": [
@@ -3898,7 +4067,7 @@
             "problem": null,
             "freshness": null,
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:21+07:00"
+            "updatedAt": "2026-10-19T14:32:20+07:00"
           },
           {
             "platform": "ok",
@@ -3908,7 +4077,7 @@
             "problem": null,
             "freshness": null,
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:20+07:00"
+            "updatedAt": "2026-10-19T14:32:19+07:00"
           },
           {
             "platform": "max",
@@ -3921,7 +4090,7 @@
               "note": "MAX ищется через сторонний индекс: публикации последних ~24 часов могут ещё не найтись."
             },
             "cap": null,
-            "updatedAt": "2026-10-19T14:32:22+07:00"
+            "updatedAt": "2026-10-19T14:32:21+07:00"
           }
         ],
         "items": [
@@ -3976,7 +4145,7 @@
               "hasMedia": false,
               "views": 4480,
               "reactions": 256,
-              "fetchedAt": "2026-10-19T14:32:16+07:00",
+              "fetchedAt": "2026-10-19T14:32:15+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -4017,7 +4186,15 @@
             "groupId": null,
             "excluded": false,
             "isNew": false,
-            "arrival": 1
+            "arrival": 1,
+            "aiCheck": {
+              "model": "demo",
+              "textHash": "7863f59072bc0da2ea46c6c70d1893124b65ec1fe7bfd49ffd5003024a4fcba3",
+              "words": 31,
+              "level": "too-short",
+              "score": null,
+              "checkedAt": "2026-10-19T14:32:14+07:00"
+            }
           },
           {
             "id": "vk:-100113_71533",
@@ -4070,7 +4247,7 @@
               "hasMedia": false,
               "views": 2900,
               "reactions": 208,
-              "fetchedAt": "2026-10-19T14:32:17+07:00",
+              "fetchedAt": "2026-10-19T14:32:16+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -4113,7 +4290,15 @@
             "groupId": "g-release-school",
             "excluded": false,
             "isNew": false,
-            "arrival": 2
+            "arrival": 2,
+            "aiCheck": {
+              "model": "demo",
+              "textHash": "313534cef35769daa1ad51fb45995e927fdc4eb59b8b4b3a6371557f5182106b",
+              "words": 25,
+              "level": "too-short",
+              "score": null,
+              "checkedAt": "2026-10-19T14:32:14+07:00"
+            }
           },
           {
             "id": "ok:5600108_40790",
@@ -4171,7 +4356,7 @@
               "hasMedia": false,
               "views": null,
               "reactions": 64,
-              "fetchedAt": "2026-10-19T14:32:17+07:00",
+              "fetchedAt": "2026-10-19T14:32:16+07:00",
               "linkCheck": {
                 "state": "not-checked",
                 "checkedAt": null
@@ -4221,7 +4406,15 @@
             "groupId": "g-release-school",
             "excluded": false,
             "isNew": false,
-            "arrival": 3
+            "arrival": 3,
+            "aiCheck": {
+              "model": "demo",
+              "textHash": "def79c9c0c5fc46f0da77013e975fa47fdfaed0f5bfd3d71fb547d0b705d7061",
+              "words": 40,
+              "level": "unlikely",
+              "score": 0.08,
+              "checkedAt": "2026-10-19T14:32:14+07:00"
+            }
           }
         ],
         "groups": [
@@ -4279,7 +4472,9 @@
             "retold": 5,
             "repost": 1
           },
-          "new": 0
+          "new": 0,
+          "aiLikely": 1,
+          "aiSigns": 1
         },
         "topic": {
           "summary": "Новость: в Норильске открылась новая школа на 1 100 мест в районе Оганер; первые уроки — 20 октября. Ищем перепечатки, сокращения и пересказы.",

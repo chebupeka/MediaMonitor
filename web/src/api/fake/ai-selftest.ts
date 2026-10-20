@@ -10,11 +10,21 @@
  *    символами и в разложенной форме Unicode даёт тот же textHash, число слов, оценку и уровень;
  * 4. сквозная проверка через имитацию API: метка записи в подборке = отдельная проверка того же
  *    текста (в искажённом виде) = метка размещения в «Распространении»; счётчики сходятся;
- * 5. в демо есть все уровни; сбой модели даёт `unavailable` и не попадает в кэш.
+ * 5. в демо есть все уровни; сбой модели даёт `unavailable` и не попадает в кэш;
+ * 6. фоновая проверка, как на сервере: запись приходит без `aiCheck`, потом тем же id с оценкой;
+ *    слияние интерфейса (`mergeItems`) обновляет карточку на месте — без дублей, без сдвига,
+ *    `arrival` прежний; к итогу у всех записей с текстом оценка есть.
  */
-import type { AiCheck, ResultItem, SearchRequest, Selection } from '../types';
+import type { MonitorApi } from '../client';
+import { mergeItems } from '../hooks';
+import type { AiCheck, ResultItem, SearchEvent, SearchRequest, Selection } from '../types';
 import { AI_THRESHOLDS, aiLevelForScore, aiTextKey } from '@/lib/ai-check';
-import { AI_MIN_WORDS, AI_NORMALIZE_VECTORS, countAiWords, normalizeAiText } from '@/lib/ai-normalize';
+import {
+  AI_MIN_WORDS,
+  AI_NORMALIZE_VECTORS,
+  countAiWords,
+  normalizeAiText,
+} from '@/lib/ai-normalize';
 import { sha256Hex } from '@/lib/sha256';
 import { demoAiCheck } from './ai';
 import { buildBdd } from './datasets/bdd';
@@ -38,7 +48,10 @@ const SHY = ch(0x00ad);
 const VARIANTS: { name: string; apply: (text: string) => string }[] = [
   { name: 'двойные пробелы', apply: (t) => t.replace(/ /gu, '  ') },
   { name: 'переносы строк вместо пробелов', apply: (t) => t.replace(/ /gu, '\n') },
-  { name: 'Windows-переносы и табуляция', apply: (t) => `\r\n\t${t.replace(/ /gu, ' \r\n\t')}\t\r\n` },
+  {
+    name: 'Windows-переносы и табуляция',
+    apply: (t) => `\r\n\t${t.replace(/ /gu, ' \r\n\t')}\t\r\n`,
+  },
   { name: 'неразрывные пробелы', apply: (t) => t.replace(/ /gu, NBSP) },
   {
     name: 'смесь пробелов: узкий неразрывный, em-пробел',
@@ -54,7 +67,9 @@ const VARIANTS: { name: string; apply: (text: string) => string }[] = [
       BOM +
       t
         .split(' ')
-        .map((w, i) => (w.length > 3 ? w.slice(0, 2) + [ZWSP, SHY, ZWJ, ZWNJ][i % 4] + w.slice(2) : w))
+        .map((w, i) =>
+          w.length > 3 ? w.slice(0, 2) + [ZWSP, SHY, ZWJ, ZWNJ][i % 4] + w.slice(2) : w,
+        )
         .join(' ') +
       ZWSP,
   },
@@ -73,7 +88,9 @@ function sameResult(a: AiCheck, b: AiCheck): boolean {
 }
 
 const describe = (c: AiCheck | undefined): string =>
-  c ? `${c.level} score=${String(c.score)} words=${c.words} hash=${c.textHash.slice(0, 12)}` : 'нет';
+  c
+    ? `${c.level} score=${String(c.score)} words=${c.words} hash=${c.textHash.slice(0, 12)}`
+    : 'нет';
 
 function allDemoTexts(): string[] {
   const sets = [buildBdd(), buildRelease(), buildEvent('all'), buildLarge()];
@@ -101,6 +118,92 @@ async function finishedSelection(
   throw new Error('поток поиска закончился без итога');
 }
 
+/**
+ * Поток поиска с фоновой проверкой на ИИ — как его видит интерфейс. Годится и для имитации,
+ * и для настоящего сервера (HTTP-клиент): запись приходит без `aiCheck`, потом тем же id с
+ * оценкой; `mergeItems` (hooks.ts) обновляет карточку на месте — без дублей и сдвигов,
+ * `arrival` прежний, счётчик «Похоже на ИИ» совпадает с метками; к итогу оценки есть у всех.
+ */
+export async function verifyAiStream(
+  api: Pick<MonitorApi, 'startSearch'>,
+  request: SearchRequest,
+): Promise<{ failures: string[]; checks: number; line: string }> {
+  const failures: string[] = [];
+  let checks = 0;
+  const expect = (ok: boolean, message: string) => {
+    checks += 1;
+    if (!ok) failures.push(message);
+  };
+  const events: SearchEvent[] = [];
+  for await (const event of api.startSearch(request)) {
+    events.push(event);
+    if (event.type === 'finished' || event.type === 'stopped' || event.type === 'failed') break;
+  }
+  const final = events.find((e) => e.type === 'finished');
+  expect(final !== undefined, `поток: нет события finished (${events.at(-1)?.type ?? 'пусто'})`);
+  let shown: ResultItem[] = [];
+  const firstOrder: string[] = [];
+  const firstArrival = new Map<string, number>();
+  const firstWithout = new Set<string>();
+  let updates = 0;
+  let lateChecks = 0;
+  for (const event of events) {
+    if (event.type !== 'items') continue;
+    for (const item of event.items) {
+      if (!firstArrival.has(item.id)) {
+        firstArrival.set(item.id, item.arrival);
+        firstOrder.push(item.id);
+        if (item.aiCheck === undefined && item.publication.text !== null) firstWithout.add(item.id);
+      } else {
+        updates += 1;
+        if (firstWithout.has(item.id) && item.aiCheck !== undefined) lateChecks += 1;
+      }
+    }
+    shown = mergeItems(shown, event.items);
+    const ids = shown.map((i) => i.id);
+    expect(new Set(ids).size === ids.length, 'поток: запись задвоилась после повторного items');
+    expect(
+      ids.join('|') === firstOrder.join('|'),
+      'поток: повторный items сдвинул порядок карточек',
+    );
+    const likely = shown.filter((i) => !i.excluded && i.aiCheck?.level === 'likely-ai').length;
+    const signs = shown.filter((i) => !i.excluded && i.aiCheck?.level === 'signs').length;
+    expect(
+      event.counts.aiLikely === likely && event.counts.aiSigns === signs,
+      `поток: counts ${event.counts.aiLikely}/${event.counts.aiSigns} ≠ меткам на карточках ${likely}/${signs}`,
+    );
+  }
+  expect(firstWithout.size > 0, 'поток: ни одна запись не пришла без оценки (фона нет)');
+  expect(updates > 0 && lateChecks > 0, 'поток: оценки не пришли повторным событием items');
+  for (const item of shown) {
+    expect(
+      item.arrival === firstArrival.get(item.id),
+      `поток: у ${item.id} сменился arrival — карточка посчиталась бы новой`,
+    );
+  }
+  if (final?.type === 'finished') {
+    for (const item of final.selection.items) {
+      expect(
+        (item.publication.text === null) === (item.aiCheck === undefined),
+        `итог: у ${item.id} нет оценки на ИИ`,
+      );
+    }
+  }
+  const levels = new Map<string, number>();
+  for (const item of shown) {
+    const level = item.aiCheck?.level ?? 'нет';
+    levels.set(level, (levels.get(level) ?? 0) + 1);
+  }
+  return {
+    failures,
+    checks,
+    line:
+      `Поток «${request.text.slice(0, 30)}…»: записей ${shown.length}, без оценки пришло ` +
+      `${firstWithout.size}, повторных записей ${updates}, оценок пришло позже ${lateChecks}; ` +
+      `уровни: ${[...levels.entries()].map(([l, n]) => `${l} ${n}`).join(', ')}`,
+  };
+}
+
 export interface SelfTestReport {
   failures: string[];
   lines: string[];
@@ -120,9 +223,15 @@ export async function runAiSelfTest(): Promise<SelfTestReport> {
   for (const v of AI_NORMALIZE_VECTORS) {
     const normalized = normalizeAiText(v.input);
     expect(normalized === v.normalized, `вектор «${v.note}»: ${JSON.stringify(normalized)}`);
-    expect(countAiWords(normalized) === v.words, `вектор «${v.note}»: слов ${countAiWords(normalized)}`);
+    expect(
+      countAiWords(normalized) === v.words,
+      `вектор «${v.note}»: слов ${countAiWords(normalized)}`,
+    );
     expect(sha256Hex(normalized) === v.sha256, `вектор «${v.note}»: SHA-256 не совпал`);
-    expect((await subtleHex(normalized)) === v.sha256, `вектор «${v.note}»: crypto.subtle ≠ вектор`);
+    expect(
+      (await subtleHex(normalized)) === v.sha256,
+      `вектор «${v.note}»: crypto.subtle ≠ вектор`,
+    );
   }
   lines.push(`Тест-векторы нормализации: ${AI_NORMALIZE_VECTORS.length}`);
 
@@ -132,6 +241,18 @@ export async function runAiSelfTest(): Promise<SelfTestReport> {
   expect(aiLevelForScore(AI_THRESHOLDS.signs) === 'signs', 'порог signs включительно');
   expect(aiLevelForScore(AI_THRESHOLDS.signs - 0.0001) === 'unlikely', 'чуть ниже 0,60 — unlikely');
 
+  // 6. Фоновая проверка в потоке — до того, как остальные проверки наполнят кэш
+  {
+    const stream = await verifyAiStream(createFakeApi(), {
+      text: RELEASE_SOURCE_TEXT,
+      period: presetPeriod('7d'),
+      mode: 'everywhere',
+    });
+    for (const failure of stream.failures) expect(false, failure);
+    checks += stream.checks;
+    lines.push(stream.line);
+  }
+
   // 3. Искажения на всех демо-текстах
   const texts = allDemoTexts();
   const levels = new Map<string, number>();
@@ -139,9 +260,12 @@ export async function runAiSelfTest(): Promise<SelfTestReport> {
     const base = demoAiCheck(text);
     levels.set(base.level, (levels.get(base.level) ?? 0) + 1);
     const key = aiTextKey(text);
-    expect(base.textHash === (await subtleHex(key.normalized)), `SHA-256 ≠ crypto.subtle: ${text.slice(0, 40)}`);
     expect(
-      (base.level === 'too-short') === (key.words < AI_MIN_WORDS),
+      base.textHash === (await subtleHex(key.normalized)),
+      `SHA-256 ≠ crypto.subtle: ${text.slice(0, 40)}`,
+    );
+    expect(
+      (base.level === 'too-short') === key.words < AI_MIN_WORDS,
       `too-short не по порогу 40 слов: ${describe(base)}`,
     );
     for (const variant of VARIANTS) {
@@ -165,7 +289,10 @@ export async function runAiSelfTest(): Promise<SelfTestReport> {
   const down = demoAiCheck(fresh, { modelDown: true });
   expect(down.level === 'unavailable' && down.score === null, `сбой модели: ${describe(down)}`);
   const up = demoAiCheck(fresh);
-  expect(up.level !== 'unavailable' && up.textHash === down.textHash, 'после сбоя текст не проверился');
+  expect(
+    up.level !== 'unavailable' && up.textHash === down.textHash,
+    'после сбоя текст не проверился',
+  );
   const shortDown = demoAiCheck('Короткий текст', { modelDown: true });
   expect(shortDown.level === 'too-short', `короткий текст при сбое: ${describe(shortDown)}`);
   const cachedDown = demoAiCheck(fresh, { modelDown: true });
@@ -180,7 +307,11 @@ export async function runAiSelfTest(): Promise<SelfTestReport> {
     },
     {
       name: 'БДД',
-      request: { text: 'Безопасность дорожного движения', period: presetPeriod('30d'), mode: 'everywhere' },
+      request: {
+        text: 'Безопасность дорожного движения',
+        period: presetPeriod('30d'),
+        mode: 'everywhere',
+      },
     },
   ];
   for (const { name, request } of searches) {
@@ -205,16 +336,27 @@ export async function runAiSelfTest(): Promise<SelfTestReport> {
       const own = item.aiCheck;
       const other = separate[i];
       expect(
-        own !== undefined && other !== undefined && sameResult(own, other) && own.checkedAt === other.checkedAt,
+        own !== undefined &&
+          other !== undefined &&
+          sameResult(own, other) &&
+          own.checkedAt === other.checkedAt,
         `${name}: подборка ≠ отдельная проверка для ${item.id}: ${describe(own)} / ${describe(other)}`,
       );
     });
     const active = selection.items.filter((i) => !i.excluded);
     const likely = active.filter((i) => i.aiCheck?.level === 'likely-ai').length;
     const signs = active.filter((i) => i.aiCheck?.level === 'signs').length;
-    expect(selection.counts.aiLikely === likely, `${name}: counts.aiLikely ${selection.counts.aiLikely} ≠ ${likely}`);
-    expect(selection.counts.aiSigns === signs, `${name}: counts.aiSigns ${selection.counts.aiSigns} ≠ ${signs}`);
-    lines.push(`Поиск «${name}»: записей ${selection.items.length}, похоже на ИИ ${likely}, признаки ИИ ${signs}`);
+    expect(
+      selection.counts.aiLikely === likely,
+      `${name}: counts.aiLikely ${selection.counts.aiLikely} ≠ ${likely}`,
+    );
+    expect(
+      selection.counts.aiSigns === signs,
+      `${name}: counts.aiSigns ${selection.counts.aiSigns} ≠ ${signs}`,
+    );
+    lines.push(
+      `Поиск «${name}»: записей ${selection.items.length}, похоже на ИИ ${likely}, признаки ИИ ${signs}`,
+    );
 
     const release = selection.groups.find((g) => g.kind === 'release');
     if (release) {
@@ -222,7 +364,9 @@ export async function runAiSelfTest(): Promise<SelfTestReport> {
       for (const p of spread.placements) {
         const item = selection.items.find((i) => i.id === p.itemId);
         expect(
-          item?.aiCheck !== undefined && p.aiCheck !== undefined && sameResult(item.aiCheck, p.aiCheck),
+          item?.aiCheck !== undefined &&
+            p.aiCheck !== undefined &&
+            sameResult(item.aiCheck, p.aiCheck),
           `${name}: «Распространение» ≠ подборка для ${p.itemId}: ${describe(p.aiCheck)} / ${describe(item?.aiCheck)}`,
         );
       }
@@ -241,9 +385,14 @@ export async function runAiSelfTest(): Promise<SelfTestReport> {
 
   // Примеры экрана «Проверка на ИИ» дают все четыре уровня
   const sampleLevels = await Promise.all(DEMO_AI_TEXTS.map((s) => api.checkAiText(s.text)));
-  lines.push(`Примеры экрана: ${DEMO_AI_TEXTS.map((s, i) => `${s.label} → ${sampleLevels[i]?.level ?? '?'}`).join('; ')}`);
+  lines.push(
+    `Примеры экрана: ${DEMO_AI_TEXTS.map((s, i) => `${s.label} → ${sampleLevels[i]?.level ?? '?'}`).join('; ')}`,
+  );
   for (const level of ['likely-ai', 'signs', 'unlikely', 'too-short']) {
-    expect(sampleLevels.some((c) => c.level === level), `среди примеров экрана нет уровня ${level}`);
+    expect(
+      sampleLevels.some((c) => c.level === level),
+      `среди примеров экрана нет уровня ${level}`,
+    );
   }
 
   lines.push(`Проверок: ${checks}, нарушений: ${failures.length}`);

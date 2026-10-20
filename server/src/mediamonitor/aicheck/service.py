@@ -168,32 +168,33 @@ class AiCheckService:
         return out
 
     async def _resolve(self, items: list[PreparedText]) -> dict[str, AiCheck]:
-        out: dict[str, AiCheck] = {}
-        if self.identity is not None:
-            async with self.sessions() as session:
-                out.update(await self._read(session, self.identity, items))
+        """Кэш → модель. Текст, который уже проверяется (другим запросом или фоном), не
+        считается второй раз: ждём тот же результат. Отметка «проверяется» ставится до чтения
+        кэша, поэтому между чтением и записью второй расчёт не вклинится."""
         loop = asyncio.get_running_loop()
         waiting: dict[str, asyncio.Future[AiCheck | None]] = {}
         mine: list[PreparedText] = []
         for p in items:
-            if p.hash in out:
-                continue
             future = self._inflight.get(p.hash)
             if future is not None:
-                waiting[p.hash] = future  # этот текст уже считается — ждём тот же результат
+                waiting[p.hash] = future
             else:
                 self._inflight[p.hash] = loop.create_future()
                 mine.append(p)
-        computed: dict[str, AiCheck] = {}
+        out: dict[str, AiCheck] = {}
         try:
             if mine:
-                computed = await self._compute(mine)
+                if self.identity is not None:
+                    async with self.sessions() as session:
+                        out.update(await self._read(session, self.identity, mine))
+                missing = [p for p in mine if p.hash not in out]
+                if missing:
+                    out.update(await self._compute(missing))
         finally:
             for p in mine:
                 future = self._inflight.pop(p.hash, None)
                 if future is not None and not future.done():
-                    future.set_result(computed.get(p.hash))
-        out.update(computed)
+                    future.set_result(out.get(p.hash))
         for key, future in waiting.items():
             result = await asyncio.shield(future)
             if result is not None:

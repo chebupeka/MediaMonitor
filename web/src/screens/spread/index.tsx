@@ -315,8 +315,10 @@ function Totals({ report }: { report: SpreadReport }) {
         {report.aiRetold && report.aiRetold.retold > 0 && (
           <span className={styles.tileAi}>
             <AiDots level="likely-ai" />
-            похожи на ИИ: {report.aiRetold.likelyAi} из {report.aiRetold.retold}{' '}
-            {plural(report.aiRetold.retold, OF_RETOLD)}
+            <span>
+              похожи на ИИ: {report.aiRetold.likelyAi} из {report.aiRetold.retold}{' '}
+              {plural(report.aiRetold.retold, OF_RETOLD)}
+            </span>
           </span>
         )}
       </div>

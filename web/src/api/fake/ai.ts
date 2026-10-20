@@ -10,6 +10,10 @@
  * - один метод для отдельной проверки, подборки и «Распространения» и общий кэш: первый
  *   результат сохраняется и переиспользуется (в том числе время проверки).
  * Сбой модели (`unavailable`) не кэшируется: после восстановления текст проверится.
+ *
+ * Посты подборки проверяются фоном, как на сервере (server/…/services/runner.py): короткие,
+ * уже проверенные и «недоступна» — сразу (`immediateAiCheck`), остальные приходят без
+ * `aiCheck` и повторно, с оценкой, следующим событием `items` (engine.ts).
  */
 import type { AiCheck } from '../types';
 import { aiLevelForScore, aiTextKey } from '@/lib/ai-check';
@@ -43,6 +47,18 @@ function hashScore(textHash: string): number {
 }
 
 const cache = new Map<string, AiCheck>();
+
+/**
+ * Результат, который есть без модели: из кэша, «мало текста» или «проверка недоступна».
+ * `null` — текст ждёт фоновой проверки (у записи пока нет `aiCheck`).
+ */
+export function immediateAiCheck(text: string, { modelDown = false } = {}): AiCheck | null {
+  const key = aiTextKey(text);
+  const cached = cache.get(`${DEMO_AI_MODEL}:${key.textHash}`);
+  if (cached) return { ...cached };
+  if (key.tooShort || modelDown) return demoAiCheck(text, { modelDown });
+  return null;
+}
 
 /**
  * Проверить текст. `modelDown` — модель не отвечает (сценарий «Нейросеть недоступна»):

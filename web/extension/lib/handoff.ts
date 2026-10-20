@@ -7,9 +7,14 @@
  */
 import { browser } from 'wxt/browser';
 
+/** Что сделать с выделением: найти, где опубликовано, или проверить текст на ИИ. */
+export type SelectionAction = 'find' | 'ai-check';
+
 export interface PendingSelection {
   /** Выделенный текст, обрезанный до MAX_TEXT_LENGTH */
   text: string;
+  /** Пункт меню; нет — «Найти, где это опубликовано» (так было до проверки на ИИ) */
+  action?: SelectionAction;
   /** Страница, на которой выделили текст, — пригодится, чтобы показать исходник */
   pageUrl?: string;
   pageTitle?: string;
@@ -37,7 +42,11 @@ function sessionArea() {
 function isPendingSelection(value: unknown): value is PendingSelection {
   if (typeof value !== 'object' || value === null) return false;
   const v = value as Record<string, unknown>;
-  return typeof v.text === 'string' && typeof v.at === 'number';
+  return (
+    typeof v.text === 'string' &&
+    typeof v.at === 'number' &&
+    (v.action === undefined || v.action === 'find' || v.action === 'ai-check')
+  );
 }
 
 export async function putPendingSelection(selection: PendingSelection): Promise<void> {

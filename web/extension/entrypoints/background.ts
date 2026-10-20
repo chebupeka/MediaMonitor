@@ -1,8 +1,10 @@
 /**
  * Фон расширения (Manifest V3: service worker в Chromium и Safari, фоновая страница в Firefox).
  *
- * - Пункт контекстного меню «Найти, где это опубликовано» для выделенного текста:
- *   открывает боковую панель и передаёт ей текст (lib/handoff.ts).
+ * - Пункты контекстного меню для выделенного текста: «Найти, где это опубликовано» и
+ *   «Проверить текст на ИИ». Открывают боковую панель и передают ей текст и действие
+ *   (lib/handoff.ts). Два пункта Chrome и Яндекс Браузер сами собирают в подменю
+ *   «Медиамонитор».
  * - Клик по значку открывает боковую панель.
  * - Пункт «Открыть во вкладке» в меню значка и такая же кнопка в панели: широкий экран
  *   для большой подборки. Вкладка показывает тот же поиск, что и панель
@@ -15,11 +17,18 @@
  */
 import { browser, type Browser } from 'wxt/browser';
 import { defineBackground } from 'wxt/utils/define-background';
-import { putPendingSelection } from '../lib/handoff';
+import { putPendingSelection, type SelectionAction } from '../lib/handoff';
 import { isOpenTabMessage } from '../lib/messages';
 
 const MENU_FIND = 'mm-find-published';
+const MENU_AI_CHECK = 'mm-check-ai';
 const MENU_OPEN_TAB = 'mm-open-tab';
+
+/** Пункт меню по выделению → что сделать в панели. */
+const SELECTION_ACTIONS: Record<string, SelectionAction> = {
+  [MENU_FIND]: 'find',
+  [MENU_AI_CHECK]: 'ai-check',
+};
 
 /** Страница расширения с интерфейсом во всю ширину вкладки */
 const TAB_PAGE = '/app.html';
@@ -41,6 +50,11 @@ export default defineBackground(() => {
       browser.contextMenus.create({
         id: MENU_FIND,
         title: 'Найти, где это опубликовано',
+        contexts: ['selection'],
+      });
+      browser.contextMenus.create({
+        id: MENU_AI_CHECK,
+        title: 'Проверить текст на ИИ',
         contexts: ['selection'],
       });
       browser.contextMenus.create({
@@ -74,7 +88,8 @@ export default defineBackground(() => {
       void openTab({ refresh: true });
       return;
     }
-    if (info.menuItemId !== MENU_FIND) return;
+    const action = SELECTION_ACTIONS[String(info.menuItemId)];
+    if (!action) return;
 
     // Панель открываем сразу: sidePanel.open() и sidebarAction.open() работают только
     // пока действует жест пользователя, поэтому до любых await.
@@ -83,6 +98,7 @@ export default defineBackground(() => {
       if (!text) return;
       return putPendingSelection({
         text,
+        action,
         pageUrl: tab?.url ?? info.pageUrl,
         pageTitle: tab?.title,
         at: Date.now(),

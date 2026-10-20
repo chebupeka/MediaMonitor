@@ -731,9 +731,10 @@ p { margin: 0 0 14px; color: var(--fg-2); max-width: 31em; }
   .foot-cols { grid-template-columns: minmax(0, 1fr); }
   .giant { font-size: 12vw; }
   .foot-bottom { flex-direction: column; }
-  /* Поля под кнопку нет: она уходит в угол, становится меньше и прячется, пока страницу листают */
-  .progress { left: 4px; bottom: 6px; transform: scale(.75); transform-origin: 0 100%; }
-  .progress.is-scrolling { opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility 0s linear .2s; }
+  /* Поля под кнопку нет: она прижата к углу и меньше. На первом экране её нет; пока страницу
+     листают — прячется; в покое прячется, если под ней текст (ui.js: is-top, is-scrolling, is-covering) */
+  .progress { left: 2px; bottom: max(4px, env(safe-area-inset-bottom)); transform: scale(.75); transform-origin: 0 100%; }
+  .progress.is-top, .progress.is-scrolling, .progress.is-covering { opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility 0s linear .2s; }
   .scroll-hint { display: none; }
   p { text-shadow: 0 0 14px var(--bg), 0 0 4px var(--bg); }
 }

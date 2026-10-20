@@ -12,7 +12,7 @@
     "inMySources": true,
     "regional": true,
     "origin": "manual",
-    "addedAt": "2026-10-19T14:33:03+07:00",
+    "addedAt": "2026-10-19T14:33:02+07:00",
     "check": {
       "state": "ok",
       "message": "«Минусинск — наш город» доступен: открытая группа, посты читаются.",
@@ -25,7 +25,7 @@
         "suggestedType": "community",
         "suggestedDistrict": "Минусинск"
       },
-      "checkedAt": "2026-10-19T14:33:03+07:00"
+      "checkedAt": "2026-10-19T14:33:02+07:00"
     }
   }
 }

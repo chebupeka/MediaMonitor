@@ -11,6 +11,8 @@
  * - Размер блока движок получает из ResizeObserver, а не читает в кадре.
  * - «Система слушает»: поток течёт к полю ввода — `flowTarget` (CSS-селектор) или, если он
  *   не задан, первое текстовое поле после блока точек (на экране поиска — поле запроса).
+ *   Если между облаком и полем поверх холста лежит текст, он помечается `data-flow-cover`:
+ *   над ним поток невидим и проявляется у самого поля (как на сайте на узком экране).
  */
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { DotsEngine, SITE_N, SITE_STARS, isLowPower } from './engine/engine';
@@ -34,6 +36,12 @@ function findFlowTarget(host: HTMLElement | null, selector?: string): Element | 
   for (const el of document.querySelectorAll(FIELDS))
     if (host.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING) return el;
   return null;
+}
+
+/** Поток к полю (или без поля) и текст над полем (`data-flow-cover`), сквозь который он не идёт. */
+function setFlow(engine: DotsEngine, host: HTMLElement | null, on: boolean, selector?: string) {
+  const field = on ? findFlowTarget(host, selector) : null;
+  engine.setTarget(field, field ? document.querySelector('[data-flow-cover]') : null);
 }
 
 export function budgetFor(
@@ -158,9 +166,7 @@ export function ParticleField({
     engine.setSize(host.clientWidth, host.clientHeight);
     engine.setTheme(themeRef.current);
     engine.setShape(shapeRef.current);
-    engine.setTarget(
-      shapeRef.current.id === 'listening' ? findFlowTarget(host, flowTargetRef.current) : null,
-    );
+    setFlow(engine, host, shapeRef.current.id === 'listening', flowTargetRef.current);
     onEngineRef.current?.(engine);
 
     let onScreen = true;
@@ -190,9 +196,8 @@ export function ParticleField({
   // «Система слушает» — поток к полю ввода; у остальных форм поля нет
   const listening = shape.id === 'listening';
   useEffect(() => {
-    engineRef.current?.setTarget(
-      listening ? findFlowTarget(hostRef.current, flowTargetRef.current) : null,
-    );
+    const engine = engineRef.current;
+    if (engine) setFlow(engine, hostRef.current, listening, flowTargetRef.current);
   }, [listening, flowTarget]);
 
   useEffect(() => {

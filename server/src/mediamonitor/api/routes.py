@@ -17,7 +17,7 @@ from fastapi.responses import StreamingResponse
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from mediamonitor.aicheck import prepare
+from mediamonitor.aicheck import normalize_text
 from mediamonitor.contract import (
     KRASNOYARSK_KRAI,
     AiCheck,
@@ -178,7 +178,9 @@ async def check_ai_text(ctx: Ctx, body: TextBody) -> AiCheck:
 
     Короче 40 слов — «мало текста» без модели; сервис недоступен — «проверка недоступна».
     """
-    if len(prepare(body.text).text) > ctx.settings.max_query_length:
+    limit = ctx.settings.max_query_length
+    # Сначала грубо по сырому тексту (не нормализуем мегабайт пробелов), потом точно.
+    if len(body.text) > limit * 4 or len(normalize_text(body.text)) > limit:
         raise ApiProblem(
             "too-long",
             "Текст длиннее 20 000 знаков. Выделите статью или её часть.",
@@ -365,9 +367,7 @@ async def get_spread(
     async with workspace_tx(ctx, key) as (session, workspace):
         search = await curation.own_search(session, workspace, search_id)
         selection = await build_selection(session, search, ctx.adapters, ctx.ai_checks)
-        return build_spread(
-            selection, search.release, group_id, ai_enabled=ctx.ai_checks.enabled
-        )
+        return build_spread(selection, search.release, group_id, ai_enabled=ctx.ai_checks.enabled)
 
 
 def _export_options(

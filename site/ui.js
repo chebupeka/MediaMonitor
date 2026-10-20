@@ -241,19 +241,54 @@
   // записи transform — браузер каждый кадр досчитывал стили и раскладку.
   var bar = document.querySelector('.progress-bar');
   var progress = document.querySelector('.progress');
-  var scrollTop = window.scrollY, vh = window.innerHeight, maxScroll = 0, lastScroll = -1e9;
+  var scrollTop = window.scrollY, vh = window.innerHeight, maxScroll = 0, lastScroll = -1e9, scrolling = false;
   window.addEventListener('scroll', function () { scrollTop = window.scrollY; lastScroll = performance.now(); }, { passive: true });
+
+  // Узкий экран (до 900 px): поля под кнопку «наверх» нет. На первом экране её нет вовсе;
+  // дальше она прячется, пока страницу листают, а в покое — ещё и если под ней текст.
+  // Текст под кнопкой проверяется один раз, когда прокрутка остановилась, а не в кадре.
+  var narrow = window.matchMedia ? window.matchMedia('(max-width: 899px)') : null;
+  var main = document.querySelector('main');
+  var covering = false, onTop = scrollTop < vh * 0.98;
+  progress.classList.toggle('is-top', onTop); // без мигания до первого кадра
+  // Есть ли под кнопкой строки текста: обход только тех блоков, что пересекают кнопку,
+  // и точные прямоугольники строк (Range.getClientRects)
+  function coversText() {
+    if (!narrow || !narrow.matches || !main) return false;
+    var b = progress.getBoundingClientRect(), L = b.left - 2, Rt = b.right + 2, T = b.top - 2, B = b.bottom + 2;
+    var range = document.createRange();
+    function hits(r) { return r.right > L && r.left < Rt && r.bottom > T && r.top < B; }
+    function walk(el) {
+      for (var n = el.firstChild; n; n = n.nextSibling) {
+        if (n.nodeType === 3) {
+          if (!n.nodeValue.trim()) continue;
+          range.selectNodeContents(n);
+          var rs = range.getClientRects();
+          for (var i = 0; i < rs.length; i++) if (hits(rs[i])) return true;
+        } else if (n.nodeType === 1 && !n.classList.contains('sr') && hits(n.getBoundingClientRect())) {
+          if (n.classList.contains('marquee') || walk(n)) return true; // бегущая строка едет — вся её полоса занята
+        }
+      }
+      return false;
+    }
+    return walk(main);
+  }
+  function checkCover() {
+    var c = coversText();
+    if (c !== covering) { covering = c; progress.classList.toggle('is-covering', c); }
+  }
 
   function measurePage() {
     vh = window.innerHeight;
     maxScroll = document.documentElement.scrollHeight - vh;
     measureMarquees();
+    if (!scrolling) checkCover();
   }
 
   var sy = scrollTop;
   var t0 = performance.now();
   var last = t0;
-  var barShown = -1, scrolling = false;
+  var barShown = -1;
   // Доля сближения за кадр, пересчитанная на реальное время: при 60 кадрах/с — k
   function ease(k, dt) { return 1 - Math.pow(1 - k, dt * 60); }
 
@@ -286,9 +321,16 @@
 
     var p = maxScroll > 0 ? Math.min(1, scrollTop / maxScroll) : 0;
     if (p !== barShown) { barShown = p; bar.style.strokeDashoffset = String(1 - p); }
-    // Пока страницу листают, на узком экране кнопка «наверх» прячется (styles.css)
+    // Кнопка «наверх» на узком экране (styles.css): прячется, пока листают; на первом экране
+    // её нет; в покое — проверка, не закрывает ли она текст
     var sc = now - lastScroll < 700;
-    if (sc !== scrolling) { scrolling = sc; progress.classList.toggle('is-scrolling', sc); }
+    if (sc !== scrolling) {
+      scrolling = sc;
+      progress.classList.toggle('is-scrolling', sc);
+      if (!sc) checkCover();
+    }
+    var tp = scrollTop < vh * 0.98;
+    if (tp !== onTop) { onTop = tp; progress.classList.toggle('is-top', tp); }
   }
 
   measurePage();

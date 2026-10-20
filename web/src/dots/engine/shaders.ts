@@ -29,9 +29,13 @@ uniform float uLight;   // прил.: 1 — светлая тема
 uniform vec2 uView;     // прил.: размер холста в пикселях устройства
 uniform float uDataPx;  // прил.: шаг спирали точек-данных в пикселях устройства
 // «Система слушает»: на сколько сдвинуть конец потока, чтобы он упёрся в поле ввода
-// (в координатах холста; для формы «откуда» и формы «куда», у остальных форм — 0)
-uniform vec2 uTgtA;
-uniform vec2 uTgtB;
+// (xy — в координатах холста; z = 1 — у формы есть поток к полю; у остальных форм — 0)
+uniform vec3 uTgtA;
+uniform vec3 uTgtB;
+// Над текстом выше поля поток невидим и проявляется у самого поля (как на сайте на узком
+// экране): прямоугольник x0, y0, x1, y1 на холсте и мягкость его краёв
+uniform vec4 uHide;
+uniform vec2 uHideSoft;
 // Повтор формы во всю ширину (мост): сдвиг модели «откуда» (x) и «куда» (y) на целое число
 // периодов; uFade — повтор принадлежит форме «откуда» (x = 1) или «куда» (y = 1)
 uniform vec2 uShift;
@@ -81,7 +85,14 @@ void main() {
   float z = 3.4 - min(p.z, 2.2);
   vec2 q = vec2(p.x / uAspect, p.y) * (2.2 / z);
   // поток изгибается к полю ввода: начало остаётся у облака, конец упирается в поле
-  q += mix(along(aFrom.w) * uTgtA, along(aTo.w) * uTgtB, e);
+  q += mix(along(aFrom.w) * uTgtA.xy, along(aTo.w) * uTgtB.xy, e);
+  // точка потока над текстом — гаснет, у поля ввода проявляется снова
+  float tail = mix(step(0.0005, along(aFrom.w)) * uTgtA.z, step(0.0005, along(aTo.w)) * uTgtB.z, e);
+  float hx = smoothstep(uHide.x - uHideSoft.x, uHide.x + uHideSoft.x, q.x)
+    * (1.0 - smoothstep(uHide.z - uHideSoft.x, uHide.z + uHideSoft.x, q.x));
+  float hy = smoothstep(uHide.y - uHideSoft.y, uHide.y + uHideSoft.y, q.y)
+    * (1.0 - smoothstep(uHide.w - uHideSoft.y, uHide.w + uHideSoft.y, q.y));
+  float shown = 1.0 - tail * hx * hy;
   vec2 dm = (q - uMouse) * vec2(uAspect, 1.0);
   float dl = length(dm);
   q += dm / (dl + 1e-4) * 0.05 * smoothstep(0.28, 0.0, dl) * vec2(1.0 / uAspect, 1.0);
@@ -97,7 +108,7 @@ void main() {
   if (d > 0.965 && data < 0.5) col = mix(col, vec3(0.93, 0.95, 1.0), 0.7 * (1.0 - uLight));
   vCol = col;
   vAlpha = uAlpha * mix(mix(la.a, lb.a, e), 1.0, data) * clamp(1.7 - z * 0.27, 0.25, 1.0) * (1.0 - uIntro * 0.5);
-  vAlpha *= mix(1.0, 1.0 - e, uFade.x) * mix(1.0, e, uFade.y);
+  vAlpha *= mix(1.0, 1.0 - e, uFade.x) * mix(1.0, e, uFade.y) * shown;
 }`;
 
 export const VS_STARS = `

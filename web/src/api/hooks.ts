@@ -141,16 +141,22 @@ type Action =
   | { type: 'restore'; selection: Selection }
   | { type: 'reset' };
 
-function mergeItems(current: ResultItem[], incoming: ResultItem[]): ResultItem[] {
+/**
+ * Слить пришедшие записи с уже показанными. Запись с известным id — это обновление той же
+ * карточки (например, пришла оценка проверки на ИИ): заменяется на своём месте, сохраняет
+ * свой `arrival` и не считается новой — список не сдвигается, дублей нет. Новые id — в конец.
+ */
+export function mergeItems(current: ResultItem[], incoming: ResultItem[]): ResultItem[] {
   const index = new Map(current.map((item, i) => [item.id, i]));
   const next = [...current];
   for (const item of incoming) {
     const at = index.get(item.id);
-    if (at === undefined) {
+    const known = at === undefined ? undefined : next[at];
+    if (at === undefined || known === undefined) {
       index.set(item.id, next.length);
       next.push(item);
     } else {
-      next[at] = item;
+      next[at] = { ...item, arrival: known.arrival };
     }
   }
   return next;
