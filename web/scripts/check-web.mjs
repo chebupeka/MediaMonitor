@@ -7,7 +7,8 @@
 //   сохраняет текст, лимит и id идущего поиска;
 // - адреса разделов (Р-В4): путь → экран и обратно, `?search=` у «Распространения»,
 //   неизвестный путь — «Такого раздела нет», экраны мокапа по адресу не открываются;
-// - ключ рабочего места из ссылки и из ключа как есть.
+// - ключ рабочего места из ссылки и из ключа как есть;
+// - метка группы копий в карточке: «копия · N» / «оригинал · N», у релиза и без группы — нет.
 import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
 
@@ -118,6 +119,27 @@ try {
   );
   const shell = await server.ssrLoadModule('@/app/mock-only');
   check('панели «Демо-сценарий» нет', shell.DemoPanel() === null);
+
+  // ---------------------------------------------------------------- группа копий в карточке (Р9)
+  const labels = await server.ssrLoadModule('/src/lib/labels.ts');
+  const groups = [
+    {
+      id: 'g-1',
+      title: '«Мост» — копии',
+      kind: 'copies',
+      itemIds: ['a', 'b', 'c'],
+      originalItemId: 'a',
+    },
+    { id: 'g-2', title: 'Релиз', kind: 'release', itemIds: ['r1', 'r2'], originalItemId: 'r1' },
+  ];
+  const mark = (id, groupId, isOriginal = false) =>
+    labels.copyMark({ id, groupId, isOriginal }, groups);
+  check('копия в группе копий — «копия · 3»', mark('b', 'g-1')?.label === 'копия · 3');
+  check('первая публикация группы — «оригинал · 3»', mark('a', 'g-1')?.label === 'оригинал · 3');
+  check(
+    'без группы и в группе релиза — без метки',
+    mark('x', null) === null && mark('r2', 'g-2') === null,
+  );
 } catch (error) {
   failures.push(String(error?.stack ?? error));
 } finally {

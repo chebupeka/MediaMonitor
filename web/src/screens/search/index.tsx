@@ -57,6 +57,7 @@ import {
   REGION_PRINCIPLE,
   RELEVANCE_ORDER,
   RELEVANCE_SHORT,
+  copyMark,
   demoLine,
   platformsList,
   platformsWhere,
@@ -607,7 +608,11 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
           <ul className={styles.list}>
             {visible.map((item) => (
               <li key={item.id}>
-                <ResultCard item={item} onToggleExcluded={toggleExcluded} />
+                <ResultCard
+                  item={item}
+                  copy={copyMark(item, state.groups)}
+                  onToggleExcluded={toggleExcluded}
+                />
               </li>
             ))}
           </ul>
