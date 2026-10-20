@@ -29,8 +29,9 @@ RUN VITE_API_URL="$VITE_API_URL" VITE_TARGET="$VITE_TARGET" npm run build:web \
 # Работает с сервером EXT_API_URL (по умолчанию — стенд, web/wxt.config.ts), а не с «/»:
 # у страниц расширения свой адрес chrome-extension://…, адрес сервера нужен полный.
 ARG EXT_API_URL=http://109.196.167.227:8000
-RUN VITE_API_URL="$EXT_API_URL" npm run ext:zip \
-    && VITE_API_URL="$EXT_API_URL" npm run ext:zip:firefox \
+# VITE_TARGET выше объявлен как ARG и виден всем RUN этапа: для расширения он не «web».
+RUN VITE_TARGET=extension VITE_API_URL="$EXT_API_URL" npm run ext:zip \
+    && VITE_TARGET=extension VITE_API_URL="$EXT_API_URL" npm run ext:zip:firefox \
     && mkdir -p /out/site/download \
     && cp .output/mediaradar-chrome.zip .output/mediaradar-firefox.zip /out/site/download/
 COPY site/ /out/site/

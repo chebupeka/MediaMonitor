@@ -154,6 +154,10 @@ export default defineConfig({
     // и CSP манифеста: по умолчанию стенд, даже если VITE_API_URL не задан.
     define: {
       'import.meta.env.VITE_API_URL': JSON.stringify(apiUrlForApp(mode)),
+      // Расширение — никогда не веб-версия, даже если VITE_TARGET=web пришёл из окружения
+      // (в Docker это ARG этапа node): иначе включаются адреса /app/<раздел>, и страницы
+      // расширения (sidepanel.html, app.html) открываются экраном «Такого раздела нет».
+      'import.meta.env.VITE_TARGET': JSON.stringify('extension'),
     },
     // Как в vite.config.ts мокапа: экраны обращаются к классам CSS-модулей в camelCase.
     css: {
