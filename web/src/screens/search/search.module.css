@@ -245,6 +245,25 @@
   height: var(--icon-sm);
 }
 
+/* Записанный пример: на месте «Открыть пост» — пометка, а не ссылка */
+.demoPost {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
+  padding: 0 var(--space-2);
+  border: 1px dashed var(--color-line-strong);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink-3);
+  font-size: var(--text-xs);
+}
+
+/* Строка над подборкой: какие площадки живые, какие на примерах */
+.demoLine {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+
 .method {
   display: inline-flex;
   flex-wrap: wrap;

@@ -90,9 +90,11 @@ async def test_search_to_xlsx(client: httpx.AsyncClient) -> None:
     assert sheet.max_row - 1 == preview["rowCount"]
     header = [c.value for c in sheet[1]]
     assert header == [c["title"] for c in preview["publications"]["columns"]]
+    # Записанные примеры — демо-публикации: вместо вымышленной ссылки пометка, без гиперссылки
+    # (живые ссылки и их гиперссылки — test_untrusted_text.py, test_vk_live.py).
     url_cell = sheet.cell(row=2, column=7)
-    assert url_cell.hyperlink is not None
-    assert url_cell.hyperlink.target == url_cell.value
+    assert url_cell.value == "демо-публикация, ссылки нет"
+    assert url_cell.hyperlink is None
 
 
 async def test_release_spread(client: httpx.AsyncClient) -> None:

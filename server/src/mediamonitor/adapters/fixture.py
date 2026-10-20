@@ -83,6 +83,45 @@ MAX_FRESHNESS = DataFreshness(
 )
 
 
+# Ключи постов записанных примеров (`vk:-100101_88015`…): такие публикации — демо, у них
+# нет настоящей ссылки. Считаются по пакетным примерам, а не по текущей настройке, чтобы
+# подборки, найденные на примерах, оставались помеченными и после перевода площадки в live.
+_PACKAGED: frozenset[str] | None = None
+
+
+def _packaged_demo_posts() -> frozenset[str]:
+    global _PACKAGED  # noqa: PLW0603 — пакетные примеры читаем один раз
+    if _PACKAGED is None:
+        package = resources.files("mediamonitor.fixtures")
+        ids: set[str] = set()
+        for name, key in (("recordings.json", "recordings"), ("extra-posts.json", "posts")):
+            data = json.loads(package.joinpath(name).read_text("utf-8"))
+            entries = data[key]
+            posts = (
+                [p for rec in entries for p in [*rec["posts"], *rec.get("listOnly", [])]]
+                if key == "recordings"
+                else entries
+            )
+            sources = {
+                s["id"]: s
+                for s in json.loads(package.joinpath("sources.json").read_text("utf-8"))["sources"]
+            }
+            for post in posts:
+                platform = post["platform"]
+                if platform == "max":
+                    owner = str(sources[post["sourceId"]]["slug"]).lower()
+                else:
+                    owner = str(post["ownerId"])
+                ids.add(f"{platform}:{owner}_{post['postId']}")
+        _PACKAGED = frozenset(ids)
+    return _PACKAGED
+
+
+def is_demo_post(publication_id: str) -> bool:
+    """Публикация из записанных примеров (вымышленный источник, ссылки нет)."""
+    return publication_id in _packaged_demo_posts()
+
+
 def parse_failures(spec: str) -> dict[PlatformId, FailureMode]:
     """«max:unavailable,ok:slow» → {max: unavailable, ok: slow}. Ошибка в записи — ValueError."""
     result: dict[PlatformId, FailureMode] = {}

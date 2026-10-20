@@ -34,6 +34,7 @@ from mediamonitor.matcher import Matcher, load_matcher
 from mediamonitor.services.budget import CallBudget
 from mediamonitor.services.context import AppContext
 from mediamonitor.services.events import EventBus
+from mediamonitor.services.post_cache import DbPostCache
 from mediamonitor.services.runner import SearchRunner
 from mediamonitor.services.sources import seed_catalog
 from mediamonitor.services.stand import log_event
@@ -48,6 +49,11 @@ AdapterFactory = Callable[[Settings, httpx.AsyncClient], AdapterRegistry]
 JudgeFactory = Callable[[Settings, httpx.AsyncClient], AiJudge]
 MatcherFactory = Callable[[Settings], Matcher]
 DetectorFactory = Callable[[Settings], AiDetector | None]
+
+
+def _sources_note(settings: Settings) -> str:
+    """«vk: live, ok: fixtures, max: fixtures» — для журнала стенда."""
+    return ", ".join(f"{p}: {settings.source_of(p)}" for p in ("vk", "ok", "max"))
 
 
 async def _warm_matcher(ctx: AppContext) -> None:
@@ -88,7 +94,7 @@ def create_app(
         adapters = (
             adapter_factory(settings, http)
             if adapter_factory
-            else build_adapters(settings, http, budget)
+            else build_adapters(settings, http, budget, DbPostCache(sessions))
         )
         judge = (judge_factory or build_judge)(settings, http)
         matcher = (
@@ -116,7 +122,8 @@ def create_app(
         extra: list[SourceInfo] = []
         for adapter in adapters.values():
             if isinstance(adapter, FixtureAdapter):
-                extra += adapter.store.catalog()
+                # Каталог примеров — только для площадок, которые сейчас на примерах.
+                extra += [s for s in adapter.store.catalog() if s.platform == adapter.platform]
             provider = getattr(adapter, "catalog_sources", None)
             if callable(provider):
                 # Сайты СМИ и каналы Дзена из каталога края — только включённых площадок.
@@ -128,7 +135,8 @@ def create_app(
             await log_event(
                 session,
                 "info",
-                f"Сервер запущен, версия {settings.app_version}; данные: {settings.data_source}; "
+                f"Сервер запущен, версия {settings.app_version}; "
+                f"данные: {_sources_note(settings)}; "
                 f"сайты СМИ: {settings.sites_source}; Дзен: {settings.dzen_source}; "
                 f"каталог края: {catalog_size} источников.",
             )

@@ -1,0 +1,26 @@
+{
+  "$comment": "Федеральные новостные сообщества VK для охвата «Везде» (решение лида 20.10.2026; ТЗ-Ф10: краевой источник ИЛИ место края в тексте). Список и подписчики (на 19.10.2026) — docs/research/vk-krai-communities.md. Источники не краевые: их посты проходят привязку к краю по тексту. Глубина листания ограничена VK_FEDERAL_MAX_PAGES (по умолчанию одна страница — 100 последних постов).",
+  "sources": [
+    { "platform": "vk", "slug": "ria", "name": "РИА Новости", "subscribers": 3149107 },
+    { "platform": "vk", "slug": "1tv", "name": "Первый канал", "subscribers": 2325153 },
+    { "platform": "vk", "slug": "life", "name": "LIFE.ru", "subscribers": 2216663 },
+    { "platform": "vk", "slug": "mash", "name": "Mash", "subscribers": 1949559 },
+    { "platform": "vk", "slug": "lentach", "name": "Лентач", "subscribers": 1762083 },
+    { "platform": "vk", "slug": "rentvchannel", "name": "РЕН ТВ — Новости", "subscribers": 1737145 },
+    { "platform": "vk", "slug": "kpru", "name": "Комсомольская правда — KP.RU", "subscribers": 1625326 },
+    { "platform": "vk", "slug": "rt_russian", "name": "Новости RT на русском", "subscribers": 1421118 },
+    { "platform": "vk", "slug": "tassagency", "name": "ТАСС", "subscribers": 1064846 },
+    { "platform": "vk", "slug": "ntv", "name": "НТВ", "subscribers": 1017302 },
+    { "platform": "vk", "slug": "ru__novosti", "name": "URA.RU", "subscribers": 997587 },
+    { "platform": "vk", "slug": "izvestia", "name": "IZ.RU", "subscribers": 966531 },
+    { "platform": "vk", "slug": "vesti", "name": "ВЕСТИ", "subscribers": 932167 },
+    { "platform": "vk", "slug": "rbc", "name": "РБК", "subscribers": 846986 },
+    { "platform": "vk", "slug": "lentaru", "name": "Лента.ру", "subscribers": 767321 },
+    { "platform": "vk", "slug": "bazabazon", "name": "Baza", "subscribers": 517382 },
+    { "platform": "vk", "slug": "vedomosti", "name": "Ведомости", "subscribers": 506838 },
+    { "platform": "vk", "slug": "rgru", "name": "Российская газета", "subscribers": 458515 },
+    { "platform": "vk", "slug": "kommersant", "name": "Коммерсантъ", "subscribers": 411561 },
+    { "platform": "vk", "slug": "mir24tv", "name": "Мир 24", "subscribers": 196548 },
+    { "platform": "vk", "slug": "mk_ru", "name": "Московский комсомолец", "subscribers": 169950 }
+  ]
+}

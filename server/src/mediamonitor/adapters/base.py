@@ -62,6 +62,9 @@ class RawPost:
     views: int | None
     reactions: int | None
     alt_urls: tuple[str, ...] = ()
+    # Когда пост получен с площадки; None — только что. Пост из кэша (Р7) несёт время
+    # настоящего получения: «получено в 14:32» не должно молодеть от повторного поиска.
+    fetched_at: datetime | None = None
 
 
 @dataclass(frozen=True)

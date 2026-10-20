@@ -69,6 +69,29 @@ export const PLATFORMS: Record<PlatformId, PlatformMeta> = {
   },
 };
 
+// ---------------------------------------------------------------- демо-площадки
+
+/** Публикация из записанных примеров: вместо «Открыть пост» (карточка, XLSX). */
+export const DEMO_POST_NOTE = 'демо-публикация, ссылки нет';
+
+function joinNames(names: string[]): string {
+  return names.length <= 1 ? names.join('') : `${names.slice(0, -1).join(', ')} и ${names.at(-1)}`;
+}
+
+/**
+ * Строка над подборкой, когда часть площадок отвечает записанными примерами:
+ * «ВКонтакте — живые данные. Одноклассники и MAX — пока демонстрационные примеры…».
+ * `null` — демонстрационных площадок нет.
+ */
+export function demoLine(statuses: readonly PlatformStatus[]): string | null {
+  const demo = statuses.filter((s) => s.demo).map((s) => PLATFORMS[s.platform].name);
+  if (demo.length === 0) return null;
+  const live = statuses.filter((s) => !s.demo).map((s) => PLATFORMS[s.platform].name);
+  const tail = 'публикации вымышлены, ссылок на посты нет.';
+  if (live.length === 0) return `Все площадки — демонстрационные примеры: ${tail}`;
+  return `${joinNames(live)} — живые данные. ${joinNames(demo)} — пока демонстрационные примеры: ${tail}`;
+}
+
 // ---------------------------------------------------------------- метки и методы
 
 export const RELEVANCE_ORDER: readonly Relevance[] = ['direct', 'indirect', 'disputed'];

@@ -987,6 +987,9 @@
         },
         "note": {
           "type": "string"
+        },
+        "demo": {
+          "type": "boolean"
         }
       },
       "required": [
@@ -1156,6 +1159,9 @@
         },
         "linkCheck": {
           "$ref": "#/definitions/LinkCheck"
+        },
+        "demo": {
+          "type": "boolean"
         }
       },
       "required": [

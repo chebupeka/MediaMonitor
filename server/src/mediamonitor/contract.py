@@ -283,6 +283,8 @@ class PlatformStatus(ApiModel):
     updated_at: IsoDateTime | None
     # Постоянная оговорка о покрытии: «Подключено 43 сайта из 48: …».
     note: str | None = absent()
+    # Площадка отвечает записанными примерами (демо): её публикации вымышлены, ссылок нет.
+    demo: bool | None = absent()
 
 
 class PlatformInfo(ApiModel):
@@ -521,6 +523,9 @@ class Publication(ApiModel):
     reactions: int | None
     fetched_at: IsoDateTime
     link_check: LinkCheck
+    # Публикация из записанных примеров (демо): источник вымышлен, ссылки на пост нет.
+    # У живых публикаций поля нет.
+    demo: bool | None = absent()
 
 
 class RegionReason(ApiModel):

@@ -66,6 +66,7 @@ from mediamonitor.contract import (
 )
 from mediamonitor.db.models import ExportRow, SearchRow, WorkspaceRow, WorkspaceSourceRow
 from mediamonitor.errors import ApiProblem, required
+from mediamonitor.labels import demo_line
 from mediamonitor.normalize.query import analyze, preset_period
 from mediamonitor.services import curation, imports
 from mediamonitor.services import sources as source_service
@@ -115,9 +116,21 @@ async def workspace_tx(
         yield session, workspace
 
 
-def _data_note(ctx: AppContext) -> str:
-    base = FIXTURE_DATA_NOTE if ctx.settings.data_source == "fixtures" else LIVE_DATA_NOTE
+def _data_note(ctx: AppContext, selection: Selection) -> str:
+    """Лист «Сводка», строка «Данные».
+
+    VK, OK, MAX — живые площадки и площадки на примерах (демо) по статусам подборки;
+    сайты СМИ и Дзен включаются отдельно — про них своя часть строки.
+    """
     media = {"site": ctx.settings.sites_source, "dzen": ctx.settings.dzen_source}
+    statuses = [s for s in selection.statuses if s.platform not in media]
+    platforms = tuple(s.platform for s in statuses)
+    demo = [s.platform for s in statuses if s.demo]
+    if platforms and len(demo) == len(platforms):
+        base = FIXTURE_DATA_NOTE
+    else:
+        line = demo_line(demo, platforms)
+        base = f"{LIVE_DATA_NOTE} {line}" if line else LIVE_DATA_NOTE
     shown = {p: mode for p, mode in media.items() if p in ctx.adapters and mode != "off"}
     if not shown:
         return base
@@ -413,7 +426,9 @@ async def export_preview(
     async with workspace_tx(ctx, key) as (session, workspace):
         search = await curation.own_search(session, workspace, search_id)
         selection = await build_selection(session, search, ctx.adapters, ctx.ai_checks)
-    return build_preview(selection, _export_options(only_relevance, only_undated), _data_note(ctx))
+    return build_preview(
+        selection, _export_options(only_relevance, only_undated), _data_note(ctx, selection)
+    )
 
 
 @router.get(
@@ -430,7 +445,7 @@ async def export_xlsx(
     async with workspace_tx(ctx, key) as (session, workspace):
         search = await curation.own_search(session, workspace, search_id)
         selection = await build_selection(session, search, ctx.adapters, ctx.ai_checks)
-        content = build_xlsx(selection, options, _data_note(ctx))
+        content = build_xlsx(selection, options, _data_note(ctx, selection))
         name = file_name(selection)
         # Столько строк в листе «Публикации» — то же число, что в предпросмотре (rowCount).
         rows = len(export_items(selection, options))

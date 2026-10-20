@@ -62,6 +62,8 @@ class NormPost:
     reactions: int | None
     places: tuple[str, ...]
     content_hash: str | None
+    # Время получения с площадки (кэш Р7); None — сейчас.
+    fetched_at: datetime | None = None
 
     @property
     def id(self) -> str:
@@ -116,14 +118,18 @@ def normalize(
         reactions=_count(raw.reactions),
         places=tuple(find_places(title, text)),
         content_hash=content_hash(text),
+        fetched_at=raw.fetched_at,
     )
 
 
 async def upsert_publication(
     session: AsyncSession, post: NormPost, source_id: str
 ) -> PublicationRow:
-    """Записать пост в кэш публикаций (Р7) — одна запись на ключ (НТ-13)."""
+    """Записать пост в кэш публикаций (Р7) — одна запись на ключ (НТ-13).
+
+    `fetched_at` — время получения с площадки: у поста из кэша оно прежнее."""
     now = utcnow()
+    fetched = post.fetched_at or now
     row = await session.get(PublicationRow, post.id)
     sentences: list[Any] = [[s.start, s.end] for s in post.spans]
     if row is None:
@@ -145,7 +151,7 @@ async def upsert_publication(
             has_media=post.has_media,
             views=post.views,
             reactions=post.reactions,
-            fetched_at=now,
+            fetched_at=fetched,
             link_state="not-checked",
             link_checked_at=None,
             content_hash=post.content_hash,
@@ -166,7 +172,7 @@ async def upsert_publication(
     row.has_media = post.has_media
     row.views = post.views
     row.reactions = post.reactions
-    row.fetched_at = now
+    row.fetched_at = fetched
     row.content_hash = post.content_hash
     row.updated_at = now
     return row
