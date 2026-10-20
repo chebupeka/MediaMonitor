@@ -10,10 +10,17 @@
 set -euo pipefail
 
 main() {
-  cd "$(dirname "$(readlink -f "$0")")/.."
-  local branch="${BRANCH:-integration/full}"
+  local script
+  script="$(readlink -f "$0")"
+  cd "$(dirname "$script")/.."
+  local branch="${BRANCH:-integration/full}" before
+  before="$(git rev-parse HEAD)"
   git fetch --quiet origin "$branch"
   git merge --ff-only --quiet "origin/$branch"
+  # Скрипт сам обновился вместе с веткой — дальше работает новая версия, а не старая из памяти.
+  if [ -z "${MM_UPDATE_REEXEC:-}" ] && ! git diff --quiet "$before" HEAD -- scripts/update-server.sh; then
+    MM_UPDATE_REEXEC=1 exec bash "$script" "$@"
+  fi
   echo "Версия: $(git log -1 --format='%h %s')"
   docker compose -f compose.yaml -f compose.server.yaml up -d --build --remove-orphans
   for _ in $(seq 1 60); do
