@@ -8,7 +8,7 @@
 <!-- Шрифты — свои (fonts/), без внешних запросов; первые два нужны первому экрану сразу -->
 <link rel="preload" href="fonts/fira-sans-extra-condensed-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/montserrat-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=20261020-4">
+<link rel="stylesheet" href="styles.css?v=20261020-5">
 <meta name="color-scheme" content="dark light">
 <script>
   // Тема, тёплый свет и версия для слабовидящих — до отрисовки, чтобы не мигало.
@@ -38,6 +38,7 @@
 <header class="hdr">
   <a class="logo" href="#top" aria-label="Медиарадар, в начало страницы">Медиарадар<span class="logo-dot"></span></a>
   <nav class="hdr-nav" aria-label="Быстрые ссылки">
+    <a class="hdr-pill" href="/app/" data-hover>Веб-версия</a>
     <a href="#install" data-hover>Установить</a>
     <a href="#faq" data-hover>Вопросы</a>
     <div class="prefs" role="group" aria-label="Вид страницы">
@@ -65,6 +66,7 @@
     <a href="#picks" class="display o" data-hover>Подборка</a>
     <a href="#faq" class="display" data-hover>Вопросы</a>
     <a href="#install" class="display o" data-hover>Установить</a>
+    <a href="/app/" class="display" data-hover>Веб-версия</a>
   </nav>
   <p class="menu-note">Медиамониторинг соцсетей Красноярского края</p>
 </div>

@@ -378,6 +378,18 @@ p { margin: 0 0 14px; color: var(--fg-2); max-width: 31em; }
   display: inline-flex;
   align-items: center;
 }
+/* «Веб-версия» — пилюля-контур среди текстовых ссылок: заметнее их, но ниже и тише
+   главной кнопки первого экрана (.pill) */
+.hdr-nav .hdr-pill {
+  min-height: 40px;
+  padding: 0 18px;
+  border: 1px solid var(--line-3);
+  border-radius: 999px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color .35s ease, color .35s ease, border-color .35s ease;
+}
+.hdr-nav .hdr-pill:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
 
 .burger {
   width: 44px;
