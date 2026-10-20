@@ -28,6 +28,7 @@ from mediamonitor.adapters.base import (
     SourceProbe,
 )
 from mediamonitor.adapters.fixture import MAX_FRESHNESS
+from mediamonitor.adapters.ok_live import OkAdapter as OkAdapter  # noqa: PLC0414 — OK: ok_live.py
 from mediamonitor.contract import PlatformId
 from mediamonitor.labels import PLATFORM_NAME
 from mediamonitor.normalize.urls import PostRef
@@ -127,28 +128,6 @@ class VkAdapter(_LiveAdapter):
 
     def _has_key(self) -> bool:
         return self.settings.vk_service_token is not None
-
-
-class OkAdapter(_LiveAdapter):
-    """Одноклассники: анонимный веб-поиск ok.ru и страницы постов (ключ не нужен).
-
-    TODO(И1, разведка §2.3–§2.4, §6, §7.1):
-    - «везде»: `ok.ru/search/content` с сервера; разбор выдачи; при смене формата —
-      bad-response, а не «0 найдено» (НТ-5);
-    - «мои источники»: лента группы `m.ok.ru/group/<id>/topics` или поиск с фильтром автора;
-    - пост: страница `ok.ru/group/<gid>/topic/<tid>`, JSON-LD (`datePublished`, полный
-      текст); 404 → поста нет;
-    - просмотров OK не отдаёт → views=None («нет данных», НТ-24);
-    - правила OK запрещают автоматический сбор без разрешения — нужно «да» экспертов (Б1).
-    """
-
-    platform: PlatformId = "ok"
-
-    def __init__(
-        self, settings: Settings, client: httpx.AsyncClient, budget: CallMeter | None = None
-    ) -> None:
-        super().__init__(settings, client, budget)
-        self.description = AdapterDescription(platform="ok", via="Веб-поиск Одноклассников")
 
 
 class MaxAdapter(_LiveAdapter):
