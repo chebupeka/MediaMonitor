@@ -37,7 +37,9 @@ _NUMBER = re.compile(r"^\d{1,20}$")
 _POST = {
     "vk": _NUMBER,
     "ok": _NUMBER,
-    "max": _NUMBER,
+    # MAX: 11 символов base64url из ссылки площадки (`AaCtvjqCDhM`), в примерах — число
+    # (как `_MAX_POST` в normalize/urls.py).
+    "max": re.compile(r"^[A-Za-z0-9_\-]{1,20}$"),
     # Путь статьи без первого «/»: news/batka-ataman/.
     "site": re.compile(r"^(?!.*\.\.)[A-Za-z0-9._~%\-]+(?:/[A-Za-z0-9._~%\-]+)*/?$"),
     "dzen": re.compile(r"^[ab]-[A-Za-z0-9_\-]{6,64}$"),

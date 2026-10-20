@@ -595,3 +595,19 @@ def test_search_pages_cache_is_small(tmp_path: Path) -> None:
     adapter = MaxAdapter(make_settings(tmp_path), httpx.AsyncClient())
     assert adapter._pages.max_items == PAGES_MAX_ITEMS <= 100
     assert adapter._posts.max_items >= PAGES_MAX_ITEMS
+
+
+def test_live_max_post_passes_normalization() -> None:
+    """Номер поста MAX из ссылки площадки (base64url) проходит нормализацию: такой пост
+    попадает в подборку, а не пропускается как «некорректный ключ» (стенд 20.10.2026)."""
+    from mediamonitor.adapters.max_live import _raw_post
+    from mediamonitor.services.normalize_post import normalize
+
+    source = next(iter(max_catalog().values()))
+    ref = PostRef("max", source.owner_id, "AaCtvjqCDhM")
+    raw = _raw_post(
+        {"text": "Ледостав на Енисее", "published_at": "2026-10-20T05:00:00Z"}, ref, source
+    )
+    post = normalize(raw)
+    assert post is not None
+    assert post.id == ref.id
