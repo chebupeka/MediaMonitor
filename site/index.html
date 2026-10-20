@@ -8,7 +8,7 @@
 <!-- Шрифты — свои (fonts/), без внешних запросов; первые два нужны первому экрану сразу -->
 <link rel="preload" href="fonts/fira-sans-extra-condensed-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/montserrat-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=20261020-6">
+<link rel="stylesheet" href="styles.css?v=20261020-7">
 <meta name="color-scheme" content="dark light">
 <script>
   // Тема, тёплый свет и версия для слабовидящих — до отрисовки, чтобы не мигало.
@@ -39,7 +39,7 @@
   <a class="logo" href="#top" aria-label="Медиарадар, в начало страницы">Медиарадар<span class="logo-dot"></span></a>
   <nav class="hdr-nav" aria-label="Быстрые ссылки">
     <a class="hdr-pill" href="/app/" data-hover>Веб-версия</a>
-    <a href="#install" data-hover>Установить</a>
+    <a href="#install-steps" data-hover>Установить</a>
     <a href="#faq" data-hover>Вопросы</a>
     <div class="prefs" role="group" aria-label="Вид страницы">
       <div class="prefs-theme">
@@ -65,7 +65,7 @@
     <a href="#spread" class="display" data-hover>Распространение</a>
     <a href="#picks" class="display o" data-hover>Подборка</a>
     <a href="#faq" class="display" data-hover>Вопросы</a>
-    <a href="#install" class="display o" data-hover>Установить</a>
+    <a href="#install-steps" class="display o" data-hover>Установить</a>
     <a href="/app/" class="display" data-hover>Веб-версия</a>
   </nav>
   <p class="menu-note">Медиамониторинг соцсетей Красноярского края</p>
@@ -91,7 +91,7 @@
       </h1>
       <p class="lead" data-scramble data-delay="1000">Мы сделали <b>«Медиарадар»</b> — <b>расширение для браузера</b>, которое находит, где опубликована новость: <b>во ВКонтакте, Одноклассниках и MAX</b>. Выделите абзац на любом сайте — <b>панель сбоку</b> покажет все размещения.</p>
       <div class="actions fade" style="--d: 1.5s">
-        <a class="pill" href="#install" data-hover>Скачать расширение</a>
+        <a class="pill" href="#install-steps" data-hover>Скачать расширение</a>
         <a class="ghost" href="#how" data-hover>Как это работает</a>
       </div>
       <p class="small fade" style="--d: 1.7s">Яндекс Браузер и Chrome · без регистрации</p>
@@ -232,7 +232,7 @@
       <h2 id="h-export" class="display h-lg"><span data-scramble>Таблица</span> <span class="o" data-scramble data-delay="150">в один клик</span></h2>
       <p data-scramble data-delay="200">XLSX совпадает с тем, что на экране: номер записи, площадка и источник, заголовок или начало поста, дата, выдержка и ссылка. Плюс запрос, период и количество.</p>
       <div class="export fade">
-        <a class="pill" href="#install" data-hover>Сохранить в Excel</a>
+        <a class="pill" href="#install-steps" data-hover>Сохранить в Excel</a>
         <span><b>5 размещений</b> · проверено 38 источников</span>
       </div>
     </div>
@@ -316,19 +316,16 @@
     </div>
   </section>
 
-  <!-- Установка: огромная надпись-кнопка, к ней две стрелки из точек (arrows.js — свой холст
-       в разделе, едет вместе со страницей); общий холст частиц здесь — спокойные приглушённые точки -->
+  <!-- Установка: заголовок раздела, кнопка «Скачать» и четыре шага; общий холст частиц здесь —
+       спокойные приглушённые точки. Все ссылки «Установить» ведут сюда, к #install-steps -->
   <section id="install" class="sec install" data-shape="empty" data-place="center" aria-labelledby="h-inst">
     <div class="wide">
-      <p class="label" data-scramble>Готовы попробовать?</p>
-      <h2 id="h-inst" class="giant">
-        <a href="#install-steps" data-scramble data-front="1" data-hover>Установить «Медиарадар»</a>
-      </h2>
       <!-- Установка из файла: архив раздаёт сервер (/download/…, server/Dockerfile собирает его
            из web/ командой ext:zip). В магазинах расширений пока нет — честно пишем «скоро». -->
       <div class="inst" id="install-steps">
         <div class="inst-get">
-          <p class="label">Установка за 4 шага</p>
+          <h2 id="h-inst" class="display inst-title" data-scramble>Установка</h2>
+          <p class="label">4 шага, без регистрации</p>
           <a class="pill pill-solid inst-btn" href="/download/mediaradar-chrome.zip" download data-hover>
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg>
             Скачать для Chrome и Яндекс Браузера
@@ -366,9 +363,8 @@
 
 </main>
 
-<script src="particles.js?v=20261020-1"></script>
-<script src="ui.js?v=20261020-1"></script>
-<script src="arrows.js?v=20261020-2"></script>
-<script src="prefs.js?v=20261020-1"></script>
+<script src="particles.js?v=20261020-2"></script>
+<script src="ui.js?v=20261020-2"></script>
+<script src="prefs.js?v=20261020-2"></script>
 </body>
 </html>
