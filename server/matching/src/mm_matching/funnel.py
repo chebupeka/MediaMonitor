@@ -123,6 +123,11 @@ class _EvidenceRef:
     «Да» принимается, если в предложении не меньше `min_shared` общих основ слов с запросом
     (или общий признак события), либо если оно близко к запросу по смыслу: косинус с одним
     из `texts` не ниже `threshold`. Векторы `texts` считаются при первом «да».
+
+    Без модели смысла (эмбеддингов нет или сервис недоступен) слова сверяются с `wide_stems`:
+    запрос и все грани «входит», как до доводки. Строгий набор `stems` рассчитан на то, что
+    заголовки своими словами подтверждает смысл; без него почти каждое «да» осталось бы
+    «не проверено ИИ» (стенд 20.10).
     """
 
     stems: set[str]
@@ -131,7 +136,8 @@ class _EvidenceRef:
     texts: list[str]
     threshold: float
     vectors: Matrix | None = None
-    pick_stems: set[str] | None = None  # для выбора выдержки, если нейросеть не ответила
+    # Запрос и все грани «входит»: выдержка без ответа нейросети и проверка без модели смысла.
+    wide_stems: set[str] | None = None
 
 
 class _Timer:
@@ -442,7 +448,7 @@ class FunnelMatcher:
         # гранями «входит»: «Госавтоинспекция» из грани пропускала приговор экс-начальнику ГИБДД.
         ref_stems = content_stems(tokenize(" ".join(inc_labels)))
         ref = _EvidenceRef(
-            ref_stems, 1, "topic", inc_labels, self.config.topic.evidence_sim, pick_stems=query_stems
+            ref_stems, 1, "topic", inc_labels, self.config.topic.evidence_sim, wide_stems=query_stems
         )
 
         if works and self.embedder is not None:
@@ -628,7 +634,7 @@ class FunnelMatcher:
         """
         v = w.verdict
         if v is None:
-            idx = _best_lexical_sentence(w, ref.pick_stems or ref.stems, shared_words)
+            idx = _best_lexical_sentence(w, ref.wide_stems or ref.stems, shared_words)
             ev = _sentence_evidence(w, idx, "semantic", w.reason)
             note = w.unchecked or NOTE_AI_OFF
             return self._result(w, True, "disputed", "ai-unchecked", note, ev, ov, paras, scores)
@@ -636,12 +642,14 @@ class FunnelMatcher:
         if v.label in (positive, "indirect"):
             sent = w.sentences[v.sentence]
             chunk = w.text[sent.start : sent.end]
-            lexical = len(content_stems(tokenize(chunk)) & ref.stems) >= ref.min_shared or _has_shared(
-                w.text, sent, shared_words
-            )
             sim = self._evidence_similarity(chunk, ref)
             if sim is not None:
                 scores = replace(scores, evidence_cosine=round(sim, 4))
+            # Смысл проверить нечем — сверка по словам с запросом и всеми гранями «входит».
+            stems = ref.stems if sim is not None else (ref.wide_stems or ref.stems)
+            lexical = len(content_stems(tokenize(chunk)) & stems) >= ref.min_shared or _has_shared(
+                w.text, sent, shared_words
+            )
             if not lexical and (sim is None or sim < ref.threshold):
                 w.reason = "Спорно: нейросеть ответила «да», но предложение не похоже на запрос"
                 return self._result(

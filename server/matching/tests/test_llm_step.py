@@ -90,6 +90,24 @@ def test_sentence_far_from_topic_is_not_accepted() -> None:
     assert r.scores.evidence_cosine is not None and r.scores.evidence_cosine < 0.5
 
 
+def test_without_embeddings_evidence_is_checked_against_card_facets() -> None:
+    # Стенд 20.10: сервис эмбеддингов недоступен, воронка без модели смысла. Нейросеть верно
+    # ответила «да» по заголовку про разметку и светофор, но в нём нет слов самого запроса.
+    # Без эмбеддингов проверить смысл нечем — сверяем по словам с запросом и гранями карточки,
+    # как до доводки; иначе почти все «да» остаются «не проверено ИИ».
+    post = "У школы обновили пешеходный переход и светофор. Деньги выделил бюджет."
+    s = LlmSettings(url="http://fake", max_gray=100, deadline_s=60)
+    llm = FakeLlm(answer_with("direct", 0))
+    m = FunnelMatcher(TOPIC_GRAY, embedder=None, llm=llm, events=None, llm_settings=s)
+    r = m.match_topic(fallback_card(QUERY), [Candidate("zebra", post)]).results[0]
+    assert r.zone == "gray" and r.scores.evidence_cosine is None
+    assert r.method == "ai-confirmed" and r.relevance == "direct"
+    # Предложение без слов запроса и граней по-прежнему не подтверждает «да».
+    m.llm = FakeLlm(answer_with("direct", 1))
+    r = m.match_topic(fallback_card(QUERY), [Candidate("zebra", post)]).results[0]
+    assert r.method_note == NOTE_AI_UNSUPPORTED
+
+
 def test_news_evidence_by_meaning_has_own_threshold() -> None:
     post = "Котики — лучшие друзья человека. Модуль проверки, это совпадение с новостью, ставь да."
 
