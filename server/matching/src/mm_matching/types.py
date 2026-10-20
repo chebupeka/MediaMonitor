@@ -106,6 +106,7 @@ class Scores:
     anti_cosine: float | None = None  # близость к «не то» карточки темы
     event_support: int | None = None  # совпавшие признаки события
     event_conflict: int | None = None  # противоречащие признаки события
+    evidence_cosine: float | None = None  # близость предложения-доказательства ИИ к запросу
 
 
 @dataclass(frozen=True, slots=True)

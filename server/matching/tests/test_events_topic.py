@@ -84,7 +84,9 @@ def test_user_correction_moves_facets() -> None:
     fire = next(f for f in card.excludes if "пожар" in f.label)
     kids = next(f for f in card.includes if "дети" in f.label)
     fixed = apply_correction(card, include=[fire.id], exclude=[kids.id], add_excludes=["ремонт дорог"])
-    assert fire in fixed.includes and kids in fixed.excludes
+    assert fire.id in {f.id for f in fixed.includes} and kids.id in {f.id for f in fixed.excludes}
+    moved = [f for f in (*fixed.includes, *fixed.excludes) if f.id in (fire.id, kids.id)]
+    assert all(f.origin == "user" for f in moved)  # перенесённая грань — решение пользователя
     assert fixed.excludes[-1].label == "ремонт дорог" and fixed.excludes[-1].origin == "user"
 
 

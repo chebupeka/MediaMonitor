@@ -16,6 +16,7 @@ import os
 import platform
 import random
 import sys
+import threading
 import time
 from collections import Counter
 from collections.abc import Callable, Iterable, Sequence
@@ -36,12 +37,12 @@ from mm_matching.config import (
 )
 from mm_matching.embeddings import SentenceTransformerEmbedder
 from mm_matching.events import EventExtractor
-from mm_matching.funnel import FunnelMatcher
+from mm_matching.funnel import NOTE_AI_UNSUPPORTED, NOTE_AI_UNSURE, FunnelMatcher
 from mm_matching.llm import LlmClient, client_from_env
 from mm_matching.placement import placement_type
 from mm_matching.shingles import overlap, shingle
 from mm_matching.topic import expand_query, fallback_card
-from mm_matching.types import Candidate, MatchReport, TopicCard
+from mm_matching.types import Candidate, MatchResult, TopicCard
 
 HERE = Path(__file__).resolve().parent
 RAW = HERE / "data" / "raw"
@@ -397,10 +398,7 @@ def changed_fields(new: Any, old: Any) -> str:
 # ------------------------------------------------------------------------- прогоны
 
 
-def run_news(
-    out: Report, stories: list[dict[str, Any]], docs: list[Doc], p: NewsPairs, t: NewsThresholds,
-    llm: LlmClient | None, matcher_factory: Callable[[MatcherConfig, LlmClient | None], FunnelMatcher],
-) -> None:  # fmt: skip
+def run_news(out: Report, p: NewsPairs, t: NewsThresholds) -> None:
     hard_total = int(p.hard.sum())
 
     def hard_cut(pred: npt.NDArray[np.bool_]) -> str:
@@ -431,25 +429,6 @@ def run_news(
         "gray_positive": int((gray & p.gold).sum()),
         "rows": {r[0]: r[1:] for r in rows},
     }  # fmt: skip
-
-    if llm is not None:
-        cfg = MatcherConfig(news=t)
-        m = matcher_factory(cfg, llm)
-        pred = np.zeros_like(p.gold)
-        checked = 0
-        for s in stories:
-            orig = next((d for d in docs if d.story == s["id"] and d.label == "original"), None)
-            if orig is None:
-                continue
-            cands = [Candidate(d.id, d.text) for d in docs if d.id != orig.id]
-            rep = m.match_news(orig.text, cands)
-            checked += rep.llm.checked
-            inc = {r.candidate_id for r in rep.results if r.included}
-            for i, (st, c) in enumerate(zip(p.story, p.cand, strict=True)):
-                if st == s["id"]:
-                    pred[i] = c in inc
-        rows.append(["4. Нейросеть для спорных: итог", *pr_cells(pr_of(pred, p.gold)), hard_cut(pred)])
-        out.data["news"]["llm_checked"] = checked
 
     out("### Поиск по тексту новости (сценарий 2)")
     out()
@@ -511,10 +490,7 @@ def run_placement(out: Report, p: NewsPairs, docs: list[Doc], pt: PlacementThres
     out.data["placement"] = {"right": right, "total": total}
 
 
-def run_topic(
-    out: Report, p: TopicPairs, t: TopicThresholds, cards: dict[str, TopicCard], llm: LlmClient | None,
-    docs: list[Doc], matcher_factory: Callable[[MatcherConfig, LlmClient | None], FunnelMatcher],
-) -> None:  # fmt: skip
+def run_topic(out: Report, p: TopicPairs, t: TopicThresholds, cards: dict[str, TopicCard]) -> None:
     out("### Поиск по теме: «БДД» против «пожарной безопасности» (сценарий 1)")
     out()
     for card in cards.values():
@@ -523,7 +499,7 @@ def run_topic(
             f"{len(card.includes)} граней, «не то» — {excl}.")  # fmt: skip
     out()
     rows = []
-    for qid, query in TOPIC_QUERIES.items():
+    for qid in TOPIC_QUERIES:
         sub = p.subset(np.asarray([q == qid for q in p.query], dtype=bool))
         trap_total = int(sub.trap.sum())
 
@@ -540,13 +516,6 @@ def run_topic(
             [name, "Смысл + карточка темы: «явно да»", *pr_cells(pr_of(yes, sub.gold)), traps(yes)],
             [name, "В подборке (да + «Спорно»)", *pr_cells(pr_of(yes | gray, sub.gold)), traps(yes | gray)],
         ]  # fmt: skip
-        if llm is not None:
-            m = matcher_factory(MatcherConfig(topic=t), llm)
-            rep: MatchReport = m.match_topic(query, [Candidate(d.id, d.text) for d in docs])
-            inc = {r.candidate_id for r in rep.results if r.included}
-            pred = np.asarray([c in inc for c in sub.cand], dtype=bool)
-            llm_row = [name, "Нейросеть для спорных", *pr_cells(pr_of(pred, sub.gold))]
-            rows.append([*llm_row, traps(pred)])
     out.table(
         ["Тема", "Шаг", "Точность", "Полнота", "F1", "Найдено", "Лишних", "Чужая тема в подборке"], rows
     )
@@ -648,6 +617,289 @@ def _torch_threads() -> int:
     return int(torch.get_num_threads())
 
 
+# ------------------------------------------------------------------------- нейросеть
+
+
+@dataclass(frozen=True)
+class LlmCall:
+    kind: str  # card / verdict
+    seconds: float
+    raw: str
+    error: str | None
+
+
+class TimedLlm:
+    """Обёртка клиента нейросети для отчёта: время и сырой ответ каждого запроса."""
+
+    def __init__(self, inner: LlmClient) -> None:
+        self.inner = inner
+        self.calls: list[LlmCall] = []
+        self._lock = threading.Lock()
+
+    @property
+    def description(self) -> str:
+        return self.inner.description
+
+    @property
+    def model_version(self) -> str:
+        return str(getattr(self.inner, "model_version", self.inner.description))
+
+    def available(self) -> bool:
+        return self.inner.available()
+
+    def mark_unavailable(self) -> None:
+        mark = getattr(self.inner, "mark_unavailable", None)
+        if mark is not None:
+            mark()
+
+    def chat_json(self, system: str, user: str, schema: dict[str, Any]) -> str:
+        kind = "card" if "summary" in schema.get("properties", {}) else "verdict"
+        t0 = time.perf_counter()
+        raw, error = "", None
+        try:
+            raw = self.inner.chat_json(system, user, schema)
+        except Exception as e:
+            error = type(e).__name__
+            raise
+        finally:
+            with self._lock:
+                self.calls.append(LlmCall(kind, time.perf_counter() - t0, raw, error))
+        return raw
+
+
+def _llm_settings_note(s: LlmSettings) -> str:
+    extra = [f"{name} {getattr(s, name)}" for name in ("concurrency", "keep_alive") if hasattr(s, name)]
+    return ", ".join([f"LLM_MAX_GRAY {s.max_gray}", f"LLM_DEADLINE {s.deadline_s:g} с", *extra])
+
+
+def _outcome(r: MatchResult) -> str:
+    """Что нейросеть сделала со спорным постом (по полям результата)."""
+    if r.stage != "llm":
+        return "не проверено: " + (r.method_note or "—")
+    if not r.included:
+        return "нет"
+    if r.method == "ai-confirmed":
+        return "да"
+    if r.method_note == NOTE_AI_UNSUPPORTED:
+        return "да, не подтверждено текстом"
+    if r.method_note == NOTE_AI_UNSURE:
+        return "не может решить"
+    return r.method_note or "?"
+
+
+def _gray_row(search: str, r: MatchResult, gold: bool) -> list[str]:
+    outcome = _outcome(r)
+    said_yes = outcome.startswith("да")
+    if outcome in ("да", "нет", "да, не подтверждено текстом"):
+        right = "верно" if said_yes == gold else "**ошибка**"
+    else:
+        right = "—"
+    sent = str(r.evidence.sentence_index) if r.evidence is not None and r.stage == "llm" else "—"
+    ev_cos = getattr(r.scores, "evidence_cosine", None)
+    return [search, r.candidate_id, "да" if gold else "нет", outcome, right, sent,
+            "—" if ev_cos is None else f"{ev_cos:.3f}"]  # fmt: skip
+
+
+def _print_evidence(search: str, r: MatchResult, text: str) -> None:
+    """Предложение-доказательство — только в консоль: тексты публикаций в отчёт не идут."""
+    if r.stage != "llm" or r.evidence is None or not r.sentences:
+        return
+    s = r.sentences[r.evidence.sentence_index]
+    print(f"  [{search}] {r.candidate_id}: {_outcome(r)} — «{text[s.start : s.end][:140]}»")
+
+
+def _card_sig(card: TopicCard) -> tuple[str, tuple[str, ...], tuple[str, ...]]:
+    return card.summary, tuple(f.label for f in card.includes), tuple(f.label for f in card.excludes)
+
+
+def _pct(xs: list[float], q: float) -> float:
+    return float(np.percentile(np.asarray(xs), q)) if xs else 0.0
+
+
+def _same(n: int) -> str:
+    return "одинаковые" if n == 1 else f"{n} разные"
+
+
+def run_llm(
+    out: Report, stories: list[dict[str, Any]], docs: list[Doc], p: NewsPairs, llm: TimedLlm, m: FunnelMatcher
+) -> None:  # fmt: skip
+    """Шаг нейросети на эталоне: качество, что стало со спорными, карточка темы, время."""
+    from mm_matching import topic as topic_module
+
+    out("### Шаг нейросети")
+    out()
+    out(f"Модель: `{llm.model_version}`. «Уверенно» — в подборке без пометки «Спорно»: «явно да» "
+        "по правилам плюс подтверждённое ИИ. «В подборке» — всё, что увидит сотрудник.")  # fmt: skip
+    out()
+    llm.calls.clear()
+    by_id = {d.id: d for d in docs}
+    rows: list[list[str]] = []
+    gray_rows: list[list[str]] = []
+    llm_seconds: list[float] = []
+    started = time.perf_counter()
+
+    # По тексту новости.
+    index = {(st, c): i for i, (st, c) in enumerate(zip(p.story, p.cand, strict=True))}
+    sure = np.zeros_like(p.gold)
+    sel = np.zeros_like(p.gold)
+    for s in stories:
+        orig = next((d for d in docs if d.story == s["id"] and d.label == "original"), None)
+        if orig is None:
+            continue
+        rep = m.match_news(orig.text, [Candidate(d.id, d.text) for d in docs if d.id != orig.id])
+        llm_seconds.append(rep.timings.get("llm", 0.0))
+        for r in rep.results:
+            i = index[(s["id"], r.candidate_id)]
+            sel[i] = r.included
+            sure[i] = r.included and r.relevance != "disputed"
+            if r.zone == "gray":
+                gray_rows.append(_gray_row(f"новость {s['id']}", r, bool(p.gold[i])))
+                _print_evidence(s["id"], r, by_id[r.candidate_id].text)
+    hard_total = int(p.hard.sum())
+    for name, pred in (("уверенно", sure), ("в подборке", sel)):
+        rows.append(["По тексту новости", name, *pr_cells(pr_of(pred, p.gold)),
+                     f"{int((pred & p.hard).sum())}/{hard_total}"])  # fmt: skip
+
+    # По теме: карточка по правилам и карточка от нейросети.
+    cands = [Candidate(d.id, d.text) for d in docs]
+    ai_cards: dict[str, TopicCard] = {}
+    for qid, query in TOPIC_QUERIES.items():
+        gold = np.asarray([d.theme == qid for d in docs], dtype=bool)
+        trap = np.asarray([d.theme is not None and d.theme != qid for d in docs], dtype=bool)
+        name = "БДД" if qid == "bdd" else "Пожарная"
+        ai_card = m.topic_card(query)
+        ai_cards[qid] = ai_card
+        ai_name = "нейросеть" if ai_card.made_by == "ai" else "правила (ответ нейросети не принят)"
+        for card_name, card in (("правила", fallback_card(query)), (ai_name, ai_card)):
+            rep = m.match_topic(card, cands)
+            llm_seconds.append(rep.timings.get("llm", 0.0))
+            res = {r.candidate_id: r for r in rep.results}
+            t_sel = np.asarray([res[d.id].included for d in docs], dtype=bool)
+            t_sure = np.asarray(
+                [res[d.id].included and res[d.id].relevance != "disputed" for d in docs], dtype=bool
+            )
+            search = f"{name}, карточка: {card_name}"
+            for pname, pred in (("уверенно", t_sure), ("в подборке", t_sel)):
+                rows.append([f"Тема {name}, карточка: {card_name}", pname, *pr_cells(pr_of(pred, gold)),
+                             f"{int((pred & trap).sum())}/{int(trap.sum())}"])  # fmt: skip
+            for k, d in enumerate(docs):
+                r = res[d.id]
+                if r.zone == "gray":
+                    gray_rows.append(_gray_row(search, r, bool(gold[k])))
+                    _print_evidence(search, r, d.text)
+    wall = time.perf_counter() - started
+
+    out.table(["Поиск", "Что считаем", "Точность", "Полнота", "F1", "Найдено", "Лишних",
+               "Ловушки в подборке"], rows)  # fmt: skip
+    out("Ловушки: для новости — похожие новости о другом событии, для темы — публикации другой темы.")
+    out()
+
+    # Что стало со спорными.
+    summary: dict[str, Counter[str]] = {}
+    for g in gray_rows:
+        c = summary.setdefault(g[0], Counter())
+        c["спорных"] += 1
+        c[g[3] if not g[3].startswith("не проверено") else "не проверено"] += 1
+        c["ошибок"] += g[4] == "**ошибка**"
+    kinds = ["да", "да, не подтверждено текстом", "нет", "не может решить", "не проверено"]
+    out("Спорные после правил и решение нейросети:")
+    out()
+    out.table(["Поиск", "Спорных", *kinds, "Ошибочная метка"],
+              [[k, str(c["спорных"]), *[str(c[x]) for x in kinds], str(c["ошибок"])]
+               for k, c in summary.items()])  # fmt: skip
+    out.table(["Поиск", "Публикация", "По разметке", "Нейросеть", "Метка", "Предложение",
+               "Близость предложения"], gray_rows)  # fmt: skip
+
+    # Карточка темы.
+    out("#### Карточка темы от нейросети")
+    out()
+    clear = getattr(topic_module, "clear_card_cache", None)
+    cutting = getattr(topic_module, "cutting_excludes", None)
+    stability: dict[str, Any] = {}
+    for qid, query in TOPIC_QUERIES.items():
+        fresh = []
+        for _ in range(3):
+            if clear is not None:
+                clear()
+            fresh.append(_card_sig(m.topic_card(query)))
+        cached = [_card_sig(m.topic_card(query)) for _ in range(3)]
+        raw_card = next((c.raw for c in reversed(llm.calls) if c.kind == "card" and c.raw), "")
+        card = m.topic_card(query)
+        n_fresh, n_cached = len(set(fresh)), len(set(cached))
+        same = _card_sig(card) == _card_sig(ai_cards[qid])
+        stability[qid] = {"fresh_distinct": n_fresh, "cached_distinct": n_cached, "same_as_eval": same}
+        made = "нейросеть" if card.made_by == "ai" else "правила"
+        out(f"«{query}» ({made}): 3 запуска подряд без кэша — {_same(n_fresh)}; через кэш — "
+            f"{_same(n_cached)}; совпадает с карточкой, по которой шёл отбор выше: "
+            f"{'да' if same else 'нет'}.")  # fmt: skip
+        out()
+        out(f"- входит: {'; '.join(f.label for f in card.includes)}")
+        cut = cutting(card) if cutting is not None else list(card.excludes)
+        cut_ids = {f.id for f in cut}
+        out(f"- «не то», отсекает: {'; '.join(f.label for f in card.excludes if f.id in cut_ids) or '—'}")
+        hint = "; ".join(f.label for f in card.excludes if f.id not in cut_ids)
+        out(f"- «не то», только подсказка: {hint or '—'}")
+        try:
+            raw_exc = [str(x) for x in json.loads(raw_card).get("excludes", [])] if raw_card else []
+        except (ValueError, AttributeError):
+            raw_exc = []
+        shown = {f.label.lower() for f in card.excludes}
+        dropped = [x for x in raw_exc if " ".join(x.split()).lower() not in shown]
+        out(f"- нейросеть предложила в «не то», но убрано как часть темы: {'; '.join(dropped) or '—'}")
+        out()
+
+    # Время.
+    ok = [c for c in llm.calls if c.error is None]
+    verdict_s = [c.seconds for c in ok if c.kind == "verdict"]
+    card_s = [c.seconds for c in ok if c.kind == "card"]
+    errors = Counter(c.error for c in llm.calls if c.error is not None)
+    out("#### Время")
+    out()
+    out.table(["Запрос", "Сколько", "Среднее", "Медиана", "95%", "Макс."],
+              [[name, str(len(xs)), f"{np.mean(xs):.2f} с" if xs else "—", f"{_pct(xs, 50):.2f} с",
+                f"{_pct(xs, 95):.2f} с", f"{max(xs, default=0):.2f} с"]
+               for name, xs in (("Решение по спорному посту", verdict_s),
+                                ("Карточка темы", card_s))])  # fmt: skip
+    err_note = " (" + ", ".join(f"{k} {v}" for k, v in errors.items()) + ")" if errors else ""
+    out(f"Шаг нейросети во всех {len(llm_seconds)} поисках раздела — {sum(llm_seconds):.1f} с; "
+        f"раздел целиком (с эмбеддингами из кэша) — {wall:.1f} с. Ошибок запросов: "
+        f"{sum(errors.values())}{err_note}.")  # fmt: skip
+    out()
+    out.data["llm"] = {"rows": rows, "gray": gray_rows, "cards": stability, "verdict_seconds": verdict_s,
+                       "card_seconds": card_s, "errors": dict(errors)}  # fmt: skip
+
+
+def run_llm_speed(
+    out: Report, docs: list[Doc], embedder: SentenceTransformerEmbedder, m: FunnelMatcher, llm: TimedLlm
+) -> None:  # fmt: skip
+    """Поиск по теме целиком с нейросетью: пулы как в замере скорости, векторы готовы заранее."""
+    rng = random.Random(7)
+    texts = [d.text for d in docs]
+    rows = []
+    for n in (50, 500):
+        pool = []
+        for i in range(n):
+            base = texts[rng.randrange(len(texts))]
+            sents = base.split(". ")
+            rng.shuffle(sents)
+            pool.append(Candidate(f"c{i}", ". ".join(sents) + f" Выпуск {i}."))
+        t0 = time.perf_counter()
+        embedder.encode([c.text or "" for c in pool], "topic")  # векторы «посчитаны при сборе»
+        print(f"(векторы пула {n}: {time.perf_counter() - t0:.0f} с)")
+        card = fallback_card(TOPIC_QUERIES["bdd"])
+        llm.calls.clear()
+        t0 = time.perf_counter()
+        rep = m.match_topic(card, pool)
+        total = time.perf_counter() - t0
+        gray = sum(1 for r in rep.results if r.zone == "gray")
+        rows.append([str(n), str(gray), str(rep.llm.checked), f"{rep.timings.get('llm', 0.0):.1f} с",
+                     f"{total:.1f} с"])  # fmt: skip
+    out("#### Поиск по теме «БДД» целиком с нейросетью (векторы посчитаны заранее)")
+    out()
+    out.table(["Кандидатов", "Спорных", "Проверено ИИ", "Время нейросети", "Всего"], rows)
+    out.data["llm_speed"] = rows
+
+
 # ------------------------------------------------------------------------- main
 
 
@@ -659,6 +911,7 @@ def main() -> int:
     ap.add_argument("--manifest", type=Path, default=HERE / "manifest.json")
     ap.add_argument("--tune", action="store_true", help="подобрать пороги по сетке и показать разницу")
     ap.add_argument("--no-speed", action="store_true")
+    ap.add_argument("--llm-speed", action="store_true", help="с нейросетью: поиск целиком на пулах 50 и 500")
     ap.add_argument("--out", type=Path, default=RESULTS / "latest.md")
     args = ap.parse_args()
 
@@ -670,14 +923,15 @@ def main() -> int:
     out = Report()
     defaults = MatcherConfig()
     llm_settings = LlmSettings.from_env()
-    llm = client_from_env(llm_settings)
+    client = client_from_env(llm_settings)
+    llm: TimedLlm | None = None
     llm_note = "не задан OLLAMA_URL — шаг пропущен"
-    if llm is not None:
-        if llm.available():
-            llm_note = f"{llm.description}"
+    if client is not None:
+        if client.available():
+            llm = TimedLlm(client)
+            llm_note = f"{client.description}; {_llm_settings_note(llm_settings)}"
         else:
             llm_note = f"{llm_settings.url} не отвечает или нет модели — шаг пропущен"
-            llm = None
 
     out(f"## Мини-эталон: результаты ({datetime.now():%d.%m.%Y %H:%M})")
     out()
@@ -714,11 +968,16 @@ def main() -> int:
     def factory(cfg: MatcherConfig, client: LlmClient | None) -> FunnelMatcher:
         return FunnelMatcher(cfg, embedder=embedder, llm=client, events=ev, llm_settings=llm_settings)
 
-    run_news(out, stories, docs, pairs, news_t, llm, factory)
+    run_news(out, pairs, news_t)
     run_news_cv(out, pairs, sorted(set(pairs.story)))
     run_placement(out, pairs, docs, defaults.placement)
-    run_topic(out, tpairs, topic_t, cards, llm, docs, factory)
+    run_topic(out, tpairs, topic_t, cards)
     _check_rules_match_funnel(out, stories, docs, pairs, news_t, factory)
+    if llm is not None:
+        cfg = replace(defaults, news=news_t, topic=topic_t)
+        run_llm(out, stories, docs, pairs, llm, factory(cfg, llm))
+        if args.llm_speed:
+            run_llm_speed(out, docs, embedder, factory(cfg, llm), llm)
     if not args.no_speed:
         run_speed(out, docs, embedder, factory(replace(defaults, news=news_t, topic=topic_t), None))
 

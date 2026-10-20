@@ -13,7 +13,7 @@ from mm_matching.funnel import NOTE_AI_DOWN, NOTE_AI_INVALID, NOTE_AI_OFF, NOTE_
 from mm_matching.llm import LlmError, OllamaClient, client_from_env
 from mm_matching.types import Candidate
 
-from .conftest import OTHER_EVENT, RELEASE, RETOLD, FakeLlm, answer_with
+from .conftest import ALL_GRAY, OTHER_EVENT, RELEASE, RETOLD, FakeEmbedder, FakeLlm, answer_with
 
 GRAY = [Candidate("a", RETOLD), Candidate("b", OTHER_EVENT)]
 
@@ -47,14 +47,17 @@ def test_ollama_not_reachable(make_matcher: Callable[..., FunnelMatcher]) -> Non
     assert m.match_news(RELEASE, GRAY).llm.state == "unavailable"
 
 
-def test_errors_stop_after_two_failures(make_matcher: Callable[..., FunnelMatcher]) -> None:
+@pytest.mark.parametrize(("concurrency", "max_calls"), [(1, 2), (4, 4)])
+def test_errors_stop_after_two_failures(concurrency: int, max_calls: int) -> None:
     llm = FakeLlm(error=LlmError("таймаут"))
-    m = make_matcher(llm=llm)
-    rep = m.match_news(RELEASE, [Candidate(str(i), RETOLD + f" Номер {i}.") for i in range(5)])
-    assert len(llm.calls) == 2
+    settings = LlmSettings(url="http://fake", max_gray=100, deadline_s=60, concurrency=concurrency)
+    m = FunnelMatcher(ALL_GRAY, embedder=FakeEmbedder(), llm=llm, events=None, llm_settings=settings)
+    rep = m.match_news(RELEASE, [Candidate(str(i), RETOLD + f" Номер {i}.") for i in range(8)])
+    # Подряд — ровно два запроса; параллельно — не больше одной волны запросов.
+    assert 2 <= len(llm.calls) <= max_calls
     assert all(r.method_note == NOTE_AI_DOWN and r.relevance == "disputed" for r in rep.results)
     assert rep.llm.state == "unavailable"
-    assert rep.llm.unchecked == 5
+    assert rep.llm.unchecked == 8
 
 
 @pytest.mark.parametrize(

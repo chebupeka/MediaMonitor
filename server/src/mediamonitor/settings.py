@@ -77,16 +77,22 @@ class Settings(BaseSettings):
     llm_model_label: str = "GigaChat 3.1 Lightning, локально (Ollama)"
     llm_api_key: SecretStr | None = None
     llm_timeout_sec: float = Field(default=60.0, gt=0)
-    llm_concurrency: int = Field(default=1, ge=1, le=16)
+    # Запросов к нейросети одновременно (воронка и карточка темы): Ollama отвечает
+    # параллельно, 4 запроса дают ×1,45 (server/matching/eval/results-llm.md).
+    llm_concurrency: int = Field(default=4, ge=1, le=16)
     llm_batch_size: int = Field(default=8, ge=1, le=32)
     llm_warmup: bool = True
     # Как воронка обращается к нейросети: ollama — /api/chat, openai — /v1/chat/completions.
     llm_api: Literal["ollama", "openai"] = "ollama"
     # Сколько спорных публикаций проверяет нейросеть за один поиск и сколько секунд всего (НТ-6).
-    llm_max_gray: int = Field(default=60, ge=0)
-    llm_deadline_sec: float = Field(default=300.0, gt=0)
+    # Проверяются самые близкие к запросу; ~0,55 с на решение.
+    llm_max_gray: int = Field(default=150, ge=0)
+    llm_deadline_sec: float = Field(default=150.0, gt=0)
     # Контекст запросов к Ollama — как OLLAMA_CONTEXT_LENGTH на компьютере с видеокартой.
     llm_num_ctx: int = 8192
+    # Сколько Ollama держит модель в памяти после запроса: -1 — всегда (иначе после простоя
+    # первый поиск ждёт загрузку модели). Число — секунды, строка с единицей — «30m».
+    ollama_keep_alive: str = "-1"
 
     # ---------------------------------------------------------------- отбор
     # Фабрика воронки отбора «модуль:функция». Воронка «Э-Отбор» — mediamonitor.matcher.funnel,

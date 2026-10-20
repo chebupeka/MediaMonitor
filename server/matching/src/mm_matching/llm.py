@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import json
+import re
 import time
 from typing import Any, Protocol
 
@@ -53,10 +54,16 @@ class OllamaClient:
             headers={"Authorization": f"Bearer {api_key}"} if api_key else None,
         )
         self._available: tuple[float, bool] | None = None
+        self._digest: str | None = None
 
     @property
     def description(self) -> str:
         return f"{self._s.model} @ {self._s.url} ({self._s.api})"
+
+    @property
+    def model_version(self) -> str:
+        """Имя модели и её версия (digest из `/api/tags`): ключ кэша карточки темы."""
+        return f"{self._s.model}@{self._digest[:12]}" if self._digest else self._s.model
 
     def available(self) -> bool:
         now = time.monotonic()
@@ -77,9 +84,13 @@ class OllamaClient:
             r = self._client.get("/api/tags", timeout=5.0)
             if r.status_code != 200:
                 return False
-            names = [str(m.get("name", "")) for m in r.json().get("models", [])]
             want = self._s.model
-            return any(n in (want, f"{want}:latest") or n.startswith(want) for n in names)
+            for m in r.json().get("models", []):
+                name = str(m.get("name", ""))
+                if name in (want, f"{want}:latest") or name.startswith(want):
+                    self._digest = str(m.get("digest") or "") or None
+                    return True
+            return False
         except (httpx.HTTPError, ValueError, AttributeError):
             return False
 
@@ -101,7 +112,7 @@ class OllamaClient:
             "stream": False,
             "format": schema,
             "options": {"temperature": 0, "seed": 0, "num_ctx": self._s.num_ctx},
-            "keep_alive": "30m",
+            "keep_alive": keep_alive_value(self._s.keep_alive),
         }
         r = self._client.post("/api/chat", json=body)
         if r.status_code != 200:
@@ -129,6 +140,19 @@ class OllamaClient:
         if not isinstance(content, str):
             raise LlmError("в ответе нет текста")
         return content
+
+
+_NUMBER_RE = re.compile(r"[+-]?\d+(?:\.\d+)?")
+
+
+def keep_alive_value(raw: str) -> int | float | str:
+    """`keep_alive` для Ollama: число — секунды («-1» — держать модель всегда), иначе
+    длительность строкой («30m»). Строку «-1» Ollama не примет: у неё нет единицы."""
+    value = raw.strip() or "-1"
+    if _NUMBER_RE.fullmatch(value):
+        number = float(value)
+        return int(number) if number.is_integer() else number
+    return value
 
 
 def client_from_env(settings: LlmSettings | None = None) -> OllamaClient | None:

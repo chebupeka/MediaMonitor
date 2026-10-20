@@ -27,6 +27,7 @@ from dataclasses import dataclass, field
 from typing import Any, Literal, Protocol, cast
 
 import httpx
+from mm_matching.llm import keep_alive_value
 
 from mediamonitor.settings import Settings
 
@@ -289,8 +290,9 @@ class OllamaJudge:
     OpenAI-совместимый сервер (`/v1/chat/completions`, LLM_API=openai).
 
     Через родной API передаём тот же контекст (`num_ctx`, LLM_NUM_CTX = OLLAMA_CONTEXT_LENGTH
-    на компьютере с видеокартой) и `keep_alive`, что и воронка: иначе Ollama перезагружала бы
-    модель между запросами воронки и этими.
+    на компьютере с видеокартой) и `keep_alive` (OLLAMA_KEEP_ALIVE, по умолчанию -1 — модель
+    не выгружается), что и воронка: иначе Ollama перезагружала бы модель между запросами
+    воронки и этими.
     """
 
     STATUS_TTL_SEC = 20.0
@@ -300,6 +302,7 @@ class OllamaJudge:
         self.model = settings.llm_model
         self.api = settings.llm_api
         self.num_ctx = settings.llm_num_ctx
+        self.keep_alive = keep_alive_value(settings.ollama_keep_alive)
         self.model_label = settings.llm_model_label
         self.timeout = settings.llm_timeout_sec
         self.batch_size = settings.llm_batch_size
@@ -357,7 +360,7 @@ class OllamaJudge:
                 "stream": False,
                 "format": schema,
                 "options": {"temperature": 0, "seed": 0, "num_ctx": self.num_ctx},
-                "keep_alive": "30m",
+                "keep_alive": self.keep_alive,
             }
         else:
             path = "/v1/chat/completions"

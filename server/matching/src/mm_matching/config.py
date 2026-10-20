@@ -10,6 +10,22 @@ import os
 from dataclasses import dataclass, field
 
 DEFAULT_EMBEDDING_MODEL = "sergeyzh/BERTA"
+# Та же модель, что на сервере (`server/.env.example`, docs/13-deploy-ai.md): Q6_K. Другое имя
+# заставило бы Ollama загрузить вторую модель и, возможно, выгрузить рабочую.
+DEFAULT_LLM_MODEL = "hf.co/ai-sage/GigaChat3.1-10B-A1.8B-GGUF:Q6_K"
+
+
+# Пороги шага нейросети (подобраны на мини-эталоне с GigaChat Q6_K, eval/results-llm.md).
+# Тема: косинус предложения-доказательства с темой (categorize_topic). Заголовок о приговоре
+# экс-начальнику ГИБДД — 0,705 к «БДД», заголовки всех 14 публикаций этого сюжета — не выше
+# 0,715; ниже порога остаются и часть верных заголовков (0,65–0,69, «Спорно»).
+EVIDENCE_SIM_TOPIC = 0.73
+# Новость: косинус с релизом или его абзацем (paraphrase). Заголовки перепечаток — медиана
+# 0,78; заголовки чужих новостей — 90% не выше 0,42.
+EVIDENCE_SIM_NEWS = 0.75
+# Пункт «не то» от нейросети ближе к теме — часть темы: на 36 пунктах GigaChat части темы
+# 0,88–0,99, другие темы 0,64–0,90 (выше порога — 2 из 23, они только не показываются).
+EXCLUDE_MAX_SIM = 0.87
 
 
 @dataclass(frozen=True, slots=True)
@@ -33,6 +49,9 @@ class NewsThresholds:
     # Шаг 3. Признаки события.
     support_for_yes: int = 1
     conflict_for_no: int = 1  # столько противоречий и ни одного совпадения — другое событие
+    # Шаг 5. «Да» нейросети принимается, если предложение-доказательство похоже на новость:
+    # общие слова или признаки события, либо косинус предложения с новостью не ниже этого.
+    evidence_sim: float = EVIDENCE_SIM_NEWS
 
 
 @dataclass(frozen=True, slots=True)
@@ -46,6 +65,12 @@ class TopicThresholds:
     margin_yes: float = 0.02  # запас над «не то» для явного да
     margin_no: float = -0.04  # заметно ближе к «не то», чем к теме, — явно нет
     sim_direct: float = 0.76  # без нейросети: выше — «прямо», ниже — «косвенно»
+    # Шаг 5. «Да» нейросети принимается, если предложение-доказательство похоже на тему:
+    # общие основы слов или косинус предложения с темой не ниже этого.
+    evidence_sim: float = EVIDENCE_SIM_TOPIC
+    # Карточка от нейросети: пункт «не то» ближе к самой теме, чем этот порог, — часть темы,
+    # его не показываем.
+    exclude_max_sim: float = EXCLUDE_MAX_SIM
 
 
 @dataclass(frozen=True, slots=True)
@@ -64,12 +89,18 @@ class LlmSettings:
     """Нейросеть для серой зоны. Без `OLLAMA_URL` воронка работает без неё."""
 
     url: str | None = None
-    model: str = "hf.co/ai-sage/GigaChat3.1-10B-A1.8B-GGUF:Q4_K_M"
+    model: str = DEFAULT_LLM_MODEL
     api: str = "ollama"  # 'ollama' — /api/chat; 'openai' — /v1/chat/completions
     timeout_s: float = 90.0
-    max_gray: int = 60  # сколько спорных проверяем за один поиск (НТ-6)
-    deadline_s: float = 300.0  # общий бюджет времени нейросети на поиск
+    # Сколько спорных проверяем за один поиск (НТ-6): ~0,55 с на решение, 150 — около
+    # 1–1,5 минуты в худшем случае; проверяются самые близкие к запросу.
+    max_gray: int = 150
+    deadline_s: float = 150.0  # общий бюджет времени нейросети на поиск
     num_ctx: int = 8192
+    concurrency: int = 4  # запросов одновременно: Ollama отвечает параллельно (×1,45 на 4)
+    # Сколько Ollama держит модель после запроса: «-1» — всегда (иначе после простоя первый
+    # поиск ждёт загрузку). Число — секунды, строка с единицей — длительность («30m»).
+    keep_alive: str = "-1"
 
     @classmethod
     def from_env(cls) -> LlmSettings:
@@ -83,6 +114,8 @@ class LlmSettings:
             max_gray=int(_env_float("LLM_MAX_GRAY", d.max_gray)),
             deadline_s=_env_float("LLM_DEADLINE", d.deadline_s),
             num_ctx=int(_env_float("LLM_NUM_CTX", d.num_ctx)),
+            concurrency=max(1, int(_env_float("LLM_CONCURRENCY", d.concurrency))),
+            keep_alive=os.environ.get("OLLAMA_KEEP_ALIVE", "").strip() or d.keep_alive,
         )
 
 

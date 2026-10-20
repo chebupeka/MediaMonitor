@@ -8,14 +8,16 @@
 from __future__ import annotations
 
 import time
+from collections import deque
 from collections.abc import Callable, Sequence
+from concurrent.futures import FIRST_COMPLETED, Future, ThreadPoolExecutor, wait
 from dataclasses import dataclass, field, replace
 from enum import Enum
 
 import numpy as np
 
 from mm_matching.config import LlmSettings, MatcherConfig
-from mm_matching.embeddings import Embedder, SentenceTransformerEmbedder
+from mm_matching.embeddings import Embedder, EmbedKind, Matrix, SentenceTransformerEmbedder
 from mm_matching.events import EventComparison, EventExtractor
 from mm_matching.guard import (
     NEWS_LABELS,
@@ -43,8 +45,15 @@ from mm_matching.shingles import (
     release_paragraphs,
     shingle,
 )
-from mm_matching.text import content_stems, split_sentences, text_hash, tokenize
-from mm_matching.topic import apply_correction, expand_query, fallback_card, llm_card
+from mm_matching.text import content_stems, split_paragraphs, split_sentences, text_hash, tokenize
+from mm_matching.topic import (
+    apply_correction,
+    cutting_excludes,
+    expand_query,
+    fallback_card,
+    finalize_ai_card,
+    llm_card,
+)
 from mm_matching.types import (
     Candidate,
     EventSigns,
@@ -63,6 +72,7 @@ from mm_matching.types import (
     Stage,
     TextRange,
     TopicCard,
+    TopicFacet,
     Zone,
 )
 
@@ -104,6 +114,24 @@ class _Work:
     verdict: Verdict | None = None
     unchecked: str | None = None
     extra: dict[str, float] = field(default_factory=dict)
+
+
+@dataclass(slots=True)
+class _EvidenceRef:
+    """С чем сравнивается предложение-доказательство нейросети.
+
+    «Да» принимается, если в предложении не меньше `min_shared` общих основ слов с запросом
+    (или общий признак события), либо если оно близко к запросу по смыслу: косинус с одним
+    из `texts` не ниже `threshold`. Векторы `texts` считаются при первом «да».
+    """
+
+    stems: set[str]
+    min_shared: int
+    kind: EmbedKind
+    texts: list[str]
+    threshold: float
+    vectors: Matrix | None = None
+    pick_stems: set[str] | None = None  # для выбора выдержки, если нейросеть не ответила
 
 
 class _Timer:
@@ -217,10 +245,21 @@ class FunnelMatcher:
             card = llm_card(query, self.llm)
             if card is None:
                 note = "Карточка собрана по словам запроса: ответ нейросети не прошёл проверку."
+            else:
+                card = self._finalize_ai_card(card)
         card = card or fallback_card(query, note)
         if kind != "topic" and self.events is not None:
             card = replace(card, signs=self.events.signs(query))
         return card
+
+    def _finalize_ai_card(self, card: TopicCard) -> TopicCard:
+        """«Не то» от нейросети: убрать части самой темы (по словам и по эмбеддингу)."""
+        labels = [f.label for f in card.excludes]
+        sims: list[float] | None = None
+        if self.embedder is not None and labels:
+            vecs = self.embedder.encode([expand_query(card.query), *labels], "topic")
+            sims = [float(x) for x in vecs[1:] @ vecs[0]]
+        return finalize_ai_card(card, sims, self.config.topic.exclude_max_sim)
 
     def correct_topic_card(
         self,
@@ -283,6 +322,8 @@ class FunnelMatcher:
 
         gray = [w for w in works if w.zone == "gray"]
         nonce = new_nonce()
+        pieces = [release_text[r.start : r.end] for r in split_paragraphs(release_text)]
+        ref = _EvidenceRef(release_stems, 2, "paraphrase", [release_text, *pieces[:20]], cfg.evidence_sim)
 
         def build(post_pid: str, w: _Work) -> tuple[str, str, int]:
             pp = prompt_post(post_pid, w.text, w.sentences)
@@ -290,7 +331,7 @@ class FunnelMatcher:
             return system, user, len(pp.sentences)
 
         def finish(w: _Work) -> None:
-            results[w.index] = self._emit(self._news_result(w, paras, release_stems), on_result)
+            results[w.index] = self._emit(self._news_result(w, paras, release_stems, ref), on_result)
 
         status = self._run_llm(gray, build, NEWS_LABELS, finish)
         timer.lap("llm")
@@ -335,7 +376,13 @@ class FunnelMatcher:
         else:
             self._decide(w, "gray", "rules", "Спорно: похоже по смыслу, но это может быть другое событие")
 
-    def _news_result(self, w: _Work, paras: ReleaseParagraphs, release_stems: set[str]) -> MatchResult:
+    def _news_result(
+        self,
+        w: _Work,
+        paras: ReleaseParagraphs,
+        release_stems: set[str],
+        ref: _EvidenceRef | None = None,
+    ) -> MatchResult:
         assert w.ov is not None
         ov = w.ov
         scores = Scores(
@@ -359,9 +406,8 @@ class FunnelMatcher:
             idx = _best_lexical_sentence(w, release_stems, shared_words)
             ev = _sentence_evidence(w, idx, "semantic", w.reason)
             return self._result(w, False, None, "semantic", None, ev, None, paras, scores)
-        return self._gray_result(
-            w, release_stems, shared_words, ov, paras, scores, positive="same_event", min_shared=2
-        )
+        ref = ref or _EvidenceRef(release_stems, 2, "paraphrase", [], 1.0)
+        return self._gray_result(w, ref, shared_words, ov, paras, scores, positive="same_event")
 
     # ------------------------------------------------------------------ по теме или событию
 
@@ -384,16 +430,24 @@ class FunnelMatcher:
         works, results = self._prepare(candidates, on_result)
         # Близость к теме считаем по самому запросу и по граням, которые добавил
         # пользователь. Системные грани «входит» на мини-эталоне не помогали (только
-        # размывали тему), они идут в карточку и в нейросеть. «Не то» — все грани.
+        # размывали тему), они идут в карточку и в нейросеть. «Не то» — только пункты по
+        # правилам и пункты пользователя: «не то» от нейросети — подсказка, оно не отсекает.
         query_text = expand_query(card.query)
         inc = [f for f in card.includes if f.origin == "user" and f.label != query_text]
         inc_labels = [query_text] + [f.label for f in inc]
         inc_ids: list[str | None] = [None] + [f.id for f in inc]
-        exc = list(card.excludes)
+        exc = cutting_excludes(card)
         query_stems = content_stems(tokenize(" ".join([query_text] + [f.label for f in card.includes])))
+        # Доказательство сверяем с самим запросом и гранями пользователя, а не с системными
+        # гранями «входит»: «Госавтоинспекция» из грани пропускала приговор экс-начальнику ГИБДД.
+        ref_stems = content_stems(tokenize(" ".join(inc_labels)))
+        ref = _EvidenceRef(
+            ref_stems, 1, "topic", inc_labels, self.config.topic.evidence_sim, pick_stems=query_stems
+        )
 
         if works and self.embedder is not None:
             qv = self.embedder.encode(inc_labels + [f.label for f in exc], "topic")
+            ref.vectors = qv[: len(inc_labels)]
             dv = self.embedder.encode([w.text for w in works], "topic")
             sims = dv @ qv.T
             pos = sims[:, : len(inc_labels)]
@@ -409,17 +463,17 @@ class FunnelMatcher:
         timer.lap("embeddings")
 
         for w in works:
-            self._topic_rules(w, card, kind, query_stems)
+            self._topic_rules(w, card, exc, kind, query_stems)
         timer.lap("events")
 
         for w in works:
             if w.zone != "gray":
-                results[w.index] = self._emit(self._topic_result(w, query_stems), on_result)
+                results[w.index] = self._emit(self._topic_result(w, query_stems, ref), on_result)
 
         gray = [w for w in works if w.zone == "gray"]
         nonce = new_nonce()
         inc_texts = [f.label for f in card.includes]
-        exc_texts = [f.label for f in card.excludes]
+        exc_texts = [f.label for f in exc]
 
         def build(post_pid: str, w: _Work) -> tuple[str, str, int]:
             pp = prompt_post(post_pid, w.text, w.sentences)
@@ -427,14 +481,16 @@ class FunnelMatcher:
             return system, user, len(pp.sentences)
 
         def finish(w: _Work) -> None:
-            results[w.index] = self._emit(self._topic_result(w, query_stems), on_result)
+            results[w.index] = self._emit(self._topic_result(w, query_stems, ref), on_result)
 
         status = self._run_llm(gray, build, TOPIC_LABELS, finish)
         timer.lap("llm")
         final = tuple(r for r in results if r is not None)
         return MatchReport(results=final, llm=status, timings=timer.done())
 
-    def _topic_rules(self, w: _Work, card: TopicCard, kind: QueryKind, query_stems: set[str]) -> None:
+    def _topic_rules(
+        self, w: _Work, card: TopicCard, exc: Sequence[TopicFacet], kind: QueryKind, query_stems: set[str]
+    ) -> None:
         cfg = self.config.topic
         if w.cos is None:
             lex = _stem_overlap(query_stems, content_stems(list(w.sh.tokens)))
@@ -448,13 +504,13 @@ class FunnelMatcher:
         margin = w.cos - anti
         exc_label = None
         if w.anti is not None:
-            exc_facet = card.excludes[int(w.extra["anti_facet"])]
+            exc_facet = exc[int(w.extra["anti_facet"])]
             exc_label = exc_facet.label
         if w.cos < cfg.sim_no:
             self._decide(w, "no", "embeddings", "Не по теме")
             return
         if exc_label is not None and margin <= cfg.margin_no:
-            w.facet_id = card.excludes[int(w.extra["anti_facet"])].id
+            w.facet_id = exc[int(w.extra["anti_facet"])].id
             self._decide(w, "no", "embeddings", f"Не то: ближе к теме «{exc_label}»")
             return
         if kind == "event" and self.events is not None:
@@ -467,7 +523,7 @@ class FunnelMatcher:
         else:
             self._decide(w, "gray", "rules", "Спорно: тема затронута, но связь неочевидна")
 
-    def _topic_result(self, w: _Work, query_stems: set[str]) -> MatchResult:
+    def _topic_result(self, w: _Work, query_stems: set[str], ref: _EvidenceRef) -> MatchResult:
         cfg = self.config.topic
         scores = Scores(
             cosine=_r(w.cos),
@@ -485,9 +541,7 @@ class FunnelMatcher:
             idx = _best_lexical_sentence(w, query_stems, shared_words)
             ev = _sentence_evidence(w, idx, "semantic", w.reason)
             return self._result(w, False, None, "semantic", None, ev, None, None, scores)
-        return self._gray_result(
-            w, query_stems, shared_words, None, None, scores, positive="direct", min_shared=1
-        )
+        return self._gray_result(w, ref, shared_words, None, None, scores, positive="direct")
 
     # ------------------------------------------------------------------ общее
 
@@ -556,32 +610,39 @@ class FunnelMatcher:
     def _gray_result(
         self,
         w: _Work,
-        ref_stems: set[str],
+        ref: _EvidenceRef,
         shared_words: list[str],
         ov: Overlap | None,
         paras: ReleaseParagraphs | None,
         scores: Scores,
         *,
         positive: str,
-        min_shared: int,
     ) -> MatchResult:
         """Решение по серой зоне: по ответу нейросети или «не проверено ИИ».
 
-        Положительный ответ принимаем, только если предложение-доказательство само
-        похоже на запрос: не меньше `min_shared` общих основ слов или общий признак
-        события. Так «послушная» ловушке нейросеть не протолкнёт пост в «Прямо».
+        Положительный ответ принимаем, только если предложение-доказательство (оно есть
+        в тексте поста: номер проверен) само похоже на запрос — общие основы слов, общий
+        признак события или близость по смыслу (`_EvidenceRef`). Так «послушная» ловушке
+        нейросеть не протолкнёт пост в «Прямо», а ссылка на заголовок своими словами
+        («автобус с детьми опрокинулся» для темы БДД) засчитывается.
         """
         v = w.verdict
         if v is None:
-            idx = _best_lexical_sentence(w, ref_stems, shared_words)
+            idx = _best_lexical_sentence(w, ref.pick_stems or ref.stems, shared_words)
             ev = _sentence_evidence(w, idx, "semantic", w.reason)
             note = w.unchecked or NOTE_AI_OFF
             return self._result(w, True, "disputed", "ai-unchecked", note, ev, ov, paras, scores)
         ev = _sentence_evidence(w, v.sentence, "ai", "Нейросеть решила по этому предложению")
         if v.label in (positive, "indirect"):
             sent = w.sentences[v.sentence]
-            sent_stems = content_stems(tokenize(w.text[sent.start : sent.end]))
-            if len(sent_stems & ref_stems) < min_shared and not _has_shared(w.text, sent, shared_words):
+            chunk = w.text[sent.start : sent.end]
+            lexical = len(content_stems(tokenize(chunk)) & ref.stems) >= ref.min_shared or _has_shared(
+                w.text, sent, shared_words
+            )
+            sim = self._evidence_similarity(chunk, ref)
+            if sim is not None:
+                scores = replace(scores, evidence_cosine=round(sim, 4))
+            if not lexical and (sim is None or sim < ref.threshold):
                 w.reason = "Спорно: нейросеть ответила «да», но предложение не похоже на запрос"
                 return self._result(
                     w, True, "disputed", "ai-unchecked", NOTE_AI_UNSUPPORTED, ev, ov, paras, scores, "llm"
@@ -601,6 +662,15 @@ class FunnelMatcher:
         }.get(v.label, "Не подходит (по проверке ИИ)")
         return self._result(w, False, None, "ai-confirmed", None, ev, None, None, scores, "llm")
 
+    def _evidence_similarity(self, sentence: str, ref: _EvidenceRef) -> float | None:
+        """Косинус предложения-доказательства с запросом (максимум по `ref.texts`)."""
+        if self.embedder is None or not ref.texts or not sentence.strip():
+            return None
+        if ref.vectors is None:
+            ref.vectors = self.embedder.encode(ref.texts, ref.kind)
+        vec = self.embedder.encode([sentence], ref.kind)
+        return float(np.max(ref.vectors @ vec[0]))
+
     def _run_llm(
         self,
         gray: list[_Work],
@@ -608,7 +678,12 @@ class FunnelMatcher:
         labels: Sequence[str],
         finish: Callable[[_Work], None],
     ) -> LlmStatus:
-        """Серая зона → нейросеть по одному посту (чужой пост не влияет на соседа)."""
+        """Серая зона → нейросеть по одному посту (чужой пост не влияет на соседа).
+
+        Спорные идут в порядке близости к запросу: под лимит `max_gray` и время попадают
+        самые похожие. До `concurrency` запросов одновременно; результаты отдаются
+        (`finish`) в этом потоке по мере ответов.
+        """
         if not gray:
             return LlmStatus("not-needed")
         llm = self.llm
@@ -627,32 +702,56 @@ class FunnelMatcher:
         checked = 0
         failures = 0
         down = False
-        for k, w in enumerate(gray):
-            if down:
-                w.unchecked = NOTE_AI_DOWN
-            elif has_injection(w.text):
-                w.unchecked = NOTE_AI_INJECTION
-            elif k >= s.max_gray or time.monotonic() > deadline:
-                w.unchecked = NOTE_AI_BUDGET
-            else:
-                pid = f"p{k + 1}"
-                system, user, n_sent = build(pid, w)
-                try:
-                    raw = llm.chat_json(system, user, verdict_schema([pid], labels, n_sent))
-                    verdicts = parse_verdicts(raw, {pid: n_sent}, labels)
-                    w.verdict = verdicts.get(pid)
-                    w.unchecked = None if w.verdict else NOTE_AI_INVALID
-                    checked += 1 if w.verdict else 0
-                    failures = 0
-                except InvalidResponseError:
-                    w.unchecked = NOTE_AI_INVALID
-                except LlmError:
-                    w.unchecked = NOTE_AI_DOWN
-                    failures += 1
-                    down = failures >= 2  # два отказа подряд — дальше не ждём
-                    if down and hasattr(llm, "mark_unavailable"):
-                        llm.mark_unavailable()
-            finish(w)
+
+        def ask(k: int, w: _Work) -> tuple[Verdict | None, str | None, bool]:
+            """Один пост → (вердикт, пометка «не проверено», был ли отказ нейросети)."""
+            pid = f"p{k + 1}"
+            system, user, n_sent = build(pid, w)
+            try:
+                raw = llm.chat_json(system, user, verdict_schema([pid], labels, n_sent))
+                verdict = parse_verdicts(raw, {pid: n_sent}, labels).get(pid)
+            except InvalidResponseError:
+                return None, NOTE_AI_INVALID, False
+            except LlmError:
+                return None, NOTE_AI_DOWN, True
+            return verdict, None if verdict else NOTE_AI_INVALID, False
+
+        order = sorted(range(len(gray)), key=lambda k: -_closeness(gray[k]))
+        queue = deque(enumerate(order))
+        inflight: dict[Future[tuple[Verdict | None, str | None, bool]], _Work] = {}
+        with ThreadPoolExecutor(max_workers=max(1, s.concurrency), thread_name_prefix="llm") as pool:
+            while queue or inflight:
+                # После отказа — по одному запросу, пока не станет ясно, жива ли нейросеть.
+                limit = max(1, s.concurrency) if failures == 0 else 1
+                while queue and len(inflight) < limit:
+                    pos, k = queue.popleft()
+                    w = gray[k]
+                    if down:
+                        w.unchecked = NOTE_AI_DOWN
+                    elif has_injection(w.text):
+                        w.unchecked = NOTE_AI_INJECTION
+                    elif pos >= s.max_gray or time.monotonic() > deadline:
+                        w.unchecked = NOTE_AI_BUDGET
+                    else:
+                        inflight[pool.submit(ask, k, w)] = w
+                        continue
+                    finish(w)
+                if not inflight:
+                    continue
+                done, _ = wait(inflight, return_when=FIRST_COMPLETED)
+                for fut in done:
+                    w = inflight.pop(fut)
+                    w.verdict, w.unchecked, failed = fut.result()
+                    if w.verdict is not None:
+                        checked += 1
+                        failures = 0
+                    elif failed:
+                        failures += 1
+                        if failures >= 2 and not down:  # два отказа подряд — дальше не ждём
+                            down = True
+                            if hasattr(llm, "mark_unavailable"):
+                                llm.mark_unavailable()
+                    finish(w)
         unchecked = len(gray) - checked
         state: LlmState = (
             "used" if unchecked == 0 else ("unavailable" if checked == 0 and down else "partial")
@@ -666,6 +765,13 @@ class FunnelMatcher:
 
 def _r(x: float | None) -> float | None:
     return None if x is None else round(x, 4)
+
+
+def _closeness(w: _Work) -> float:
+    """Близость к запросу для порядка проверки нейросетью (без эмбеддингов — по словам)."""
+    if w.cos is not None:
+        return w.cos
+    return w.extra.get("lexical", 0.0) - 2.0
 
 
 def _no_text(c: Candidate) -> MatchResult:

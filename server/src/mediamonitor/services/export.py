@@ -103,7 +103,7 @@ def file_name(selection: Selection) -> str:
     conditions = selection.conditions
     day = (conditions.finished_at or conditions.started_at)[:10]
     label = re.sub(r"[^\w]+", "_", conditions.label, flags=re.UNICODE).strip("_")[:40] or "подборка"
-    return f"Медиамонитор_{label}_{day}.xlsx"
+    return f"Медиарадар_{label}_{day}.xlsx"
 
 
 def _date_note(item: ResultItem) -> str:
@@ -301,7 +301,7 @@ def build_xlsx(selection: Selection, options: ExportOptions | None, data_note: s
     summary.column_dimensions["A"].width = 22
     summary.column_dimensions["B"].width = 100
 
-    workbook.properties.creator = "Медиамонитор"
+    workbook.properties.creator = "Медиарадар"
     workbook.properties.title = file_name(selection)
     buffer = io.BytesIO()
     workbook.save(buffer)

@@ -274,7 +274,7 @@ async def test_native_ollama_api_shares_context_with_funnel(tmp_path: Path) -> N
     )
     assert verdicts["c1"].label == "direct"
     assert seen[0]["options"]["num_ctx"] == 8192
-    assert seen[0]["keep_alive"] == "30m"
+    assert seen[0]["keep_alive"] == -1  # OLLAMA_KEEP_ALIVE по умолчанию: модель не выгружается
     assert seen[0]["format"]["required"] == ["verdicts"]
     await client.aclose()
 

@@ -131,6 +131,8 @@ class FunnelMatcher:
             max_gray=settings.llm_max_gray,
             deadline_s=settings.llm_deadline_sec,
             num_ctx=settings.llm_num_ctx,
+            concurrency=settings.llm_concurrency,
+            keep_alive=settings.ollama_keep_alive,
         )
         if llm is None and settings.ollama_url:
             key = settings.llm_api_key.get_secret_value() if settings.llm_api_key else None
