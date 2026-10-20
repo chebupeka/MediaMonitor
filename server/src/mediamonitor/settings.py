@@ -151,7 +151,7 @@ class Settings(BaseSettings):
     llm_deadline_sec: float = Field(default=150.0, gt=0)
     # Потолок времени нейросети на один поиск, что бы ни стояло в LLM_DEADLINE_SEC: поиск
     # «Везде» укладывается в 60–90 с и при медленной нейросети (LLM_CONCURRENCY=1).
-    llm_search_cap_sec: float = Field(default=60.0, gt=0)
+    llm_search_cap_sec: float = Field(default=45.0, gt=0)
     # Контекст запросов к Ollama — как OLLAMA_CONTEXT_LENGTH на компьютере с видеокартой.
     llm_num_ctx: int = 8192
     # Сколько Ollama держит модель в памяти после запроса: -1 — всегда (иначе после простоя
