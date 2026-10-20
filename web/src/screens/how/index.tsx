@@ -8,8 +8,9 @@
  */
 import { MapPin, Newspaper } from 'lucide-react';
 import { useCallback, useEffect, type CSSProperties, type ReactNode } from 'react';
-import type { SelectionMethod } from '@/api/types';
+import type { PlatformId, SelectionMethod } from '@/api/types';
 import type { ScreenParamsMap, ScreenProps } from '@/app/navigation';
+import { useServerPlatforms } from '@/app/platforms';
 import { useShell } from '@/app/shell-state';
 import { Chip, cx, PlatformDot, Screen } from '@/components';
 import { DotsStage } from '@/dots';
@@ -20,12 +21,19 @@ import {
   MODE_LABEL,
   PLATFORMS,
   REGION_PRINCIPLE,
+  platformsWhere,
   RELEVANCE_HINT,
   RELEVANCE_LABEL,
   RELEVANCE_ORDER,
 } from '@/lib/labels';
-import { FUNNEL, LIMITS, PLATFORM_SOURCES, REGION_EXAMPLES } from './content';
+import { FUNNEL, LIMITS, PLATFORM_SOURCES, REGION_EXAMPLES, type PlatformSource } from './content';
 import styles from './how.module.css';
+
+/** Что получаем с дополнительных площадок (их «как ищем» и оговорки приходят с сервера) */
+const EXTRA_GETS: Partial<Record<PlatformId, string>> = {
+  site: 'Заголовок и начало статьи, дата, прямая ссылка, название издания.',
+  dzen: 'Текст публикации, дата, прямая ссылка, название канала редакции.',
+};
 
 type SectionKey = NonNullable<ScreenParamsMap['how']['section']> | 'ai';
 
@@ -53,6 +61,20 @@ const num = (i: number): string => String(i + 1).padStart(2, '0');
 const lowerFirst = (text: string): string => text.charAt(0).toLowerCase() + text.slice(1);
 
 export default function HowScreen({ params, navKey }: ScreenProps<'how'>) {
+  // Площадки — от сервера: обязательные описаны здесь, дополнительные (сайты СМИ, Дзен) —
+  // его же словами: откуда данные (via) и оговорка о покрытии и правилах (note)
+  const { ids, info } = useServerPlatforms();
+  const sources: PlatformSource[] = [
+    ...PLATFORM_SOURCES.filter((p) => ids.includes(p.platform)),
+    ...info
+      .filter((p) => !PLATFORM_SOURCES.some((s) => s.platform === p.id))
+      .map((p) => ({
+        platform: p.id,
+        how: p.via.charAt(0).toUpperCase() + p.via.slice(1),
+        gets: EXTRA_GETS[p.id] ?? 'Текст публикации, дата и прямая ссылка.',
+        limits: p.note ? [p.note] : [],
+      })),
+  ];
   const { reducedMotion } = useShell();
 
   const goTo = useCallback(
@@ -82,8 +104,7 @@ export default function HowScreen({ params, navKey }: ScreenProps<'how'>) {
       </h2>
       <ul className={styles.shortList}>
         <li>
-          Ищем <b>публичные посты</b> во ВКонтакте, Одноклассниках и MAX —{' '}
-          <b>только про Красноярский край</b>.
+          Ищем <b>публичные посты</b> {platformsWhere(ids)} — <b>только про Красноярский край</b>.
         </li>
         <li>
           Каждая запись в подборке — <b>настоящий пост</b>: ссылку, дату, заголовок и выдержку берём
@@ -146,7 +167,7 @@ export default function HowScreen({ params, navKey }: ScreenProps<'how'>) {
           текст, который вы сами выделили.
         </p>
         <ul className={styles.platforms}>
-          {PLATFORM_SOURCES.map((p, i) => (
+          {sources.map((p, i) => (
             <li
               key={p.platform}
               className={cx(styles.tile, styles.reveal)}
@@ -387,8 +408,9 @@ export default function HowScreen({ params, navKey }: ScreenProps<'how'>) {
             <h3 className={styles.tileTitle}>Уходит наружу</h3>
             <ul className={styles.bullets}>
               <li>
-                Слова и фразы для поиска — во ВКонтакте, Одноклассники и сервис поиска по MAX
-                (MaxStat). Без этого искать нельзя.
+                Слова и фразы для поиска — во ВКонтакте, Одноклассники, сервис поиска по MAX
+                (MaxStat), а также на сайты СМИ края и Дзен, когда ищем по их страницам. Без этого
+                искать нельзя.
               </li>
               <li>Запросы на проверку ссылок — чтобы убедиться, что пост открывается.</li>
             </ul>

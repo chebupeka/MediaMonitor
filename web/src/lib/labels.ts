@@ -6,6 +6,7 @@ import type {
   PeriodPreset,
   PlacementType,
   PlatformId,
+  PlatformInfo,
   PlatformStatus,
   QueryKind,
   RegionReason,
@@ -15,7 +16,7 @@ import type {
   SourceType,
   TimeReliability,
 } from '@/api/types';
-import { formatNumber } from './format';
+import { formatCount, formatNumber } from './format';
 
 // ---------------------------------------------------------------- площадки
 
@@ -100,6 +101,38 @@ export function platformsList(ids: readonly PlatformId[]): string {
   return PLATFORM_ORDER.filter((id) => ids.includes(id))
     .map((id) => (id === 'site' ? 'сайты СМИ' : PLATFORMS[id].short))
     .join(', ');
+}
+
+/** Площадки через запятую с «и»: «ВКонтакте, Одноклассники, MAX, сайты СМИ края и Дзен». */
+export function platformsNames(ids: readonly PlatformId[]): string {
+  return joinNames(
+    PLATFORM_ORDER.filter((id) => ids.includes(id)).map((id) =>
+      id === 'site' ? 'сайты СМИ края' : PLATFORMS[id].name,
+    ),
+  );
+}
+
+/**
+ * Честная оговорка о покрытии дополнительных площадок — из их `note` от сервера:
+ * «43 из 48 сайтов СМИ края; Дзен — 25 каналов редакций, правила Дзена запрещают копировать
+ * контент без разрешения». `null` — дополнительных площадок нет.
+ */
+export function extraCoverage(info: readonly PlatformInfo[]): string | null {
+  const parts: string[] = [];
+  const site = info.find((p) => p.id === 'site');
+  if (site) {
+    const m = /(\d+)\s+\S+\s+из\s+(\d+)/u.exec(site.note ?? '');
+    parts.push(m ? `${m[1]} из ${m[2]} сайтов СМИ края` : 'сайты СМИ края из каталога');
+  }
+  const dzen = info.find((p) => p.id === 'dzen');
+  if (dzen) {
+    const m = /(\d+)\s+редакц/u.exec(dzen.note ?? '');
+    const channels = m ? formatCount(Number(m[1]), ['канал', 'канала', 'каналов']) : 'каналы';
+    parts.push(
+      `Дзен — ${channels} редакций, только публичные страницы: правила Дзена запрещают копировать контент без разрешения`,
+    );
+  }
+  return parts.length > 0 ? parts.join('; ') : null;
 }
 
 // ---------------------------------------------------------------- демо-площадки

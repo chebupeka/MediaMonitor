@@ -9,7 +9,12 @@ import { useNavigation, type ScreenProps } from '@/app/navigation';
 import { useShell } from '@/app/shell-state';
 import { Button, DemoBadge, Dialog, DialogClose } from '@/components';
 import { DotsScene } from '@/dots';
+import { extraCoverage, platformsNames, platformsWhere } from '@/lib/labels';
+import { useServerPlatforms } from '@/app/platforms';
 import styles from './landing.module.css';
+
+/** Место в тексте, куда подставляется список площадок сервера */
+const PLATFORMS_MARK = '{площадки}';
 
 const STEPS = [
   {
@@ -17,8 +22,9 @@ const STEPS = [
     text: 'Одно поле на всё: тема своими словами, событие, человек или текст релиза. Период — готовыми кнопками или в календаре.',
   },
   {
-    title: 'Система ищет в соцсетях края',
-    text: 'ВКонтакте, Одноклассники и MAX. В подборку попадают только публикации о Красноярском крае — и у каждой видно, почему.',
+    title: 'Система ищет в соцсетях и СМИ края',
+    // Начало — площадки от сервера, подставляются при показе (PLATFORMS_MARK)
+    text: `${PLATFORMS_MARK}. В подборку попадают только публикации о Красноярском крае — и у каждой видно, почему.`,
   },
   {
     title: 'Проверьте и выгрузите',
@@ -27,7 +33,7 @@ const STEPS = [
 ];
 
 const FRAMES = [
-  'ВКонтакте, Одноклассники и MAX',
+  PLATFORMS_MARK,
   'Только Красноярский край',
   'Только публичные посты',
   'Текст на картинках не анализируется',
@@ -50,6 +56,11 @@ const INSTALL_STEPS = [
 
 export default function LandingScreen(_props: ScreenProps<'landing'>) {
   const { navigate } = useNavigation();
+  // Где ищем — от сервера (StartState.platforms), с честной оговоркой о покрытии
+  const { ids, info } = useServerPlatforms();
+  const names = platformsNames(ids);
+  const withPlatforms = (text: string) => text.replace(PLATFORMS_MARK, names);
+  const coverage = extraCoverage(info);
   const { setLayout } = useShell();
   const [installOpen, setInstallOpen] = useState(false);
 
@@ -63,11 +74,11 @@ export default function LandingScreen(_props: ScreenProps<'landing'>) {
               <DemoBadge />
             </div>
             <h1 id="landing-title" className={styles.value}>
-              Найдём, где в соцсетях края написали о вашей теме или новости
+              Найдём, где в соцсетях и СМИ края написали о вашей теме или новости
             </h1>
             <p className={styles.sub}>
-              Публикации во ВКонтакте, Одноклассниках и MAX — с прямой ссылкой на каждый пост,
-              выдержкой из оригинала и выгрузкой в Excel.
+              Публикации {platformsWhere(ids)} — с прямой ссылкой на каждый пост, выдержкой из
+              оригинала и выгрузкой в Excel.
             </p>
             <div className={styles.ctas}>
               <Button
@@ -89,9 +100,15 @@ export default function LandingScreen(_props: ScreenProps<'landing'>) {
             </div>
             <ul className={styles.frames} aria-label="Рамки поиска">
               {FRAMES.map((f) => (
-                <li key={f}>{f}</li>
+                <li key={f}>{withPlatforms(f)}</li>
               ))}
             </ul>
+            {/* Площадок больше обязательных — и честно, с каким покрытием (note сервера) */}
+            {coverage && (
+              <p className={styles.coverage}>
+                Начали с обязательных соцсетей и подключаем площадки дальше. Сейчас — {coverage}.
+              </p>
+            )}
           </div>
           <div className={styles.heroMap}>
             <DotsScene form="krai" intensity="full" />
@@ -116,7 +133,7 @@ export default function LandingScreen(_props: ScreenProps<'landing'>) {
                 {i + 1}
               </span>
               <h3 className={styles.stepTitle}>{step.title}</h3>
-              <p className={styles.stepText}>{step.text}</p>
+              <p className={styles.stepText}>{withPlatforms(step.text)}</p>
             </li>
           ))}
         </ol>
