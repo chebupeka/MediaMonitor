@@ -60,7 +60,7 @@
 
 ## 4. API: метод MonitorApi → HTTP-запрос
 
-Ключ рабочего места — заголовок `X-Workspace-Key`. Ошибки — `ApiError {code, message, retryAfterSec?}`; сбои площадок — внутри статусов, не ошибками (ТЗ-Ф42).
+Ключ рабочего места — заголовок `X-Workspace-Key`. Ошибки — `ApiError {code, message, retryAfterSec?, runningSearchId?}`; `runningSearchId` — у отказа 429 «уже идёт поиск»: к тому поиску можно подключиться (`attachSearch`). Сбои площадок — внутри статусов, не ошибками (ТЗ-Ф42).
 
 | Метод MonitorApi | HTTP | Ответ |
 |---|---|---|
@@ -70,7 +70,7 @@
 | `startSearch` | `POST /api/searches` `SearchRequest` → затем `GET /api/searches/{id}/events` | `202 {searchId, after: 0}`, поток `SearchEvent` |
 | `stopSearch` | `POST /api/searches/{id}/stop` | `204` |
 | `retryPlatform` | `POST /api/searches/{id}/platforms/{vk\|ok\|max}/retry` → `GET …/events?after=N` | `202 {searchId, after}`, поток |
-| `attachSearch` | `GET /api/searches/{id}/events?snapshot=true` | снимок `started`, `topic`, `items`, затем ход или итог |
+| `attachSearch` | `GET /api/searches/{id}/events?snapshot=true` | снимок `started`, `topic`, `items`, затем ход или итог. Так вкладка после обновления страницы возвращается к идущему поиску |
 | `getSelection` | `GET /api/searches/{id}` | `Selection` |
 | `setExcluded` | `POST /api/searches/{id}/exclusions` `{itemIds, excluded}` | `SelectionCounts` |
 | `excludeSource` | `POST /api/searches/{id}/exclusions/source` `{sourceId}` | `{itemIds, counts}` |
@@ -90,13 +90,15 @@
 | `getCatalog` / `addFromCatalog` | `GET /api/catalog` / `POST /api/sources/from-catalog` `{ids}` | `CatalogSource[]` / `Source[]` |
 | `getWorkspace` | `GET /api/workspace` (нет ключа → сначала `POST /api/workspaces`) | `Workspace` |
 | `getWorkspaceLink` | `GET /api/workspace/link` | `WorkspaceLink` |
-| `openWorkspace` | `POST /api/workspace/open` `{key}` (ключ или ссылка целиком) | `Workspace` / `404` |
+| `openWorkspace` | `POST /api/workspace/open` `{key}` (ключ или ссылка целиком) | `Workspace` / `404`; прежний ключ клиент запоминает, чтобы вернуться |
+| `peekWorkspace` | `GET /api/workspace` с ключом из ссылки в `X-Workspace-Key` | `Workspace` / `404` — что в месте по ссылке, без перехода в него |
 | `listRecent` | `GET /api/recent` | `RecentSearch[]` |
 | `getStandStatus` | `GET /api/stand` | `StandStatus` |
 | `checkAiText` | `POST /api/ai-check` `{text}` | `AiCheck` (`too-short` и `unavailable` — тоже ответ 200, не ошибка) |
 | `getConnection`, `onConnectionChange` | на стороне клиента: `navigator.onLine`, обрывы потока, `GET /health` | — |
+| `previousWorkspaceKey`, `pendingWorkspaceLink`, `onPendingWorkspaceLink`, `dismissWorkspaceLink` | на стороне клиента: прежний ключ в браузере; ссылка `#workspace=` на другое место ждёт ответа человека (решение Р-В2) | — |
 
-Итого 31 серверный метод из 33 (два — только клиентские). Служебное: `POST /api/workspaces` (новое место, отдаёт `WorkspaceLink` с ключом), `GET /health`.
+Итого 33 серверных метода из 39 (шесть — только клиентские). Служебное: `POST /api/workspaces` (новое место, отдаёт `WorkspaceLink` с ключом), `GET /health`.
 
 **Добавление к контракту (бэклог п. 48), в types.ts ещё не внесено.** `RegionReason.inMySources: boolean` — пост прошёл привязку к краю, потому что источник в списке пользователя (режим «Мои источники»); подпись — «в вашем списке», в XLSX колонка «Почему краевой»: «краевой источник · в вашем списке · упоминается: …». В режиме «Везде» всегда `false`. Тест контракта пока добавляет это поле к схеме сам (`PENDING` в `test_contract_schema.py`).
 
@@ -107,7 +109,7 @@
 ## 5. Рабочее место по ссылке-ключу (Р8)
 
 - Первый вход: клиент без ключа вызывает `POST /api/workspaces`, получает ключ (32 случайных символа, 192 бита) и хранит его в браузере.
-- Ссылка «Открыть на другом компьютере»: `PUBLIC_APP_URL#workspace=<ключ>` — ключ во фрагменте адреса, браузер не отправляет его на сервер при открытии страницы.
+- Ссылка «Открыть на другом компьютере»: `PUBLIC_APP_URL#workspace=<ключ>` — ключ во фрагменте адреса, браузер не отправляет его на сервер при открытии страницы. Веб-версия строит ссылку от своего адреса (`…/app/#workspace=<ключ>`). Клиент сразу убирает ключ из адреса (`replaceState`), ловит ссылку и в уже открытой вкладке (`hashchange`) и не заменяет своё место молча — спрашивает (решение Р-В2).
 - В базе — только SHA-256 ключа. Перебор ключей упирается в лимит частоты по IP.
 - Изоляция (НТ-7): каждый запрос к поиску, источникам, недавним проверяет принадлежность рабочему месту; чужой поиск неотличим от несуществующего (`404`). Каталог края — общий, только для чтения.
 
