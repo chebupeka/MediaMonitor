@@ -20,7 +20,7 @@ from pathlib import Path
 import httpx
 import pytest
 
-from mediamonitor.adapters import AdapterRegistry, FixtureAdapter, build_adapters
+from mediamonitor.adapters import AdapterRegistry, FixtureAdapter, build_adapters, ok_live
 from mediamonitor.adapters.base import (
     AdapterError,
     AdapterEvent,
@@ -484,3 +484,25 @@ async def test_search_through_api_with_live_ok(tmp_path: Path) -> None:
     assert status["state"] in ("found", "partial"), status
     urls = [i["publication"]["url"] for i in selection["items"]]
     assert f"https://ok.ru/group/{GID}/topic/{SAMPLE_TOPIC}" in urls
+
+
+def test_memory_caches_are_bounded(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Кэши OK в памяти ограничены числом записей, старые вытесняются (память API)."""
+    cache: ok_live._TtlCache[int] = ok_live._TtlCache(3600, lambda: 0.0, max_items=10)
+    for number in range(25):
+        cache.put(f"k{number}", number)
+    assert len(cache) <= 10
+    assert cache.get("k24") == 24
+    assert cache.get("k0") is None
+
+    monkeypatch.setattr(ok_live, "KNOWN_MAX_ITEMS", 3)
+    names: dict[str, str] = {}
+    for number in range(5):
+        ok_live._bounded_set(names, f"slug{number}", str(number))
+    assert list(names) == ["slug2", "slug3", "slug4"]
+
+
+def test_adapter_caches_have_limits(tmp_path: Path) -> None:
+    adapter = OkAdapter(make_settings(tmp_path), httpx.AsyncClient(), groups=[])
+    assert adapter._feeds._max == ok_live.FEEDS_MAX_ITEMS
+    assert adapter._topics._max == ok_live.TOPICS_MAX_ITEMS

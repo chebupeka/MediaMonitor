@@ -71,6 +71,9 @@ DAILY_LIMIT = 29
 CLOSED_ERRORS = frozenset({15, 18, 30, 203})
 GONE_ERRORS = frozenset({100, 113})
 RATE_RETRIES = 2
+# Предел числа меток «до какой даты стена прочитана» (и замков стен) в памяти процесса:
+# сообщества каталога, федеральные и списки пользователей; старые вытесняются (память API).
+MARKS_MAX_ITEMS = 2_000
 MEDIA_TYPES = frozenset({"photo", "video", "audio", "doc", "album", "clip", "graffiti", "poll"})
 _PROFILE = re.compile(r"^id\d+$")
 NAME = "ВКонтакте"
@@ -552,8 +555,19 @@ class VkAdapter:
     def _lock(self, owner: str) -> asyncio.Lock:
         lock = self._locks.get(owner)
         if lock is None:
+            if len(self._locks) >= MARKS_MAX_ITEMS:
+                # Свободные замки не нужны: стену сейчас никто не читает.
+                for key in [k for k, v in self._locks.items() if not v.locked()]:
+                    del self._locks[key]
             lock = self._locks[owner] = asyncio.Lock()
         return lock
+
+    def _remember(self, owner: str, mark: WallMark) -> None:
+        """Метка стены; меток не больше MARKS_MAX_ITEMS — самые старые вытесняются."""
+        self.marks.pop(owner, None)
+        self.marks[owner] = mark
+        while len(self.marks) > MARKS_MAX_ITEMS:
+            del self.marks[next(iter(self.marks))]
 
     async def _wall(
         self, source: SourceInfo, start: datetime, end: datetime, max_pages: int
@@ -608,11 +622,11 @@ class VkAdapter:
             if self.cache is not None and collected:
                 try:
                     await self.cache.store(collected)
-                    self.marks[owner] = WallMark(fetched_at, None if exhausted else oldest)
+                    self._remember(owner, WallMark(fetched_at, None if exhausted else oldest))
                 except Exception:  # кэш — ускорение, а не условие поиска
                     log.exception("VK: не удалось записать стену %s в кэш", owner)
             elif self.cache is not None and exhausted:
-                self.marks[owner] = WallMark(fetched_at, None)
+                self._remember(owner, WallMark(fetched_at, None))
             in_period = [
                 p
                 for p in collected

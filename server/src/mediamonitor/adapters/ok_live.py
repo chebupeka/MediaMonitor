@@ -79,6 +79,11 @@ NOT_A_GROUP_TTL_SEC = 24 * 60 * 60
 # уже полученные посты из кэша.
 TOPIC_PAGES_PER_SEARCH = 60
 TIME_RESERVE_SEC = 15.0
+# Пределы кэшей в памяти процесса (память API): лент групп, страниц постов и сведений о
+# группах (имя → id, id → источник). Сверх предела вытесняются самые старые записи.
+FEEDS_MAX_ITEMS = 500
+TOPICS_MAX_ITEMS = 2_000
+KNOWN_MAX_ITEMS = 2_000
 
 _MONTHS = {
     "янв": 1,
@@ -434,11 +439,23 @@ class _TtlCache[T]:
             return None
         return item[1]
 
+    def __len__(self) -> int:
+        return len(self._items)
+
     def put(self, key: str, value: T, ttl: float | None = None) -> None:
+        self._items.pop(key, None)
         if len(self._items) >= self._max:
             for old in list(self._items)[: self._max // 10 or 1]:
                 del self._items[old]
         self._items[key] = (self._clock() + (self.ttl if ttl is None else ttl), value)
+
+
+def _bounded_set[V](items: dict[str, V], key: str, value: V) -> None:
+    """Запись в словарь сведений не больше KNOWN_MAX_ITEMS: самые старые вытесняются."""
+    items.pop(key, None)
+    items[key] = value
+    while len(items) > KNOWN_MAX_ITEMS:
+        del items[next(iter(items))]
 
 
 @dataclass(frozen=True)
@@ -486,8 +503,12 @@ class OkAdapter:
         self._clock = clock
         self._now = now
         self._throttle = _Throttle(min_interval_sec, clock)
-        self._feeds: _TtlCache[GroupPage | _Missing] = _TtlCache(FEED_TTL_SEC, clock)
-        self._topics: _TtlCache[TopicPage | _Missing] = _TtlCache(TOPIC_TTL_SEC, clock)
+        self._feeds: _TtlCache[GroupPage | _Missing] = _TtlCache(
+            FEED_TTL_SEC, clock, FEEDS_MAX_ITEMS
+        )
+        self._topics: _TtlCache[TopicPage | _Missing] = _TtlCache(
+            TOPIC_TTL_SEC, clock, TOPICS_MAX_ITEMS
+        )
         # Короткое имя → id группы и сведения о группе для fetch_post (без лишних запросов).
         self._gids: dict[str, str] = {}
         self._known: dict[str, SourceInfo] = {}
@@ -595,7 +616,7 @@ class OkAdapter:
             self._feeds.put(key, _MISSING, NOT_A_GROUP_TTL_SEC)
             raise
         if group.slug:
-            self._gids[group.slug] = page.gid
+            _bounded_set(self._gids, group.slug, page.gid)
         self._feeds.put(page.gid, page)
         for post in page.posts:
             if post.reactions is not None:
@@ -637,7 +658,7 @@ class OkAdapter:
             in_catalog=group.in_catalog,
             closed=page.closed,
         )
-        self._known[page.gid] = info
+        _bounded_set(self._known, page.gid, info)
         return info
 
     # ------------------------------------------------------------ поиск

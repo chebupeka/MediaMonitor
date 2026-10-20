@@ -29,7 +29,9 @@ from mediamonitor.adapters.base import (
 )
 from mediamonitor.adapters.max_live import (
     COST_SEARCH,
+    PAGES_MAX_ITEMS,
     MaxAdapter,
+    TtlCache,
     channel_slug,
     max_catalog,
     maxstat_post_id,
@@ -571,3 +573,25 @@ async def test_data_source_max_switches_only_max(tmp_path: Path) -> None:
     assert isinstance(live["vk"], FixtureAdapter)
     assert live["max"].description.freshness is not None
     assert live["max"].description.freshness.delay_hours == 24
+
+
+def test_cache_keeps_at_most_max_items_and_drops_oldest() -> None:
+    """Кэш MaxStat в памяти ограничен числом записей: старые вытесняются (память API)."""
+    cache: TtlCache[int] = TtlCache(3600, lambda: 0.0, max_items=3)
+    for number in range(5):
+        cache.put(f"k{number}", number)
+    assert len(cache) == 3
+    assert cache.get("k0") is None
+    assert cache.get("k1") is None
+    assert [cache.get(f"k{n}") for n in (2, 3, 4)] == [2, 3, 4]
+    # Повторная запись того же ключа не раздувает кэш.
+    cache.put("k4", 40)
+    assert len(cache) == 3
+    assert cache.get("k4") == 40
+
+
+def test_search_pages_cache_is_small(tmp_path: Path) -> None:
+    """Страница поиска — до 100 постов целиком: таких страниц держим не больше PAGES_MAX_ITEMS."""
+    adapter = MaxAdapter(make_settings(tmp_path), httpx.AsyncClient())
+    assert adapter._pages.max_items == PAGES_MAX_ITEMS <= 100
+    assert adapter._posts.max_items >= PAGES_MAX_ITEMS

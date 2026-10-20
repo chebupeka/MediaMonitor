@@ -80,6 +80,8 @@ KEY_ENV = "MAXSTAT_API_TOKEN"
 CHANNEL_TTL_SEC = 24 * 3600
 HEALTH_TTL_SEC = 60.0
 CACHE_MAX_ITEMS = 2_000
+# Страница поиска — до 100 постов целиком (~200 КБ): их держим меньше — 20 поисков по 3 страницы.
+PAGES_MAX_ITEMS = 60
 TERM_MIN_LENGTH = 4
 TERMS_PER_QUERY = 3
 # Частые слов пресс-релизов, по которым искать бесполезно (в дополнение к STOP_WORDS).
@@ -243,10 +245,19 @@ def search_terms(text: str, kind: QueryKind) -> list[str]:
 class TtlCache[V]:
     """Кэш в памяти процесса с временем жизни и пределом размера."""
 
-    def __init__(self, ttl_sec: float, clock: Callable[[], float] = time.monotonic) -> None:
+    def __init__(
+        self,
+        ttl_sec: float,
+        clock: Callable[[], float] = time.monotonic,
+        max_items: int = CACHE_MAX_ITEMS,
+    ) -> None:
         self.ttl_sec = ttl_sec
         self._clock = clock
+        self.max_items = max_items
         self._items: dict[Any, tuple[float, V]] = {}
+
+    def __len__(self) -> int:
+        return len(self._items)
 
     def get(self, key: Any) -> V | None:
         item = self._items.get(key)
@@ -261,10 +272,11 @@ class TtlCache[V]:
     def put(self, key: Any, value: V) -> None:
         if self.ttl_sec <= 0:
             return
-        if len(self._items) >= CACHE_MAX_ITEMS:
+        self._items.pop(key, None)
+        if len(self._items) >= self.max_items:
             now = self._clock()
             self._items = {k: v for k, v in self._items.items() if v[0] > now}
-            while len(self._items) >= CACHE_MAX_ITEMS:
+            while len(self._items) >= self.max_items:
                 del self._items[next(iter(self._items))]
         self._items[key] = (self._clock() + self.ttl_sec, value)
 
@@ -380,7 +392,7 @@ class MaxAdapter:
         self.budget = budget
         self._sleep = sleep
         cache_sec = settings.maxstat_cache_minutes * 60
-        self._pages: TtlCache[SearchPage] = TtlCache(cache_sec, clock)
+        self._pages: TtlCache[SearchPage] = TtlCache(cache_sec, clock, PAGES_MAX_ITEMS)
         self._posts: TtlCache[dict[str, Any]] = TtlCache(cache_sec, clock)
         self._channels: TtlCache[SourceInfo] = TtlCache(CHANNEL_TTL_SEC, clock)
         self._health: TtlCache[AdapterHealth] = TtlCache(HEALTH_TTL_SEC, clock)

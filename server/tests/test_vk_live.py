@@ -20,7 +20,7 @@ from urllib.parse import parse_qs
 import httpx
 import pytest
 
-from mediamonitor.adapters import AdapterRegistry, FixtureAdapter, build_adapters
+from mediamonitor.adapters import AdapterRegistry, FixtureAdapter, build_adapters, vk_live
 from mediamonitor.adapters.base import (
     AdapterError,
     AdapterEvent,
@@ -31,7 +31,7 @@ from mediamonitor.adapters.base import (
     RawPost,
     SourceInfo,
 )
-from mediamonitor.adapters.vk_live import VkAdapter, VkTarget, load_vk_catalog
+from mediamonitor.adapters.vk_live import VkAdapter, VkTarget, WallMark, load_vk_catalog
 from mediamonitor.ai.judge import AiJudge, NullJudge
 from mediamonitor.contract import PLATFORM_ORDER, PlatformId
 from mediamonitor.db.session import create_all, create_engine, create_sessions
@@ -717,3 +717,25 @@ async def test_live_vk_and_demo_platforms_in_selection(tmp_path: Path) -> None:
         assert "ВКонтакте — живые данные" in data_note
         assert "Одноклассники и MAX — пока демонстрационные примеры" in data_note
         assert json.dumps(selection).find(FAKE_KEY) == -1
+
+
+async def test_wall_marks_are_bounded(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Метки «до какой даты стена прочитана» и замки стен в памяти ограничены числом."""
+    monkeypatch.setattr(vk_live, "MARKS_MAX_ITEMS", 3)
+    vk = VkAdapter(make_settings(tmp_path), httpx.AsyncClient(), catalog=[])
+    at = datetime(2026, 10, 20, tzinfo=UTC)
+    for number in range(5):
+        vk._remember(f"-{number}", WallMark(at, None))
+    assert list(vk.marks) == ["-2", "-3", "-4"]
+    # Обновлённая метка становится самой новой и не вытесняется первой.
+    vk._remember("-2", WallMark(at, None))
+    vk._remember("-5", WallMark(at, None))
+    assert list(vk.marks) == ["-4", "-2", "-5"]
+
+    held = vk._lock("-held")
+    await held.acquire()
+    for number in range(6):
+        vk._lock(f"-{number}")
+    assert len(vk._locks) <= 4
+    assert vk._locks.get("-held") is held  # занятый замок не выбрасывается
+    held.release()
