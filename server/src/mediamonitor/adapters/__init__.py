@@ -29,6 +29,8 @@ def build_adapters(
     """Адаптеры по настройкам.
 
     VK, OK, MAX — по DATA_SOURCE: fixtures — записанные примеры, live — площадки.
+    DATA_SOURCE_MAX=live включает настоящий MAX (MaxStat) и при DATA_SOURCE=fixtures.
+
     `budget` — суточный и месячный предел вызовов платных площадок (НТ-6): настоящие
     адаптеры списывают из него каждый вызов. Записанные примеры площадок не вызывают.
     Сайты СМИ и Дзен — по SITES_SOURCE и DZEN_SOURCE (от DATA_SOURCE не зависят).
@@ -50,6 +52,9 @@ def build_adapters(
             )
             for platform in REQUIRED_PLATFORMS
         }
+        # DATA_SOURCE_MAX=live — настоящий MAX (MaxStat) при записанных примерах остальных.
+        if settings.data_source_max == "live":
+            registry["max"] = MaxAdapter(settings, client, budget)
     registry.update(media_adapters(settings))
     return registry
 

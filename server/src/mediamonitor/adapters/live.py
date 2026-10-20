@@ -1,4 +1,4 @@
-"""Заготовки настоящих адаптеров VK, OK и MAX.
+"""Заготовки настоящих адаптеров VK и OK; MAX — `adapters/max_live.py` (MaxStat).
 
 Каждый реализует интерфейс `PlatformAdapter`, честно отвечает «нет доступа», если ключ
 не задан, и «ещё не подключено» — пока логика получения данных не написана.
@@ -27,7 +27,7 @@ from mediamonitor.adapters.base import (
     RawPost,
     SourceProbe,
 )
-from mediamonitor.adapters.fixture import MAX_FRESHNESS
+from mediamonitor.adapters.max_live import MaxAdapter  # MAX — индекс MaxStat, свой файл
 from mediamonitor.contract import PlatformId
 from mediamonitor.labels import PLATFORM_NAME
 from mediamonitor.normalize.urls import PostRef
@@ -151,32 +151,4 @@ class OkAdapter(_LiveAdapter):
         self.description = AdapterDescription(platform="ok", via="Веб-поиск Одноклассников")
 
 
-class MaxAdapter(_LiveAdapter):
-    """MAX: сторонний индекс MaxStat + проверка каждой ссылки на max.ru.
-
-    TODO(И1, разведка §3.5–§3.7, §6, §7.1):
-    - поиск: MaxStat `GET /v1/posts?search=…&date_from=…&date_to=…` (ключ MAXSTAT_TOKEN),
-      по списку — `channel_id`; до подключения прочитать условия и цены MaxStat (Р2 п. 1);
-    - индекс отстаёт до ~24 ч — `freshness` в статусе (НТ-4);
-    - каждая ссылка проверяется анонимным GET `max.ru/<канал>/<номер>`: в HTML есть текст;
-    - время публикации вычисляется из номера поста → timeReliability="approximate" (П4);
-    - 1 000 тестовых кредитов: перед вызовом — `await self._spend(<кредиты метода>)`
-      (поиск — 3, пост — 1), бюджет на сутки и месяц (НТ-6).
-    """
-
-    platform: PlatformId = "max"
-    key_env = "MAXSTAT_TOKEN"
-
-    def __init__(
-        self, settings: Settings, client: httpx.AsyncClient, budget: CallMeter | None = None
-    ) -> None:
-        super().__init__(settings, client, budget)
-        self.description = AdapterDescription(
-            platform="max",
-            via="Сторонний индекс MaxStat + проверка ссылок на max.ru",
-            freshness=MAX_FRESHNESS,
-            quota=QuotaInfo(limit=settings.maxstat_credits, unit="кредитов", period="total"),
-        )
-
-    def _has_key(self) -> bool:
-        return self.settings.maxstat_token is not None
+__all__ = ["MaxAdapter", "OkAdapter", "VkAdapter"]

@@ -41,6 +41,11 @@ _NUM = re.compile(r"^-?\d{1,20}$")
 _SLUG = re.compile(r"^[A-Za-z0-9_.\-]{1,100}$")
 _VK_WALL = re.compile(r"^wall(-?\d{1,20})_(\d{1,20})$")
 _VK_CLUB = re.compile(r"^(?:club|public|event)(\d{1,20})$")
+# Номер поста MAX: в ссылках площадки — 11 символов base64url (`AaCtvjqCDhM`), в записанных
+# примерах — число.
+_MAX_POST = re.compile(r"^[A-Za-z0-9_-]{1,20}$")
+# Не каналы MAX: приглашения в приватный канал и каналы без ника (`/c/-<id>`).
+_MAX_NOT_CHANNEL = {"join", "c"}
 # Служебные разделы, которые не являются группой или каналом.
 _RESERVED = {
     "feed",
@@ -180,7 +185,9 @@ def _parse_max(segments: list[str], mobile: bool) -> Address | None:
     if not segments or not _SLUG.match(segments[0]) or segments[0].lower() in _RESERVED:
         return None
     slug = segments[0].lower()
-    if len(segments) == 2 and segments[1].isdigit():
+    if slug in _MAX_NOT_CHANNEL:
+        return None
+    if len(segments) == 2 and _MAX_POST.match(segments[1]):
         return Address("max", "post", slug, slug, PostRef("max", slug, segments[1]), mobile)
     if len(segments) == 1:
         return Address("max", "group", slug, slug, None, mobile)

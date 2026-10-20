@@ -60,9 +60,23 @@ class Settings(BaseSettings):
     # за один день. MaxStat — 1 000 тестовых кредитов (поиск — 3 кредита за страницу).
     vk_monthly_quota: int = Field(default=10_000, ge=0)
     vk_daily_calls: int = Field(default=1_500, ge=0)
+    # MAX через индекс MaxStat (adapters/max_live.py). Ключ — MAXSTAT_API_TOKEN, запасное
+    # имя — MAXSTAT_TOKEN. DATA_SOURCE_MAX=live включает настоящий MAX при любом DATA_SOURCE.
     maxstat_token: SecretStr | None = None
+    maxstat_api_token: SecretStr | None = Field(default=None, exclude=True, repr=False)
     maxstat_credits: int = Field(default=1_000, ge=0)
     maxstat_daily_credits: int = Field(default=150, ge=0)
+    data_source_max: Literal["fixtures", "live"] | None = None
+    maxstat_base_url: str = "https://maxstat.ru/api"
+    maxstat_timeout_sec: float = Field(default=20.0, gt=0)
+    # Повторов одного вызова при 429, 5xx и сбое сети (кредиты списываются один раз).
+    maxstat_retries: int = Field(default=2, ge=0, le=5)
+    # Страниц выдачи (до 100 постов, 3 кредита) на один поиск — потолок расхода на поиск.
+    maxstat_max_pages: int = Field(default=3, ge=1, le=20)
+    # Запросов «канал по id» (1 кредит) на поиск: название и подписчики не из каталога края.
+    maxstat_channel_lookups: int = Field(default=5, ge=0, le=50)
+    # Кэш ответов MaxStat (Р7): страницы поиска и посты, минут; каналы — сутки.
+    maxstat_cache_minutes: int = Field(default=60, ge=0)
     # Сколько ждём одну площадку целиком, секунд; дольше — статус «не уложилась во время».
     platform_timeout_sec: float = Field(default=90.0, gt=0)
 
@@ -195,7 +209,12 @@ class Settings(BaseSettings):
         return value.strip().rstrip("/")
 
     @field_validator(
-        "vk_service_token", "maxstat_token", "llm_api_key", "embeddings_token", mode="before"
+        "vk_service_token",
+        "maxstat_token",
+        "maxstat_api_token",
+        "llm_api_key",
+        "embeddings_token",
+        mode="before",
     )
     @classmethod
     def _blank_secret_is_none(cls, value: object) -> object:
@@ -211,7 +230,7 @@ class Settings(BaseSettings):
             return None
         return value
 
-    @field_validator("site_dir", "web_app_dir", mode="before")
+    @field_validator("site_dir", "web_app_dir", "data_source_max", mode="before")
     @classmethod
     def _blank_dir_is_none(cls, value: object) -> object:
         if value is None or (isinstance(value, str) and not value.strip()):
@@ -229,6 +248,13 @@ class Settings(BaseSettings):
     def _ollama_model_alias(self) -> Settings:
         if self.ollama_model and self.llm_model == DEFAULT_LLM_MODEL:
             self.llm_model = self.ollama_model.strip()
+        return self
+
+    @model_validator(mode="after")
+    def _maxstat_token_names(self) -> Settings:
+        """Ключ MaxStat: MAXSTAT_API_TOKEN (так он задан на сервере), запасное — MAXSTAT_TOKEN."""
+        if self.maxstat_api_token is not None:
+            self.maxstat_token = self.maxstat_api_token
         return self
 
     @model_validator(mode="after")
