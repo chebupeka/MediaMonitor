@@ -1,10 +1,11 @@
 /**
  * П6. Недавние поиски (П12, SC-20) — в стиле «Поиска»: карточки, крупная цифра узким
- * гротеском, условия чипами. Хранятся условия поисков, а не подборки: «Повторить» запускает
- * новый живой поиск, а то, чего не было в прошлый раз, приходит с пометкой «новое»
- * (`SearchRequest.repeatOf` → `ResultItem.isNew`).
+ * гротеском, условия чипами. «Повторить» запускает новый живой поиск, а то, чего не было
+ * в прошлый раз, приходит с пометкой «новое» (`SearchRequest.repeatOf` → `ResultItem.isNew`).
+ * «Открыть подборку» показывает сохранённую на сервере подборку того поиска без нового поиска
+ * и без расхода лимитов — в том числе на другом устройстве по ссылке на рабочее место (Р-В9).
  */
-import { ArrowRight, Pencil, RotateCw, Search } from 'lucide-react';
+import { ArrowRight, FolderOpen, Pencil, RotateCw, Search } from 'lucide-react';
 import { useCallback, useEffect, useRef, type CSSProperties } from 'react';
 import { api, useAsync } from '@/api';
 import type { IsoDate, IsoDateTime, Period, RecentSearch } from '@/api/types';
@@ -90,6 +91,10 @@ export default function RecentScreen({ navKey }: ScreenProps<'recent'>) {
     navigate('search', { request: { ...r.request, period: periodFor(r) } });
   };
 
+  const open = (r: RecentSearch): void => {
+    navigate('search', { searchId: r.searchId });
+  };
+
   let content;
   if (recent.status === 'error' && !recent.data) {
     content = (
@@ -155,6 +160,7 @@ export default function RecentScreen({ navKey }: ScreenProps<'recent'>) {
                       next={today ? periodFor(r) : null}
                       onRepeat={() => repeat(r)}
                       onEdit={() => edit(r)}
+                      onOpen={() => open(r)}
                     />
                   </li>
                 );
@@ -170,8 +176,8 @@ export default function RecentScreen({ navKey }: ScreenProps<'recent'>) {
     <Screen
       index="05"
       title="Недавние *поиски*"
-      eyebrow="Недавние · условия поисков, а не подборки"
-      lead="«Повторить» ищет заново прямо сейчас: появятся свежие публикации, удалённые пропадут. То, чего не было в прошлый раз, будет помечено «новое»."
+      eyebrow="Недавние · ваши поиски и их подборки"
+      lead="«Открыть подборку» покажет то, что нашли тогда. «Повторить» ищет заново прямо сейчас: появятся свежие публикации, удалённые пропадут, а то, чего не было в прошлый раз, будет помечено «новое»."
       width="narrow"
       className={styles.screen}
     >
@@ -190,11 +196,13 @@ function RecentCard({
   next,
   onRepeat,
   onEdit,
+  onOpen,
 }: {
   item: RecentSearch;
   next: Period | null;
   onRepeat: () => void;
   onEdit: () => void;
+  onOpen: () => void;
 }) {
   const c = item.conditions;
   const titleId = `recent-${item.searchId}`;
@@ -272,6 +280,11 @@ function RecentCard({
         >
           Повторить<span className="sr-only"> поиск «{short}»</span>
         </Button>
+        {item.total > 0 && (
+          <Button variant="secondary" size="sm" iconStart={<FolderOpen />} onClick={onOpen}>
+            Открыть подборку<span className="sr-only"> поиска «{short}»</span>
+          </Button>
+        )}
         <Button variant="ghost" size="sm" iconStart={<Pencil />} onClick={onEdit}>
           Изменить условия<span className="sr-only"> поиска «{short}»</span>
         </Button>

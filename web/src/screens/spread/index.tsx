@@ -143,7 +143,9 @@ export default function SpreadScreen({ params, navKey }: ScreenProps<'spread'>) 
   // Пример релиза — только на демо-данных: на сервере такой новости нет
   const releaseText = IS_MOCKUP ? (demoQueries.find((q) => q.id === 'release')?.text ?? '') : '';
   const searching = state.phase === 'running' || state.phase === 'queued';
-  const failed = !report && !searching && !loading && error !== null;
+  // Не удался поиск по тексту новости (лимит, слишком длинный текст) — причина видна тоже
+  const problem = error ?? (state.phase === 'failed' ? (state.error?.message ?? null) : null);
+  const failed = !report && !searching && !loading && problem !== null;
 
   // Сцена — одна на все состояния: формы перетекают друг в друга
   const form: DotsForm = report ? 'spread' : searching ? 'searching' : failed ? 'failure' : 'krai';
@@ -188,7 +190,7 @@ export default function SpreadScreen({ params, navKey }: ScreenProps<'spread'>) 
             <ErrorState
               compact
               title="Распространение не посчитать"
-              description={error}
+              description={problem}
               actions={
                 <Button variant="secondary" onClick={() => navigate('search')}>
                   К поиску
@@ -197,7 +199,7 @@ export default function SpreadScreen({ params, navKey }: ScreenProps<'spread'>) 
             />
           )}
 
-          {!report && !searching && !loading && !error && (
+          {!report && !searching && !loading && !problem && (
             <div className={styles.start}>
               <p className={styles.lead}>
                 <b>Распространение считается по тексту новости.</b>{' '}

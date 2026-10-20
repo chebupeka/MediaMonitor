@@ -22,6 +22,7 @@ from tests.conftest import (
     make_settings,
     new_workspace,
     open_client,
+    read_stream,
     run_search,
 )
 
@@ -70,10 +71,38 @@ async def test_one_active_search_per_workspace(tmp_path: Path) -> None:
         assert error["retryAfterSec"] == 10
         assert second.headers["retry-after"] == "10"
         assert "Уже идёт поиск" in error["message"]
+        # К идущему поиску можно подключиться: его id — в ответе (attachSearch).
+        assert error["runningSearchId"] == first.json()["searchId"]
         # Другое рабочее место может искать в это же время (НТ-7).
         other = await new_workspace(client)
         assert (await client.post("/api/searches", json=body, headers=other)).status_code == 202
         await client.post(f"/api/searches/{first.json()['searchId']}/stop", headers=headers)
+
+
+async def test_attach_to_running_search(tmp_path: Path) -> None:
+    """Страницу обновили во время поиска: снимок, потом ход до итога — без перезапуска."""
+    harness = make_app(make_settings(tmp_path), step_delay_sec=0.05)
+    async with open_client(harness.app) as client:
+        headers = await new_workspace(client)
+        body = {"text": BDD, "period": PERIOD, "mode": "everywhere"}
+        started = await client.post("/api/searches", json=body, headers=headers)
+        search_id = started.json()["searchId"]
+        running = await client.get(f"/api/searches/{search_id}", headers=headers)
+        assert running.json()["phase"] == "running"
+        events = await read_stream(client, headers, search_id, snapshot="true")
+        kinds = [e["event"] for e in events]
+        assert kinds[0] == "started"
+        assert kinds[-1] == "finished"
+        assert kinds.count("finished") == 1
+        final = await client.get(f"/api/searches/{search_id}", headers=headers)
+        assert final.json()["phase"] == "done"
+        assert events[-1]["data"]["selection"]["counts"] == final.json()["counts"]
+        # Чужое рабочее место к поиску не подключится (НТ-7).
+        other = await new_workspace(client)
+        stranger = await client.get(
+            f"/api/searches/{search_id}/events", headers=other, params={"snapshot": "true"}
+        )
+        assert stranger.status_code == 404
 
 
 async def test_rate_limit_by_ip(tmp_path: Path) -> None:

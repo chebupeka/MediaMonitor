@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
+    <!-- Адрес страницы (в том числе ключ рабочего места во фрагменте) не уходит другим сайтам -->
+    <meta name="referrer" content="no-referrer" />
     <meta
       name="description"
       content="Медиарадар найдёт, где о вас написали: публикации во ВКонтакте, Одноклассниках и MAX по Красноярскому краю. Мокап на демо-данных."
@@ -15,6 +17,35 @@
     />
   </head>
   <body>
+    <!-- Без JavaScript: #root на весь экран, поэтому сообщение — перед ним -->
+    <noscript>
+      <div
+        style="
+          max-width: 36rem;
+          margin: 15vh auto 0;
+          padding: 0 16px;
+          font:
+            17px/1.5 system-ui,
+            sans-serif;
+          color: var(--color-ink, CanvasText);
+        "
+      >
+        <h1
+          style="
+            margin: 0 0 12px;
+            font: 800 34px/1 var(--font-display, system-ui);
+            text-transform: uppercase;
+          "
+        >
+          Медиарадару нужен JavaScript
+        </h1>
+        <p style="margin: 0 0 8px">
+          Без него поиск и подборка не работают. Включите JavaScript в настройках браузера и
+          обновите страницу.
+        </p>
+        <!--noscript-site-->
+      </div>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

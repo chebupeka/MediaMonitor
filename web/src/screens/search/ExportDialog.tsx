@@ -10,6 +10,7 @@ import { api, errorMessage, useAsync } from '@/api';
 import { Button, Dialog, ErrorState, SkeletonText, useAnnounce } from '@/components';
 import { DotsStage } from '@/dots';
 import { saveFile } from '@/lib/download';
+import { formatCount, WORDS } from '@/lib/format';
 import styles from './search.module.css';
 
 interface ExportDialogProps {
@@ -96,7 +97,7 @@ function ExportPreviewBody({ searchId }: { searchId: string }) {
         <DotsStage form="export" intensity="calm" zoom={1.7} />
       </div>
       <p className={styles.exportFile}>
-        <b>{fileName}</b> · {rowCount} {rowCount === 1 ? 'запись' : 'записей'}
+        <b>{fileName}</b> · {formatCount(rowCount, WORDS.record)}
       </p>
       <p className={styles.exportRule}>{rule}</p>
       <h3 className={styles.exportSheet}>{summary.name}</h3>

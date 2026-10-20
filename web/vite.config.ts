@@ -8,15 +8,28 @@ import { viteSingleFile } from 'vite-plugin-singlefile';
 // Веб-версия для сервера: `vite build --mode web` → dist-web/, адрес /app/, данные — сервер
 // на том же адресе (VITE_TARGET=web, VITE_API_URL=/ — по умолчанию, src/lib/build.ts).
 // Внешних запросов нет: шрифты — в сборке (src/styles/fonts.css, пакеты @fontsource).
-/** Веб-версия — не мокап: заголовок и описание страницы без «мокап» и «демо-данные». */
+/**
+ * Веб-версия — не мокап: заголовок и описание страницы без «мокап» и «демо-данные»;
+ * в сообщении «нужен JavaScript» — ссылка на сайт.
+ */
 function webHtml(): Plugin {
   return {
     name: 'mediaradar-web-html',
     transformIndexHtml: (html) =>
       html
         .replace(/<title>[^<]*<\/title>/u, '<title>Медиарадар — найдёт, где о вас написали</title>')
-        .replace(/\s*Мокап на демо-данных\./u, ''),
+        .replace(/\s*Мокап на демо-данных\./u, '')
+        // Без JavaScript — ссылка на сайт-витрину на том же сервере
+        .replace(
+          '<!--noscript-site-->',
+          '<p style="margin: 0"><a href="/" style="color: inherit">О Медиарадаре — на сайте</a></p>',
+        ),
   };
+}
+
+/** Файл внутри src/ на диске (для псевдонимов). */
+function src(path: string): string {
+  return fileURLToPath(new URL(`./src/${path}`, import.meta.url));
 }
 
 export default defineConfig(({ mode }) => {
@@ -40,9 +53,17 @@ export default defineConfig(({ mode }) => {
       ...(web ? [webHtml()] : []),
     ],
     resolve: {
-      alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url)),
-      },
+      alias: [
+        // Веб-версия: имитация мокапа и его экраны подменяются заглушками — данные только
+        // с сервера, демо-наборы и панель «Демо-сценарий» не попадают в бандл.
+        ...(web
+          ? [
+              { find: /^@\/api\/mock$/u, replacement: src('api/mock.web.ts') },
+              { find: /^@\/app\/mock-only$/u, replacement: src('app/mock-only.web.tsx') },
+            ]
+          : []),
+        { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
+      ],
     },
     css: {
       modules: {

@@ -82,6 +82,13 @@
   gap: var(--space-3) var(--space-6);
 }
 
+/* Начало хода и подборки: сюда прокручиваем после запуска (под липкой шапкой) */
+.resultsAnchor {
+  height: 0;
+  margin-bottom: calc(var(--space-6) * -1);
+  scroll-margin-top: calc(var(--header-h) + var(--space-4));
+}
+
 .notice {
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--color-line-strong);
@@ -150,6 +157,18 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+/* Подборка — контейнер: на широкой колонке (1920) карточки встают в две колонки */
+.results {
+  container: results / inline-size;
+}
+
+@container results (min-width: 1040px) {
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
 }
 
 /* ---------- карточка ---------- */

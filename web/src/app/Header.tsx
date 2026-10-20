@@ -1,4 +1,4 @@
-import { Check, Menu } from 'lucide-react';
+import { Check, KeyRound, Menu, Puzzle } from 'lucide-react';
 import { DropdownMenu } from 'radix-ui';
 import { IS_MOCKUP } from '@/api';
 import { DemoBadge, IconButton, cx } from '@/components';
@@ -7,7 +7,14 @@ import { useNavigation, type ScreenId } from './navigation';
 import { SCREENS, SCREEN_ORDER } from './screens';
 import { PrefsButtons } from './PrefsButtons';
 import { useShell } from './shell-state';
+import { useWorkspaceUi } from './workspace';
 import styles from './Header.module.css';
+
+/**
+ * Где на сайте рассказано про расширение (решение Р-В5): раздел «Установить» витрины на том
+ * же сервере. Показываем только в веб-версии — в расширении и мокапе это лишнее.
+ */
+export const EXTENSION_INFO_URL = '/#install';
 
 /** Знак как на сайте: название узким гротеском капсом и золотая точка — «найденное». */
 export function Logo() {
@@ -35,6 +42,7 @@ function ScreensMenu({
   size: 'sm' | 'md';
 }) {
   const { dotsChoice, setDotsEnabled, lowVision } = useShell();
+  const workspace = useWorkspaceUi();
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -61,6 +69,24 @@ function ScreensMenu({
             </DropdownMenu.Item>
           ))}
           <DropdownMenu.Separator className={styles.separator} />
+          {/* Рабочее место (Р8): ссылка на другой компьютер, открыть по ключу */}
+          <DropdownMenu.Item className={styles.menuItem} onSelect={workspace.openDialog}>
+            <span className={styles.indicator}>
+              <KeyRound aria-hidden="true" />
+            </span>
+            Рабочее место
+          </DropdownMenu.Item>
+          {IS_WEB_BUILD && (
+            <DropdownMenu.Item asChild className={styles.menuItem}>
+              <a href={EXTENSION_INFO_URL}>
+                <span className={styles.indicator}>
+                  <Puzzle aria-hidden="true" />
+                </span>
+                Расширение для браузера
+              </a>
+            </DropdownMenu.Item>
+          )}
+          <DropdownMenu.Separator className={styles.separator} />
           {/* В версии для слабовидящих точек нет вовсе — переключатель не нужен */}
           <DropdownMenu.CheckboxItem
             checked={dotsChoice && !lowVision}
@@ -84,7 +110,10 @@ export function Header({ compact }: { compact: boolean }) {
   const main = SCREEN_ORDER.filter((id) => SCREENS[id].group === 'main');
   // В веб-версии нет лендинга мокапа («Установить расширение» — на сайте)
   const menuScreens = SCREEN_ORDER.filter(
-    (id) => SCREENS[id].group !== 'mock' && !(IS_WEB_BUILD && SCREENS[id].group === 'home'),
+    (id) =>
+      SCREENS[id].group !== 'mock' &&
+      SCREENS[id].group !== 'hidden' &&
+      !(IS_WEB_BUILD && SCREENS[id].group === 'home'),
   );
 
   return (

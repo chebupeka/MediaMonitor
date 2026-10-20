@@ -66,6 +66,9 @@
         },
         "retryAfterSec": {
           "type": "number"
+        },
+        "runningSearchId": {
+          "type": "string"
         }
       },
       "required": [

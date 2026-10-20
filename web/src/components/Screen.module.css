@@ -92,7 +92,9 @@
 /* ---------- Экран со сценой точек ---------- */
 
 .main,
-.body {
+.body,
+.results,
+.below {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: inherit;
@@ -100,11 +102,12 @@
   min-width: 0;
 }
 
-.below {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: inherit;
-  min-width: 0;
+/*
+ * Левая часть — шапка, форма и сцена. Обычно прозрачна для сетки экрана; в рабочей
+ * раскладке на широкой вкладке — одна колонка, которая держится на месте.
+ */
+.side {
+  display: contents;
 }
 
 .sceneCol {
@@ -136,11 +139,43 @@
   order: 3;
 }
 
-.withScene .below {
+.withScene .results {
   order: 4;
 }
 
+.withScene .below {
+  order: 5;
+}
+
 /* Высоту сцены в узкой раскладке задаёт сама сцена (DotsStage): холст и подпись под ним */
+
+/* Телефон и планшет во вкладке: сначала форма — она на первом экране, сцена под ней и ниже */
+.sceneBelow .body {
+  order: 2;
+}
+
+.sceneBelow .sceneCol {
+  --scene-h-narrow: clamp(200px, 40cqw, 320px);
+
+  order: 3;
+  margin-top: 0;
+}
+
+/* Рабочая раскладка узко: на телефоне сцена свёрнута, на планшете — полосой под формой */
+@container screen (max-width: 759px) {
+  .work .sceneCol {
+    display: none;
+  }
+}
+
+.work .sceneCol {
+  --scene-h-narrow: 200px;
+}
+
+/* После запуска крупный заголовок не нужен: подборка важнее */
+.work .title {
+  font-size: var(--text-4xl);
+}
 
 /*
  * Широкая вкладка — как разделы сайта: слева заголовок и форма, справа сцена во всю высоту
@@ -170,6 +205,15 @@
     margin: calc(var(--screen-pt) * -1) calc(var(--page-pad) * -1) 0 0;
   }
 
+  /* Поиск: результаты под формой, сцена справа рядом с обоими */
+  .sticky .sceneCol {
+    grid-row: 1 / span 2;
+  }
+
+  .withScene .results {
+    grid-column: 1;
+  }
+
   .withScene .below {
     grid-column: 1 / -1;
     max-width: var(--content-max);
@@ -192,16 +236,108 @@
   }
 }
 
+/* Рабочая раскладка, средняя ширина: одна колонка — форма, полоса сцены, результаты */
+@container screen (min-width: 960px) and (max-width: 1279px) {
+  .screen.withScene.work {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .work .main {
+    display: contents;
+  }
+
+  .work .body {
+    margin-top: 0;
+  }
+
+  .work .sceneCol {
+    grid-column: 1;
+    grid-row: auto;
+    margin: 0 calc(var(--page-pad) * -1);
+  }
+
+  .work .results {
+    grid-column: 1;
+  }
+
+  .work.sticky .scene {
+    position: relative;
+    top: auto;
+    height: 220px;
+    min-height: 0;
+  }
+}
+
+/*
+ * Рабочая раскладка, широкая вкладка (Р-В3): слева шапка, форма и карта точек — колонка
+ * держится на месте; справа подборка во всю оставшуюся ширину и видна сразу после запуска.
+ */
+@container screen (min-width: 1280px) {
+  .screen.withScene.work {
+    grid-template-columns: minmax(0, clamp(360px, 30%, 460px)) minmax(0, 1fr);
+    column-gap: clamp(32px, 3vw, 64px);
+  }
+
+  .work .side {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-4));
+    height: calc(100dvh - var(--header-h) - var(--screen-pt));
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+
+  .work .body {
+    margin-top: 0;
+  }
+
+  .work .sceneCol {
+    /* Узкая колонка: подпись к карте — под точками, а не поверх южной части края */
+    --scene-caption-space: 72px;
+
+    flex: 1 0 200px;
+    grid-row: auto;
+    margin: 0 0 0 calc(var(--page-pad) * -1);
+  }
+
+  .work.sticky .scene {
+    position: relative;
+    top: auto;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .work .results {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
 /* Версия для слабовидящих: точек нет — сцена не занимает места, экран в одну колонку */
 :global(:root[data-lowvision]) .sceneCol {
   display: none;
 }
 
 @container screen (min-width: 960px) {
-  :global(:root[data-lowvision]) .screen.withScene {
+  :global(:root[data-lowvision]) .screen.withScene:not(.work) {
     grid-template-columns: minmax(0, 1fr);
     max-width: var(--content-max);
     padding-inline: var(--screen-px);
+  }
+}
+
+/* …а в рабочей раскладке форма и подборка остаются рядом, высота колонки — по содержимому */
+@container screen (min-width: 1280px) {
+  :global(:root[data-lowvision]) .work .side {
+    height: auto;
+    max-height: calc(100dvh - var(--header-h) - var(--screen-pt));
   }
 }
 

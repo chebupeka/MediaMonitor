@@ -14,6 +14,8 @@
 .canvas {
   flex: 1 1 auto;
   min-height: 0;
+  /* Место под подпись, если экран так просит (Screen, рабочая раскладка): подпись не на точках */
+  margin-bottom: var(--scene-caption-space, 0px);
 }
 
 .caption,
@@ -47,7 +49,8 @@
 
   .canvas {
     flex: none;
-    height: clamp(var(--scene-h-panel), 50cqw, 460px);
+    /* --scene-h-narrow задаёт экран, где сцене место скромнее (Screen: под формой, полосой) */
+    height: var(--scene-h-narrow, clamp(var(--scene-h-panel), 50cqw, 460px));
   }
 
   .caption,

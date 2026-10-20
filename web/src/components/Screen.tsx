@@ -31,6 +31,22 @@ export interface ScreenProps {
   sceneMode?: 'sticky' | 'hero';
   /** В режиме `hero`: что стоит под заголовком рядом со сценой */
   intro?: ReactNode;
+  /**
+   * Результаты работы экрана (Поиск: ход и подборка). В режиме `sticky` идут под `children`
+   * в той же колонке; в рабочей раскладке (`work`) на широкой вкладке — отдельной колонкой.
+   */
+  results?: ReactNode;
+  /**
+   * Рабочая раскладка вкладки (Поиск после запуска, решение Р-В3): от 1280 px — две колонки,
+   * слева заголовок, форма и сцена (держатся на месте), справа `results` во всю ширину;
+   * уже — одна колонка: форма, полоса сцены, результаты; на телефоне сцена свёрнута.
+   */
+  work?: boolean;
+  /**
+   * Где сцена в узкой раскладке: `top` — под заголовком (боковая панель, как было);
+   * `below` — под формой, ниже (телефон и планшет во вкладке: форма на первом экране).
+   */
+  narrowScene?: 'top' | 'below';
   children?: ReactNode;
   className?: string;
 }
@@ -49,6 +65,9 @@ export function Screen({
   scene,
   sceneMode = 'sticky',
   intro,
+  results,
+  work = false,
+  narrowScene = 'top',
   children,
   className,
 }: ScreenProps) {
@@ -74,28 +93,38 @@ export function Screen({
       <div className={cx(styles.screen, styles[width], className)}>
         {head}
         {children}
+        {results}
       </div>
     );
 
   const sticky = sceneMode === 'sticky';
   const body = sticky ? children : intro;
+  // Порядок узлов один во всех раскладках: сцена не пересоздаётся, когда экран переходит
+  // в рабочую раскладку, и формы точек перетекают друг в друга (раскладку меняет только CSS).
   return (
     <div
       className={cx(
         styles.screen,
         styles.withScene,
         sticky ? styles.sticky : styles.hero,
+        work && styles.work,
+        narrowScene === 'below' && styles.sceneBelow,
         styles[width],
         className,
       )}
     >
-      <div className={styles.main}>
-        {head}
-        {body !== undefined && body !== null && <div className={styles.body}>{body}</div>}
+      <div className={styles.side}>
+        <div className={styles.main}>
+          {head}
+          {body !== undefined && body !== null && <div className={styles.body}>{body}</div>}
+        </div>
+        <div className={styles.sceneCol}>
+          <div className={styles.scene}>{scene}</div>
+        </div>
       </div>
-      <div className={styles.sceneCol}>
-        <div className={styles.scene}>{scene}</div>
-      </div>
+      {results !== undefined && results !== null && results !== false && (
+        <div className={styles.results}>{results}</div>
+      )}
       {!sticky && children !== undefined && <div className={styles.below}>{children}</div>}
     </div>
   );

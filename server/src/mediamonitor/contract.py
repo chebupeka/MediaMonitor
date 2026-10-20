@@ -656,6 +656,8 @@ class ApiError(ApiModel):
     code: ApiErrorCode
     message: str
     retry_after_sec: int | None = absent()
+    # Отказ «уже идёт поиск»: id того поиска — клиент подключится к нему (attachSearch).
+    running_search_id: str | None = absent()
 
 
 class QueuedEvent(ApiModel):

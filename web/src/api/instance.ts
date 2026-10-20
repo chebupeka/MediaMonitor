@@ -7,7 +7,8 @@
  * собирается в браузере (src/lib/xlsx.ts).
  */
 import type { MonitorApi } from './client';
-import { DEMO_AI_TEXTS, DEMO_LINKS, DEMO_QUERIES, createFakeApi } from './fake';
+// Имитация мокапа; в веб-версии модуль подменён заглушкой без демо-данных (./mock.web.ts)
+import { DEMO_AI_TEXTS, DEMO_LINKS, DEMO_QUERIES, createFakeApi } from '@/api/mock';
 import { createHttpApi } from './http';
 import { resolveDataSource, type DataSource } from './source';
 

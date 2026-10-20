@@ -4,7 +4,7 @@
  */
 import { useCallback, useEffect, useReducer, useRef, useState, useSyncExternalStore } from 'react';
 import { api } from './instance';
-import { errorMessage, isApiError } from './client';
+import { errorMessage, isApiError, plainApiError } from './client';
 import type {
   ApiError,
   ConnectionState,
@@ -35,7 +35,9 @@ export interface AsyncState<T> {
 }
 
 function toApiError(value: unknown): ApiError {
-  return isApiError(value) ? value : { code: 'server', message: errorMessage(value) };
+  return isApiError(value)
+    ? plainApiError(value)
+    : { code: 'server', message: errorMessage(value) };
 }
 
 /**
@@ -135,7 +137,8 @@ const INITIAL: SearchRunState = {
 type Action =
   | { type: 'start'; searchId: string }
   | { type: 'retry'; platform: PlatformId }
-  | { type: 'event'; event: SearchEvent }
+  /** `runId` — id поиска у потока: на сервере он известен до события `started` (очередь). */
+  | { type: 'event'; event: SearchEvent; runId: string }
   | { type: 'excluded'; ids: string[]; excluded: boolean; counts: SelectionCounts }
   | { type: 'added'; item: ResultItem }
   | { type: 'restore'; selection: Selection }
@@ -192,6 +195,13 @@ function fromSelection(
     counts: selection.counts,
     topic: selection.topic ?? state.topic,
     notices: selection.notices,
+    // Подборка открыта заново (обновили страницу): события «нейросеть недоступна» не было —
+    // берём ту же пометку из подборки.
+    aiUnavailable:
+      state.aiUnavailable ??
+      (selection.aiAvailable
+        ? null
+        : (selection.notices.find((n) => n.code === 'ai-unavailable')?.message ?? null)),
     queue: null,
     currentSource: {},
     selection,
@@ -206,12 +216,13 @@ function reducer(state: SearchRunState, action: Action): SearchRunState {
       // На сервере id приходит ответом на запуск — до этого он пустой, потом его
       // принесёт событие `started` (conditions.searchId).
       return { ...INITIAL, phase: 'running', searchId: action.searchId || null };
-    case 'restore':
-      return fromSelection(
-        { ...INITIAL, searchId: action.selection.searchId },
-        action.selection,
-        action.selection.phase === 'stopped' ? 'stopped' : 'done',
-      );
+    case 'restore': {
+      const s = action.selection;
+      const base = { ...INITIAL, searchId: s.searchId };
+      // Поиск ещё идёт: снимок на экран сразу, итоговой подборки пока нет — её принесёт поток.
+      if (s.phase === 'running') return { ...fromSelection(base, s, 'running'), selection: null };
+      return fromSelection(base, s, s.phase === 'stopped' ? 'stopped' : 'done');
+    }
     case 'retry':
       return { ...state, phase: 'running', error: null };
     case 'excluded': {
@@ -236,6 +247,7 @@ function reducer(state: SearchRunState, action: Action): SearchRunState {
     }
     case 'event': {
       const e = action.event;
+      if (!state.searchId && action.runId) state = { ...state, searchId: action.runId };
       switch (e.type) {
         case 'queued':
           return { ...state, phase: 'queued', queue: { ahead: e.ahead, etaSec: e.etaSec } };
@@ -309,10 +321,10 @@ export interface SearchRunControls {
   /** Добавить публикацию по ссылке (П8). */
   addByUrl: (url: string) => Promise<ResultItem>;
   /**
-   * Показать уже выполненный поиск по id: панель закрыли и открыли, поиск перенесли во
-   * вкладку. Идущий поиск так не подхватить — подключиться к его потоку контракт пока
-   * не умеет. Если за это время запустили новый поиск, старый не показываем.
-   * Возвращает true, если подборка на экране.
+   * Показать поиск по id: панель закрыли и открыли, поиск перенесли во вкладку, страницу
+   * обновили, открыли из «Недавних». Законченный — его подборка; идущий — подключаемся к его
+   * потоку (`attachSearch`), поиск не перезапускается, «Остановить» работает. Если за это
+   * время запустили новый поиск, старый не показываем. Возвращает true, если поиск на экране.
    */
   restore: (searchId: string) => Promise<boolean>;
   reset: () => void;
@@ -349,7 +361,7 @@ export function useSearchRun(): SearchRunControls {
         return;
       }
       seenRef.current += 1;
-      dispatch({ type: 'event', event });
+      dispatch({ type: 'event', event, runId: run.searchId });
     });
   }, []);
 
@@ -440,20 +452,25 @@ export function useSearchRun(): SearchRunControls {
     return item;
   }, []);
 
-  const restore = useCallback(async (searchId: string): Promise<boolean> => {
-    const busy = () => runRef.current !== null && !runRef.current.closed;
-    if (busy()) return false;
-    let selection: Selection;
-    try {
-      selection = await api.getSelection(searchId);
-    } catch {
-      return false;
-    }
-    if (selection.phase === 'running' || busy()) return false;
-    searchIdRef.current = searchId;
-    dispatch({ type: 'restore', selection });
-    return true;
-  }, []);
+  const restore = useCallback(
+    async (searchId: string): Promise<boolean> => {
+      const busy = () => runRef.current !== null && !runRef.current.closed;
+      if (busy()) return false;
+      let selection: Selection;
+      try {
+        selection = await api.getSelection(searchId);
+      } catch {
+        return false;
+      }
+      if (busy()) return false;
+      searchIdRef.current = searchId;
+      dispatch({ type: 'restore', selection });
+      // Идёт — подключаемся к потоку: снимок, затем ход и итог (повторы снимка сливаются).
+      if (selection.phase === 'running') attach(api.attachSearch(searchId));
+      return true;
+    },
+    [attach],
+  );
 
   const reset = useCallback(() => {
     runRef.current?.stop();

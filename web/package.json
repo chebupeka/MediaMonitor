@@ -18,6 +18,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check:ai": "node scripts/check-ai.mjs",
+    "check:web": "node scripts/check-web.mjs",
     "ext:dev": "wxt",
     "ext:build": "wxt build",
     "ext:zip": "wxt zip",

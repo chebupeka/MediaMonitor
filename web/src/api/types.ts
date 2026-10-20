@@ -786,6 +786,11 @@ export interface ApiError {
   message: string;
   /** Через сколько секунд имеет смысл повторить. */
   retryAfterSec?: number;
+  /**
+   * Отказ «уже идёт поиск» (`too-many-requests`, один поиск на рабочее место): id того
+   * поиска — к нему можно подключиться (`attachSearch`) и показать его ход или остановить.
+   */
+  runningSearchId?: string;
 }
 
 /**

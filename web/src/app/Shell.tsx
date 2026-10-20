@@ -4,15 +4,15 @@
  * Посещённые экраны остаются в памяти (скрыты), поэтому поиск не теряется при
  * переходе в «Источники» и обратно. При смене демо-сценария экраны загружаются заново.
  */
-import { WifiOff } from 'lucide-react';
+import { Puzzle, WifiOff } from 'lucide-react';
 import { useEffect, useRef, useState, type ComponentType } from 'react';
 import { useConnection } from '@/api';
-import { subscribeDemo } from '@/api/fake/scenario';
 import { useAnnounce } from '@/components';
 import { IS_WEB_BUILD, SELECTION_FEATURES } from '@/lib/build';
 import { TIME_ZONE_LABEL_FULL } from '@/lib/format';
-import { DemoPanel } from './DemoPanel';
-import { Header } from './Header';
+import { EXTENSION_INFO_URL, Header } from './Header';
+// Только мокап и расширение; в веб-версии — заглушки (src/app/mock-only.web.tsx)
+import { DemoPanel, subscribeDemo } from './mock-only';
 import { SiteCursor } from './SiteCursor';
 import { useNavigation, type ScreenId, type ScreenParamsMap, type ScreenProps } from './navigation';
 import { HostPage, SCREENS, SCREEN_COMPONENTS, SCREEN_ORDER } from './screens';
@@ -24,16 +24,28 @@ interface Mounted {
   navKey: number;
 }
 
+/**
+ * Нет связи (НТ-23): отдельно «нет интернета» у человека и «сервер не отвечает». Что идущий
+ * поиск продолжается на сервере, говорит сам экран «Поиск» — только когда поиск идёт.
+ */
 function ConnectionBanner() {
   const connection = useConnection();
   if (connection === 'online') return null;
+  const noInternet = typeof navigator !== 'undefined' && navigator.onLine === false;
   return (
     <div className={styles.offline} role="status">
       <WifiOff aria-hidden="true" className={styles.offlineIcon} />
-      <span>
-        <strong>Нет связи с интернетом.</strong> Поиск продолжается на сервере — найденное не
-        потеряется и появится, когда связь вернётся.
-      </span>
+      {noInternet ? (
+        <span>
+          <strong>Нет связи с интернетом.</strong> Проверьте подключение — ваши поиски и источники
+          хранятся на сервере и не потеряются.
+        </span>
+      ) : (
+        <span>
+          <strong>Сервер не отвечает.</strong> Проверяем связь каждые несколько секунд — ваши поиски
+          и источники не потеряются.
+        </span>
+      )}
     </div>
   );
 }
@@ -47,6 +59,16 @@ function Footer() {
           Медиарадар · ВКонтакте, Одноклассники и MAX · Красноярский край · только публичные посты
         </p>
         <p className={styles.footerText}>Время везде — {TIME_ZONE_LABEL_FULL}</p>
+        {/* Веб-версия: ненавязчиво про расширение (решение Р-В5) */}
+        {IS_WEB_BUILD && (
+          <p className={styles.footerText}>
+            <Puzzle aria-hidden="true" className={styles.footerIcon} />
+            Есть расширение для браузера: найдёт, где опубликован текст, выделенный на любом сайте.{' '}
+            <a className={styles.footerAnchor} href={EXTENSION_INFO_URL}>
+              Как установить
+            </a>
+          </p>
+        )}
       </div>
       <nav className={styles.footerNav} aria-label="Служебные страницы">
         <button type="button" className={styles.footerLink} onClick={() => navigate('how')}>
@@ -151,8 +173,9 @@ export function Shell() {
         </main>
         {layout === 'site' ? <Footer /> : null}
       </div>
-      {/* Свой курсор сайта — только во вкладке, в боковой панели курсор системный */}
-      {layout === 'site' ? <SiteCursor /> : null}
+      {/* Свой курсор сайта — только во вкладке мокапа; в боковой панели и в веб-версии —
+          рабочем инструменте — курсор системный (решение Р-В7) */}
+      {layout === 'site' && !IS_WEB_BUILD ? <SiteCursor /> : null}
       {/* Панель «Демо-сценарий» — только в мокапе; в веб-версии на сервере её нет */}
       {IS_WEB_BUILD ? null : <DemoPanel />}
     </div>

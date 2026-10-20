@@ -12,7 +12,7 @@
  * площадки серое и мерцает. Ниже — поле запроса, период, режим, строка состояния
  * и подборка карточками. Факты на картинке продублированы текстом под ней.
  */
-import { FileSpreadsheet, Maximize2 } from 'lucide-react';
+import { FileSpreadsheet, Maximize2, Square } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { IS_MOCKUP, api, demoQueries, useAsync, useSearchRun, type SearchRunState } from '@/api';
 import type {
@@ -27,11 +27,11 @@ import type {
 } from '@/api/types';
 import { useNavigation, type ScreenProps } from '@/app/navigation';
 import { useShell } from '@/app/shell-state';
+import { useWorkspaceUi } from '@/app/workspace';
 import {
   Button,
   Chip,
   EmptyState,
-  ErrorState,
   IconButton,
   Kicker,
   Screen,
@@ -50,10 +50,12 @@ import {
 } from '@/dots';
 import { WORDS, formatCount, formatPeriod, plural } from '@/lib/format';
 import { getHost } from '@/lib/host';
+import { motionAllowed } from '@/lib/motion';
 import { REGION_PRINCIPLE, RELEVANCE_ORDER, RELEVANCE_SHORT } from '@/lib/labels';
 import { AiDots } from '@/screens/ai-check/AiMark';
 import { ExportDialog } from './ExportDialog';
 import { ResultCard } from './ResultCard';
+import { SearchError } from './SearchError';
 import { loadSavedSearch, saveSearch, type ResultFilter, type SavedSearch } from './saved';
 import styles from './search.module.css';
 
@@ -193,6 +195,7 @@ function dotsView(state: SearchRunState, listening: boolean): DotsView {
 export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) {
   const { navigate } = useNavigation();
   const { layout } = useShell();
+  const workspace = useWorkspaceUi();
   const { state, start, stop, retryPlatform, setExcluded, restore } = useSearchRun();
   const toast = useToast();
   const announce = useAnnounce();
@@ -207,7 +210,13 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
   /** Прошлое состояние уже подставлено (или его не было) — можно запоминать новое. */
   const [ready, setReady] = useState(false);
   const [carried, setCarried] = useState<Carried | null>(null);
+  /** Период и режим уже выбраны (человеком, «Недавними» или прошлым поиском вкладки). */
+  const chosen = useRef(params.request !== undefined);
   const firstVisit = useRef(true);
+  const queryRef = useRef<HTMLTextAreaElement>(null);
+  const resultsTopRef = useRef<HTMLDivElement>(null);
+  /** Растёт при каждом запуске поиска человеком: по нему подборка прокручивается в поле зрения. */
+  const [launches, setLaunches] = useState(0);
   // «Сегодня» — у сервера: период по умолчанию заканчивается сегодняшним днём.
   const startState = useAsync(useCallback(() => api.getStartState(), []));
   const today = startState.data?.defaultPeriod.to ?? MOCK_TODAY;
@@ -222,6 +231,27 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
 
   const running = state.phase === 'running' || state.phase === 'queued';
   const finished = state.phase === 'done' || state.phase === 'stopped';
+  // Вкладка после запуска — рабочая раскладка: подборка на первом экране (Р-В3)
+  const work = layout === 'site' && state.phase !== 'idle';
+
+  // Режим и период по умолчанию — от сервера (последний выбранный режим, период стенда),
+  // пока человек сам их не выбрал (аудит, Ж8).
+  const defaults = startState.data;
+  useEffect(() => {
+    if (!defaults || chosen.current) return;
+    setMode(defaults.defaultMode);
+    const suggested = defaults.defaultPeriod.preset;
+    if (PERIODS.some((p) => p.value === suggested)) setPreset(suggested);
+  }, [defaults]);
+
+  const choosePreset = (value: PeriodPreset) => {
+    chosen.current = true;
+    setPreset(value);
+  };
+  const chooseMode = (value: SearchMode) => {
+    chosen.current = true;
+    setMode(value);
+  };
 
   /** Запрос из полей экрана и перенесённых условий «Недавних». */
   const requestFor = (value: string): SearchRequest => {
@@ -238,14 +268,20 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
     };
   };
 
+  const launch = (request: SearchRequest) => {
+    start(request, { replace: true });
+    setLaunches((n) => n + 1);
+  };
+
   const run = (value: string) => {
     if (!value.trim()) return;
     setFilter('all');
-    start(requestFor(value), { replace: true });
+    launch(requestFor(value));
   };
 
   /** Подставить все условия запроса: текст, период, режим и то, чего нет среди полей. */
   const applyRequest = (request: SearchRequest) => {
+    chosen.current = true;
     setText(request.text);
     setPreset(request.period.preset);
     setMode(request.mode);
@@ -258,38 +294,76 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
     });
   };
 
+  /** Поиск, показанный по id: когда придут его условия, поля формы встанут по ним. */
+  const syncFields = useRef<string | null>(null);
+
+  /** Показать поиск по id: законченный — подборкой, идущий — его ходом (без перезапуска). */
+  const show = async (searchId: string, note: string): Promise<boolean> => {
+    syncFields.current = searchId;
+    if (!(await restore(searchId))) {
+      syncFields.current = null;
+      return false;
+    }
+    announced.current = searchId;
+    announce(note);
+    return true;
+  };
+
+  // Показан другой поиск (из «Недавних», идущий в другой вкладке): форма — его условия,
+  // чтобы запрос в поле и подборка под ним не расходились.
+  const shownConditions = state.conditions;
+  useEffect(() => {
+    if (!shownConditions || syncFields.current !== shownConditions.searchId) return;
+    syncFields.current = null;
+    chosen.current = true;
+    // Как «Изменить условия» из «Недавних»: свой период из календаря тоже сохраняется
+    setText(shownConditions.text);
+    setMode(shownConditions.mode);
+    setPreset(shownConditions.period.preset);
+    setCarried({ text: shownConditions.text, period: shownConditions.period });
+  }, [shownConditions]);
+
   // Новый переход на экран с параметрами: подставить текст или сразу искать
-  // (так приходит выделенный текст из контекстного меню расширения).
-  // Без параметров при первом показе возвращаем прошлый поиск: панель закрыли и открыли,
-  // поиск перенесли во вкладку, страницу перезагрузили.
+  // (так приходит выделенный текст из контекстного меню расширения), открыть подборку из
+  // «Недавних». Без параметров при первом показе возвращаем прошлый поиск: панель закрыли
+  // и открыли, поиск перенесли во вкладку, страницу обновили — в том числе посреди поиска.
   useEffect(() => {
     const first = firstVisit.current;
     firstVisit.current = false;
-    if (params.request) {
+    if (params.searchId) {
+      const id = params.searchId;
+      void show(id, 'Открыта подборка прошлого поиска.').then((shown) => {
+        if (!shown)
+          toast.show({
+            title: running ? 'Сейчас идёт поиск' : 'Подборку не открыть',
+            description: running
+              ? 'Откройте прошлую подборку, когда поиск закончится, или остановите его.'
+              : 'Возможно, её удалили. Повторите поиск из «Недавних».',
+            tone: 'warning',
+          });
+      });
+      setReady(true);
+    } else if (params.request) {
       applyRequest(params.request);
-      if (params.autoRun) start(params.request, { replace: true });
+      if (params.autoRun) launch(params.request);
       setReady(true);
     } else if (params.text !== undefined) {
       setText(params.text);
       setCarried(null);
       if (params.autoRun)
-        start(
-          { text: params.text, period: periodFor('30d', today), mode: 'everywhere' },
-          { replace: true },
-        );
+        launch({ text: params.text, period: periodFor('30d', today), mode: 'everywhere' });
       setReady(true);
     } else if (first) {
       void loadSavedSearch()
         .then(async (saved) => {
           if (!saved) return;
+          chosen.current = true;
           setText(saved.text);
           setPreset(saved.preset);
           setMode(saved.mode);
           setFilter(saved.filter);
-          if (saved.searchId && (await restore(saved.searchId))) {
-            announced.current = saved.searchId;
-            announce('Показан прошлый поиск: подборка сохранилась.');
-          }
+          if (saved.searchId)
+            await show(saved.searchId, 'Показан прошлый поиск: подборка сохранилась.');
         })
         .catch(() => undefined)
         .finally(() => setReady(true));
@@ -297,8 +371,9 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
     // eslint-disable-next-line react-hooks/exhaustive-deps -- реагируем только на новый переход
   }, [navKey]);
 
-  // Запоминаем запрос, условия и законченный поиск — для следующего открытия.
-  const savedSearchId = finished ? state.searchId : null;
+  // Запоминаем запрос, условия и поиск — законченный или идущий: после обновления страницы
+  // вкладка вернётся к нему (идущий — подключится к его ходу).
+  const savedSearchId = state.phase === 'failed' ? null : state.searchId;
   const current = useMemo<SavedSearch>(
     () => ({ text, preset, mode, filter, searchId: savedSearchId }),
     [text, preset, mode, filter, savedSearchId],
@@ -317,12 +392,28 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
     await openInTab();
   };
 
-  // Итог поиска — вслух для скринридера
+  // Итог поиска — вслух для скринридера; после первого поиска — подсказка про ссылку на
+  // рабочее место (один раз в этом браузере, Р-В1).
   useEffect(() => {
     if (!finished || !state.searchId || announced.current === state.searchId) return;
     announced.current = state.searchId;
     announce(`Поиск завершён: ${formatCount(state.counts?.total ?? 0, WORDS.publication)}.`);
-  }, [finished, state.searchId, state.counts, announce]);
+    if (!IS_MOCKUP) workspace.suggestSavingLink();
+  }, [finished, state.searchId, state.counts, announce, workspace]);
+
+  // Запуск во вкладке: ход и подборка — в поле зрения. На широкой вкладке они и так справа
+  // наверху; ниже по странице или на узком экране — прокручиваем к ним (Р-В3).
+  useEffect(() => {
+    if (launches === 0 || layout !== 'site') return;
+    const frame = window.requestAnimationFrame(() => {
+      const anchor = resultsTopRef.current;
+      if (!anchor) return;
+      const top = anchor.getBoundingClientRect().top;
+      if (top >= 0 && top < window.innerHeight * 0.45) return;
+      anchor.scrollIntoView({ block: 'start', behavior: motionAllowed() ? 'smooth' : 'auto' });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [launches, layout]);
 
   const dots = useMemo(
     () => dotsView(state, focused || text.trim().length > 0),
@@ -355,116 +446,16 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
     run(text);
   };
 
-  return (
-    <Screen
-      index="01"
-      eyebrow="Поиск · ВКонтакте, Одноклассники, MAX"
-      title="Поиск *по смыслу*"
-      width="narrow"
-      className={styles.screen}
-      scene={
-        <DotsStage
-          form={dots.form}
-          intensity="calm"
-          platforms={dots.platforms}
-          cities={dots.cities}
-          flowTarget={`#${QUERY_ID}`}
-          caption={dots.caption}
-          live={running}
-        />
-      }
-    >
-      <form className={styles.query} onSubmit={onSubmit} aria-label="Запрос">
-        <div className={styles.field}>
-          {/* Подпись внутри поля — как поле «Запрос» на сайте; для скринридера — label поля */}
-          <span className={styles.fieldLabel} aria-hidden="true">
-            Запрос
-          </span>
-          <TextArea
-            id={QUERY_ID}
-            label="Запрос"
-            hideLabel
-            className={styles.fieldInput}
-            placeholder="Тема, событие, человек или текст новости"
-            value={text}
-            rows={3}
-            onChange={(e) => setText(e.target.value)}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-          />
-        </div>
-        {examples.length > 0 && (
-          <div className={styles.examples}>
-            <span className={styles.examplesLabel}>Например:</span>
-            {examples.map((q) => (
-              <Chip
-                key={q.id}
-                size="sm"
-                onClick={() => {
-                  setText(q.text);
-                  run(q.text);
-                }}
-              >
-                {q.label}
-              </Chip>
-            ))}
-          </div>
-        )}
-        <div className={styles.controls}>
-          <ToggleGroup
-            label="Период"
-            items={PERIODS}
-            value={preset}
-            onValueChange={setPreset}
-            size="sm"
-          />
-          <ToggleGroup
-            label="Где искать"
-            items={MODES}
-            value={mode}
-            onValueChange={setMode}
-            size="sm"
-          />
-        </div>
-        {carried &&
-          carried.period.preset === preset &&
-          !PERIODS.some((p) => p.value === preset) && (
-            <p className={styles.region}>
-              <span className={styles.regionDot} aria-hidden="true" />
-              <span>
-                <b>Период из недавнего поиска:</b> {formatPeriod(carried.period)}. Другой — выберите
-                выше.
-              </span>
-            </p>
-          )}
-        {mode === 'my-sources' && carried?.sourceIds && carried.sourceIds.length > 0 && (
-          <p className={styles.region}>
-            <span className={styles.regionDot} aria-hidden="true" />
-            <span>
-              <b>Источники из недавнего поиска:</b>{' '}
-              {formatCount(carried.sourceIds.length, WORDS.source)} из вашего списка.
-            </span>
-          </p>
-        )}
-        <p className={styles.region}>
-          <span className={styles.regionDot} aria-hidden="true" />
-          <span>
-            <b>Красноярский край.</b> {REGION_PRINCIPLE}
-          </span>
-        </p>
-        <div className={styles.submit}>
-          {running ? (
-            <Button type="button" size="lg" onClick={stop}>
-              Остановить
-            </Button>
-          ) : (
-            <Button type="submit" variant="primary" size="lg" disabled={!text.trim()}>
-              Найти
-            </Button>
-          )}
-        </div>
-      </form>
+  const editQuery = () => {
+    const field = queryRef.current;
+    if (!field) return;
+    field.focus({ preventScroll: true });
+    field.scrollIntoView({ block: 'center', behavior: motionAllowed() ? 'smooth' : 'auto' });
+  };
 
+  const results = (
+    <>
+      <div ref={resultsTopRef} className={styles.resultsAnchor} aria-hidden="true" />
       {state.phase === 'queued' && state.queue && (
         <p className={styles.notice} role="status">
           Вы в очереди: перед вами {state.queue.ahead}. Поиск начнётся примерно через{' '}
@@ -482,11 +473,12 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
         </p>
       )}
 
-      {state.phase === 'failed' && (
-        <ErrorState
-          title="Поиск не удался"
-          description={state.error?.message}
+      {state.phase === 'failed' && state.error && (
+        <SearchError
+          error={state.error}
           onRetry={() => run(text)}
+          onEdit={editQuery}
+          onShowRunning={(id) => void show(id, 'Показан идущий поиск.')}
         />
       )}
 
@@ -499,7 +491,12 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
           currentSource={state.currentSource}
           onRetry={retryPlatform}
           actions={
-            releaseGroup && state.searchId ? (
+            running ? (
+              // «Остановить» рядом с ходом: на узком экране форма уже выше, вне поля зрения
+              <Button size="sm" variant="secondary" iconStart={<Square />} onClick={stop}>
+                Остановить
+              </Button>
+            ) : releaseGroup && state.searchId ? (
               <Button
                 size="sm"
                 variant="secondary"
@@ -598,6 +595,123 @@ export default function SearchScreen({ params, navKey }: ScreenProps<'search'>) 
       {state.searchId && (
         <ExportDialog searchId={state.searchId} open={exportOpen} onOpenChange={setExportOpen} />
       )}
+    </>
+  );
+
+  return (
+    <Screen
+      index="01"
+      eyebrow="Поиск · ВКонтакте, Одноклассники, MAX"
+      title="Поиск *по смыслу*"
+      width="narrow"
+      className={styles.screen}
+      work={work}
+      // Во вкладке на телефоне и планшете форма — на первом экране, сцена под ней (Ж1)
+      narrowScene={layout === 'site' ? 'below' : 'top'}
+      results={results}
+      scene={
+        <DotsStage
+          form={dots.form}
+          intensity="calm"
+          platforms={dots.platforms}
+          cities={dots.cities}
+          flowTarget={`#${QUERY_ID}`}
+          caption={dots.caption}
+          live={running}
+        />
+      }
+    >
+      <form className={styles.query} onSubmit={onSubmit} aria-label="Запрос">
+        <div className={styles.field}>
+          {/* Подпись внутри поля — как поле «Запрос» на сайте; для скринридера — label поля */}
+          <span className={styles.fieldLabel} aria-hidden="true">
+            Запрос
+          </span>
+          <TextArea
+            ref={queryRef}
+            id={QUERY_ID}
+            label="Запрос"
+            hideLabel
+            className={styles.fieldInput}
+            placeholder="Тема, событие, человек или текст новости"
+            value={text}
+            rows={3}
+            onChange={(e) => setText(e.target.value)}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+          />
+        </div>
+        {examples.length > 0 && (
+          <div className={styles.examples}>
+            <span className={styles.examplesLabel}>Например:</span>
+            {examples.map((q) => (
+              <Chip
+                key={q.id}
+                size="sm"
+                onClick={() => {
+                  setText(q.text);
+                  run(q.text);
+                }}
+              >
+                {q.label}
+              </Chip>
+            ))}
+          </div>
+        )}
+        <div className={styles.controls}>
+          <ToggleGroup
+            label="Период"
+            items={PERIODS}
+            value={preset}
+            onValueChange={choosePreset}
+            size="sm"
+          />
+          <ToggleGroup
+            label="Где искать"
+            items={MODES}
+            value={mode}
+            onValueChange={chooseMode}
+            size="sm"
+          />
+        </div>
+        {carried &&
+          carried.period.preset === preset &&
+          !PERIODS.some((p) => p.value === preset) && (
+            <p className={styles.region}>
+              <span className={styles.regionDot} aria-hidden="true" />
+              <span>
+                <b>Период из недавнего поиска:</b> {formatPeriod(carried.period)}. Другой — выберите
+                выше.
+              </span>
+            </p>
+          )}
+        {mode === 'my-sources' && carried?.sourceIds && carried.sourceIds.length > 0 && (
+          <p className={styles.region}>
+            <span className={styles.regionDot} aria-hidden="true" />
+            <span>
+              <b>Источники из недавнего поиска:</b>{' '}
+              {formatCount(carried.sourceIds.length, WORDS.source)} из вашего списка.
+            </span>
+          </p>
+        )}
+        <p className={styles.region}>
+          <span className={styles.regionDot} aria-hidden="true" />
+          <span>
+            <b>Красноярский край.</b> {REGION_PRINCIPLE}
+          </span>
+        </p>
+        <div className={styles.submit}>
+          {running ? (
+            <Button type="button" size="lg" iconStart={<Square />} onClick={stop}>
+              Остановить
+            </Button>
+          ) : (
+            <Button type="submit" variant="primary" size="lg" disabled={!text.trim()}>
+              Найти
+            </Button>
+          )}
+        </div>
+      </form>
     </Screen>
   );
 }

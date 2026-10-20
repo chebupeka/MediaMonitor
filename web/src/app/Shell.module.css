@@ -121,6 +121,36 @@
   gap: var(--space-1) var(--space-5);
 }
 
+.footerIcon {
+  display: inline-block;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  margin-right: var(--space-1);
+  vertical-align: -2px;
+  color: var(--color-gold);
+}
+
+/* Ссылка в строке подвала: как ссылки сайта — тонкое подчёркивание уезжает при наведении */
+.footerAnchor {
+  color: var(--color-ink-2);
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  transition:
+    color var(--duration-pill) var(--ease-standard),
+    background-size var(--duration-slower) var(--ease-standard);
+}
+
+.footerAnchor:hover {
+  color: var(--color-ink);
+  background-size: 0 1px;
+  background-position: 100% 100%;
+}
+
+.footerAnchor:focus-visible {
+  outline: var(--focus-width) solid var(--color-focus);
+  outline-offset: 2px;
+}
+
 .footerLink {
   min-height: var(--target-min);
   padding: 0;

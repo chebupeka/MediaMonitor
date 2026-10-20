@@ -1,0 +1,146 @@
+/* Окно «Рабочее место» и вопрос о ссылке — на токенах, как остальные окна. */
+
+.stack {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.summary {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--text-md);
+  color: var(--color-ink-2);
+}
+
+.summary b {
+  color: var(--color-ink);
+  font-weight: var(--weight-semibold);
+}
+
+/* Золотая точка — «найденное», как в знаке */
+.dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  box-shadow: 0 0 10px var(--color-gold-glow);
+  transform: translateY(-1px);
+}
+
+.block {
+  display: grid;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-line);
+}
+
+.blockTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-ink);
+}
+
+.blockTitle svg {
+  flex: none;
+  width: var(--icon-md);
+  height: var(--icon-md);
+  color: var(--color-gold);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.grow {
+  flex: 1 1 240px;
+}
+
+/* Ссылка-ключ — моноширинным: видно, что это адрес, а не текст */
+.linkField input {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.note {
+  margin: 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  color: var(--color-ink-3);
+}
+
+.warning {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-warning-bg);
+  color: var(--color-warning-ink);
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+}
+
+.warning svg {
+  flex: none;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  margin-top: 1px;
+}
+
+.error {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-critical-ink);
+}
+
+.previous {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+}
+
+/* «Ваше текущее» и «По ссылке» рядом */
+.compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.compare > div {
+  padding: var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+}
+
+.compare dt {
+  font-size: var(--text-xs);
+  color: var(--color-ink-3);
+}
+
+.compare dd {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+@media (max-width: 420px) {
+  .compare {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

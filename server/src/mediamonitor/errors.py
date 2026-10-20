@@ -30,15 +30,26 @@ class ApiProblem(Exception):  # noqa: N818 — это не сбой кода, а
     """Ответ с ошибкой контракта. Сообщение — простым языком, для человека."""
 
     def __init__(
-        self, code: ApiErrorCode, message: str, *, retry_after_sec: int | None = None
+        self,
+        code: ApiErrorCode,
+        message: str,
+        *,
+        retry_after_sec: int | None = None,
+        running_search_id: str | None = None,
     ) -> None:
         super().__init__(message)
         self.code: ApiErrorCode = code
         self.message = message
         self.retry_after_sec = retry_after_sec
+        self.running_search_id = running_search_id
 
     def to_contract(self) -> ApiError:
-        return ApiError(code=self.code, message=self.message, retry_after_sec=self.retry_after_sec)
+        return ApiError(
+            code=self.code,
+            message=self.message,
+            retry_after_sec=self.retry_after_sec,
+            running_search_id=self.running_search_id,
+        )
 
 
 def required[T](value: T | None, what: str) -> T:

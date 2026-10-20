@@ -5,15 +5,15 @@
  */
 import type { ComponentType } from 'react';
 import AiCheckScreen from '@/screens/ai-check';
-import DemoPageScreen, { HostPage } from '@/screens/demo-page';
 import HowScreen from '@/screens/how';
-import LandingScreen from '@/screens/landing';
+import NotFoundScreen from '@/screens/not-found';
 import RecentScreen from '@/screens/recent';
 import SearchScreen from '@/screens/search';
 import SourcesScreen from '@/screens/sources';
 import SpreadScreen from '@/screens/spread';
 import StatusScreen from '@/screens/status';
-import GalleryScreen from './Gallery';
+// Экраны мокапа; в веб-версии их подменяют заглушки (src/app/mock-only.web.tsx)
+import { DemoPageScreen, GalleryScreen, HostPage, LandingScreen } from '@/app/mock-only';
 import type { ScreenId, ScreenProps } from './navigation';
 
 export interface ScreenMeta {
@@ -22,8 +22,11 @@ export interface ScreenMeta {
   title: string;
   /** Подпись в навигации */
   navLabel: string;
-  /** `main` — верхняя навигация, `secondary` — подвал, `mock` — только в мокапе */
-  group: 'home' | 'main' | 'secondary' | 'mock';
+  /**
+   * `main` — верхняя навигация, `secondary` — подвал, `mock` — только в мокапе,
+   * `hidden` — ни в одном меню (служебный экран «Такого раздела нет»)
+   */
+  group: 'home' | 'main' | 'secondary' | 'mock' | 'hidden';
   /** Кто делает экран (бриф, «Как делим работу») */
   owner: string;
 }
@@ -79,6 +82,13 @@ export const SCREENS: Record<ScreenId, ScreenMeta> = {
     group: 'secondary',
     owner: 'Э-Источники',
   },
+  'not-found': {
+    id: 'not-found',
+    title: 'Раздел не найден',
+    navLabel: 'Раздел не найден',
+    group: 'hidden',
+    owner: 'Основа',
+  },
   'demo-page': {
     id: 'demo-page',
     title: 'Демо-страница СМИ',
@@ -104,6 +114,7 @@ export const SCREEN_ORDER: readonly ScreenId[] = [
   'recent',
   'how',
   'status',
+  'not-found',
   'demo-page',
   'gallery',
 ];
@@ -117,6 +128,7 @@ export const SCREEN_COMPONENTS: { [K in ScreenId]: ComponentType<ScreenProps<K>>
   recent: RecentScreen,
   how: HowScreen,
   status: StatusScreen,
+  'not-found': NotFoundScreen,
   'demo-page': DemoPageScreen,
   gallery: GalleryScreen,
 };

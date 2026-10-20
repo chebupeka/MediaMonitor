@@ -432,7 +432,14 @@ class SearchRunner:
         )
         if len(running) >= self.settings.active_searches_per_workspace:
             label = str(running[0].conditions.get("label", ""))
-            raise ApiProblem("too-many-requests", busy_message(label), retry_after_sec=10)
+            # id идущего поиска — интерфейс предложит «Показать идущий поиск» (attachSearch):
+            # его запустили в другой вкладке, в расширении или до обновления страницы.
+            raise ApiProblem(
+                "too-many-requests",
+                busy_message(label),
+                retry_after_sec=10,
+                running_search_id=running[0].id,
+            )
 
     async def _previous_ids(
         self, session: AsyncSession, workspace_id: str, repeat_of: str | None

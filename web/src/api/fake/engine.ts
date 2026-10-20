@@ -901,6 +901,40 @@ export function adoptRecord(
   return record;
 }
 
+/**
+ * Подключиться к поиску без перезапуска (`attachSearch`). Идёт — тот же поток: подписчик
+ * сначала получит всё, что уже случилось. Закончен — снимок: `started`, `topic`, `items`
+ * и итог. Нет в памяти страницы — `failed` с `not-found`.
+ */
+export function attachFakeSearch(searchId: string): FakeSearchRun {
+  const runner = activeRunners.get(searchId);
+  if (runner && !runner.run.closed) return runner.run;
+  const run = new FakeSearchRun(searchId);
+  const record = records.get(searchId);
+  setTimeout(() => {
+    if (!record) {
+      run.emit({ type: 'failed', error: { code: 'not-found', message: 'Поиск не найден.' } });
+      return;
+    }
+    const selection = snapshot(record);
+    run.emit({ type: 'started', conditions: selection.conditions, statuses: selection.statuses });
+    if (selection.topic) run.emit({ type: 'topic', topic: selection.topic });
+    if (selection.items.length > 0)
+      run.emit({
+        type: 'items',
+        items: selection.items,
+        groups: selection.groups,
+        counts: selection.counts,
+      });
+    run.emit(
+      selection.phase === 'stopped'
+        ? { type: 'stopped', selection }
+        : { type: 'finished', selection },
+    );
+  }, 120);
+  return run;
+}
+
 /** Остановить поиск по id (если он ещё идёт). */
 export function stopById(searchId: string): void {
   const runner = activeRunners.get(searchId);

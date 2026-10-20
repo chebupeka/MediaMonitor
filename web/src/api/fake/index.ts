@@ -76,6 +76,7 @@ import { buildLarge } from './datasets/large';
 import { RELEASE_AI_SAMPLES, RELEASE_SOURCE_TEXT, buildRelease } from './datasets/release';
 import {
   adoptRecord,
+  attachFakeSearch,
   computeCounts,
   getRecord,
   retryFakePlatform,
@@ -1312,6 +1313,8 @@ export function createFakeApi(): MonitorApi {
     startSearch: (request: SearchRequest): SearchRun =>
       startFakeSearch(clone(request), context(previousFor(request))),
 
+    attachSearch: (searchId: string): SearchRun => attachFakeSearch(searchId),
+
     stopSearch: (searchId: string) =>
       call(80, () => {
         stopById(searchId);
@@ -1533,6 +1536,23 @@ export function createFakeApi(): MonitorApi {
         }
         return ws;
       }),
+
+    // В имитации рабочее место одно: другого места по ссылке нет, возвращаться некуда.
+    peekWorkspace: (key: string) =>
+      call(200, (): Workspace => {
+        const ws = currentWorkspace();
+        if (key.trim().replace(/^.*#workspace=/u, '') !== workspace?.key)
+          throw apiError('not-found', 'Рабочее место по этой ссылке не найдено.');
+        return ws;
+      }),
+
+    previousWorkspaceKey: () => null,
+
+    pendingWorkspaceLink: () => null,
+
+    onPendingWorkspaceLink: () => () => undefined,
+
+    dismissWorkspaceLink: () => undefined,
 
     listRecent: () => call(300, (): RecentSearch[] => recent.map(clone)),
 

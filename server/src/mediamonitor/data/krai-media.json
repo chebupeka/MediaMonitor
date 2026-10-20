@@ -1,0 +1,4687 @@
+{
+  "$comment": "Каталог СМИ Красноярского края: районные и краевые редакции с адресами по площадкам. Собран из таблицы команды «Источники нужные.xlsx» (лист 1 — ссылки, лист 2 — подписчики) и живых проверок 20.10.2026. Подробности и выводы — docs/research/zen-and-sites.md. Ссылки нормализованы: https, без пробелов и хвостов; asGiven — как в таблице. Telegram в продукт не подключаем (нет в обязательном объёме): ссылки сохранены для полноты, used=false.",
+  "version": 1,
+  "region": "krasnoyarsk-krai",
+  "builtAt": "2026-10-20",
+  "sources": {
+    "table": "inbox/Источники нужные.xlsx (в репозиторий не входит)",
+    "sheet1": "Лист1: Редакция газеты, Сайты, ТГ, ВК, ОК, ДЗЕН, МАХ — 48 строк",
+    "sheet2": "Подписчики март 2026: «Подписчики, март 2026 г.» — подписчики по площадкам",
+    "subscribersAsOf": "март 2026 (по заголовку листа 2); для Дзена есть и свежие числа — dzen.subscribersNow",
+    "siteCheck": {
+      "at": "2026-10-20T07:47:48+0000",
+      "from": "сервер команды (РФ), 3 сайта одновременно, не чаще 1 запроса в секунду на сайт, UA MediaMonitor-research/0.1",
+      "note": "с ноутбука (DE) 47 из 48 сайтов недоступны: фильтр по стране обрывает TLS"
+    },
+    "dzenCheck": {
+      "at": "2026-10-20T07:59:33.683356+00:00",
+      "from": "ноутбук (DE), 1 запрос в 1,2 с, UA MediaMonitor-research/0.1"
+    }
+  },
+  "fields": {
+    "level": "district — район или город края; krai — краевое СМИ",
+    "districtSource": "site — по заголовку или описанию сайта; name — по названию или домену; guess — предположение",
+    "site.status": "rss — есть лента; html — ленты нет, только разбор страниц; stale — сайт заброшен; unavailable — не открывается",
+    "site.profile": "bitrix-smi — общая платформа районных газет (1С-Битрикс, 185.211.3.246), одинаковая разметка; wordpress; ucoz; custom",
+    "dzen.status": "ok — канал открыт и пишет; inactive — нет публикаций больше 90 дней; not-found — канала нет"
+  },
+  "profiles": {
+    "bitrix-smi": {
+      "what": "общая платформа районных газет края: 1С-Битрикс, один сервер 185.211.3.246, одинаковая разметка",
+      "feed": "/rss/ — 20 последних материалов, полный текст в yandex:full-text, дата pubDate с поясом +07:00, картинка в enclosure; у 4 сайтов выключен (404)",
+      "search": "/search/?q=<запрос>&how=d — поиск по всему архиву со словоформами, до 50 результатов на странице, у каждого дата дд.мм.гггг; страница 2+ (PAGEN_1) запрещена robots.txt",
+      "list": "/news/ — лента новостей (для сайтов без RSS)",
+      "article": {
+        "title": "h1.article__title",
+        "time": ".article-attributes-item--time (дд.мм.гггг чч:мм:сс, время края)",
+        "views": ".article-attributes-item--views",
+        "text": ".article__text-content",
+        "verifiedOn": "vtruda.ru, 20.10.2026"
+      },
+      "robots": "разрешено всё, кроме служебного (/bitrix/, PAGEN, print, auth…); Crawl-delay нет",
+      "sameServer": "42 сайта на одном IP: ограничивать частоту на IP, а не на сайт"
+    },
+    "wordpress": {
+      "feed": "/feed/ (у gnkk.ru пустая, у Огней Енисея запрещена robots.txt)",
+      "article": "JSON-LD Article с datePublished (Огни Енисея)"
+    },
+    "custom": {
+      "what": "enisey.tv: свой движок за защитой Variti; доступен только /rss.xml (40 материалов, полный текст в content:encoded)"
+    },
+    "ucoz": {
+      "what": "gazeta-taseevo.usite.pro: заброшен с 2021 года"
+    }
+  },
+  "summary": {
+    "media": 48,
+    "links": {
+      "site": 48,
+      "vk": 48,
+      "ok": 47,
+      "dzen": 29,
+      "max": 48,
+      "telegram": 48
+    },
+    "sites": {
+      "rss": 40,
+      "html": 5,
+      "stale": 1,
+      "unavailable": 2
+    },
+    "sitesFullTextRss": 39,
+    "sitesOnBitrixPlatform": 42,
+    "dzen": {
+      "ok": 25,
+      "inactive": 3,
+      "not-found": 1
+    },
+    "mediaWithIssues": 44
+  },
+  "media": [
+    {
+      "id": "avangard",
+      "name": "Авангард",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Козульский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://avangardkray.ru/",
+          "asciiUrl": "https://avangardkray.ru/",
+          "asGiven": "https://avangardkray.ru/"
+        },
+        "vk": {
+          "url": "https://vk.com/avangard_online",
+          "kind": "community",
+          "handle": "avangard_online",
+          "asGiven": "https://vk.com/avangard_online"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/56158715707477",
+          "kind": "group",
+          "ownerId": "56158715707477",
+          "asGiven": "https://ok.ru/group/56158715707477"
+        },
+        "max": {
+          "url": "https://max.ru/id2421000338_gos",
+          "kind": "channel-gos",
+          "handle": "id2421000338_gos",
+          "inn": "2421000338",
+          "asGiven": "https://max.ru/id2421000338_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/avangard_online",
+          "kind": "channel",
+          "handle": "avangard_online",
+          "asGiven": "https://t.me/avangard_online",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 820,
+        "vk": 1400,
+        "ok": 2114,
+        "max": 310
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://avangardkray.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1516,
+          "depthDays": 7.2,
+          "newest": "2026-10-20T06:30:09+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://avangardkray.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://avangardkray.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": []
+    },
+    {
+      "id": "angarskaya-pravda",
+      "name": "Ангарская правда",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Богучанский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://angarka.info/",
+          "asciiUrl": "https://angarka.info/",
+          "asGiven": "http://angarka.info/"
+        },
+        "vk": {
+          "url": "https://vk.com/angarkainfo",
+          "kind": "community",
+          "handle": "angarkainfo",
+          "asGiven": "https://vk.com/angarkainfo"
+        },
+        "ok": {
+          "url": "https://ok.ru/angarskaya.pravda",
+          "kind": "group",
+          "handle": "angarskaya.pravda",
+          "asGiven": "https://ok.ru/angarskaya.pravda"
+        },
+        "max": {
+          "url": "https://max.ru/id2407004884_gos",
+          "kind": "channel-gos",
+          "handle": "id2407004884_gos",
+          "inn": "2407004884",
+          "asGiven": "https://max.ru/id2407004884_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/angarka2022",
+          "kind": "channel",
+          "handle": "angarka2022",
+          "asGiven": "https://t.me/angarka2022",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/id/611c742476e1862f7f85ab3a",
+          "kind": "channel-id",
+          "channelId": "611c742476e1862f7f85ab3a",
+          "asGiven": "https://dzen.ru/id/611c742476e1862f7f85ab3a"
+        }
+      },
+      "subscribers": {
+        "telegram": 1342,
+        "vk": 4200,
+        "ok": 4500,
+        "dzen": 122,
+        "max": 229
+      },
+      "site": {
+        "status": "html",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": true,
+          "url": "https://angarka.info/sitemap.xml",
+          "entries": 1
+        },
+        "search": {
+          "url": "https://angarka.info/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Ангарская правда",
+        "publisherId": "611c742476e1862f7f85ab3a",
+        "subscribersNow": 158,
+        "firstPageItems": 18,
+        "lastPostAt": "2026-10-19T15:26:30+00:00",
+        "daysSinceLastPost": 0
+      },
+      "issues": [
+        "сайт: RSS на этой копии платформы выключен (/rss/ — 404); брать раздел /news/ и страницы статей, разметка как у остальных сайтов платформы"
+      ]
+    },
+    {
+      "id": "angarskiy-rabochiy",
+      "name": "Ангарский рабочий",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Мотыгинский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://angarochka.ru/",
+          "asciiUrl": "https://angarochka.ru/",
+          "asGiven": "http://angarochka.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/angarochka24",
+          "kind": "community",
+          "handle": "angarochka24",
+          "asGiven": "https://vk.com/angarochka24"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/53090704425047",
+          "kind": "group",
+          "ownerId": "53090704425047",
+          "asGiven": "https://ok.ru/group/53090704425047"
+        },
+        "max": {
+          "url": "https://max.ru/id2426000229_gos",
+          "kind": "channel-gos",
+          "handle": "id2426000229_gos",
+          "inn": "2426000229",
+          "asGiven": "https://max.ru/id2426000229_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/angarochka1",
+          "kind": "channel",
+          "handle": "angarochka1",
+          "asGiven": "https://t.me/angarochka1",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/id/66238cd4e69dcf3927ea044e",
+          "kind": "channel-id",
+          "channelId": "66238cd4e69dcf3927ea044e",
+          "asGiven": "https://dzen.ru/id/66238cd4e69dcf3927ea044e"
+        }
+      },
+      "subscribers": {
+        "telegram": 628,
+        "vk": 3800,
+        "ok": 7439,
+        "dzen": 74,
+        "max": 234
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://angarochka.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1512,
+          "depthDays": 4.0,
+          "newest": "2026-10-20T06:54:00+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://angarochka.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://angarochka.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "\"Ангарский рабочий\"",
+        "publisherId": "66238cd4e69dcf3927ea044e",
+        "subscribersNow": 77,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-19T17:55:22+00:00",
+        "daysSinceLastPost": 0
+      },
+      "issues": []
+    },
+    {
+      "id": "achinskaya-gazeta",
+      "name": "Ачинская газета",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Ачинск",
+      "districtSource": "name",
+      "links": {
+        "site": {
+          "url": "https://pv-press.ru/",
+          "asciiUrl": "https://pv-press.ru/",
+          "asGiven": "http://pv-press.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/ach_gzt24",
+          "kind": "community",
+          "handle": "ach_gzt24",
+          "asGiven": "https://vk.com/ach_gzt24"
+        },
+        "ok": {
+          "url": "https://ok.ru/achgzt24",
+          "kind": "group",
+          "handle": "achgzt24",
+          "asGiven": "https://ok.ru/achgzt24"
+        },
+        "max": {
+          "url": "https://max.ru/id2443046745_gos",
+          "kind": "channel-gos",
+          "handle": "id2443046745_gos",
+          "inn": "2443046745",
+          "asGiven": "https://max.ru/id2443046745_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/ach_gzt24",
+          "kind": "channel",
+          "handle": "ach_gzt24",
+          "asGiven": "https://t.me/ach_gzt24",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 678,
+        "vk": 6209,
+        "ok": 7547,
+        "max": 112
+      },
+      "site": {
+        "status": "unavailable",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": null,
+        "ips": [
+          "104.21.75.204",
+          "172.67.181.248"
+        ]
+      },
+      "dzen": null,
+      "issues": [
+        "сайт: не отвечает из РФ (тайм-аут 20 с); с ноутбука (DE) через Cloudflare отдаёт посторонний спам-контент — домен, похоже, больше не принадлежит редакции"
+      ]
+    },
+    {
+      "id": "vesti",
+      "name": "Вести",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Большеулуйский район",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://www.vesti-uluy.ru/",
+          "asciiUrl": "https://www.vesti-uluy.ru/",
+          "asGiven": "www.vesti-uluy.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/vesti_uluy",
+          "kind": "community",
+          "handle": "vesti_uluy",
+          "asGiven": "https://vk.com/vesti_uluy"
+        },
+        "ok": {
+          "url": "https://ok.ru/vesti.bolshoyuluy",
+          "kind": "group",
+          "handle": "vesti.bolshoyuluy",
+          "asGiven": "https://ok.ru/vesti.bolshoyuluy"
+        },
+        "max": {
+          "url": "https://max.ru/id2409002339_gos",
+          "kind": "channel-gos",
+          "handle": "id2409002339_gos",
+          "inn": "2409002339",
+          "asGiven": "https://max.ru/id2409002339_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/vestiului",
+          "kind": "channel",
+          "handle": "vestiului",
+          "asGiven": "https://t.me/vestiului",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 803,
+        "vk": 2962,
+        "ok": 5636,
+        "max": 124
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://www.vesti-uluy.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1864,
+          "depthDays": 19.8,
+          "newest": "2026-10-19T08:53:18+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://www.vesti-uluy.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://www.vesti-uluy.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": [
+        "сайт: адрес без http(s)://"
+      ]
+    },
+    {
+      "id": "vlast-truda",
+      "name": "Власть труда",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Минусинский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://www.vtruda.ru/",
+          "asciiUrl": "https://www.vtruda.ru/",
+          "asGiven": "www.vtruda.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/v_truda",
+          "kind": "community",
+          "handle": "v_truda",
+          "asGiven": "http://vk.com/v_truda"
+        },
+        "ok": {
+          "url": "https://ok.ru/vlasttruda",
+          "kind": "group",
+          "handle": "vlasttruda",
+          "asGiven": "https://ok.ru/vlasttruda"
+        },
+        "max": {
+          "url": "https://max.ru/ch_572953297985",
+          "kind": "channel",
+          "handle": "ch_572953297985",
+          "asGiven": "https://max.ru/ch_572953297985"
+        },
+        "telegram": {
+          "url": "https://t.me/vtruda",
+          "kind": "channel",
+          "handle": "vtruda",
+          "asGiven": "https://t.me/vtruda",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/vtruda",
+          "kind": "channel-name",
+          "channelName": "vtruda",
+          "asGiven": "https://dzen.ru/vtruda"
+        }
+      },
+      "subscribers": {
+        "telegram": 3368,
+        "vk": 7100,
+        "ok": 3093,
+        "dzen": 2687,
+        "max": 435
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://www.vtruda.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 2231,
+          "depthDays": 5.0,
+          "newest": "2026-10-19T06:59:24+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": true,
+          "url": "https://www.vtruda.ru/sitemap.xml",
+          "entries": 1
+        },
+        "search": {
+          "url": "https://www.vtruda.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "О Сибири с любовью!",
+        "publisherId": "647edcf397f79c2656d02daf",
+        "subscribersNow": 2823,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-20T06:36:29+00:00",
+        "daysSinceLastPost": 0
+      },
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "VK: http вместо https",
+        "Дзен: канал dzen.ru/vtruda называется «О Сибири с любовью!» (пишет о Минусинске)"
+      ]
+    },
+    {
+      "id": "vmeste-s-vami",
+      "name": "Вместе с Вами",
+      "type": "media",
+      "kind": "газета",
+      "level": null,
+      "district": null,
+      "districtSource": null,
+      "links": {
+        "site": {
+          "url": "https://gazeta-vmeste.ru/",
+          "asciiUrl": "https://gazeta-vmeste.ru/",
+          "asGiven": "gazeta-vmeste.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/vmeste_svami",
+          "kind": "community",
+          "handle": "vmeste_svami",
+          "asGiven": "https://vk.com/vmeste_svami"
+        },
+        "ok": {
+          "url": "https://ok.ru/gazetavmeste0",
+          "kind": "group",
+          "handle": "gazetavmeste0",
+          "asGiven": "https://ok.ru/gazetavmeste0"
+        },
+        "max": {
+          "url": "https://max.ru/id2430003568_gos",
+          "kind": "channel-gos",
+          "handle": "id2430003568_gos",
+          "inn": "2430003568",
+          "asGiven": "https://max.ru/id2430003568_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/vsv_gazeta",
+          "kind": "channel",
+          "handle": "vsv_gazeta",
+          "asGiven": "https://t.me/vsv_gazeta",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/vsv_gazeta",
+          "kind": "channel-name",
+          "channelName": "vsv_gazeta",
+          "asGiven": "https://dzen.ru/vsv_gazeta"
+        }
+      },
+      "subscribers": {
+        "telegram": 765,
+        "vk": 3405,
+        "ok": 2996,
+        "max": 245
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://gazeta-vmeste.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 2276,
+          "depthDays": 14.0,
+          "newest": "2026-10-19T05:09:57+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://gazeta-vmeste.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://gazeta-vmeste.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Вместе с вами",
+        "publisherId": "642fc4a1ba80f62f36aa34a1",
+        "subscribersNow": 59,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-20T06:58:51+00:00",
+        "daysSinceLastPost": 0
+      },
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "лист 2: ссылка Дзен есть, а подписчиков нет"
+      ]
+    },
+    {
+      "id": "vpered",
+      "name": "Вперед",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Манско-Уярский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://www.vpered24.ru/",
+          "asciiUrl": "https://www.vpered24.ru/",
+          "asGiven": "www.vpered24.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/vpered24",
+          "kind": "community",
+          "handle": "vpered24",
+          "asGiven": "https://vk.com/vpered24/"
+        },
+        "ok": {
+          "url": "https://ok.ru/vpered24",
+          "kind": "group",
+          "handle": "vpered24",
+          "asGiven": "https://ok.ru/vpered24/"
+        },
+        "max": {
+          "url": "https://max.ru/id2440000710_gos",
+          "kind": "channel-gos",
+          "handle": "id2440000710_gos",
+          "inn": "2440000710",
+          "asGiven": "https://max.ru/id2440000710_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/vpered24",
+          "kind": "channel",
+          "handle": "vpered24",
+          "asGiven": "https://t.me/vpered24",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 549,
+        "vk": 4775,
+        "ok": 3521,
+        "dzen": 12,
+        "max": 539
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://www.vpered24.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 2231,
+          "depthDays": 25.0,
+          "newest": "2026-10-19T05:09:57+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://www.vpered24.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://www.vpered24.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "VK: лишний «/» в конце ссылки",
+        "лист 2: подписчики Дзен есть (12), а ссылки на листе 1 нет"
+      ]
+    },
+    {
+      "id": "golos-vremeni",
+      "name": "Голос времени",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Рыбинский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://голосвремени.рф/",
+          "asciiUrl": "https://xn--b1abhapojjdbxk.xn--p1ai/",
+          "asGiven": "http://голосвремени.рф/"
+        },
+        "vk": {
+          "url": "https://vk.com/golos_vremeni",
+          "kind": "community",
+          "handle": "golos_vremeni",
+          "asGiven": "https://vk.com/golos_vremeni"
+        },
+        "ok": {
+          "url": "https://ok.ru/golosvreme",
+          "kind": "group",
+          "handle": "golosvreme",
+          "asGiven": "http://ok.ru/golosvreme"
+        },
+        "max": {
+          "url": "https://max.ru/golos_vremeni",
+          "kind": "channel",
+          "handle": "golos_vremeni",
+          "asGiven": "https://max.ru/golos_vremeni"
+        },
+        "telegram": {
+          "url": "https://t.me/golosvremeni",
+          "kind": "channel",
+          "handle": "golosvremeni",
+          "asGiven": "https://t.me/golosvremeni",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/golos_vremeni",
+          "kind": "channel-name",
+          "channelName": "golos_vremeni",
+          "asGiven": "https://dzen.ru/golos_vremeni"
+        }
+      },
+      "subscribers": {
+        "telegram": 1928,
+        "vk": 12700,
+        "ok": 11457,
+        "dzen": 2164,
+        "max": 1041
+      },
+      "site": {
+        "status": "html",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "http://xn--b1abhapojjdbxk.xn--p1ai/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://xn--b1abhapojjdbxk.xn--p1ai/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Новости Рыбинского округа Красноярского края \"Голос времени\"",
+        "publisherId": "623f4842ca8cb172344fb559",
+        "subscribersNow": 2389,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-20T04:32:01+00:00",
+        "daysSinceLastPost": 0
+      },
+      "issues": [
+        "сайт: кириллический домен (для запросов — xn--b1abhapojjdbxk.xn--p1ai)",
+        "сайт: в ячейке текст без гиперссылки",
+        "OK: http вместо https",
+        "сайт: RSS на этой копии платформы выключен (/rss/ — 404); брать раздел /news/ и страницы статей, разметка как у остальных сайтов платформы"
+      ]
+    },
+    {
+      "id": "golos-tyukhteta",
+      "name": "Голос Тюхтета",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Тюхтет (Боготольский муниципальный округ)",
+      "districtSource": "name",
+      "links": {
+        "site": {
+          "url": "https://golos-tuhteta.ru/",
+          "asciiUrl": "https://golos-tuhteta.ru/",
+          "asGiven": "http://golos-tuhteta.ru/"
+        },
+        "vk": {
+          "url": "https://vk.com/public184237411",
+          "kind": "community",
+          "handle": "public184237411",
+          "ownerId": "-184237411",
+          "asGiven": "https://vk.com/public184237411"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/55631355445470",
+          "kind": "group",
+          "ownerId": "55631355445470",
+          "asGiven": "https://ok.ru/group/55631355445470"
+        },
+        "max": {
+          "url": "https://max.ru/id2438000061_gos",
+          "kind": "channel-gos",
+          "handle": "id2438000061_gos",
+          "inn": "2438000061",
+          "asGiven": "https://max.ru/id2438000061_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/gazetagolos",
+          "kind": "channel",
+          "handle": "gazetagolos",
+          "asGiven": "https://t.me/gazetagolos",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 362,
+        "vk": 4219,
+        "ok": 1890,
+        "max": 73
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://golos-tuhteta.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 2231,
+          "depthDays": 7.1,
+          "newest": "2026-10-20T06:38:00+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://golos-tuhteta.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://golos-tuhteta.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": []
+    },
+    {
+      "id": "grani",
+      "name": "Грани",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Новоселовский район",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://www.graninow.ru/",
+          "asciiUrl": "https://www.graninow.ru/",
+          "asGiven": "www.graninow.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/club68905670",
+          "kind": "community",
+          "handle": "club68905670",
+          "ownerId": "-68905670",
+          "asGiven": "https://vk.com/club68905670"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/54673466654744",
+          "kind": "group",
+          "ownerId": "54673466654744",
+          "asGiven": "http://ok.ru/group/54673466654744"
+        },
+        "max": {
+          "url": "https://max.ru/id2429001693_gos",
+          "kind": "channel-gos",
+          "handle": "id2429001693_gos",
+          "inn": "2429001693",
+          "asGiven": "https://max.ru/id2429001693_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/gazetagrani",
+          "kind": "channel",
+          "handle": "gazetagrani",
+          "asGiven": "https://t.me/gazetagrani",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/graninovoselovo",
+          "kind": "channel-name",
+          "channelName": "graninovoselovo",
+          "asGiven": "https://dzen.ru/graninovoselovo"
+        }
+      },
+      "subscribers": {
+        "telegram": 604,
+        "vk": 9557,
+        "ok": 6350,
+        "dzen": 599,
+        "max": 237
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://www.graninow.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 3383,
+          "depthDays": 14.2,
+          "newest": "2026-10-20T04:44:00+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://www.graninow.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://www.graninow.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Газета \"Грани\" Новосёловский район",
+        "publisherId": "5f28c4c76b97c93294d4bf2a",
+        "subscribersNow": 673,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-17T14:21:42+00:00",
+        "daysSinceLastPost": 2
+      },
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "OK: http вместо https"
+      ]
+    },
+    {
+      "id": "dzerzhinets",
+      "name": "Дзержинец",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Дзержинский район",
+      "districtSource": "name",
+      "links": {
+        "site": {
+          "url": "https://www.dzerzhinskoe.ru/",
+          "asciiUrl": "https://www.dzerzhinskoe.ru/",
+          "asGiven": "www.dzerzhinskoe.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/tarai24",
+          "kind": "community",
+          "handle": "tarai24",
+          "asGiven": "https://vk.com/tarai24"
+        },
+        "ok": {
+          "url": "https://ok.ru/dzerzhinets",
+          "kind": "group",
+          "handle": "dzerzhinets",
+          "asGiven": "http://ok.ru/dzerzhinets/topics"
+        },
+        "max": {
+          "url": "https://max.ru/id2410002213_gos",
+          "kind": "channel-gos",
+          "handle": "id2410002213_gos",
+          "inn": "2410002213",
+          "asGiven": "https://max.ru/id2410002213_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/dzerzhinskoe",
+          "kind": "channel",
+          "handle": "dzerzhinskoe",
+          "asGiven": "https://t.me/dzerzhinskoe",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/id/6638985311689f03b418f815",
+          "kind": "channel-id",
+          "channelId": "6638985311689f03b418f815",
+          "asGiven": "https://dzen.ru/id/6638985311689f03b418f815"
+        }
+      },
+      "subscribers": {
+        "telegram": 1472,
+        "vk": 7310,
+        "ok": 5709,
+        "dzen": 43,
+        "max": 974
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://www.dzerzhinskoe.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1629,
+          "depthDays": 6.2,
+          "newest": "2026-10-20T02:50:05+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://www.dzerzhinskoe.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://www.dzerzhinskoe.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "inactive",
+        "title": "Дзержинец",
+        "publisherId": "6638985311689f03b418f815",
+        "subscribersNow": 49,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-07-14T07:13:35+00:00",
+        "daysSinceLastPost": 98
+      },
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "OK: http вместо https",
+        "OK: лишний хвост /topics",
+        "Дзен: канал не обновляется (последняя публикация 2026-07-14)"
+      ]
+    },
+    {
+      "id": "emelyanovskie-vesi",
+      "name": "Емельяновские веси",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Емельяновский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://emelyanovskievesi.ru/",
+          "asciiUrl": "https://emelyanovskievesi.ru/",
+          "asGiven": "https://emelyanovskievesi.ru/"
+        },
+        "vk": {
+          "url": "https://vk.com/emel_vesy",
+          "kind": "community",
+          "handle": "emel_vesy",
+          "asGiven": "https://vk.com/emel_vesy"
+        },
+        "ok": {
+          "url": "https://ok.ru/yemelyano",
+          "kind": "group",
+          "handle": "yemelyano",
+          "asGiven": "https://ok.ru/yemelyano"
+        },
+        "max": {
+          "url": "https://max.ru/id2411003530_gos",
+          "kind": "channel-gos",
+          "handle": "id2411003530_gos",
+          "inn": "2411003530",
+          "asGiven": "https://max.ru/id2411003530_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/vesi1936",
+          "kind": "channel",
+          "handle": "vesi1936",
+          "asGiven": "https://t.me/vesi1936",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/id/625047352c36a860c17f3d0e",
+          "kind": "channel-id",
+          "channelId": "625047352c36a860c17f3d0e",
+          "asGiven": "https://dzen.ru/id/625047352c36a860c17f3d0e"
+        }
+      },
+      "subscribers": {
+        "telegram": 2063,
+        "vk": 7500,
+        "ok": 1808,
+        "dzen": 28,
+        "max": 525
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://emelyanovskievesi.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1275,
+          "depthDays": 7.9,
+          "newest": "2026-10-20T07:02:01+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://emelyanovskievesi.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://emelyanovskievesi.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Сибирь необъятная Редакция газеты \"ЕМЕЛЬЯНОВСКИЕ ВЕСИ\"",
+        "publisherId": "625047352c36a860c17f3d0e",
+        "subscribersNow": 54,
+        "firstPageItems": 17,
+        "lastPostAt": "2026-10-16T04:03:13+00:00",
+        "daysSinceLastPost": 4
+      },
+      "issues": []
+    },
+    {
+      "id": "enisey",
+      "name": "Енисей",
+      "type": "media",
+      "kind": "телеканал",
+      "level": "krai",
+      "district": "Красноярский край",
+      "districtSource": "name",
+      "links": {
+        "site": {
+          "url": "https://www.enisey.tv/",
+          "asciiUrl": "https://www.enisey.tv/",
+          "asGiven": "https://www.enisey.tv"
+        },
+        "vk": {
+          "url": "https://vk.com/eniseytvchannel",
+          "kind": "community",
+          "handle": "eniseytvchannel",
+          "asGiven": "http://vk.com/eniseytvchannel"
+        },
+        "ok": {
+          "url": "https://ok.ru/eniseytv",
+          "kind": "group",
+          "handle": "eniseytv",
+          "asGiven": "http://www.ok.ru/eniseytv/"
+        },
+        "max": {
+          "url": "https://max.ru/eniseytv",
+          "kind": "channel",
+          "handle": "eniseytv",
+          "asGiven": "https://max.ru/eniseytv"
+        },
+        "telegram": {
+          "url": "https://t.me/eniseytv",
+          "kind": "channel",
+          "handle": "eniseytv",
+          "asGiven": "https://t.me/eniseytv",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/enisey",
+          "kind": "channel-name",
+          "channelName": "enisey",
+          "asGiven": "https://dzen.ru/enisey"
+        }
+      },
+      "subscribers": {
+        "telegram": 16670,
+        "vk": 107689,
+        "ok": 48903,
+        "dzen": 1925,
+        "max": 5879
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "custom",
+        "ips": [
+          "151.236.80.36"
+        ],
+        "feed": {
+          "url": "https://www.enisey.tv/rss.xml",
+          "foundBy": "типовой адрес /rss.xml",
+          "items": 40,
+          "text": "полный текст",
+          "fullTextField": "content:encoded",
+          "textMedianChars": 967,
+          "depthDays": 1.2,
+          "newest": "2026-10-20T07:09:35+00:00"
+        },
+        "robots": {
+          "found": false,
+          "disallowAll": null,
+          "crawlDelay": null,
+          "searchDisallowed": null,
+          "feedDisallowed": null,
+          "paginationDisallowed": false
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://www.enisey.tv/sitemap.xml",
+          "entries": null
+        },
+        "search": null
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Телеканал Енисей",
+        "publisherId": "5a94ca3757906aae1fea2b45",
+        "subscribersNow": 2177,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-20T07:09:35+00:00",
+        "daysSinceLastPost": 0
+      },
+      "issues": [
+        "VK: http вместо https",
+        "OK: http вместо https",
+        "OK: www. в адресе",
+        "Дзен: текст ячейки и гиперссылка расходятся (гиперссылка https://zen.yandex.ru/enisey)",
+        "сайт: защита от ботов Variti (ответ 307 на все страницы, кроме /rss.xml) — страницы статей проверить нельзя, работаем только по RSS"
+      ]
+    },
+    {
+      "id": "eniseyskaya-pravda",
+      "name": "Енисейская правда",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Енисейский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://енисейская-правда.рф/",
+          "asciiUrl": "https://xn----7sbbajmca0all6a6aoic4v.xn--p1ai/",
+          "asGiven": "http://енисейская-правда.рф"
+        },
+        "vk": {
+          "url": "https://vk.com/club118938740",
+          "kind": "community",
+          "handle": "club118938740",
+          "ownerId": "-118938740",
+          "asGiven": "https://vk.com/club118938740"
+        },
+        "ok": {
+          "url": "https://ok.ru/yeniseyska",
+          "kind": "group",
+          "handle": "yeniseyska",
+          "asGiven": "http://ok.ru/yeniseyska"
+        },
+        "max": {
+          "url": "https://max.ru/yeniseykasmi",
+          "kind": "channel",
+          "handle": "yeniseykasmi",
+          "asGiven": "https://max.ru/yeniseykasmi"
+        },
+        "telegram": {
+          "url": "https://t.me/enpravda",
+          "kind": "channel",
+          "handle": "enpravda",
+          "asGiven": "https://t.me/enpravda",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/eniseyka",
+          "kind": "channel-name",
+          "channelName": "eniseyka",
+          "asGiven": "https://dzen.ru/eniseyka"
+        }
+      },
+      "subscribers": {
+        "telegram": 1277,
+        "vk": 13300,
+        "ok": 10300,
+        "dzen": 1860,
+        "max": 359
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://xn----7sbbajmca0all6a6aoic4v.xn--p1ai/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 2231,
+          "depthDays": 4.9,
+          "newest": "2026-10-20T06:49:26+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://xn----7sbbajmca0all6a6aoic4v.xn--p1ai/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://xn----7sbbajmca0all6a6aoic4v.xn--p1ai/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "\"Енисейская правда\"",
+        "publisherId": "6377447224dd3955db090d4c",
+        "subscribersNow": 1937,
+        "firstPageItems": 4,
+        "lastPostAt": "2026-10-02T06:55:24+00:00",
+        "daysSinceLastPost": 18
+      },
+      "issues": [
+        "сайт: кириллический домен (для запросов — xn----7sbbajmca0all6a6aoic4v.xn--p1ai)",
+        "сайт: в ячейке текст без гиперссылки",
+        "OK: http вместо https"
+      ]
+    },
+    {
+      "id": "zapolyare",
+      "name": "Заполярье",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Норильск",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://severokrai.ru/",
+          "asciiUrl": "https://severokrai.ru/",
+          "asGiven": "https://severokrai.ru/"
+        },
+        "vk": {
+          "url": "https://vk.com/severokrai",
+          "kind": "community",
+          "handle": "severokrai",
+          "asGiven": "https://vk.com/severokrai"
+        },
+        "max": {
+          "url": "https://max.ru/join/VHhreMro-NbLWtF3KmeP5tF39hkcZTRlyR5AZw1ryG8",
+          "kind": "invite",
+          "asGiven": "https://max.ru/join/VHhreMro-NbLWtF3KmeP5tF39hkcZTRlyR5AZw1ryG8"
+        },
+        "telegram": {
+          "url": "https://t.me/severokrai",
+          "kind": "channel",
+          "handle": "severokrai",
+          "asGiven": "https://t.me/severokrai",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 2532,
+        "vk": 5080
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://severokrai.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 966,
+          "depthDays": 5.2,
+          "newest": "2026-10-20T05:38:21+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": true,
+          "url": "https://severokrai.ru/sitemap.xml",
+          "entries": 2
+        },
+        "search": {
+          "url": "https://severokrai.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": [
+        "MAX: ссылка-приглашение (join/…), имени канала в ней нет",
+        "лист 2: ссылка MAX есть, а подписчиков нет",
+        "название: в таблице «Заполярье», а сайт severokrai.ru — газета «Северный край» (Норильск)"
+      ]
+    },
+    {
+      "id": "zarya",
+      "name": "Заря",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Казачинско-Пировский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://gazetazaria.ru/",
+          "asciiUrl": "https://gazetazaria.ru/",
+          "asGiven": "https://gazetazaria.ru/"
+        },
+        "vk": {
+          "url": "https://vk.com/id586913986",
+          "kind": "profile",
+          "handle": "id586913986",
+          "ownerId": "586913986",
+          "asGiven": "https://vk.com/id586913986"
+        },
+        "ok": {
+          "url": "https://ok.ru/profile/583268521789",
+          "kind": "profile",
+          "ownerId": "583268521789",
+          "asGiven": "http://ok.ru/profile/583268521789"
+        },
+        "max": {
+          "url": "https://max.ru/id2431000295_gos",
+          "kind": "channel-gos",
+          "handle": "id2431000295_gos",
+          "inn": "2431000295",
+          "asGiven": "https://max.ru/id2431000295_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/zaria1935",
+          "kind": "channel",
+          "handle": "zaria1935",
+          "asGiven": "https://t.me/zaria1935",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 640,
+        "vk": 6093,
+        "ok": 5972
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://gazetazaria.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1864,
+          "depthDays": 23.4,
+          "newest": "2026-10-19T05:09:57+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://gazetazaria.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://gazetazaria.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": [
+        "VK: ссылка на личную страницу (id…), а не на сообщество",
+        "OK: http вместо https",
+        "OK: ссылка на личный профиль (profile/…), а не на группу",
+        "лист 2: ссылка MAX есть, а подписчиков нет"
+      ]
+    },
+    {
+      "id": "zarya-eniseya",
+      "name": "Заря Енисея",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Лесосибирск",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://zaren.ru/",
+          "asciiUrl": "https://zaren.ru/",
+          "asGiven": "https://zaren.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/zaryaeniseya",
+          "kind": "community",
+          "handle": "zaryaeniseya",
+          "asGiven": "https://vk.com/zaryaeniseya"
+        },
+        "ok": {
+          "url": "https://ok.ru/zaryaeniseya",
+          "kind": "group",
+          "handle": "zaryaeniseya",
+          "asGiven": "https://ok.ru/zaryaeniseya"
+        },
+        "max": {
+          "url": "https://max.ru/id2454001922_gos",
+          "kind": "channel-gos",
+          "handle": "id2454001922_gos",
+          "inn": "2454001922",
+          "asGiven": "https://max.ru/id2454001922_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/zaryaeniseya",
+          "kind": "channel",
+          "handle": "zaryaeniseya",
+          "asGiven": "https://t.me/zaryaeniseya",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 571,
+        "vk": 9917,
+        "ok": 6500,
+        "dzen": 32,
+        "max": 110
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://zaren.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 2231,
+          "depthDays": 4.9,
+          "newest": "2026-10-20T06:49:24+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://zaren.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://zaren.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": [
+        "лист 2: подписчики Дзен есть (32), а ссылки на листе 1 нет"
+      ]
+    },
+    {
+      "id": "zemlya-bogotolskaya",
+      "name": "Земля Боготольская",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Боготольский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://zemlyabogotolskaya.ru/",
+          "asciiUrl": "https://zemlyabogotolskaya.ru/",
+          "asGiven": "https://zemlyabogotolskaya.ru/"
+        },
+        "vk": {
+          "url": "https://vk.com/club107483759",
+          "kind": "community",
+          "handle": "club107483759",
+          "ownerId": "-107483759",
+          "asGiven": "https://vk.com/club107483759"
+        },
+        "ok": {
+          "url": "https://ok.ru/gazetazb",
+          "kind": "group",
+          "handle": "gazetazb",
+          "asGiven": "http://ok.ru/gazetazb"
+        },
+        "max": {
+          "url": "https://max.ru/id2444000172_gos",
+          "kind": "channel-gos",
+          "handle": "id2444000172_gos",
+          "inn": "2444000172",
+          "asGiven": "https://max.ru/id2444000172_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/gazetazb",
+          "kind": "channel",
+          "handle": "gazetazb",
+          "asGiven": "https://t.me/gazetazb",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 1230,
+        "vk": 6115,
+        "ok": 7132,
+        "max": 155
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://zemlyabogotolskaya.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1051,
+          "depthDays": 4.2,
+          "newest": "2026-10-20T03:13:42+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://zemlyabogotolskaya.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://zemlyabogotolskaya.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": [
+        "OK: http вместо https"
+      ]
+    },
+    {
+      "id": "znamya-truda",
+      "name": "Знамя труда",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Каратузский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://ztgazeta.ru/",
+          "asciiUrl": "https://ztgazeta.ru/",
+          "asGiven": "http://ztgazeta.ru/"
+        },
+        "vk": {
+          "url": "https://vk.com/public216447924",
+          "kind": "community",
+          "handle": "public216447924",
+          "ownerId": "-216447924",
+          "asGiven": "https://vk.com/public216447924"
+        },
+        "ok": {
+          "url": "https://ok.ru/profile/587195283766",
+          "kind": "profile",
+          "ownerId": "587195283766",
+          "asGiven": "https://ok.ru/profile/587195283766"
+        },
+        "max": {
+          "url": "https://max.ru/id2419004279_gos",
+          "kind": "channel-gos",
+          "handle": "id2419004279_gos",
+          "inn": "2419004279",
+          "asGiven": "https://max.ru/id2419004279_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/znamatruda",
+          "kind": "channel",
+          "handle": "znamatruda",
+          "asGiven": "https://t.me/znamatruda",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/id/652f341e6bbf9502d046d110",
+          "kind": "channel-id",
+          "channelId": "652f341e6bbf9502d046d110",
+          "asGiven": "https://dzen.ru/id/652f341e6bbf9502d046d110"
+        }
+      },
+      "subscribers": {
+        "telegram": 567,
+        "vk": 2801,
+        "ok": 5997,
+        "dzen": 147,
+        "max": 271
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://ztgazeta.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1516,
+          "depthDays": 19.1,
+          "newest": "2026-10-19T05:09:57+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://ztgazeta.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://ztgazeta.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Газета \"Знамя труда\"",
+        "publisherId": "652f341e6bbf9502d046d110",
+        "subscribersNow": 181,
+        "firstPageItems": 16,
+        "lastPostAt": "2026-10-08T08:21:04+00:00",
+        "daysSinceLastPost": 11
+      },
+      "issues": [
+        "OK: ссылка на личный профиль (profile/…), а не на группу"
+      ]
+    },
+    {
+      "id": "idrinskiy-vestnik",
+      "name": "Идринский вестник",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Идринский район",
+      "districtSource": "name",
+      "links": {
+        "site": {
+          "url": "https://idr-vestnik.ru/",
+          "asciiUrl": "https://idr-vestnik.ru/",
+          "asGiven": "http://idr-vestnik.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/id566679836",
+          "kind": "profile",
+          "handle": "id566679836",
+          "ownerId": "566679836",
+          "asGiven": "https://vk.com/id566679836"
+        },
+        "ok": {
+          "url": "https://ok.ru/profile/570973925221",
+          "kind": "profile",
+          "ownerId": "570973925221",
+          "asGiven": "https://ok.ru/profile/570973925221"
+        },
+        "max": {
+          "url": "https://max.ru/id2414000739_gos",
+          "kind": "channel-gos",
+          "handle": "id2414000739_gos",
+          "inn": "2414000739",
+          "asGiven": "https://max.ru/id2414000739_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/IdrinskiiVestnik",
+          "kind": "channel",
+          "handle": "IdrinskiiVestnik",
+          "asGiven": "https://t.me/IdrinskiiVestnik",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/idrinskiivestnik",
+          "kind": "channel-name",
+          "channelName": "idrinskiivestnik",
+          "asGiven": "https://dzen.ru/idrinskiivestnik"
+        }
+      },
+      "subscribers": {
+        "telegram": 1315,
+        "vk": 2086,
+        "ok": 1982,
+        "dzen": 48,
+        "max": 294
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://idr-vestnik.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 2932,
+          "depthDays": 5.3,
+          "newest": "2026-10-20T05:41:06+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://idr-vestnik.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://idr-vestnik.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Идринский вестник",
+        "publisherId": "63a31ab1da1c4f18e1a6506e",
+        "subscribersNow": 49,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-19T01:45:05+00:00",
+        "daysSinceLastPost": 1
+      },
+      "issues": [
+        "VK: ссылка на личную страницу (id…), а не на сообщество",
+        "OK: ссылка на личный профиль (profile/…), а не на группу"
+      ]
+    },
+    {
+      "id": "ilanskie-vesti",
+      "name": "Иланские вести",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Иланский район",
+      "districtSource": "name",
+      "links": {
+        "site": {
+          "url": "https://ilanskievesti.ru/",
+          "asciiUrl": "https://ilanskievesti.ru/",
+          "asGiven": "ilanskievesti.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/club62778092",
+          "kind": "community",
+          "handle": "club62778092",
+          "ownerId": "-62778092",
+          "asGiven": "http://vk.com/club62778092"
+        },
+        "ok": {
+          "url": "https://ok.ru/ilanskievesti",
+          "kind": "group",
+          "handle": "ilanskievesti",
+          "asGiven": "http://www.ok.ru/ilanskievesti"
+        },
+        "max": {
+          "url": "https://max.ru/id2415000989_gos",
+          "kind": "channel-gos",
+          "handle": "id2415000989_gos",
+          "inn": "2415000989",
+          "asGiven": "https://max.ru/id2415000989_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/ilanskievesti",
+          "kind": "channel",
+          "handle": "ilanskievesti",
+          "asGiven": "https://t.me/ilanskievesti",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/id/622eaa59522f83459270cce0",
+          "kind": "channel-id",
+          "channelId": "622eaa59522f83459270cce0",
+          "asGiven": "https://dzen.ru/id/622eaa59522f83459270cce0?share_to=link"
+        }
+      },
+      "subscribers": {
+        "telegram": 1690,
+        "vk": 9641,
+        "ok": 10895,
+        "dzen": 1544,
+        "max": 327
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://ilanskievesti.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1864,
+          "depthDays": 27.9,
+          "newest": "2026-10-19T05:09:57+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": true,
+          "url": "https://ilanskievesti.ru/sitemap.xml",
+          "entries": 1
+        },
+        "search": {
+          "url": "https://ilanskievesti.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Иланские вести",
+        "publisherId": "622eaa59522f83459270cce0",
+        "subscribersNow": 1545,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-05T04:40:24+00:00",
+        "daysSinceLastPost": 15
+      },
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "VK: http вместо https",
+        "OK: http вместо https",
+        "OK: www. в адресе",
+        "Дзен: хвост в ссылке ?share_to=link"
+      ]
+    },
+    {
+      "id": "irbeyskaya-pravda",
+      "name": "Ирбейская правда",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Ирбейский район",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://irbeika.ru/",
+          "asciiUrl": "https://irbeika.ru/",
+          "asGiven": "http://irbeika.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/club68657817",
+          "kind": "community",
+          "handle": "club68657817",
+          "ownerId": "-68657817",
+          "asGiven": "http://vk.com/club68657817"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/56957409427490",
+          "kind": "group",
+          "ownerId": "56957409427490",
+          "asGiven": "http://ok.ru/group/56957409427490"
+        },
+        "max": {
+          "url": "https://max.ru/id2416000340_gos",
+          "kind": "channel-gos",
+          "handle": "id2416000340_gos",
+          "inn": "2416000340",
+          "asGiven": "https://max.ru/id2416000340_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/irbeika",
+          "kind": "channel",
+          "handle": "irbeika",
+          "asGiven": "https://t.me/irbeika",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/irbeika124",
+          "kind": "channel-name",
+          "channelName": "irbeika124",
+          "asGiven": "https://dzen.ru/irbeika124"
+        }
+      },
+      "subscribers": {
+        "telegram": 2102,
+        "vk": 10400,
+        "ok": 5682,
+        "dzen": 87,
+        "max": 436
+      },
+      "site": {
+        "status": "html",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "http://smi.neto.ru/sitemap.xml",
+          "entries": null,
+          "note": "robots.txt указывает sitemap на smi.neto.ru (общая платформа), адрес отвечает 404"
+        },
+        "search": {
+          "url": "https://irbeika.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Ирбейская правда",
+        "publisherId": "62b4061cf663bf734959df71",
+        "subscribersNow": 89,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-19T06:56:53+00:00",
+        "daysSinceLastPost": 1
+      },
+      "issues": [
+        "VK: http вместо https",
+        "OK: http вместо https",
+        "сайт: RSS на этой копии платформы выключен (/rss/ — 404); брать раздел /news/ и страницы статей, разметка как у остальных сайтов платформы"
+      ]
+    },
+    {
+      "id": "kanskie-vedomosti",
+      "name": "Канские ведомости",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Канский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://www.kvgazeta.ru/",
+          "asciiUrl": "https://www.kvgazeta.ru/",
+          "asGiven": "www.kvgazeta.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/club48293807",
+          "kind": "community",
+          "handle": "club48293807",
+          "ownerId": "-48293807",
+          "asGiven": "http://vk.com/club48293807"
+        },
+        "ok": {
+          "url": "https://ok.ru/kanskieve",
+          "kind": "group",
+          "handle": "kanskieve",
+          "asGiven": "http://ok.ru/kanskieve"
+        },
+        "max": {
+          "url": "https://max.ru/kvgazeta",
+          "kind": "channel",
+          "handle": "kvgazeta",
+          "asGiven": "https://max.ru/kvgazeta"
+        },
+        "telegram": {
+          "url": "https://t.me/kvgazetaRU",
+          "kind": "channel",
+          "handle": "kvgazetaRU",
+          "asGiven": "https://t.me/kvgazetaRU",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/kvgazetaru",
+          "kind": "channel-name",
+          "channelName": "kvgazetaru",
+          "asGiven": "https://dzen.ru/kvgazetaru"
+        }
+      },
+      "subscribers": {
+        "telegram": 1638,
+        "vk": 15638,
+        "ok": 12200,
+        "dzen": 233,
+        "max": 516
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://www.kvgazeta.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1847,
+          "depthDays": 13.1,
+          "newest": "2026-10-20T05:00:09+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://www.kvgazeta.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://www.kvgazeta.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Канские ведомости",
+        "publisherId": "666a88d461a30954fafc012b",
+        "subscribersNow": 248,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-16T23:02:21+00:00",
+        "daysSinceLastPost": 3
+      },
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "VK: http вместо https",
+        "OK: http вместо https"
+      ]
+    },
+    {
+      "id": "krasnoe-znamya",
+      "name": "Красное знамя",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Абанский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://krasnoeznamia.ru/",
+          "asciiUrl": "https://krasnoeznamia.ru/",
+          "asGiven": "https://krasnoeznamia.ru/"
+        },
+        "vk": {
+          "url": "https://vk.com/club59474892",
+          "kind": "community",
+          "handle": "club59474892",
+          "ownerId": "-59474892",
+          "asGiven": "http://vk.com/club59474892"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/53139179110605",
+          "kind": "group",
+          "ownerId": "53139179110605",
+          "asGiven": "http://ok.ru/group/53139179110605"
+        },
+        "max": {
+          "url": "https://max.ru/id2401003394_gos",
+          "kind": "channel-gos",
+          "handle": "id2401003394_gos",
+          "inn": "2401003394",
+          "asGiven": "https://max.ru/id2401003394_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/krasnoeznamia",
+          "kind": "channel",
+          "handle": "krasnoeznamia",
+          "asGiven": "https://t.me/krasnoeznamia",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 254,
+        "vk": 5782,
+        "ok": 6322,
+        "max": 299
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://krasnoeznamia.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1206,
+          "depthDays": 2.3,
+          "newest": "2026-10-20T06:29:36+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://krasnoeznamia.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://krasnoeznamia.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": [
+        "VK: http вместо https",
+        "OK: http вместо https"
+      ]
+    },
+    {
+      "id": "leninskaya-iskra",
+      "name": "Ленинская искра",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Шушенский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://ленинская.рф/",
+          "asciiUrl": "https://xn--80ajjicnb6a3j.xn--p1ai/",
+          "asGiven": "https://ленинская.рф/"
+        },
+        "vk": {
+          "url": "https://vk.com/club29585514",
+          "kind": "community",
+          "handle": "club29585514",
+          "ownerId": "-29585514",
+          "asGiven": "https://vk.com/club29585514"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/58383169421370",
+          "kind": "group",
+          "ownerId": "58383169421370",
+          "asGiven": "https://www.ok.ru/group/58383169421370"
+        },
+        "max": {
+          "url": "https://max.ru/id2442002375_gos",
+          "kind": "channel-gos",
+          "handle": "id2442002375_gos",
+          "inn": "2442002375",
+          "asGiven": "https://max.ru/id2442002375_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/liskrashush",
+          "kind": "channel",
+          "handle": "liskrashush",
+          "asGiven": "https://t.me/liskrashush",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 818,
+        "vk": 6188,
+        "ok": 3500,
+        "dzen": 12,
+        "max": 127
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://xn--80ajjicnb6a3j.xn--p1ai/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 2231,
+          "depthDays": 20.0,
+          "newest": "2026-10-20T02:22:56+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://xn--80ajjicnb6a3j.xn--p1ai/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://xn--80ajjicnb6a3j.xn--p1ai/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": [
+        "сайт: кириллический домен (для запросов — xn--80ajjicnb6a3j.xn--p1ai)",
+        "сайт: в ячейке текст без гиперссылки",
+        "OK: www. в адресе",
+        "лист 2: подписчики Дзен есть (12), а ссылки на листе 1 нет"
+      ]
+    },
+    {
+      "id": "manskaya-zhizn",
+      "name": "Манская жизнь",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Манско-Уярский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://mananews.ru/",
+          "asciiUrl": "https://mananews.ru/",
+          "asGiven": "http://mananews.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/public157780119",
+          "kind": "community",
+          "handle": "public157780119",
+          "ownerId": "-157780119",
+          "asGiven": "https://vk.com/public157780119"
+        },
+        "ok": {
+          "url": "https://ok.ru/profile/572824539651",
+          "kind": "profile",
+          "ownerId": "572824539651",
+          "asGiven": "http://ok.ru/profile/572824539651"
+        },
+        "max": {
+          "url": "https://max.ru/id2424002830_gos",
+          "kind": "channel-gos",
+          "handle": "id2424002830_gos",
+          "inn": "2424002830",
+          "asGiven": "https://max.ru/id2424002830_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/manskayagazeta",
+          "kind": "channel",
+          "handle": "manskayagazeta",
+          "asGiven": "https://t.me/manskayagazeta",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 573,
+        "vk": 6300,
+        "ok": 1900,
+        "max": 320
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://mananews.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 2231,
+          "depthDays": 15.2,
+          "newest": "2026-10-20T06:00:00+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://mananews.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://mananews.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": [
+        "OK: http вместо https",
+        "OK: ссылка на личный профиль (profile/…), а не на группу"
+      ]
+    },
+    {
+      "id": "mayak-severa",
+      "name": "Маяк Севера",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Северо-Енисейский район",
+      "districtSource": "guess",
+      "links": {
+        "site": {
+          "url": "https://mayaksevera.ru/",
+          "asciiUrl": "https://mayaksevera.ru/",
+          "asGiven": "http://mayaksevera.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/mayaksevera",
+          "kind": "community",
+          "handle": "mayaksevera",
+          "asGiven": "https://vk.com/mayaksevera"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/53477627068608",
+          "kind": "group",
+          "ownerId": "53477627068608",
+          "asGiven": "https://ok.ru/group/53477627068608"
+        },
+        "max": {
+          "url": "https://max.ru/id2437003180_gos2",
+          "kind": "channel-gos",
+          "handle": "id2437003180_gos2",
+          "inn": "2437003180",
+          "asGiven": "https://max.ru/id2437003180_gos2"
+        },
+        "telegram": {
+          "url": "https://t.me/mayaksevera",
+          "kind": "channel",
+          "handle": "mayaksevera",
+          "asGiven": "https://t.me/mayaksevera",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 624,
+        "vk": 3708,
+        "ok": 4792,
+        "max": 276
+      },
+      "site": {
+        "status": "unavailable",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": null,
+        "ips": []
+      },
+      "dzen": null,
+      "issues": [
+        "MAX: нестандартный суффикс «_gos2»",
+        "сайт: домен не существует (DNS не находит адрес)"
+      ]
+    },
+    {
+      "id": "nash-krasnoyarskiy-kray",
+      "name": "Наш Красноярский край",
+      "type": "media",
+      "kind": "газета",
+      "level": "krai",
+      "district": "Красноярский край",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://gnkk.ru/",
+          "asciiUrl": "https://gnkk.ru/",
+          "asGiven": "http://gnkk.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/gazeta_nkk",
+          "kind": "community",
+          "handle": "gazeta_nkk",
+          "asGiven": "http://vk.com/gazeta_nkk"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/53982036820182",
+          "kind": "group",
+          "ownerId": "53982036820182",
+          "asGiven": "https://ok.ru/group/53982036820182"
+        },
+        "max": {
+          "url": "https://max.ru/gazeta_nkk",
+          "kind": "channel",
+          "handle": "gazeta_nkk",
+          "asGiven": "https://max.ru/gazeta_nkk"
+        },
+        "telegram": {
+          "url": "https://t.me/gazetankk",
+          "kind": "channel",
+          "handle": "gazetankk",
+          "asGiven": "https://t.me/gazetankk",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 5038,
+        "vk": 27008,
+        "ok": 10384,
+        "max": 1024
+      },
+      "site": {
+        "status": "html",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "wordpress",
+        "ips": [
+          "82.202.138.107"
+        ],
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": true,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": true,
+          "url": "https://gnkk.ru/sitemap_index.xml",
+          "entries": 138
+        },
+        "search": {
+          "url": "https://gnkk.ru/",
+          "robotsAllowed": false,
+          "note": "форма поиска на сайте"
+        }
+      },
+      "dzen": null,
+      "issues": [
+        "VK: http вместо https",
+        "сайт: WordPress, общая лента /feed/ пустая (новости — отдельный тип записей); свежие адреса есть в news-sitemap*.xml с lastmod; robots.txt запрещает поиск ?s="
+      ]
+    },
+    {
+      "id": "niva",
+      "name": "Нива",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Ермаковский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://газетанива.рф/",
+          "asciiUrl": "https://xn--80aaahcnnk8b9b.xn--p1ai/",
+          "asGiven": "https://газетанива.рф/"
+        },
+        "vk": {
+          "url": "https://vk.com/ermniva",
+          "kind": "community",
+          "handle": "ermniva",
+          "asGiven": "https://vk.com/ermniva"
+        },
+        "ok": {
+          "url": "https://ok.ru/profile/585208252087",
+          "kind": "profile",
+          "ownerId": "585208252087",
+          "asGiven": "https://ok.ru/profile/585208252087"
+        },
+        "max": {
+          "url": "https://max.ru/id2413007756_gos",
+          "kind": "channel-gos",
+          "handle": "id2413007756_gos",
+          "inn": "2413007756",
+          "asGiven": "https://max.ru/id2413007756_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/ermniva",
+          "kind": "channel",
+          "handle": "ermniva",
+          "asGiven": "https://t.me/ermniva",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/ermniva",
+          "kind": "channel-name",
+          "channelName": "ermniva",
+          "asGiven": "https://dzen.ru/ermniva"
+        }
+      },
+      "subscribers": {
+        "telegram": 973,
+        "vk": 2579,
+        "ok": 6001,
+        "dzen": 247,
+        "max": 435
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://xn--80aaahcnnk8b9b.xn--p1ai/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1512,
+          "depthDays": 6.1,
+          "newest": "2026-10-20T01:52:12+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://xn--80aaahcnnk8b9b.xn--p1ai/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://xn--80aaahcnnk8b9b.xn--p1ai/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Общественно-политическая газета \"НИВА\"",
+        "publisherId": "64caff7c422e3c5d30584d84",
+        "subscribersNow": 60,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-20T07:10:52+00:00",
+        "daysSinceLastPost": 0
+      },
+      "issues": [
+        "сайт: кириллический домен (для запросов — xn--80aaahcnnk8b9b.xn--p1ai)",
+        "сайт: в ячейке текст без гиперссылки",
+        "OK: ссылка на личный профиль (profile/…), а не на группу"
+      ]
+    },
+    {
+      "id": "novaya-zhizn",
+      "name": "Новая жизнь",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Казачинское (Казачинско-Пировский муниципальный округ)",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://новаяжизнь-казачинское.рф/",
+          "asciiUrl": "https://xn----7sbbagwdicgfue4afgeo9c1g7dvc.xn--p1ai/",
+          "asGiven": "http://новаяжизнь-казачинское.рф"
+        },
+        "vk": {
+          "url": "https://vk.com/id407544670",
+          "kind": "profile",
+          "handle": "id407544670",
+          "ownerId": "407544670",
+          "asGiven": "https://vk.com/id407544670"
+        },
+        "ok": {
+          "url": "https://ok.ru/profile/589688298030",
+          "kind": "profile",
+          "ownerId": "589688298030",
+          "asGiven": "https://www.ok.ru/profile/589688298030"
+        },
+        "max": {
+          "url": "https://max.ru/id2417004192_gos",
+          "kind": "channel-gos",
+          "handle": "id2417004192_gos",
+          "inn": "2417004192",
+          "asGiven": "https://max.ru/id2417004192_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/kaznewlife",
+          "kind": "channel",
+          "handle": "kaznewlife",
+          "asGiven": "https://t.me/kaznewlife",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 1807,
+        "vk": 5243,
+        "ok": 6513,
+        "max": 512
+      },
+      "site": {
+        "status": "html",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "http://smi.neto.ru/sitemap.xml",
+          "entries": null,
+          "note": "robots.txt указывает sitemap на smi.neto.ru (общая платформа), адрес отвечает 404"
+        },
+        "search": {
+          "url": "https://xn----7sbbagwdicgfue4afgeo9c1g7dvc.xn--p1ai/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": [
+        "сайт: кириллический домен (для запросов — xn----7sbbagwdicgfue4afgeo9c1g7dvc.xn--p1ai)",
+        "сайт: в ячейке текст без гиперссылки",
+        "VK: ссылка на личную страницу (id…), а не на сообщество",
+        "OK: www. в адресе",
+        "OK: ссылка на личный профиль (profile/…), а не на группу",
+        "сайт: RSS на этой копии платформы выключен (/rss/ — 404); брать раздел /news/ и страницы статей, разметка как у остальных сайтов платформы"
+      ]
+    },
+    {
+      "id": "novoe-vremya",
+      "name": "Новое время",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Большемуртинско-Сухобузимский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://новоевремя.com/",
+          "asciiUrl": "https://xn--b1aaib9abhbu6m.com/",
+          "asGiven": "http://новоевремя.com/"
+        },
+        "vk": {
+          "url": "https://vk.com/nv1932",
+          "kind": "community",
+          "handle": "nv1932",
+          "asGiven": "https://vk.com/nv1932"
+        },
+        "ok": {
+          "url": "https://ok.ru/rayonnayag",
+          "kind": "group",
+          "handle": "rayonnayag",
+          "asGiven": "https://ok.ru/rayonnayag"
+        },
+        "max": {
+          "url": "https://max.ru/id2408000593_gos",
+          "kind": "channel-gos",
+          "handle": "id2408000593_gos",
+          "inn": "2408000593",
+          "asGiven": "https://max.ru/id2408000593_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/novtime",
+          "kind": "channel",
+          "handle": "novtime",
+          "asGiven": "https://t.me/novtime",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/id/6415cf30811aa230990e2ff5",
+          "kind": "channel-id",
+          "channelId": "6415cf30811aa230990e2ff5",
+          "asGiven": "https://dzen.ru/id/6415cf30811aa230990e2ff5"
+        }
+      },
+      "subscribers": {
+        "telegram": 1669,
+        "vk": 6900,
+        "ok": 6500,
+        "dzen": 154,
+        "max": 652
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://xn--b1aaib9abhbu6m.com/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1516,
+          "depthDays": 5.0,
+          "newest": "2026-10-20T06:39:15+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://xn--b1aaib9abhbu6m.com/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://xn--b1aaib9abhbu6m.com/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Редакция газеты \"Новое время\"",
+        "publisherId": "6415cf30811aa230990e2ff5",
+        "subscribersNow": 382,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-19T11:03:17+00:00",
+        "daysSinceLastPost": 0
+      },
+      "issues": [
+        "сайт: кириллический домен (для запросов — xn--b1aaib9abhbu6m.com)",
+        "сайт: в ячейке текст без гиперссылки"
+      ]
+    },
+    {
+      "id": "novyy-put",
+      "name": "Новый путь",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Бирилюсский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://газета-новый-путь.рф/",
+          "asciiUrl": "https://xn-----6kcalcppw2blp5aio8jwa.xn--p1ai/",
+          "asGiven": "газета-новый-путь.рф"
+        },
+        "vk": {
+          "url": "https://vk.com/club122303759",
+          "kind": "community",
+          "handle": "club122303759",
+          "ownerId": "-122303759",
+          "asGiven": "https://vk.com/club122303759"
+        },
+        "ok": {
+          "url": "https://ok.ru/novypu",
+          "kind": "group",
+          "handle": "novypu",
+          "asGiven": "http://ok.ru/novypu"
+        },
+        "max": {
+          "url": "https://max.ru/id2405000274_gos",
+          "kind": "channel-gos",
+          "handle": "id2405000274_gos",
+          "inn": "2405000274",
+          "asGiven": "https://max.ru/id2405000274_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/Nova_put",
+          "kind": "channel",
+          "handle": "Nova_put",
+          "asGiven": "https://t.me/Nova_put",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 520,
+        "vk": 4086,
+        "ok": 5770,
+        "max": 89
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://xn-----6kcalcppw2blp5aio8jwa.xn--p1ai/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1162,
+          "depthDays": 5.2,
+          "newest": "2026-10-20T07:07:09+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://xn-----6kcalcppw2blp5aio8jwa.xn--p1ai/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://xn-----6kcalcppw2blp5aio8jwa.xn--p1ai/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "сайт: кириллический домен (для запросов — xn-----6kcalcppw2blp5aio8jwa.xn--p1ai)",
+        "сайт: в ячейке текст без гиперссылки",
+        "OK: http вместо https"
+      ]
+    },
+    {
+      "id": "ogni-eniseya",
+      "name": "Огни Енисея",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Дивногорск",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://дивногорск-ое.рф/",
+          "asciiUrl": "https://xn----ctbdcioqwjbcvn.xn--p1ai/",
+          "asGiven": "http://дивногорск-ое.рф/"
+        },
+        "vk": {
+          "url": "https://vk.com/ognieniseya",
+          "kind": "community",
+          "handle": "ognieniseya",
+          "asGiven": "https://vk.com/ognieniseya"
+        },
+        "ok": {
+          "url": "https://ok.ru/ogniyeniseya",
+          "kind": "group",
+          "handle": "ogniyeniseya",
+          "asGiven": "https://ok.ru/ogniyeniseya"
+        },
+        "max": {
+          "url": "https://max.ru/ognieniseya",
+          "kind": "channel",
+          "handle": "ognieniseya",
+          "asGiven": "https://max.ru/ognieniseya"
+        },
+        "telegram": {
+          "url": "https://t.me/OgniEniseya_gazeta",
+          "kind": "channel",
+          "handle": "OgniEniseya_gazeta",
+          "asGiven": "https://t.me/OgniEniseya_gazeta",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/ognieniseya",
+          "kind": "channel-name",
+          "channelName": "ognieniseya",
+          "asGiven": "https://dzen.ru/ognieniseya"
+        }
+      },
+      "subscribers": {
+        "telegram": 709,
+        "vk": 11300,
+        "ok": 4546,
+        "dzen": 393,
+        "max": 77
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "wordpress",
+        "ips": [
+          "92.255.104.161"
+        ],
+        "feed": {
+          "url": "https://xn----ctbdcioqwjbcvn.xn--p1ai/feed/",
+          "foundBy": "ссылка на странице",
+          "items": 20,
+          "text": "анонс",
+          "fullTextField": null,
+          "textMedianChars": 544,
+          "depthDays": 5.9,
+          "newest": "2026-10-20T07:11:37+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": true,
+          "feedDisallowed": true,
+          "paginationDisallowed": false
+        },
+        "sitemap": {
+          "ok": true,
+          "url": "https://xn----ctbdcioqwjbcvn.xn--p1ai/sitemap.xml",
+          "entries": 16
+        },
+        "search": {
+          "url": "https://xn----ctbdcioqwjbcvn.xn--p1ai/",
+          "robotsAllowed": false,
+          "note": "форма поиска на сайте"
+        },
+        "article": {
+          "jsonLd": [
+            "WebSite",
+            "WebPage",
+            "Person",
+            "Organization",
+            "BreadcrumbList",
+            "Article"
+          ],
+          "datePublished": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "\"Огни Енисея\" Актуальные новости Дивногорска",
+        "publisherId": "623953fd4da92b383191a50a",
+        "subscribersNow": 512,
+        "firstPageItems": 18,
+        "lastPostAt": "2026-10-20T07:15:21+00:00",
+        "daysSinceLastPost": 0
+      },
+      "issues": [
+        "сайт: кириллический домен (для запросов — xn----ctbdcioqwjbcvn.xn--p1ai)",
+        "сайт: в ячейке текст без гиперссылки",
+        "сайт: RSS /feed/ есть и указан на странице, но robots.txt запрещает */feed и */rss — серая зона; в ленте только анонс"
+      ]
+    },
+    {
+      "id": "ogni-sibiri",
+      "name": "Огни Сибири",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Шарыповский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://огни-сибири.рф/",
+          "asciiUrl": "https://xn----btbeubba8ah1ah.xn--p1ai/",
+          "asGiven": "огни-сибири.рф"
+        },
+        "vk": {
+          "url": "https://vk.com/public155142744",
+          "kind": "community",
+          "handle": "public155142744",
+          "ownerId": "-155142744",
+          "asGiven": "https://vk.com/public155142744"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/53989872894062",
+          "kind": "group",
+          "ownerId": "53989872894062",
+          "asGiven": "https://www.ok.ru/group/53989872894062"
+        },
+        "max": {
+          "url": "https://max.ru/id2459000707_gos",
+          "kind": "channel-gos",
+          "handle": "id2459000707_gos",
+          "inn": "2459000707",
+          "asGiven": "https://max.ru/id2459000707_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/ognisibiri_news",
+          "kind": "channel",
+          "handle": "ognisibiri_news",
+          "asGiven": "https://t.me/ognisibiri_news",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/id/66a8897d11558b714cdf369c",
+          "kind": "channel-id",
+          "channelId": "66a8897d11558b714cdf369c",
+          "asGiven": "https://dzen.ru/id/66a8897d11558b714cdf369c"
+        }
+      },
+      "subscribers": {
+        "telegram": 398,
+        "vk": 5200,
+        "ok": 1654,
+        "dzen": 47,
+        "max": 69
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://xn----btbeubba8ah1ah.xn--p1ai/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 2051,
+          "depthDays": 6.2,
+          "newest": "2026-10-20T06:56:25+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://xn----btbeubba8ah1ah.xn--p1ai/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://xn----btbeubba8ah1ah.xn--p1ai/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "inactive",
+        "title": "Огни Сибири",
+        "publisherId": "66a8897d11558b714cdf369c",
+        "subscribersNow": 46,
+        "firstPageItems": 20,
+        "lastPostAt": "2025-12-19T03:53:01+00:00",
+        "daysSinceLastPost": 305
+      },
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "сайт: кириллический домен (для запросов — xn----btbeubba8ah1ah.xn--p1ai)",
+        "сайт: в ячейке текст без гиперссылки",
+        "OK: www. в адресе",
+        "Дзен: канал не обновляется (последняя публикация 2025-12-19)"
+      ]
+    },
+    {
+      "id": "pobeda",
+      "name": "Победа",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Иланско-Нижнеингашский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://www.pobeda24.ru/",
+          "asciiUrl": "https://www.pobeda24.ru/",
+          "asGiven": "www.pobeda24.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/public112415360",
+          "kind": "community",
+          "handle": "public112415360",
+          "ownerId": "-112415360",
+          "asGiven": "https://vk.com/public112415360"
+        },
+        "ok": {
+          "url": "https://ok.ru/profile/576509868461",
+          "kind": "profile",
+          "ownerId": "576509868461",
+          "asGiven": "http://ok.ru/profile/576509868461/statuses"
+        },
+        "max": {
+          "url": "https://max.ru/id2428000739_gos",
+          "kind": "channel-gos",
+          "handle": "id2428000739_gos",
+          "inn": "2428000739",
+          "asGiven": "https://max.ru/id2428000739_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/gazetapobeda24in",
+          "kind": "channel",
+          "handle": "gazetapobeda24in",
+          "asGiven": "https://t.me/gazetapobeda24in",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/id/63896df762b4224b0e60ce81",
+          "kind": "channel-id",
+          "channelId": "63896df762b4224b0e60ce81",
+          "asGiven": "https://dzen.ru/id/63896df762b4224b0e60ce81"
+        }
+      },
+      "subscribers": {
+        "telegram": 981,
+        "vk": 6710,
+        "ok": 5605,
+        "max": 191
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://www.pobeda24.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1385,
+          "depthDays": 6.1,
+          "newest": "2026-10-19T06:50:01+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://www.pobeda24.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://www.pobeda24.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "inactive",
+        "title": "Газета \"ПОБЕДА\"",
+        "publisherId": "63896df762b4224b0e60ce81",
+        "subscribersNow": 10,
+        "firstPageItems": 20,
+        "lastPostAt": "2023-02-20T05:10:36+00:00",
+        "daysSinceLastPost": 1338
+      },
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "OK: http вместо https",
+        "OK: ссылка на личный профиль (profile/…), а не на группу",
+        "OK: лишний хвост /statuses",
+        "лист 2: ссылка Дзен есть, а подписчиков нет",
+        "Дзен: канал не обновляется (последняя публикация 2023-02-20)"
+      ]
+    },
+    {
+      "id": "prigorod",
+      "name": "Пригород",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Березовский район",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://газета-пригород.рф/",
+          "asciiUrl": "https://xn----7sbakdgdpm5daindw.xn--p1ai/",
+          "asGiven": "http://газета-пригород.рф"
+        },
+        "vk": {
+          "url": "https://vk.com/novosti__rayona",
+          "kind": "community",
+          "handle": "novosti__rayona",
+          "asGiven": "https://vk.com/novosti__rayona"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/70000045493072",
+          "kind": "group",
+          "ownerId": "70000045493072",
+          "asGiven": "https://ok.ru/group/70000045493072"
+        },
+        "max": {
+          "url": "https://max.ru/join/yJl0t7Yc3gfQx9gml4ZdBgloenqPMAUjhtcK7GrM0aQ",
+          "kind": "invite",
+          "asGiven": "https://max.ru/join/yJl0t7Yc3gfQx9gml4ZdBgloenqPMAUjhtcK7GrM0aQ"
+        },
+        "telegram": {
+          "url": "https://t.me/novosti_rayona1",
+          "kind": "channel",
+          "handle": "novosti_rayona1",
+          "asGiven": "https://t.me/novosti_rayona1",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/id/5d39ff339c944600ae8f1803",
+          "kind": "channel-id",
+          "channelId": "5d39ff339c944600ae8f1803",
+          "asGiven": "https://zen.yandex.ru/id/5d39ff339c944600ae8f1803"
+        }
+      },
+      "subscribers": {
+        "telegram": 816,
+        "vk": 8037,
+        "ok": 14,
+        "max": 116
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://xn----7sbakdgdpm5daindw.xn--p1ai/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 955,
+          "depthDays": 4.1,
+          "newest": "2026-10-20T06:31:45+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://xn----7sbakdgdpm5daindw.xn--p1ai/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://xn----7sbakdgdpm5daindw.xn--p1ai/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "not-found"
+      },
+      "issues": [
+        "сайт: кириллический домен (для запросов — xn----7sbakdgdpm5daindw.xn--p1ai)",
+        "сайт: в ячейке текст без гиперссылки",
+        "Дзен: старый домен zen.yandex.ru (сейчас dzen.ru)",
+        "MAX: ссылка-приглашение (join/…), имени канала в ней нет",
+        "лист 2: ссылка Дзен есть, а подписчиков нет",
+        "Дзен: канал не найден (404)"
+      ]
+    },
+    {
+      "id": "prisayane",
+      "name": "Присаянье",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Саянский район",
+      "districtSource": "name",
+      "links": {
+        "site": {
+          "url": "https://присаянье.рф/",
+          "asciiUrl": "https://xn--80akhvhgi4gza.xn--p1ai/",
+          "asGiven": "http://присаянье.рф/"
+        },
+        "vk": {
+          "url": "https://vk.com/public116045812",
+          "kind": "community",
+          "handle": "public116045812",
+          "ownerId": "-116045812",
+          "asGiven": "https://vk.com/public116045812"
+        },
+        "ok": {
+          "url": "https://ok.ru/profile/570188088274",
+          "kind": "profile",
+          "ownerId": "570188088274",
+          "asGiven": "http://ok.ru/profile/570188088274"
+        },
+        "max": {
+          "url": "https://max.ru/id2433000220_gos",
+          "kind": "channel-gos",
+          "handle": "id2433000220_gos",
+          "inn": "2433000220",
+          "asGiven": "https://max.ru/id2433000220_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/prisayanie",
+          "kind": "channel",
+          "handle": "prisayanie",
+          "asGiven": "https://t.me/prisayanie",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/pris24",
+          "kind": "channel-name",
+          "channelName": "pris24",
+          "asGiven": "https://dzen.ru/pris24"
+        }
+      },
+      "subscribers": {
+        "telegram": 829,
+        "vk": 4764,
+        "ok": 5082,
+        "max": 40
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://xn--80akhvhgi4gza.xn--p1ai/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1275,
+          "depthDays": 9.2,
+          "newest": "2026-10-20T06:05:23+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://xn--80akhvhgi4gza.xn--p1ai/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://xn--80akhvhgi4gza.xn--p1ai/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Присаянье",
+        "publisherId": "655474d7167eba3c336b0ab4",
+        "subscribersNow": 1149,
+        "firstPageItems": 19,
+        "lastPostAt": "2026-10-09T04:44:56+00:00",
+        "daysSinceLastPost": 11
+      },
+      "issues": [
+        "сайт: кириллический домен (для запросов — xn--80akhvhgi4gza.xn--p1ai)",
+        "сайт: в ячейке текст без гиперссылки",
+        "OK: http вместо https",
+        "OK: ссылка на личный профиль (profile/…), а не на группу",
+        "лист 2: ссылка Дзен есть, а подписчиков нет"
+      ]
+    },
+    {
+      "id": "rabochiy",
+      "name": "Рабочий",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Сосновоборск",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://газетарабочий.рф/",
+          "asciiUrl": "https://xn--80aaaegnnmj2ctw4e.xn--p1ai/",
+          "asGiven": "http://газетарабочий.рф"
+        },
+        "vk": {
+          "url": "https://vk.com/gazetarabochy",
+          "kind": "community",
+          "handle": "gazetarabochy",
+          "asGiven": "https://vk.com/gazetarabochy"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/54124910084288",
+          "kind": "group",
+          "ownerId": "54124910084288",
+          "asGiven": "https://ok.ru/group/54124910084288"
+        },
+        "max": {
+          "url": "https://max.ru/gazetarabochy",
+          "kind": "channel",
+          "handle": "gazetarabochy",
+          "asGiven": "https://max.ru/gazetarabochy"
+        },
+        "telegram": {
+          "url": "https://t.me/news_sosn",
+          "kind": "channel",
+          "handle": "news_sosn",
+          "asGiven": "https://t.me/news_sosn",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/snknews",
+          "kind": "channel-name",
+          "channelName": "snknews",
+          "asGiven": "https://dzen.ru/snknews"
+        }
+      },
+      "subscribers": {
+        "telegram": 2654,
+        "vk": 11028,
+        "ok": 5146,
+        "dzen": 6007,
+        "max": 833
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://xn--80aaaegnnmj2ctw4e.xn--p1ai/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1600,
+          "depthDays": 4.2,
+          "newest": "2026-10-20T03:00:00+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "http://smi.neto.ru/sitemap.xml",
+          "entries": null,
+          "note": "robots.txt указывает sitemap на smi.neto.ru (общая платформа), адрес отвечает 404"
+        },
+        "search": {
+          "url": "https://xn--80aaaegnnmj2ctw4e.xn--p1ai/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Газета «Рабочий» Сосновоборский округ Красноярского края",
+        "publisherId": "652e006f4d4ed96c76dbd65c",
+        "subscribersNow": 6006,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-19T11:17:29+00:00",
+        "daysSinceLastPost": 0
+      },
+      "issues": [
+        "сайт: кириллический домен (для запросов — xn--80aaaegnnmj2ctw4e.xn--p1ai)"
+      ]
+    },
+    {
+      "id": "selskaya-zhizn",
+      "name": "Сельская жизнь",
+      "type": "media",
+      "kind": "газета",
+      "level": null,
+      "district": null,
+      "districtSource": null,
+      "links": {
+        "site": {
+          "url": "https://www.selo-life.ru/",
+          "asciiUrl": "https://www.selo-life.ru/",
+          "asGiven": "www.selo-life.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/selolife",
+          "kind": "community",
+          "handle": "selolife",
+          "asGiven": "https://vk.com/selolife"
+        },
+        "ok": {
+          "url": "https://ok.ru/gazetase",
+          "kind": "group",
+          "handle": "gazetase",
+          "asGiven": "http://ok.ru/gazetase"
+        },
+        "max": {
+          "url": "https://max.ru/id2435000634_gos",
+          "kind": "channel-gos",
+          "handle": "id2435000634_gos",
+          "inn": "2435000634",
+          "asGiven": "https://max.ru/id2435000634_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/selolife24",
+          "kind": "channel",
+          "handle": "selolife24",
+          "asGiven": "https://t.me/selolife24",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 1291,
+        "vk": 6802,
+        "ok": 4372,
+        "max": 182
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://www.selo-life.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1864,
+          "depthDays": 22.2,
+          "newest": "2026-10-19T05:09:57+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://www.selo-life.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://www.selo-life.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "OK: http вместо https"
+      ]
+    },
+    {
+      "id": "selskaya-nov",
+      "name": "Сельская новь",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Балахтинско-Новоселовский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://www.gazeta-selnov.ru/",
+          "asciiUrl": "https://www.gazeta-selnov.ru/",
+          "asGiven": "www.gazeta-selnov.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/public100967922",
+          "kind": "community",
+          "handle": "public100967922",
+          "ownerId": "-100967922",
+          "asGiven": "http://vk.com/public100967922"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/55000637243392",
+          "kind": "group",
+          "ownerId": "55000637243392",
+          "asGiven": "https://ok.ru/group/55000637243392"
+        },
+        "max": {
+          "url": "https://max.ru/id2403005894_gos",
+          "kind": "channel-gos",
+          "handle": "id2403005894_gos",
+          "inn": "2403005894",
+          "asGiven": "https://max.ru/id2403005894_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/balahtaSMI",
+          "kind": "channel",
+          "handle": "balahtaSMI",
+          "asGiven": "https://t.me/balahtaSMI",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/id/659f6e6a86640b3b81aad3f0",
+          "kind": "channel-id",
+          "channelId": "659f6e6a86640b3b81aad3f0",
+          "asGiven": "https://dzen.ru/id/659f6e6a86640b3b81aad3f0"
+        }
+      },
+      "subscribers": {
+        "telegram": 609,
+        "vk": 9303,
+        "ok": 2076,
+        "dzen": 349,
+        "max": 132
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://www.gazeta-selnov.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 3890,
+          "depthDays": 6.0,
+          "newest": "2026-10-20T02:01:15+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://www.gazeta-selnov.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://www.gazeta-selnov.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "balahta-gazeta-SN",
+        "publisherId": "659f6e6a86640b3b81aad3f0",
+        "subscribersNow": 376,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-15T09:33:24+00:00",
+        "daysSinceLastPost": 4
+      },
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "VK: http вместо https"
+      ]
+    },
+    {
+      "id": "selskiy-truzhenik",
+      "name": "Сельский труженик",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Тасеевский район",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://st.taseevo.ru/",
+          "asciiUrl": "https://st.taseevo.ru/",
+          "asGiven": "http://st.taseevo.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/st_taseevo",
+          "kind": "community",
+          "handle": "st_taseevo",
+          "asGiven": "https://vk.com/st_taseevo"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/54996913881100",
+          "kind": "group",
+          "ownerId": "54996913881100",
+          "asGiven": "https://ok.ru/group/54996913881100"
+        },
+        "max": {
+          "url": "https://max.ru/id2436000732_gos",
+          "kind": "channel-gos",
+          "handle": "id2436000732_gos",
+          "inn": "2436000732",
+          "asGiven": "https://max.ru/id2436000732_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/Stgazeta",
+          "kind": "channel",
+          "handle": "Stgazeta",
+          "asGiven": "https://t.me/Stgazeta",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 2554,
+        "vk": 6417,
+        "ok": 10460,
+        "max": 1305
+      },
+      "site": {
+        "status": "stale",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "ucoz",
+        "ips": [
+          "195.216.243.155"
+        ],
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": true,
+          "feedDisallowed": false,
+          "paginationDisallowed": false
+        },
+        "sitemap": {
+          "ok": true,
+          "url": "https://gazeta-taseevo.usite.pro/sitemap.xml",
+          "entries": 9
+        },
+        "search": {
+          "url": "https://gazeta-taseevo.usite.pro/search/",
+          "robotsAllowed": false,
+          "note": "форма поиска на сайте"
+        },
+        "redirectsTo": "gazeta-taseevo.usite.pro"
+      },
+      "dzen": null,
+      "issues": [
+        "сайт: st.taseevo.ru переадресует на gazeta-taseevo.usite.pro (uCoz); последние новости — 2021 год, RSS /news/rss/ тоже 2021 — сайт заброшен"
+      ]
+    },
+    {
+      "id": "sibirskiy-khleborob",
+      "name": "Сибирский хлебороб",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Ужурский район",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://sib-hleb.ru/",
+          "asciiUrl": "https://sib-hleb.ru/",
+          "asGiven": "sib-hleb.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/public127234990",
+          "kind": "community",
+          "handle": "public127234990",
+          "ownerId": "-127234990",
+          "asGiven": "https://vk.com/public127234990"
+        },
+        "ok": {
+          "url": "https://ok.ru/gazetasibhleb",
+          "kind": "group",
+          "handle": "gazetasibhleb",
+          "asGiven": "http://ok.ru/gazetasibhleb"
+        },
+        "max": {
+          "url": "https://max.ru/sibhleb",
+          "kind": "channel",
+          "handle": "sibhleb",
+          "asGiven": "https://max.ru/sibhleb"
+        },
+        "telegram": {
+          "url": "https://t.me/gazetaSibhleb",
+          "kind": "channel",
+          "handle": "gazetaSibhleb",
+          "asGiven": "https://t.me/gazetaSibhleb",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/sibhleb1931",
+          "kind": "channel-name",
+          "channelName": "sibhleb1931",
+          "asGiven": "https://dzen.ru/sibhleb1931"
+        }
+      },
+      "subscribers": {
+        "telegram": 961,
+        "vk": 11039,
+        "ok": 14180,
+        "dzen": 35,
+        "max": 353
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://sib-hleb.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1746,
+          "depthDays": 3.3,
+          "newest": "2026-10-20T07:00:00+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://sib-hleb.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://sib-hleb.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Газета \"Cибирский хлебороб\"",
+        "publisherId": "63d8916b14e5bb5cabbd10f6",
+        "subscribersNow": 46,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-20T06:54:57+00:00",
+        "daysSinceLastPost": 0
+      },
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "OK: http вместо https"
+      ]
+    },
+    {
+      "id": "sovetskoe-priangare",
+      "name": "Советское Приангарье",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Кежемский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://приангарка.рф/",
+          "asciiUrl": "https://xn--80aaakxpsnjf.xn--p1ai/",
+          "asGiven": "http://приангарка.рф/"
+        },
+        "vk": {
+          "url": "https://vk.com/priangarka",
+          "kind": "community",
+          "handle": "priangarka",
+          "asGiven": "https://vk.com/priangarka"
+        },
+        "ok": {
+          "url": "https://ok.ru/priangarka",
+          "kind": "group",
+          "handle": "priangarka",
+          "asGiven": "https://ok.ru/priangarka"
+        },
+        "max": {
+          "url": "https://max.ru/id2420002580_gos",
+          "kind": "channel-gos",
+          "handle": "id2420002580_gos",
+          "inn": "2420002580",
+          "asGiven": "https://max.ru/id2420002580_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/priangarka",
+          "kind": "channel",
+          "handle": "priangarka",
+          "asGiven": "https://t.me/priangarka",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/id/5f3da92824b29420ab63a41b",
+          "kind": "channel-id",
+          "channelId": "5f3da92824b29420ab63a41b",
+          "asGiven": "https://dzen.ru/id/5f3da92824b29420ab63a41b"
+        }
+      },
+      "subscribers": {
+        "telegram": 2387,
+        "vk": 4300,
+        "ok": 5957,
+        "dzen": 1824,
+        "max": 1072
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://xn--80aaakxpsnjf.xn--p1ai/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 1864,
+          "depthDays": 26.0,
+          "newest": "2026-10-19T05:09:57+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://xn--80aaakxpsnjf.xn--p1ai/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://xn--80aaakxpsnjf.xn--p1ai/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Советское Приангарье",
+        "publisherId": "5f3da92824b29420ab63a41b",
+        "subscribersNow": 1831,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-09-28T03:06:32+00:00",
+        "daysSinceLastPost": 22
+      },
+      "issues": [
+        "сайт: кириллический домен (для запросов — xn--80aaakxpsnjf.xn--p1ai)",
+        "сайт: в ячейке текст без гиперссылки"
+      ]
+    },
+    {
+      "id": "sovetskoe-prichulyme",
+      "name": "Советское Причулымье",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Назаровский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://www.sovet-prich.ru/",
+          "asciiUrl": "https://www.sovet-prich.ru/",
+          "asGiven": "www.sovet-prich.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/public106803363",
+          "kind": "community",
+          "handle": "public106803363",
+          "ownerId": "-106803363",
+          "asGiven": "https://vk.com/public106803363"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/53895525630145",
+          "kind": "group",
+          "ownerId": "53895525630145",
+          "asGiven": "https://ok.ru/group/53895525630145"
+        },
+        "max": {
+          "url": "https://max.ru/id2456002199_gos",
+          "kind": "channel-gos",
+          "handle": "id2456002199_gos",
+          "inn": "2456002199",
+          "asGiven": "https://max.ru/id2456002199_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/sovetprich",
+          "kind": "channel",
+          "handle": "sovetprich",
+          "asGiven": "https://t.me/sovetprich",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/id/616561bd3b86277d535566c7",
+          "kind": "channel-id",
+          "channelId": "616561bd3b86277d535566c7",
+          "asGiven": "https://zen.yandex.ru/id/616561bd3b86277d535566c7"
+        }
+      },
+      "subscribers": {
+        "telegram": 2379,
+        "vk": 4438,
+        "ok": 5812,
+        "dzen": 846,
+        "max": 1088
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://www.sovet-prich.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 980,
+          "depthDays": 4.2,
+          "newest": "2026-10-20T05:58:00+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": true,
+          "url": "https://www.sovet-prich.ru/sitemap.xml",
+          "entries": 1
+        },
+        "search": {
+          "url": "https://www.sovet-prich.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Газета \"Советское Причулымье\"",
+        "publisherId": "616561bd3b86277d535566c7",
+        "subscribersNow": 942,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-20T06:22:13+00:00",
+        "daysSinceLastPost": 0
+      },
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "Дзен: старый домен zen.yandex.ru (сейчас dzen.ru)"
+      ]
+    },
+    {
+      "id": "tubinskie-vesti",
+      "name": "Тубинские вести",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Курагинский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://tubinka.ru/",
+          "asciiUrl": "https://tubinka.ru/",
+          "asGiven": "https://tubinka.ru/"
+        },
+        "vk": {
+          "url": "https://vk.com/tubinka",
+          "kind": "community",
+          "handle": "tubinka",
+          "asGiven": "https://vk.com/tubinka"
+        },
+        "ok": {
+          "url": "https://ok.ru/tubinka",
+          "kind": "group",
+          "handle": "tubinka",
+          "asGiven": "https://ok.ru/tubinka"
+        },
+        "max": {
+          "url": "https://max.ru/id2423000358_gos",
+          "kind": "channel-gos",
+          "handle": "id2423000358_gos",
+          "inn": "2423000358",
+          "asGiven": "https://max.ru/id2423000358_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/tubinka_vesti",
+          "kind": "channel",
+          "handle": "tubinka_vesti",
+          "asGiven": "https://t.me/tubinka_vesti",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/kuragino",
+          "kind": "channel-id",
+          "channelId": "5d4929b59c944600ad0464d1",
+          "asGiven": "https://zen.yandex.ru/profile/editor/id/5d4929b59c944600ad0464d1"
+        }
+      },
+      "subscribers": {
+        "telegram": 1380,
+        "vk": 5117,
+        "ok": 5262,
+        "dzen": 872,
+        "max": 289
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://tubinka.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст (короткие заметки)",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 710,
+          "depthDays": 2.1,
+          "newest": "2026-10-20T05:00:00+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "http://smi.neto.ru/sitemap.xml",
+          "entries": null,
+          "note": "robots.txt указывает sitemap на smi.neto.ru (общая платформа), адрес отвечает 404"
+        },
+        "search": {
+          "url": "https://tubinka.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Курагино. Новости и жизнь округа",
+        "publisherId": "5d4929b59c944600ad0464d1",
+        "subscribersNow": 941,
+        "firstPageItems": 18,
+        "lastPostAt": "2026-10-17T04:27:21+00:00",
+        "resolvedUrl": "https://dzen.ru/kuragino",
+        "daysSinceLastPost": 3
+      },
+      "issues": [
+        "Дзен: старый домен zen.yandex.ru (сейчас dzen.ru)",
+        "Дзен: ссылка на редактор канала (profile/editor), а не на публичную страницу",
+        "Дзен: ссылка ведёт на канал https://dzen.ru/kuragino"
+      ]
+    },
+    {
+      "id": "evenkiyskaya-zhizn",
+      "name": "Эвенкийская жизнь",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Эвенкийский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://эвенкийскаяжизнь.рф/",
+          "asciiUrl": "https://xn--80adjffdcfhc3ai0c4kb5b.xn--p1ai/",
+          "asGiven": "http://эвенкийскаяжизнь.рф/"
+        },
+        "vk": {
+          "url": "https://vk.com/public211743390",
+          "kind": "community",
+          "handle": "public211743390",
+          "ownerId": "-211743390",
+          "asGiven": "https://vk.com/public211743390"
+        },
+        "ok": {
+          "url": "https://ok.ru/group/70000001423620",
+          "kind": "group",
+          "ownerId": "70000001423620",
+          "asGiven": "https://ok.ru/group/70000001423620"
+        },
+        "max": {
+          "url": "https://max.ru/join/O8T6v9GsREA9wuV1uFu8eUhDhdKJ46acBo3LJfU0lWA",
+          "kind": "invite",
+          "asGiven": "https://max.ru/join/O8T6v9GsREA9wuV1uFu8eUhDhdKJ46acBo3LJfU0lWA"
+        },
+        "telegram": {
+          "url": "https://t.me/evenkya_life",
+          "kind": "channel",
+          "handle": "evenkya_life",
+          "asGiven": "https://t.me/evenkya_life",
+          "used": false
+        }
+      },
+      "subscribers": {
+        "telegram": 2419,
+        "vk": 4126,
+        "ok": 510,
+        "max": 126
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://xn--80adjffdcfhc3ai0c4kb5b.xn--p1ai/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст (короткие заметки)",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 890,
+          "depthDays": 6.9,
+          "newest": "2026-10-20T04:11:04+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://xn--80adjffdcfhc3ai0c4kb5b.xn--p1ai/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://xn--80adjffdcfhc3ai0c4kb5b.xn--p1ai/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": null,
+      "issues": [
+        "сайт: кириллический домен (для запросов — xn--80adjffdcfhc3ai0c4kb5b.xn--p1ai)",
+        "MAX: ссылка-приглашение (join/…), имени канала в ней нет"
+      ]
+    },
+    {
+      "id": "ekho-turana",
+      "name": "Эхо Турана",
+      "type": "media",
+      "kind": "газета",
+      "level": "district",
+      "district": "Идринско-Краснотуранский муниципальный округ",
+      "districtSource": "site",
+      "links": {
+        "site": {
+          "url": "https://exoturana.ru/",
+          "asciiUrl": "https://exoturana.ru/",
+          "asGiven": "exoturana.ru"
+        },
+        "vk": {
+          "url": "https://vk.com/public217364898",
+          "kind": "community",
+          "handle": "public217364898",
+          "ownerId": "-217364898",
+          "asGiven": "https://vk.com/public217364898"
+        },
+        "ok": {
+          "url": "https://ok.ru/profile/578365811121",
+          "kind": "profile",
+          "ownerId": "578365811121",
+          "asGiven": "https://ok.ru/profile/578365811121"
+        },
+        "max": {
+          "url": "https://max.ru/id2422001817_gos",
+          "kind": "channel-gos",
+          "handle": "id2422001817_gos",
+          "inn": "2422001817",
+          "asGiven": "https://max.ru/id2422001817_gos"
+        },
+        "telegram": {
+          "url": "https://t.me/exoturana24",
+          "kind": "channel",
+          "handle": "exoturana24",
+          "asGiven": "https://t.me/exoturana24",
+          "used": false
+        },
+        "dzen": {
+          "url": "https://dzen.ru/id/679338ca67ebbf6b1f42373a",
+          "kind": "channel-id",
+          "channelId": "679338ca67ebbf6b1f42373a",
+          "asGiven": "https://dzen.ru/id/679338ca67ebbf6b1f42373a"
+        }
+      },
+      "subscribers": {
+        "telegram": 1845,
+        "vk": 2405,
+        "ok": 4076,
+        "dzen": 184,
+        "max": 864
+      },
+      "site": {
+        "status": "rss",
+        "checkedFrom": "сервер команды (РФ)",
+        "profile": "bitrix-smi",
+        "ips": [
+          "185.211.3.246"
+        ],
+        "feed": {
+          "url": "https://exoturana.ru/rss/",
+          "foundBy": "типовой адрес /rss",
+          "items": 20,
+          "text": "полный текст",
+          "fullTextField": "yandex:full-text",
+          "textMedianChars": 2048,
+          "depthDays": 15.2,
+          "newest": "2026-10-19T05:09:57+00:00"
+        },
+        "robots": {
+          "found": true,
+          "disallowAll": false,
+          "crawlDelay": null,
+          "searchDisallowed": false,
+          "feedDisallowed": false,
+          "paginationDisallowed": true
+        },
+        "sitemap": {
+          "ok": false,
+          "url": "https://exoturana.ru/sitemap.xml",
+          "entries": null
+        },
+        "search": {
+          "url": "https://exoturana.ru/search/?q={query}&how=d",
+          "robotsAllowed": true
+        }
+      },
+      "dzen": {
+        "checkedFrom": "ноутбук (DE)",
+        "status": "ok",
+        "title": "Эхо Турана",
+        "publisherId": "679338ca67ebbf6b1f42373a",
+        "subscribersNow": 205,
+        "firstPageItems": 20,
+        "lastPostAt": "2026-10-20T05:29:44+00:00",
+        "daysSinceLastPost": 0
+      },
+      "issues": [
+        "сайт: адрес без http(s)://",
+        "OK: ссылка на личный профиль (profile/…), а не на группу"
+      ]
+    }
+  ]
+}

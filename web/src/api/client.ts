@@ -63,6 +63,14 @@ export interface MonitorApi {
    */
   startSearch(request: SearchRequest): SearchRun;
 
+  /**
+   * Подключиться к уже запущенному поиску без перезапуска: страницу обновили, вкладку
+   * закрыли и открыли, поиск запущен в расширении. Сначала снимок (`started`, `topic`,
+   * `items`), затем ход или сразу итог. Чужой или неизвестный поиск — событие `failed`
+   * с `not-found`.
+   */
+  attachSearch(searchId: string): SearchRun;
+
   /** Остановить поиск по id (то же, что `run.stop()`). */
   stopSearch(searchId: string): Promise<void>;
 
@@ -141,8 +149,27 @@ export interface MonitorApi {
   getWorkspace(): Promise<Workspace>;
   /** Ссылка-ключ «Открыть на другом компьютере или в расширении». */
   getWorkspaceLink(): Promise<WorkspaceLink>;
-  /** Открыть рабочее место по ключу или ссылке целиком. Неизвестный ключ — `not-found`. */
+  /**
+   * Открыть рабочее место по ключу или ссылке целиком. Неизвестный ключ — `not-found`.
+   * Прежнее место запоминается в браузере: в него можно вернуться (`previousWorkspaceKey`).
+   */
   openWorkspace(key: string): Promise<Workspace>;
+
+  // ---------------------------------------------------------------- рабочее место в браузере
+  // Только на стороне клиента: ключи живут в этом браузере (Р8, решение Р-В2).
+  /** Сведения о месте по ключу, не переходя в него. Неизвестный ключ — `not-found`. */
+  peekWorkspace(key: string): Promise<Workspace>;
+  /** Ключ места, из которого ушли по ссылке или ключу; `null` — не уходили. */
+  previousWorkspaceKey(): string | null;
+  /**
+   * Ссылка `#workspace=<ключ>` на другое рабочее место ждёт решения человека: открыть её
+   * или остаться в своём. Без своего места ссылка открывается сразу и сюда не попадает.
+   */
+  pendingWorkspaceLink(): string | null;
+  /** Подписка на появление и исчезновение такой ссылки. Возвращает функцию отписки. */
+  onPendingWorkspaceLink(listener: () => void): () => void;
+  /** Остаться в своём месте: ссылку забыть. */
+  dismissWorkspaceLink(): void;
 
   // ---------------------------------------------------------------- недавние
   listRecent(): Promise<RecentSearch[]>;
@@ -164,13 +191,33 @@ export interface MonitorApi {
 export class MonitorApiError extends Error implements ApiError {
   readonly code: ApiError['code'];
   readonly retryAfterSec?: number;
+  readonly runningSearchId?: string;
 
-  constructor(code: ApiError['code'], message: string, retryAfterSec?: number) {
+  constructor(
+    code: ApiError['code'],
+    message: string,
+    retryAfterSec?: number,
+    runningSearchId?: string,
+  ) {
     super(message);
     this.name = 'MonitorApiError';
     this.code = code;
     if (retryAfterSec !== undefined) this.retryAfterSec = retryAfterSec;
+    if (runningSearchId !== undefined) this.runningSearchId = runningSearchId;
   }
+}
+
+/**
+ * Ошибка как простой объект контракта. У `MonitorApiError` поле `message` — от `Error`,
+ * оно не перечисляется, и `{ ...error }` его теряет: копируем поля явно.
+ */
+export function plainApiError(error: ApiError): ApiError {
+  return {
+    code: error.code,
+    message: error.message,
+    ...(error.retryAfterSec !== undefined && { retryAfterSec: error.retryAfterSec }),
+    ...(error.runningSearchId !== undefined && { runningSearchId: error.runningSearchId }),
+  };
 }
 
 /** Проверка, что значение — ошибка контракта (для catch). */

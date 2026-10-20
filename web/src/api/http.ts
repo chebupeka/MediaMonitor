@@ -5,7 +5,10 @@
  * - Рабочее место (Р8): ключ хранится в браузере (отдельно для каждого адреса сервера)
  *   и уходит заголовком `X-Workspace-Key`. Ключа нет или сервер его не знает — клиент
  *   сам создаёт новое место (`POST /api/workspaces`). Ссылка «Открыть на другом
- *   компьютере» (`…#workspace=<ключ>`) открывает то место при загрузке страницы.
+ *   компьютере» (`…#workspace=<ключ>`): ключ сразу убирается из адреса; своего места
+ *   нет — ссылка открывается сразу, есть — человек решает, открыть её или остаться
+ *   (решение Р-В2), а прежний ключ запоминается, чтобы вернуться. Ссылку, вставленную
+ *   в адресную строку уже открытой вкладки, ловим по `hashchange`.
  * - Ход поиска — поток SSE через fetch (http-run.ts): EventSource не передаёт заголовки.
  * - Файл XLSX собирает сервер (`GET …/export.xlsx`): тот же состав, что в предпросмотре.
  * - Ошибки — `MonitorApiError` с кодом контракта; лимиты (`too-many-requests` + сколько
@@ -13,6 +16,7 @@
  * - Связь (НТ-23): `navigator.onLine`, ошибки сети и обрывы потока → «нет связи»;
  *   пока её нет, клиент раз в 3 с спрашивает `GET /health`.
  */
+import { IS_WEB_BUILD } from '@/lib/build';
 import { MonitorApiError, isApiError, type MonitorApi } from './client';
 import { HttpSearchRun, type RunTicket, type RunTransport } from './http-run';
 import type {
@@ -48,6 +52,9 @@ export interface HttpMonitorApi extends MonitorApi {
 }
 
 const KEY_STORAGE_PREFIX = 'mm-workspace-key:';
+/** Прежнее рабочее место — из которого ушли по ссылке или ключу (Р-В2). */
+const PREVIOUS_KEY_STORAGE_PREFIX = 'mm-workspace-prev:';
+const EMPTY_KEY_MESSAGE = 'Вставьте ссылку на рабочее место или его ключ.';
 const PROBE_MS = 3_000;
 const XLSX_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
@@ -114,7 +121,16 @@ async function errorFrom(response: Response): Promise<MonitorApiError> {
   const header = Number.parseInt(response.headers.get('Retry-After') ?? '', 10);
   const retryHeader = Number.isFinite(header) && header >= 0 ? header : undefined;
   if (isErrorPayload(payload)) {
-    return new MonitorApiError(payload.code, payload.message, payload.retryAfterSec ?? retryHeader);
+    const running =
+      typeof payload.runningSearchId === 'string' && payload.runningSearchId
+        ? payload.runningSearchId
+        : undefined;
+    return new MonitorApiError(
+      payload.code,
+      payload.message,
+      payload.retryAfterSec ?? retryHeader,
+      running,
+    );
   }
   const fallback = fallbackError(response.status);
   return new MonitorApiError(fallback.code, fallback.message, retryHeader);
@@ -135,7 +151,11 @@ export function cleanWorkspaceKey(raw: string): string {
   return (value.split('&')[0] ?? '').trim();
 }
 
-/** Ключ из адреса страницы (`#workspace=<ключ>`); фрагмент убираем из адреса. */
+/**
+ * Ключ из адреса страницы (`#workspace=<ключ>`); фрагмент убираем из адреса через
+ * `replaceState` — ключ не остаётся ни в адресной строке, ни в истории вкладки. В заголовок
+ * Referer фрагмент браузеры не кладут, а сервер ещё и отдаёт `Referrer-Policy: no-referrer`.
+ */
 function takeLinkKey(): string | null {
   if (typeof window === 'undefined') return null;
   const hash = window.location.hash;
@@ -152,11 +172,13 @@ function takeLinkKey(): string | null {
   } catch {
     // адрес не поменять (песочница) — не страшно
   }
+  let raw = match[1];
   try {
-    return decodeURIComponent(match[1]);
+    raw = decodeURIComponent(raw);
   } catch {
-    return match[1];
+    // ключ как есть
   }
+  return cleanWorkspaceKey(raw) || null;
 }
 
 // ---------------------------------------------------------------- транспорт
@@ -167,14 +189,24 @@ class HttpTransport implements RunTransport {
   private readonly listeners = new Set<(state: ConnectionState) => void>();
   private probeTimer: ReturnType<typeof setTimeout> | null = null;
   private readonly keyStorage: string;
+  private readonly previousStorage: string;
+  /** Ссылка на другое рабочее место ждёт решения человека (Р-В2). */
+  private pendingLink: string | null = null;
+  private readonly linkListeners = new Set<() => void>();
 
   constructor(readonly baseUrl: string) {
     this.keyStorage = `${KEY_STORAGE_PREFIX}${baseUrl}`;
+    this.previousStorage = `${PREVIOUS_KEY_STORAGE_PREFIX}${baseUrl}`;
     this.state =
       typeof navigator !== 'undefined' && navigator.onLine === false ? 'offline' : 'online';
     if (typeof window !== 'undefined') {
       window.addEventListener('offline', () => this.setConnection('offline'));
       window.addEventListener('online', () => void this.probe());
+      // Ссылку вставили в адресную строку уже открытой вкладки: меняется только фрагмент.
+      window.addEventListener('hashchange', () => {
+        const key = takeLinkKey();
+        if (key) void this.considerLink(key);
+      });
     }
     if (this.state === 'offline') this.scheduleProbe();
   }
@@ -252,6 +284,57 @@ class HttpTransport implements RunTransport {
     }
   }
 
+  previousKey(): string | null {
+    try {
+      const previous = window.localStorage.getItem(this.previousStorage);
+      return previous && previous !== this.readKey() ? previous : null;
+    } catch {
+      return null;
+    }
+  }
+
+  private storePrevious(key: string): void {
+    try {
+      window.localStorage.setItem(this.previousStorage, key);
+    } catch {
+      // без хранилища вернуться можно только по ссылке
+    }
+  }
+
+  // ---------------------------------------------------------------- ссылка на другое место
+
+  pendingWorkspaceLink(): string | null {
+    return this.pendingLink;
+  }
+
+  onPendingWorkspaceLink(listener: () => void): () => void {
+    this.linkListeners.add(listener);
+    return () => {
+      this.linkListeners.delete(listener);
+    };
+  }
+
+  setPendingLink(key: string | null): void {
+    if (key === this.pendingLink) return;
+    this.pendingLink = key;
+    this.linkListeners.forEach((listener) => listener());
+  }
+
+  /** Ссылка пришла в открытую вкладку: то же место — ничего не делаем, другое — спросить. */
+  private async considerLink(key: string): Promise<void> {
+    let current: string | null;
+    try {
+      current = await this.workspaceKey();
+    } catch {
+      current = this.readKey();
+    }
+    if (current === key) {
+      if (this.pendingLink === key) this.setPendingLink(null);
+      return;
+    }
+    this.setPendingLink(key);
+  }
+
   /** Ключ текущего рабочего места; при первом обращении — проверить или создать. */
   workspaceKey(): Promise<string> {
     this.keyPromise ??= this.resolveKey().catch((error: unknown) => {
@@ -262,23 +345,37 @@ class HttpTransport implements RunTransport {
   }
 
   private async resolveKey(): Promise<string> {
-    const fromLink = takeLinkKey();
-    if (fromLink) {
-      try {
-        return await this.adoptKey(fromLink);
-      } catch (error) {
-        if (!isApiError(error) || error.code !== 'not-found') throw error;
-        console.warn('Рабочее место по ссылке не найдено: остаёмся в своём.');
-      }
-    }
+    const fromLink = takeLinkKey() ?? this.pendingLink;
     const stored = this.readKey();
     if (stored) {
       try {
         await this.json<Workspace>('GET', '/api/workspace', { key: stored });
+        // Своё место живо, а ссылка ведёт в другое — не заменяем молча, спросим (Р-В2).
+        this.setPendingLink(fromLink && fromLink !== stored ? fromLink : null);
         return stored;
       } catch (error) {
-        // Сервер не знает ключ (база пересоздана) — заводим новое место.
+        if (!isApiError(error) || error.code !== 'not-found') {
+          // Нет связи: ссылку не теряем — спросим, когда сервер ответит.
+          if (fromLink && fromLink !== stored) this.setPendingLink(fromLink);
+          throw error;
+        }
+        // Сервер не знает ключ (база пересоздана) — терять нечего.
+      }
+    }
+    if (fromLink) {
+      // Своего места нет — ссылка открывается сразу, спрашивать не о чем.
+      try {
+        await this.json<Workspace>('POST', '/api/workspace/open', {
+          body: { key: fromLink },
+          auth: false,
+        });
+        this.storeKey(fromLink);
+        this.setPendingLink(null);
+        return fromLink;
+      } catch (error) {
         if (!isApiError(error) || error.code !== 'not-found') throw error;
+        this.setPendingLink(null);
+        console.warn('Рабочее место по ссылке не найдено: заводим своё.');
       }
     }
     const link = await this.json<WorkspaceLink>('POST', '/api/workspaces', { auth: false });
@@ -286,23 +383,30 @@ class HttpTransport implements RunTransport {
     return link.key;
   }
 
-  /** Открыть место по ключу или ссылке и запомнить ключ. Неизвестный ключ — `not-found`. */
-  private async adoptKey(raw: string): Promise<string> {
-    const key = cleanWorkspaceKey(raw);
-    await this.json<Workspace>('POST', '/api/workspace/open', { body: { key }, auth: false });
-    this.storeKey(key);
-    return key;
-  }
-
+  /**
+   * Открыть место по ключу или ссылке и запомнить ключ. Прежний ключ запоминается — в то
+   * место можно вернуться тем же вызовом. Неизвестный ключ — `not-found`, место не меняется.
+   */
   async openWorkspace(raw: string): Promise<Workspace> {
     const key = cleanWorkspaceKey(raw);
+    if (!key) throw new MonitorApiError('invalid', EMPTY_KEY_MESSAGE);
     const workspace = await this.json<Workspace>('POST', '/api/workspace/open', {
       body: { key },
       auth: false,
     });
+    const previous = this.readKey();
+    if (previous && previous !== key) this.storePrevious(previous);
     this.storeKey(key);
     this.keyPromise = Promise.resolve(key);
+    if (this.pendingLink === key) this.setPendingLink(null);
     return workspace;
+  }
+
+  /** Сведения о месте по ключу, не переходя в него. */
+  async peekWorkspace(raw: string): Promise<Workspace> {
+    const key = cleanWorkspaceKey(raw);
+    if (!key) throw new MonitorApiError('invalid', EMPTY_KEY_MESSAGE);
+    return this.json<Workspace>('GET', '/api/workspace', { key });
   }
 
   // ---------------------------------------------------------------- запросы
@@ -447,6 +551,8 @@ export function createHttpApi(baseUrl: string): HttpMonitorApi {
 
     startSearch: (request) => HttpSearchRun.fromTicket(t, '', ticket('/api/searches', request)),
 
+    attachSearch: (searchId) => HttpSearchRun.attach(t, searchId),
+
     stopSearch: (searchId) => t.stop(searchId),
 
     retryPlatform: (searchId, platform) =>
@@ -556,9 +662,26 @@ export function createHttpApi(baseUrl: string): HttpMonitorApi {
 
     getWorkspace: () => t.json<Workspace>('GET', '/api/workspace'),
 
-    getWorkspaceLink: () => t.json<WorkspaceLink>('GET', '/api/workspace/link'),
+    getWorkspaceLink: async () => {
+      const link = await t.json<WorkspaceLink>('GET', '/api/workspace/link');
+      // Веб-версия на том же сервере: ссылка ведёт ровно туда, где открыта страница (сервер
+      // строит её из PUBLIC_APP_URL, а при проверке на своём компьютере это адрес мокапа).
+      if (!IS_WEB_BUILD || typeof window === 'undefined') return link;
+      const here = `${window.location.origin}${import.meta.env.BASE_URL}`;
+      return { ...link, url: `${here}#workspace=${encodeURIComponent(link.key)}` };
+    },
 
     openWorkspace: (key) => t.openWorkspace(key),
+
+    peekWorkspace: (key) => t.peekWorkspace(key),
+
+    previousWorkspaceKey: () => t.previousKey(),
+
+    pendingWorkspaceLink: () => t.pendingWorkspaceLink(),
+
+    onPendingWorkspaceLink: (listener) => t.onPendingWorkspaceLink(listener),
+
+    dismissWorkspaceLink: () => t.setPendingLink(null),
 
     listRecent: () => t.json<RecentSearch[]>('GET', '/api/recent'),
 

@@ -7,7 +7,7 @@
  * досылает пропущенное, поиск при этом не перезапускается — и сообщает
  * `connection-restored`. Эти два события создаёт клиент (docs/12-tech-design.md §4).
  */
-import { isApiError } from './client';
+import { isApiError, plainApiError } from './client';
 import type { ApiError, ConnectionState, SearchEvent, SearchRun, Selection } from './types';
 
 /** Ответ сервера на запуск поиска или повтор площадки: откуда читать поток. */
@@ -42,8 +42,9 @@ const LOST_MESSAGE =
   'Нет связи с сервером. Поиск продолжается на сервере — результаты появятся, когда связь вернётся.';
 const RESTORED_MESSAGE = 'Связь восстановлена. Догружаем найденное.';
 
-function toApiError(value: unknown): ApiError {
-  if (isApiError(value)) return { ...value };
+/** Ошибка запуска или потока → ошибка контракта для события `failed`; причина не теряется. */
+export function toApiError(value: unknown): ApiError {
+  if (isApiError(value)) return plainApiError(value);
   return { code: 'server', message: 'Поиск не удался. Повторите через минуту.' };
 }
 
