@@ -18,7 +18,7 @@ import {
   seededRandom,
   type LonLat,
 } from '../../krai-geo';
-import type { DotsCityCount, DotsForm, DotsPlatformState } from '../../types';
+import type { CloudPlatform, DotsCityCount, DotsForm, DotsPlatformState } from '../../types';
 
 /** Индексы палитры */
 export const PAL = {
@@ -35,7 +35,10 @@ export const PAL = {
 const FLOW = 8;
 const DATA = 16;
 
-const PLATFORM_COLOR: Record<PlatformId, number> = { vk: PAL.vk, ok: PAL.ok, max: PAL.max };
+const PLATFORM_COLOR: Record<CloudPlatform, number> = { vk: PAL.vk, ok: PAL.ok, max: PAL.max };
+/** Опора размещения: у сайтов СМИ и Дзена своего цвета в точках нет — белая. */
+const placementColor = (p: PlatformId): number =>
+  p === 'vk' || p === 'ok' || p === 'max' ? PLATFORM_COLOR[p] : PAL.white;
 
 export interface FormInput {
   form: DotsForm;
@@ -316,7 +319,7 @@ function listening(): Part[] {
   ];
 }
 
-const CLOUDS: readonly (readonly [PlatformId, number, number])[] = [
+const CLOUDS: readonly (readonly [CloudPlatform, number, number])[] = [
   ['vk', -1.05, 0.72],
   ['ok', -1.28, 0],
   ['max', -1.05, -0.72],
@@ -334,8 +337,8 @@ function clouds(
   const MS = 0.72;
   const MX = 0.82;
   const g = geo();
-  const stateOf = (p: PlatformId): DotsPlatformState => platforms[p] ?? fallback;
-  const colorOf = (p: PlatformId): number => {
+  const stateOf = (p: CloudPlatform): DotsPlatformState => platforms[p] ?? fallback;
+  const colorOf = (p: CloudPlatform): number => {
     const st = stateOf(p);
     return st === 'failed' ? PAL.grey : st === 'idle' ? PAL.dim : PLATFORM_COLOR[p];
   };
@@ -470,7 +473,7 @@ function spread(placements: readonly PlatformId[]): Part[] {
       x: SX + Math.cos(a) * ring * STEP,
       z: Math.sin(a) * ring * STEP,
       h: 0.12 + (i % 4) * 0.07,
-      c: PLATFORM_COLOR[p],
+      c: placementColor(p),
     };
   });
   const node = () => nodes[Math.floor(R() * nodes.length)] ?? { x: SX, z: 0, h: 0.1, c: PAL.white };

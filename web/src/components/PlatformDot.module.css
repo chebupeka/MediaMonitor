@@ -28,6 +28,14 @@
   background: var(--color-max);
 }
 
+.site {
+  background: var(--color-site);
+}
+
+.dzen {
+  background: var(--color-dzen);
+}
+
 .label {
   display: inline-flex;
   align-items: center;

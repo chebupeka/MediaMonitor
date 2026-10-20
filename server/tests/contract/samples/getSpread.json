@@ -2,7 +2,7 @@
   "method": "getSpread",
   "schema": "SpreadReport",
   "value": {
-    "searchId": "s-mvfmn9ny-2",
+    "searchId": "s-mvgikjvh-2",
     "groupId": "g-release-school",
     "title": "Новая школа в Норильске",
     "release": {
@@ -12,25 +12,25 @@
           "id": "p1",
           "index": 0,
           "text": "В Норильске открылась новая школа на 1 100 мест. Здание построили в районе Оганер за два года по краевой программе строительства школ.",
-          "takenBy": 9
+          "takenBy": 13
         },
         {
           "id": "p2",
           "index": 1,
           "text": "В школе 48 классов, два спортивных зала, бассейн и лаборатория робототехники. Для учеников из Талнаха организован школьный автобус.",
-          "takenBy": 8
+          "takenBy": 11
         },
         {
           "id": "p3",
           "index": 2,
           "text": "«Это самая большая школа, построенная в Заполярье за последние тридцать лет», — рассказали в министерстве образования края.",
-          "takenBy": 6
+          "takenBy": 8
         },
         {
           "id": "p4",
           "index": 3,
           "text": "Первые уроки в новом здании пройдут 20 октября. Запись продолжается: родители могут подать заявление через портал госуслуг.",
-          "takenBy": 8
+          "takenBy": 12
         }
       ]
     },
@@ -48,30 +48,32 @@
       ]
     },
     "totals": {
-      "placements": 15,
+      "placements": 22,
       "byPlatform": {
         "vk": 9,
         "ok": 4,
-        "max": 2
+        "max": 2,
+        "site": 5,
+        "dzen": 2
       },
       "byType": {
-        "verbatim": 6,
-        "shortened": 3,
-        "retold": 5,
+        "verbatim": 8,
+        "shortened": 5,
+        "retold": 8,
         "repost": 1
       }
     },
     "audience": {
-      "value": 1052000,
-      "withData": 15,
-      "of": 15,
+      "value": 1060183,
+      "withData": 17,
+      "of": 22,
       "howCounted": "Сумма подписчиков источников по данным площадок. Одни и те же люди могут быть подписаны на несколько групп, поэтому это не число людей."
     },
     "views": {
-      "value": 84300,
-      "withData": 11,
-      "of": 15,
-      "howCounted": "Сумма просмотров по данным площадок. Одноклассники не отдают просмотры: по ним «нет данных», а не ноль."
+      "value": 95710,
+      "withData": 17,
+      "of": 22,
+      "howCounted": "Сумма просмотров по данным площадок. Одноклассники и часть сайтов СМИ не отдают просмотры: по ним «нет данных», а не ноль."
     },
     "wave": {
       "hourly": [
@@ -81,16 +83,20 @@
           "byPlatform": {
             "vk": 2,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
           "start": "2026-10-14T11:00:00+07:00",
-          "count": 1,
+          "count": 2,
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 1
+            "max": 1,
+            "site": 1,
+            "dzen": 0
           }
         },
         {
@@ -99,16 +105,20 @@
           "byPlatform": {
             "vk": 1,
             "ok": 1,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
           "start": "2026-10-14T13:00:00+07:00",
-          "count": 0,
+          "count": 2,
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 1,
+            "dzen": 1
           }
         },
         {
@@ -117,7 +127,9 @@
           "byPlatform": {
             "vk": 1,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -126,7 +138,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -135,7 +149,9 @@
           "byPlatform": {
             "vk": 1,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -144,7 +160,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -153,7 +171,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 1,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -162,7 +182,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -171,7 +193,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -180,7 +204,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -189,7 +215,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -198,7 +226,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -207,7 +237,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -216,7 +248,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -225,7 +259,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -234,7 +270,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -243,7 +281,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -252,7 +292,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -261,7 +303,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -270,7 +314,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -279,7 +325,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -288,16 +336,20 @@
           "byPlatform": {
             "vk": 1,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
           "start": "2026-10-15T10:00:00+07:00",
-          "count": 0,
+          "count": 1,
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 1,
+            "dzen": 0
           }
         },
         {
@@ -306,16 +358,20 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 1
+            "max": 1,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
           "start": "2026-10-15T12:00:00+07:00",
-          "count": 0,
+          "count": 1,
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 1
           }
         },
         {
@@ -324,7 +380,9 @@
           "byPlatform": {
             "vk": 1,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -333,16 +391,20 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
           "start": "2026-10-15T15:00:00+07:00",
-          "count": 0,
+          "count": 1,
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 1,
+            "dzen": 0
           }
         },
         {
@@ -351,7 +413,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -360,7 +424,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 1,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -369,7 +435,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -378,7 +446,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -387,7 +457,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -396,7 +468,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -405,7 +479,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -414,7 +490,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -423,7 +501,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -432,7 +512,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -441,7 +523,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -450,7 +534,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -459,7 +545,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -468,7 +556,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -477,7 +567,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -486,7 +578,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -495,16 +589,20 @@
           "byPlatform": {
             "vk": 1,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
           "start": "2026-10-16T09:00:00+07:00",
-          "count": 0,
+          "count": 1,
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 1,
+            "dzen": 0
           }
         },
         {
@@ -513,7 +611,9 @@
           "byPlatform": {
             "vk": 1,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -522,7 +622,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -531,7 +633,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -540,7 +644,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -549,7 +655,9 @@
           "byPlatform": {
             "vk": 0,
             "ok": 0,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         },
         {
@@ -558,36 +666,44 @@
           "byPlatform": {
             "vk": 0,
             "ok": 1,
-            "max": 0
+            "max": 0,
+            "site": 0,
+            "dzen": 0
           }
         }
       ],
       "daily": [
         {
           "start": "2026-10-14T00:00:00+07:00",
-          "count": 8,
+          "count": 11,
           "byPlatform": {
             "vk": 5,
             "ok": 2,
-            "max": 1
+            "max": 1,
+            "site": 2,
+            "dzen": 1
           }
         },
         {
           "start": "2026-10-15T00:00:00+07:00",
-          "count": 4,
+          "count": 7,
           "byPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 1
+            "max": 1,
+            "site": 2,
+            "dzen": 1
           }
         },
         {
           "start": "2026-10-16T00:00:00+07:00",
-          "count": 3,
+          "count": 4,
           "byPlatform": {
             "vk": 2,
             "ok": 1,
-            "max": 0
+            "max": 0,
+            "site": 1,
+            "dzen": 0
           }
         }
       ]
@@ -611,7 +727,7 @@
           "words": 74,
           "level": "unlikely",
           "score": 0.12,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:19+07:00"
         }
       },
       {
@@ -632,7 +748,7 @@
           "words": 78,
           "level": "unlikely",
           "score": 0.15,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:18+07:00"
         }
       },
       {
@@ -653,7 +769,28 @@
           "words": 74,
           "level": "unlikely",
           "score": 0.12,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:19+07:00"
+        }
+      },
+      {
+        "itemId": "site:severokrai.ru_news/obrazovanie/v-norilske-otkrylas-novaya-shkola-na-1-100-mest/",
+        "platform": "site",
+        "sourceName": "Заполярье",
+        "publishedAt": "2026-10-14T11:30:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": null,
+        "views": 1850,
+        "placementType": "verbatim",
+        "isOriginal": false,
+        "citationShare": 1,
+        "url": "https://severokrai.ru/news/obrazovanie/v-norilske-otkrylas-novaya-shkola-na-1-100-mest/",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+          "words": 74,
+          "level": "unlikely",
+          "score": 0.12,
+          "checkedAt": "2026-10-19T14:32:19+07:00"
         }
       },
       {
@@ -674,7 +811,7 @@
           "words": 43,
           "level": "likely-ai",
           "score": 0.93,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:21+07:00"
         }
       },
       {
@@ -695,7 +832,49 @@
           "words": 74,
           "level": "unlikely",
           "score": 0.12,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:19+07:00"
+        }
+      },
+      {
+        "itemId": "site:enisey.tv_news/post-58213/",
+        "platform": "site",
+        "sourceName": "Енисей",
+        "publishedAt": "2026-10-14T13:05:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": null,
+        "views": 4300,
+        "placementType": "retold",
+        "isOriginal": false,
+        "citationShare": 0.14,
+        "url": "https://www.enisey.tv/news/post-58213/",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "44033ee63f39a7b862638733e9bf631abd969d238091ad8a6a3fadd27dca46c9",
+          "words": 40,
+          "level": "unlikely",
+          "score": 0.27,
+          "checkedAt": "2026-10-19T14:32:22+07:00"
+        }
+      },
+      {
+        "itemId": "dzen:5a94ca3757906aae1fea2b45_a-ZQx7mK2pRvT9bW4n",
+        "platform": "dzen",
+        "sourceName": "Енисей",
+        "publishedAt": "2026-10-14T13:40:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 2177,
+        "views": 2900,
+        "placementType": "retold",
+        "isOriginal": false,
+        "citationShare": 0.04,
+        "url": "https://dzen.ru/a/ZQx7mK2pRvT9bW4n",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "2f79fc4915b45dd09e4e41758fa605708db11d123a769ac2cf95ddee3a4364ec",
+          "words": 31,
+          "level": "too-short",
+          "score": null,
+          "checkedAt": "2026-10-19T14:32:19+07:00"
         }
       },
       {
@@ -716,7 +895,7 @@
           "words": 40,
           "level": "unlikely",
           "score": 0.21,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:21+07:00"
         }
       },
       {
@@ -737,7 +916,7 @@
           "words": 57,
           "level": "unlikely",
           "score": 0.1,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:20+07:00"
         }
       },
       {
@@ -758,7 +937,7 @@
           "words": 74,
           "level": "unlikely",
           "score": 0.12,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:19+07:00"
         }
       },
       {
@@ -779,7 +958,28 @@
           "words": 47,
           "level": "signs",
           "score": 0.71,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:20+07:00"
+        }
+      },
+      {
+        "itemId": "site:vtruda.ru_news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+        "platform": "site",
+        "sourceName": "Власть труда",
+        "publishedAt": "2026-10-15T10:40:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": null,
+        "views": 640,
+        "placementType": "shortened",
+        "isOriginal": false,
+        "citationShare": 0.76,
+        "url": "https://vtruda.ru/news/obshchestvo/v-norilske-postroili-shkolu-na-1-100-mest/",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "1f4e415d11bca9cc8c65cacf23bf62f1454c91a99d952b24ed5f0d683ad513c1",
+          "words": 57,
+          "level": "unlikely",
+          "score": 0.1,
+          "checkedAt": "2026-10-19T14:32:20+07:00"
         }
       },
       {
@@ -800,7 +1000,28 @@
           "words": 19,
           "level": "too-short",
           "score": null,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:17+07:00"
+        }
+      },
+      {
+        "itemId": "dzen:652e006f4d4ed96c76dbd65c_a-Zf3kLq8WmN1sYt6c",
+        "platform": "dzen",
+        "sourceName": "Рабочий",
+        "publishedAt": "2026-10-15T12:20:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": 6006,
+        "views": 1200,
+        "placementType": "shortened",
+        "isOriginal": false,
+        "citationShare": 0.5,
+        "url": "https://dzen.ru/a/Zf3kLq8WmN1sYt6c",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "633f3779d67b7ed482c7a1824a5d58855f227be9e85134771ecc24829ead24a3",
+          "words": 39,
+          "level": "too-short",
+          "score": null,
+          "checkedAt": "2026-10-19T14:32:17+07:00"
         }
       },
       {
@@ -821,7 +1042,28 @@
           "words": 39,
           "level": "too-short",
           "score": null,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:17+07:00"
+        }
+      },
+      {
+        "itemId": "site:zaren.ru_news/kray/v-norilske-otkrylas-novaya-shkola/",
+        "platform": "site",
+        "sourceName": "Заря Енисея",
+        "publishedAt": "2026-10-15T15:20:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": null,
+        "views": null,
+        "placementType": "verbatim",
+        "isOriginal": false,
+        "citationShare": 1,
+        "url": "https://zaren.ru/news/kray/v-norilske-otkrylas-novaya-shkola/",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "67275a92c1fadd725b476016e3e26611c91efd5faef84f14c82a807b57143383",
+          "words": 74,
+          "level": "unlikely",
+          "score": 0.12,
+          "checkedAt": "2026-10-19T14:32:19+07:00"
         }
       },
       {
@@ -842,7 +1084,7 @@
           "words": 74,
           "level": "unlikely",
           "score": 0.12,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:19+07:00"
         }
       },
       {
@@ -863,7 +1105,28 @@
           "words": 78,
           "level": "unlikely",
           "score": 0.15,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:18+07:00"
+        }
+      },
+      {
+        "itemId": "site:kvgazeta.ru_news/v-krae/severyane-poluchili-novuyu-shkolu/",
+        "platform": "site",
+        "sourceName": "Канские ведомости",
+        "publishedAt": "2026-10-16T09:10:00+07:00",
+        "timeReliability": "exact",
+        "subscribers": null,
+        "views": 520,
+        "placementType": "retold",
+        "isOriginal": false,
+        "citationShare": 0.08,
+        "url": "https://kvgazeta.ru/news/v-krae/severyane-poluchili-novuyu-shkolu/",
+        "aiCheck": {
+          "model": "demo",
+          "textHash": "2c1f00d69e749c95767f6602959ada68755a219effa525c9934cf2c4cff2cfba",
+          "words": 35,
+          "level": "too-short",
+          "score": null,
+          "checkedAt": "2026-10-19T14:32:17+07:00"
         }
       },
       {
@@ -884,7 +1147,7 @@
           "words": 25,
           "level": "too-short",
           "score": null,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:17+07:00"
         }
       },
       {
@@ -905,14 +1168,14 @@
           "words": 40,
           "level": "unlikely",
           "score": 0.08,
-          "checkedAt": "2026-10-19T14:32:14+07:00"
+          "checkedAt": "2026-10-19T14:32:18+07:00"
         }
       }
     ],
     "aiRetold": {
       "likelyAi": 1,
-      "retold": 5
+      "retold": 8
     },
-    "computedAt": "2026-10-19T14:32:21+07:00"
+    "computedAt": "2026-10-19T14:32:23+07:00"
   }
 }

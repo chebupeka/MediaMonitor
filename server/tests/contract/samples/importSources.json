@@ -14,7 +14,7 @@
         "inMySources": true,
         "regional": true,
         "origin": "import",
-        "addedAt": "2026-10-19T14:33:08+07:00",
+        "addedAt": "2026-10-19T14:33:12+07:00",
         "check": {
           "state": "ok",
           "message": "Источник доступен: открытая группа, посты читаются.",
@@ -33,7 +33,7 @@
         "inMySources": true,
         "regional": true,
         "origin": "import",
-        "addedAt": "2026-10-19T14:33:08+07:00",
+        "addedAt": "2026-10-19T14:33:12+07:00",
         "check": {
           "state": "ok",
           "message": "Источник доступен: открытая группа, посты читаются.",
@@ -52,7 +52,7 @@
         "inMySources": true,
         "regional": true,
         "origin": "import",
-        "addedAt": "2026-10-19T14:33:08+07:00",
+        "addedAt": "2026-10-19T14:33:12+07:00",
         "check": {
           "state": "ok",
           "message": "Источник доступен: открытая группа, посты читаются.",
@@ -71,7 +71,7 @@
         "inMySources": true,
         "regional": true,
         "origin": "import",
-        "addedAt": "2026-10-19T14:33:08+07:00",
+        "addedAt": "2026-10-19T14:33:12+07:00",
         "check": {
           "state": "ok",
           "message": "Источник доступен: открытая группа, посты читаются.",
@@ -90,7 +90,7 @@
         "inMySources": true,
         "regional": true,
         "origin": "import",
-        "addedAt": "2026-10-19T14:33:08+07:00",
+        "addedAt": "2026-10-19T14:33:12+07:00",
         "check": {
           "state": "ok",
           "message": "Источник доступен: открытая группа, посты читаются.",
@@ -109,7 +109,7 @@
         "inMySources": true,
         "regional": true,
         "origin": "import",
-        "addedAt": "2026-10-19T14:33:08+07:00",
+        "addedAt": "2026-10-19T14:33:12+07:00",
         "check": {
           "state": "ok",
           "message": "Источник доступен: открытая группа, посты читаются.",
@@ -134,7 +134,7 @@
       {
         "row": 7,
         "value": "https://example.ru/news",
-        "reason": "Ссылка на сайт, а не на группу"
+        "reason": "Сайт не из каталога СМИ края: такие сайты не опрашиваем"
       },
       {
         "row": 12,

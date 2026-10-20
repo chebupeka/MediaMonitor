@@ -2,9 +2,9 @@
   "method": "openWorkspace",
   "schema": "Workspace",
   "value": {
-    "id": "ws-u7px4x2z",
-    "createdAt": "2026-10-19T14:33:09+07:00",
-    "sourcesCount": 30,
+    "id": "ws-dayj9usq",
+    "createdAt": "2026-10-19T14:33:13+07:00",
+    "sourcesCount": 33,
     "recentCount": 10
   }
 }

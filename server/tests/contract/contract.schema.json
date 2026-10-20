@@ -834,8 +834,49 @@
       "enum": [
         "vk",
         "ok",
-        "max"
+        "max",
+        "site",
+        "dzen"
       ]
+    },
+    "PlatformInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/PlatformId"
+        },
+        "name": {
+          "type": "string"
+        },
+        "short": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "via": {
+          "type": "string"
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "short",
+        "required",
+        "enabled",
+        "via",
+        "note"
+      ],
+      "additionalProperties": false
     },
     "PlatformProblem": {
       "type": "object",
@@ -940,6 +981,9 @@
               "type": "null"
             }
           ]
+        },
+        "note": {
+          "type": "string"
         }
       },
       "required": [
@@ -1489,12 +1533,20 @@
             },
             "max": {
               "type": "number"
+            },
+            "site": {
+              "type": "number"
+            },
+            "dzen": {
+              "type": "number"
             }
           },
           "required": [
             "vk",
             "ok",
-            "max"
+            "max",
+            "site",
+            "dzen"
           ],
           "additionalProperties": false
         },
@@ -2101,12 +2153,20 @@
             },
             "max": {
               "type": "number"
+            },
+            "site": {
+              "type": "number"
+            },
+            "dzen": {
+              "type": "number"
             }
           },
           "required": [
             "vk",
             "ok",
-            "max"
+            "max",
+            "site",
+            "dzen"
           ],
           "additionalProperties": false
         },
@@ -2677,12 +2737,20 @@
                 },
                 "max": {
                   "type": "number"
+                },
+                "site": {
+                  "type": "number"
+                },
+                "dzen": {
+                  "type": "number"
                 }
               },
               "required": [
                 "vk",
                 "ok",
-                "max"
+                "max",
+                "site",
+                "dzen"
               ],
               "additionalProperties": false
             },
@@ -2987,6 +3055,12 @@
         },
         "region": {
           "$ref": "#/definitions/Region"
+        },
+        "platforms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PlatformInfo"
+          }
         }
       },
       "required": [
@@ -2995,7 +3069,8 @@
         "defaultMode",
         "exampleQuery",
         "defaultPeriod",
-        "region"
+        "region",
+        "platforms"
       ],
       "additionalProperties": false
     },
@@ -3170,12 +3245,20 @@
             },
             "max": {
               "type": "number"
+            },
+            "site": {
+              "type": "number"
+            },
+            "dzen": {
+              "type": "number"
             }
           },
           "required": [
             "vk",
             "ok",
-            "max"
+            "max",
+            "site",
+            "dzen"
           ],
           "additionalProperties": false
         }

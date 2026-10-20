@@ -26,6 +26,13 @@ export interface DotsCityCount {
 
 export type DotsPlatformState = 'idle' | 'active' | 'done' | 'failed';
 
+/**
+ * Площадки с облаком точек — обязательные по ТЗ VK, OK, MAX (как на сайте). Дополнительные
+ * площадки (сайты СМИ, Дзен) облаков не получают; в «Распространении» их опоры — нейтрального
+ * цвета, чтобы опор было ровно столько, сколько размещений (правило честности 1).
+ */
+export type CloudPlatform = Extract<PlatformId, 'vk' | 'ok' | 'max'>;
+
 export interface DotsSceneProps {
   form: DotsForm;
   /**

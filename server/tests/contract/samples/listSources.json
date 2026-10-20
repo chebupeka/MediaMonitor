@@ -41,6 +41,44 @@
       }
     },
     {
+      "id": "site:vtruda.ru",
+      "platform": "site",
+      "name": "Власть труда",
+      "url": "https://vtruda.ru/",
+      "type": "media",
+      "district": "Минусинский муниципальный округ",
+      "subscribers": null,
+      "inMySources": true,
+      "regional": true,
+      "origin": "catalog",
+      "addedAt": "2026-08-14T10:00:00+07:00",
+      "check": {
+        "state": "ok",
+        "message": "Сайт доступен: статьи читаются из ленты RSS или раздела новостей.",
+        "preview": null,
+        "checkedAt": "2026-10-19T08:00:00+07:00"
+      }
+    },
+    {
+      "id": "dzen:647edcf397f79c2656d02daf",
+      "platform": "dzen",
+      "name": "Власть труда",
+      "url": "https://dzen.ru/vtruda",
+      "type": "media",
+      "district": "Минусинский муниципальный округ",
+      "subscribers": 2823,
+      "inMySources": true,
+      "regional": true,
+      "origin": "manual",
+      "addedAt": "2026-07-16T10:00:00+07:00",
+      "check": {
+        "state": "ok",
+        "message": "Канал доступен: публикации читаются со страницы канала.",
+        "preview": null,
+        "checkedAt": "2026-10-19T08:00:00+07:00"
+      }
+    },
+    {
       "id": "vk-portal-krsk",
       "platform": "vk",
       "name": "Городской портал Красноярска",
@@ -112,6 +150,25 @@
       "check": {
         "state": "ok",
         "message": "Источник доступен: открытая группа, посты читаются.",
+        "preview": null,
+        "checkedAt": "2026-10-19T08:00:00+07:00"
+      }
+    },
+    {
+      "id": "site:severokrai.ru",
+      "platform": "site",
+      "name": "Заполярье",
+      "url": "https://severokrai.ru/",
+      "type": "media",
+      "district": "Норильск",
+      "subscribers": null,
+      "inMySources": true,
+      "regional": true,
+      "origin": "catalog",
+      "addedAt": "2026-09-15T10:00:00+07:00",
+      "check": {
+        "state": "ok",
+        "message": "Сайт доступен: статьи читаются из ленты RSS или раздела новостей.",
         "preview": null,
         "checkedAt": "2026-10-19T08:00:00+07:00"
       }

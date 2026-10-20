@@ -26,7 +26,7 @@ import type { Dataset } from './datasets/types';
 import { OK_CAP } from './datasets/large';
 import { detectKind, pickDataset } from './query';
 import type { DemoState, MaxFailure } from './scenario';
-import { EVERYWHERE_POOL } from './sources';
+import { EVERYWHERE_POOL, enabledPlatforms, platformNote } from './sources';
 import { FakeSearchRun } from './stream';
 
 // ---------------------------------------------------------------- состояние
@@ -90,7 +90,13 @@ export interface SearchContext {
 
 // ---------------------------------------------------------------- подсчёты
 
-const emptyByPlatform = (): Record<PlatformId, number> => ({ vk: 0, ok: 0, max: 0 });
+export const emptyByPlatform = (): Record<PlatformId, number> => ({
+  vk: 0,
+  ok: 0,
+  max: 0,
+  site: 0,
+  dzen: 0,
+});
 
 export function computeCounts(items: readonly ResultItem[]): SelectionCounts {
   const counts: SelectionCounts = {
@@ -169,6 +175,8 @@ function platformStatus(record: SearchRecord, platform: PlatformId): PlatformSta
     record.dataset.id === 'large' && platform === 'ok' && found >= OK_CAP
       ? { limit: OK_CAP, note: `Одноклассники отдают не больше ${OK_CAP} результатов на запрос` }
       : null;
+  // Постоянная оговорка о покрытии: сайты, которые не опрашиваются; откуда данные Дзена.
+  const note = platformNote(platform);
   return {
     platform,
     state,
@@ -180,14 +188,21 @@ function platformStatus(record: SearchRecord, platform: PlatformId): PlatformSta
     freshness,
     cap,
     updatedAt: plan.updatedAt,
+    ...(note ? { note } : {}),
   };
+}
+
+/** Статусы площадок этого поиска — в общем порядке площадок. */
+function statusesOf(record: SearchRecord): PlatformStatus[] {
+  const requested = new Set(record.conditions.platforms);
+  return PLATFORM_ORDER.filter((p) => requested.has(p)).map((p) => platformStatus(record, p));
 }
 
 export function snapshot(record: SearchRecord): Selection {
   return {
     searchId: record.searchId,
     conditions: { ...record.conditions },
-    statuses: PLATFORM_ORDER.map((p) => platformStatus(record, p)),
+    statuses: statusesOf(record),
     items: record.items.map((item) => ({ ...item })),
     groups: computeGroups(record),
     counts: computeCounts(record.items),
@@ -342,6 +357,9 @@ const CLOSED_GROUP_PROBLEM: PlatformProblem = {
   retryable: false,
 };
 
+/** Сколько тиков идёт ход площадки: сайты — дольше (лента и страницы статей). */
+const TICKS: Record<PlatformId, number> = { vk: 18, ok: 15, max: 20, site: 22, dzen: 16 };
+
 function makePlans(
   items: ResultItem[],
   request: SearchRequest,
@@ -359,7 +377,7 @@ function makePlans(
       request.mode === 'my-sources'
         ? ctx.mySourceNames[platform].length
         : EVERYWHERE_POOL[platform];
-    const ticks = platform === 'vk' ? 18 : platform === 'ok' ? 15 : 20;
+    const ticks = TICKS[platform];
     const failMax = scenario === 'max-down' && platform === 'max' && total > 0;
     plans[platform] = {
       platform,
@@ -693,8 +711,11 @@ export function startFakeSearch(request: SearchRequest, ctx: SearchContext): Fak
   const dataset = pickDataset(request.text, request.meaningId, scenario);
   const prepared = prepareItems(dataset, request, ctx, startedMs);
   const items = prepared.map((d) => decorate(d, request, ctx, aiDown));
+  // По умолчанию — все включённые площадки; заданные — в общем порядке площадок.
   const platforms =
-    request.platforms && request.platforms.length > 0 ? request.platforms : [...PLATFORM_ORDER];
+    request.platforms && request.platforms.length > 0
+      ? PLATFORM_ORDER.filter((p) => request.platforms?.includes(p))
+      : enabledPlatforms();
   const meaning = request.meaningId
     ? ((
         {
@@ -763,7 +784,7 @@ export function startFakeSearch(request: SearchRequest, ctx: SearchContext): Fak
     run.emit({
       type: 'started',
       conditions: { ...conditions },
-      statuses: PLATFORM_ORDER.map((p) => platformStatus(record, p)),
+      statuses: statusesOf(record),
     });
     if (aiDown) {
       run.emit({

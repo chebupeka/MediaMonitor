@@ -165,7 +165,7 @@ export function mergeItems(current: ResultItem[], incoming: ResultItem[]): Resul
 function regroup(groups: ResultGroup[], items: ResultItem[]): ResultGroup[] {
   const byId = new Map(items.map((i) => [i.id, i]));
   return groups.map((group) => {
-    const countsByPlatform = { vk: 0, ok: 0, max: 0 };
+    const countsByPlatform: Record<PlatformId, number> = { vk: 0, ok: 0, max: 0, site: 0, dzen: 0 };
     const countsByType = { verbatim: 0, shortened: 0, retold: 0, repost: 0 };
     for (const id of group.itemIds) {
       const item = byId.get(id);
