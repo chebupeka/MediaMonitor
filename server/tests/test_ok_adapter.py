@@ -20,7 +20,7 @@ from pathlib import Path
 import httpx
 import pytest
 
-from mediamonitor.adapters import build_adapters
+from mediamonitor.adapters import AdapterRegistry, FixtureAdapter, build_adapters
 from mediamonitor.adapters.base import (
     AdapterError,
     AdapterEvent,
@@ -41,9 +41,10 @@ from mediamonitor.adapters.ok_live import (
     parse_group_page,
     parse_topic_page,
 )
+from mediamonitor.main import create_app
 from mediamonitor.normalize.urls import PostRef
 from mediamonitor.settings import Settings
-from tests.conftest import make_settings
+from tests.conftest import fixture_store, make_settings, new_workspace, open_client, read_stream
 
 PAGES = Path(__file__).parent / "ok_pages"
 GROUP = (PAGES / "group_avangard.html").read_text("utf-8")
@@ -450,3 +451,36 @@ def test_registry_uses_live_ok(tmp_path: Path) -> None:
     settings = make_settings(tmp_path, data_source="live")
     adapters = build_adapters(settings, httpx.AsyncClient())
     assert isinstance(adapters["ok"], OkAdapter)
+
+
+async def test_search_through_api_with_live_ok(tmp_path: Path) -> None:
+    """Сквозной поиск: настоящий адаптер OK на сохранённых страницах → подборка."""
+    ok = Ok()
+    settings = make_settings(tmp_path, data_source="live")
+
+    def adapters(s: Settings, _: httpx.AsyncClient) -> AdapterRegistry:
+        client = httpx.AsyncClient(transport=httpx.MockTransport(ok.handler))
+        return {
+            "vk": FixtureAdapter("vk", fixture_store()),
+            "ok": OkAdapter(s, client, groups=[AVANGARD], min_interval_sec=0.0),
+            "max": FixtureAdapter("max", fixture_store()),
+        }
+
+    app = create_app(settings, adapter_factory=adapters)
+    async with open_client(app) as client:
+        headers = await new_workspace(client)
+        today = datetime.now(UTC).date()
+        body = {
+            "text": "День отца в Шадрино",
+            "period": {"preset": "custom", "from": "2026-10-19", "to": today.isoformat()},
+            "mode": "everywhere",
+            "platforms": ["ok"],
+        }
+        response = await client.post("/api/searches", json=body, headers=headers)
+        assert response.status_code == 202, response.text
+        events = await read_stream(client, headers, response.json()["searchId"])
+    selection = events[-1]["data"]["selection"]
+    status = next(s for s in selection["statuses"] if s["platform"] == "ok")
+    assert status["state"] in ("found", "partial"), status
+    urls = [i["publication"]["url"] for i in selection["items"]]
+    assert f"https://ok.ru/group/{GID}/topic/{SAMPLE_TOPIC}" in urls
